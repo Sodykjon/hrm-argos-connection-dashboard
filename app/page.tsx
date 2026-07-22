@@ -96,7 +96,7 @@ export default async function OverviewPage() {
       <section className="grid gap-3 sm:grid-cols-2">
         <Link
           href="/ulanmaganlar"
-          className="card group flex items-center justify-between p-5 transition-shadow hover:shadow-[0_4px_18px_rgba(11,27,43,0.08)]"
+          className="card card-link group flex items-center justify-between p-5"
         >
           <span>
             <span className="block text-[0.95rem] font-semibold">
@@ -113,7 +113,7 @@ export default async function OverviewPage() {
         </Link>
         <Link
           href="/trend"
-          className="card group flex items-center justify-between p-5 transition-shadow hover:shadow-[0_4px_18px_rgba(11,27,43,0.08)]"
+          className="card card-link group flex items-center justify-between p-5"
         >
           <span>
             <span className="block text-[0.95rem] font-semibold">

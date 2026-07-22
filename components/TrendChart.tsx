@@ -42,7 +42,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       grid: { left: 44, right: 18, top: 20, bottom: 34 },
       tooltip: {
         trigger: "axis",
-        backgroundColor: "#0a2430",
+        backgroundColor: "#0b3663",
         borderWidth: 0,
         textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {

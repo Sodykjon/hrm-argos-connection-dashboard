@@ -109,7 +109,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
       {
         tooltip: {
           trigger: "item",
-          backgroundColor: "#0a2430",
+          backgroundColor: "#0b3663",
           borderWidth: 0,
           padding: [10, 12],
           textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
@@ -159,7 +159,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
                 fontWeight: 600,
                 fontSize: 11,
               },
-              itemStyle: { borderColor: "#0a2430", borderWidth: 1.5 },
+              itemStyle: { borderColor: "#0b3663", borderWidth: 1.5 },
             },
             label: { show: false },
             data: mapData,

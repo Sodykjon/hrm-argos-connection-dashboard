@@ -5,7 +5,7 @@ import { Nav } from "./Nav";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-band text-white backdrop-blur supports-[backdrop-filter]:bg-band/95">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-b from-band to-band-2 text-white shadow-band">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-2.5 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6">
         <Link href="/" className="flex items-center gap-3">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white p-[3px] shadow-[0_2px_10px_rgba(0,0,0,0.25)]">

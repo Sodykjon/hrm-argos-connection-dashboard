@@ -23,7 +23,7 @@ export function AttentionStrip({ regions }: { regions: RegionStat[] }) {
             <Link
               key={r.name}
               href={`/hududlar/${regionSlug(r.name)}`}
-              className="card group flex items-center gap-4 p-4 transition-shadow hover:shadow-[0_4px_18px_rgba(11,27,43,0.08)]"
+              className="card card-link group flex items-center gap-4 p-4"
             >
               <span
                 className="tnum grid h-11 w-11 shrink-0 place-items-center rounded-xl text-[1.05rem] font-semibold text-white"

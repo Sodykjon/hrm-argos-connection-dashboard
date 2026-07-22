@@ -6,7 +6,7 @@ import { FONT_MONO, type EChartsOption } from "@/lib/echarts";
 
 export function ReadinessRing({
   percent,
-  size = 168,
+  size = 186,
 }: {
   percent: number;
   size?: number;
@@ -21,9 +21,9 @@ export function ReadinessRing({
       top: "38%",
       textStyle: {
         fontFamily: FONT_MONO,
-        fontSize: 30,
+        fontSize: 34,
         fontWeight: 600,
-        color: "#0b1b2b",
+        color: "#0c1b2c",
       },
     },
     series: [
