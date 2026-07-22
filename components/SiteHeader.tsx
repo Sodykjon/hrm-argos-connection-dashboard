@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { S } from "@/lib/strings";
 import { Nav } from "./Nav";
+import { LiveStatus } from "./LiveStatus";
 
 export function SiteHeader() {
   return (
@@ -32,7 +33,10 @@ export function SiteHeader() {
             </span>
           </span>
         </Link>
-        <Nav />
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
+          <LiveStatus />
+          <Nav />
+        </div>
       </div>
     </header>
   );

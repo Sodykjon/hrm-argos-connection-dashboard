@@ -12,7 +12,7 @@ interface UzMapProps {
   onSelect?: (name: string) => void;
 }
 
-const RAMP = ["#e4483d", "#f0a020", "#8dc63f", "#10a06d"];
+const RAMP = ["#ff5a63", "#f7b23b", "#9ee34f", "#2fd07a"];
 
 // Tiny enclave city-regions that are hard to click on the choropleth — shown as
 // clickable labeled markers layered on top. [lng, lat] of the city center.
@@ -126,7 +126,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
           calculable: true,
           text: ["100%", "0%"],
           inRange: { color: RAMP },
-          textStyle: { color: "#6b7c8f", fontFamily: FONT_MONO, fontSize: 10 },
+          textStyle: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 10 },
         },
         // invisible geo, aligned to the map series, as the coordinate system for markers
         geo: {
@@ -147,19 +147,24 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
             layoutCenter: MAP_LAYOUT.center,
             layoutSize: MAP_LAYOUT.size,
             itemStyle: {
-              borderColor: "#ffffff",
+              borderColor: "rgba(140,175,225,0.16)",
               borderWidth: 1,
-              areaColor: "#eef2f6",
+              areaColor: "#152c4e",
             },
             emphasis: {
               label: {
                 show: true,
-                color: "#0b1b2b",
+                color: "#eaf1fb",
                 fontFamily: FONT_SANS,
                 fontWeight: 600,
                 fontSize: 11,
               },
-              itemStyle: { borderColor: "#0b3663", borderWidth: 1.5 },
+              itemStyle: {
+                borderColor: "#3fb6ff",
+                borderWidth: 1.5,
+                shadowBlur: 16,
+                shadowColor: "rgba(63,182,255,0.6)",
+              },
             },
             label: { show: false },
             data: mapData,
@@ -186,14 +191,14 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
                 position: "right",
                 distance: 6,
                 formatter: (p: { name: string }) => p.name.replace(" шаҳри", " ш."),
-                color: "#0b1b2b",
+                color: "#eaf1fb",
                 fontFamily: FONT_SANS,
                 fontWeight: 600,
                 fontSize: 10.5,
-                backgroundColor: "#ffffff",
-                padding: [2, 5],
-                borderRadius: 4,
-                borderColor: "#e2e8ef",
+                backgroundColor: "#0c1f3b",
+                padding: [3, 6],
+                borderRadius: 5,
+                borderColor: "#3fb6ff",
                 borderWidth: 1,
               },
             },

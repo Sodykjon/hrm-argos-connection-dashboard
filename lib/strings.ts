@@ -11,6 +11,13 @@ export const S = {
   systemShort: "HRM ARGOS мониторинг",
   argosDomain: "hrm.argos.uz",
 
+  live: {
+    monitoring: "Реал вақт мониторинги",
+    active: "Тизим фаол",
+    syncing: "Синхронизация…",
+    updatedShort: "янгиланди",
+  },
+
   goal: {
     target: "Мақсад",
     target100: "Мақсад — 100%",

@@ -23,7 +23,7 @@ export function ReadinessRing({
         fontFamily: FONT_MONO,
         fontSize: 34,
         fontWeight: 600,
-        color: "#0c1b2c",
+        color: "#eaf1fb",
       },
     },
     series: [
@@ -36,8 +36,16 @@ export function ReadinessRing({
         label: { show: false },
         labelLine: { show: false },
         data: [
-          { value: pct, itemStyle: { color, borderRadius: 8 } },
-          { value: 100 - pct, itemStyle: { color: "#eef2f6" } },
+          {
+            value: pct,
+            itemStyle: {
+              color,
+              borderRadius: 10,
+              shadowBlur: 18,
+              shadowColor: color,
+            },
+          },
+          { value: 100 - pct, itemStyle: { color: "#1b3157" } },
         ],
       },
     ],

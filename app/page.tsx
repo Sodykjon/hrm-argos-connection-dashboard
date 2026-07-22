@@ -6,7 +6,8 @@ import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { GoalBanner } from "@/components/GoalBanner";
-import { fmtDate, fmtDateTime } from "@/lib/format";
+import { UpdatedAgo } from "@/components/UpdatedAgo";
+import { fmtDate } from "@/lib/format";
 import { S } from "@/lib/strings";
 
 export const dynamic = "force-dynamic";
@@ -22,10 +23,15 @@ export default async function OverviewPage() {
         <h1 className="text-[1.3rem] font-bold tracking-tight sm:text-[1.5rem]">
           {S.overview.mapTitle}
         </h1>
-        <p className="text-[0.78rem] text-ink-faint">
-          <span className="tnum font-medium text-ink-soft">{fmtDate(date)}</span>{" "}
-          {S.overview.asOf} · {S.overview.updated}:{" "}
-          <span className="tnum">{fmtDateTime(uploadedAt)}</span>
+        <p className="flex items-center gap-2 text-[0.78rem] text-ink-faint">
+          <span className="tnum font-medium text-ink-soft">{fmtDate(date)}</span>
+          {S.overview.asOf}
+          <span className="text-ink-faint/50">·</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-ul/25 bg-ul-soft px-2 py-0.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-ul" />
+            <span className="text-ul">{S.overview.updated}:</span>
+            <UpdatedAgo iso={uploadedAt} className="tnum text-ink-soft" />
+          </span>
         </p>
       </div>
 

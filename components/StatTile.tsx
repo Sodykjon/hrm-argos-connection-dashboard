@@ -10,9 +10,9 @@ const ACCENT_DOT: Record<Accent, string> = {
   och: "bg-och",
 };
 const ACCENT_TEXT: Record<Accent, string> = {
-  sov: "text-sov",
-  ul: "text-ul",
-  un: "text-un",
+  sov: "text-sov glow-sov",
+  ul: "text-ul glow-ul",
+  un: "text-un glow-un",
   och: "text-ink",
 };
 

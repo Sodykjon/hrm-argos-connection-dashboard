@@ -1,42 +1,46 @@
 @import "tailwindcss";
 
-/* ---- Design tokens: national readiness board (MoH brand-aligned) ----
-   Brand/chrome = Ministry-of-Health blue. Status = green/red/slate.
-   Goal = gold. Clear semantic separation between brand and data. */
+/* ============================================================================
+   HRM ARGOS — National Monitoring Center
+   Live operations-room theme: deep navy, MoH-blue glow, signal-color status,
+   glass panels, calm real-time motion.
+   ========================================================================== */
 @theme {
-  /* surfaces & ink (cool, blue-tinted neutrals) */
-  --color-ink: #0c1b2c;
-  --color-ink-soft: #40546b;
-  --color-ink-faint: #6b7d93;
-  --color-paper: #f2f5fa;
-  --color-surface: #ffffff;
-  --color-line: #dde5f0;
-  --color-line-soft: #eaf0f7;
+  /* text */
+  --color-ink: #eaf1fb;
+  --color-ink-soft: #a7bad6;
+  --color-ink-faint: #7086a4;
 
-  /* brand accent — Ministry of Health blue (links, nav, primary actions) */
-  --color-sov: #135fa6;
-  --color-sov-deep: #0f4c86;
-  --color-sov-soft: #e8f1fb;
-  --color-band: #0b3663;    /* deep header band */
-  --color-band-2: #124f8c;  /* header gradient end */
+  /* surfaces */
+  --color-paper: #081222;
+  --color-surface: #0f2038;
+  --color-line: #223b5e;
+  --color-line-soft: #172c49;
 
-  /* status semantics */
-  --color-ul: #10a06d;     /* ulangan / connected */
-  --color-ul-soft: #e6f6ef;
-  --color-un: #e5463c;     /* ulanmagan / not connected */
-  --color-un-soft: #fdeceb;
-  --color-och: #8493a6;    /* ochirilgan / removed */
-  --color-och-soft: #eef1f5;
-  --color-warn: #f0a020;
+  /* brand — Ministry-of-Health blue, glowing on dark */
+  --color-sov: #3fb6ff;
+  --color-sov-deep: #1f9bee;
+  --color-sov-soft: #12335099;
+  --color-band: #071020;
+  --color-band-2: #0d2140;
 
-  /* goal / target (100% to hrm.argos.uz) — distinct from the green "achieved" */
-  --color-goal: #b8860b;
-  --color-goal-soft: #fbf3dd;
+  /* status signals */
+  --color-ul: #2fd07a;
+  --color-ul-soft: #10321f;
+  --color-un: #ff5a63;
+  --color-un-soft: #3a151b;
+  --color-och: #7488a6;
+  --color-och-soft: #1b2942;
+  --color-warn: #f7b23b;
 
-  /* elevation scale */
-  --shadow-card: 0 1px 2px rgba(12, 27, 44, 0.04), 0 1px 3px rgba(12, 27, 44, 0.05);
-  --shadow-lift: 0 10px 28px rgba(11, 54, 99, 0.12);
-  --shadow-band: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 6px 20px rgba(11, 54, 99, 0.18);
+  /* goal — gold */
+  --color-goal: #f7c14b;
+  --color-goal-soft: #33280f;
+
+  /* elevation / glow */
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 10px 30px rgba(0,0,0,0.45);
+  --shadow-lift: 0 18px 48px rgba(0,0,0,0.55), 0 0 0 1px color-mix(in srgb, var(--color-sov) 40%, transparent);
+  --shadow-band: 0 8px 30px rgba(0,0,0,0.5);
 }
 
 @theme inline {
@@ -45,51 +49,64 @@
 }
 
 @layer base {
+  :root { color-scheme: dark; }
   html { -webkit-text-size-adjust: 100%; }
   body {
-    background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     letter-spacing: -0.006em;
+    background:
+      radial-gradient(1100px 560px at 12% -8%, rgba(63,182,255,0.10), transparent 60%),
+      radial-gradient(1000px 520px at 108% -6%, rgba(31,120,200,0.12), transparent 55%),
+      linear-gradient(180deg, #0a1526 0%, #081120 60%, #060e1a 100%);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20% -20% auto -20%;
+    height: 70vh;
+    background:
+      radial-gradient(600px 300px at 30% 20%, rgba(63,182,255,0.07), transparent 70%),
+      radial-gradient(600px 300px at 75% 10%, rgba(47,208,122,0.045), transparent 70%);
+    filter: blur(30px);
+    z-index: -1;
+    animation: aurora 22s ease-in-out infinite alternate;
+    pointer-events: none;
   }
   h1, h2, h3 { letter-spacing: -0.02em; }
-  ::selection { background: color-mix(in srgb, var(--color-sov) 20%, transparent); }
-  :focus-visible {
-    outline: 2px solid var(--color-sov);
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
+  ::selection { background: color-mix(in srgb, var(--color-sov) 30%, transparent); }
+  :focus-visible { outline: 2px solid var(--color-sov); outline-offset: 2px; border-radius: 4px; }
   a, button { -webkit-tap-highlight-color: transparent; }
-  /* thin, quiet scrollbars for data panels */
-  .scroll-quiet { scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+  input::placeholder, textarea::placeholder { color: var(--color-ink-faint); }
+  select option { background: #0f2038; color: var(--color-ink); }
+  .scroll-quiet { scrollbar-width: thin; scrollbar-color: #2a4265 transparent; }
   .scroll-quiet::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scroll-quiet::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 8px; }
-  .scroll-quiet::-webkit-scrollbar-thumb:hover { background: #c9d5e4; }
+  .scroll-quiet::-webkit-scrollbar-thumb { background: #26405f; border-radius: 8px; }
+  .scroll-quiet::-webkit-scrollbar-thumb:hover { background: #33547a; }
 }
 
 @layer components {
   .card {
-    background: var(--color-surface);
+    background: linear-gradient(180deg, rgba(21,42,74,0.70), rgba(13,29,54,0.72));
     border: 1px solid var(--color-line);
     border-radius: 16px;
     box-shadow: var(--shadow-card);
+    backdrop-filter: blur(10px);
   }
-  /* interactive cards lift on hover */
-  .card-link {
-    transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
-  }
+  .card-link { transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
   .card-link:hover {
     box-shadow: var(--shadow-lift);
     transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--color-sov) 30%, var(--color-line));
+    border-color: color-mix(in srgb, var(--color-sov) 50%, var(--color-line));
   }
-  /* uppercase civic eyebrow label */
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 0.66rem;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }
@@ -99,31 +116,51 @@
     font-feature-settings: "tnum" 1;
     letter-spacing: -0.01em;
   }
-  /* subtle divider used between hairline sections */
-  .hair { border-color: var(--color-line-soft); }
+  .glow-ul { text-shadow: 0 0 24px color-mix(in srgb, var(--color-ul) 55%, transparent); }
+  .glow-un { text-shadow: 0 0 24px color-mix(in srgb, var(--color-un) 50%, transparent); }
+  .glow-sov { text-shadow: 0 0 24px color-mix(in srgb, var(--color-sov) 50%, transparent); }
+  .glow-goal { text-shadow: 0 0 20px color-mix(in srgb, var(--color-goal) 45%, transparent); }
 }
+
+/* ---- live / real-time motion ---- */
+@keyframes aurora {
+  0%   { transform: translateX(-4%) translateY(0); opacity: 0.85; }
+  100% { transform: translateX(4%) translateY(2%); opacity: 1; }
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ul) 65%, transparent); }
+  70%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-ul) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ul) 0%, transparent); }
+}
+.live-dot { animation: livePulse 2.2s ease-out infinite; }
+@keyframes shimmer { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.syncing { position: relative; overflow: hidden; }
+.syncing::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-sov) 22%, transparent), transparent);
+  transform: translateX(-120%);
+  animation: shimmer 1.1s ease-in-out;
+  pointer-events: none;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.blink { animation: blink 1.1s steps(1) infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
+  body::before { animation: none; }
 }
 
-/* gentle entrance used sparingly */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-
-/* ---- print: clean, authoritative one-pager for reports ---- */
 @media print {
-  body { background: #fff; }
-  header, footer, nav { display: none !important; }
-  .card { box-shadow: none; border-color: #cbd5e1; break-inside: avoid; }
-  main { padding: 0 !important; }
-  .no-print { display: none !important; }
-  a[href]::after { content: ""; }
+  body { background: #fff; color: #0b1b2b; }
+  body::before { display: none; }
+  header, footer, nav, .no-print { display: none !important; }
+  .card { box-shadow: none; border-color: #cbd5e1; background: #fff; break-inside: avoid; backdrop-filter: none; }
+  .glow-ul, .glow-un, .glow-sov, .glow-goal { text-shadow: none; }
 }
