@@ -42,9 +42,11 @@ export function LiveStatus() {
           <span className="live-dot absolute inline-flex h-2 w-2 rounded-full bg-ul" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-ul" />
         </span>
-        <span className="hidden text-[0.7rem] font-medium tracking-wide text-white/70 sm:inline">
-          {syncing ? S.live.syncing : S.live.monitoring}
-        </span>
+        {syncing && (
+          <span className="hidden text-[0.7rem] font-medium tracking-wide text-sov sm:inline">
+            {S.live.syncing}
+          </span>
+        )}
         <span className="tnum text-[0.8rem] font-semibold tabular-nums text-white/90">
           {clock}
         </span>
