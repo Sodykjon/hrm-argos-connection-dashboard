@@ -5,6 +5,7 @@ import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
+import { computeDistricts } from "@/lib/districts";
 import { LiveSync } from "@/components/LiveSync";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtInt } from "@/lib/format";
@@ -15,6 +16,7 @@ export const dynamic = "force-dynamic";
 export default async function OverviewPage() {
   const { snapshot } = await getLatestSnapshot();
   const { totals, regions } = snapshot;
+  const districtData = computeDistricts(snapshot.orgs);
 
   return (
     <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6">
@@ -48,9 +50,9 @@ export default async function OverviewPage() {
         </RevealItem>
       </RevealGroup>
 
-      {/* map + ranking */}
+      {/* map + ranking (click a region to drill into its districts) */}
       <Reveal>
-        <NationalBoard regions={regions} />
+        <NationalBoard regions={regions} districtData={districtData} />
       </Reveal>
 
       {/* lowest 3 */}
