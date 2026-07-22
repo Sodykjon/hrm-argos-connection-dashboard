@@ -5,6 +5,7 @@ import { NationalBar } from "@/components/NationalBar";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
+import { GoalBanner } from "@/components/GoalBanner";
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import { S } from "@/lib/strings";
 
@@ -28,6 +29,9 @@ export default async function OverviewPage() {
         </p>
       </div>
 
+      {/* goal */}
+      <GoalBanner totals={totals} />
+
       {/* hero: readiness + KPI */}
       <section className="grid gap-4 lg:grid-cols-[minmax(260px,340px)_1fr]">
         <div className="card flex flex-col items-center p-5 text-center">
@@ -35,6 +39,10 @@ export default async function OverviewPage() {
           <div className="my-1">
             <ReadinessRing percent={totals.percent} />
           </div>
+          <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-goal-soft px-2.5 py-0.5 text-[0.7rem] font-semibold text-goal">
+            <span className="h-1.5 w-1.5 rounded-full bg-goal" />
+            {S.goal.target100}
+          </span>
           <p className="text-[0.8rem] text-ink-soft">
             <span className="tnum font-semibold text-ink">
               {new Intl.NumberFormat("ru-RU").format(totals.ulangan)}

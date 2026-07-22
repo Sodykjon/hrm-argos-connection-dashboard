@@ -9,6 +9,16 @@ export const S = {
   ministry: "Ўзбекистон Республикаси Соғлиқни сақлаш вазирлиги",
   system: "HRM ARGOS уланиш мониторинги",
   systemShort: "HRM ARGOS мониторинг",
+  argosDomain: "hrm.argos.uz",
+
+  goal: {
+    target: "Мақсад",
+    target100: "Мақсад — 100%",
+    ribbon: "Барча тиббиёт ташкилотларини hrm.argos.uz тизимига 100% улаш",
+    remaining: "100%'гача қолди",
+    toGoal: "мақсадгача",
+    reached: "Мақсадга эришилди",
+  },
 
   nav: {
     overview: "Умумий кўриниш",

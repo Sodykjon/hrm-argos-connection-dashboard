@@ -82,6 +82,19 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           lineStyle: { color: "#0e7c66", width: 3 },
           itemStyle: { color: "#0e7c66", borderColor: "#fff", borderWidth: 2 },
           areaStyle: { color: "rgba(14,124,102,0.10)" },
+          markLine: {
+            silent: true,
+            symbol: "none",
+            lineStyle: { color: "#b8860b", type: "dashed", width: 1.5 },
+            label: {
+              formatter: "Мақсад — 100%",
+              position: "insideEndTop",
+              color: "#b8860b",
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+            },
+            data: [{ yAxis: 100 }],
+          },
         },
       ],
     };

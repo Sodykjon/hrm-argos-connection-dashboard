@@ -25,6 +25,10 @@
   --color-och: #8794a4;    /* ochirilgan / removed */
   --color-och-soft: #eef1f4;
   --color-warn: #f0a020;
+
+  /* goal / target (100% to hrm.argos.uz) — distinct from the green "achieved" */
+  --color-goal: #b8860b;
+  --color-goal-soft: #fbf3dd;
 }
 
 @theme inline {

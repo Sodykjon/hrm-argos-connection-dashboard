@@ -1,7 +1,7 @@
 // Tree-shaken ECharts build — only the pieces the dashboard uses.
 import * as echarts from "echarts/core";
 import type { EChartsType } from "echarts/core";
-import { BarChart, LineChart, PieChart, MapChart } from "echarts/charts";
+import { BarChart, LineChart, PieChart, MapChart, ScatterChart } from "echarts/charts";
 import {
   TooltipComponent,
   VisualMapComponent,
@@ -9,6 +9,7 @@ import {
   LegendComponent,
   GraphicComponent,
   MarkLineComponent,
+  GeoComponent,
 } from "echarts/components";
 import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
@@ -18,12 +19,14 @@ echarts.use([
   LineChart,
   PieChart,
   MapChart,
+  ScatterChart,
   TooltipComponent,
   VisualMapComponent,
   GridComponent,
   LegendComponent,
   GraphicComponent,
   MarkLineComponent,
+  GeoComponent,
   LabelLayout,
   CanvasRenderer,
 ]);

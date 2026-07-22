@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
 import type { RegionStat } from "@/lib/types";
-import { toPct, fmtInt, fmtPct } from "@/lib/format";
+import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
 
 interface UzMapProps {
   regions: RegionStat[]; // geographic regions only
@@ -13,6 +13,13 @@ interface UzMapProps {
 }
 
 const RAMP = ["#e4483d", "#f0a020", "#8dc63f", "#10a06d"];
+
+// Tiny enclave city-regions that are hard to click on the choropleth — shown as
+// clickable labeled markers layered on top. [lng, lat] of the city center.
+const ENCLAVE_MARKERS: Record<string, [number, number]> = {
+  "Тошкент шаҳри": [69.28, 41.31],
+};
+const MAP_LAYOUT = { center: ["52%", "52%"] as [string, string], size: "118%" };
 
 export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) {
   const elRef = useRef<HTMLDivElement>(null);
@@ -33,6 +40,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
       const chart = echarts.init(elRef.current, undefined, { renderer: "canvas" });
       chartRef.current = chart;
 
+      // fires for both the map series and the scatter markers (p.name = region)
       chart.on("mouseover", (p: { name?: string }) => {
         if (p.name) onHover?.(p.name);
       });
@@ -61,7 +69,8 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
   useEffect(() => {
     const chart = chartRef.current;
     if (!chart || !ready) return;
-    const data = regions.map((r) => ({
+
+    const mapData = regions.map((r) => ({
       name: r.name,
       value: toPct(r.percent),
       ulangan: r.ulangan,
@@ -69,6 +78,32 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
       total: r.total,
       percent: r.percent,
     }));
+
+    const enclaveData = regions
+      .filter((r) => ENCLAVE_MARKERS[r.name])
+      .map((r) => {
+        const [lng, lat] = ENCLAVE_MARKERS[r.name];
+        return {
+          name: r.name,
+          value: [lng, lat, toPct(r.percent)],
+          percent: r.percent,
+          ulangan: r.ulangan,
+          ulanmagan: r.ulanmagan,
+          total: r.total,
+          itemStyle: { color: rampColor(r.percent) },
+        };
+      });
+
+    const tooltipFormatter = (p: {
+      name: string;
+      data?: { percent: number; ulangan: number; total: number; ulanmagan: number };
+    }) => {
+      const d = p.data;
+      if (!d || d.percent === undefined) return p.name;
+      return `<b>${p.name}</b><br/>Уланиш: <b>${fmtPct(d.percent)}</b><br/>Уланган: ${fmtInt(
+        d.ulangan,
+      )} / ${fmtInt(d.total)}<br/>Уланмаган: ${fmtInt(d.ulanmagan)}`;
+    };
 
     chart.setOption(
       {
@@ -78,18 +113,10 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
           borderWidth: 0,
           padding: [10, 12],
           textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
-          formatter: (p: {
-            name: string;
-            data?: { percent: number; ulangan: number; total: number; ulanmagan: number };
-          }) => {
-            const d = p.data;
-            if (!d) return p.name;
-            return `<b>${p.name}</b><br/>Уланиш: <b>${fmtPct(d.percent)}</b><br/>Уланган: ${fmtInt(
-              d.ulangan,
-            )} / ${fmtInt(d.total)}<br/>Уланмаган: ${fmtInt(d.ulanmagan)}`;
-          },
+          formatter: tooltipFormatter,
         },
         visualMap: {
+          seriesIndex: 0,
           min: 0,
           max: 100,
           left: "left",
@@ -101,14 +128,24 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
           inRange: { color: RAMP },
           textStyle: { color: "#6b7c8f", fontFamily: FONT_MONO, fontSize: 10 },
         },
+        // invisible geo, aligned to the map series, as the coordinate system for markers
+        geo: {
+          map: "uzbekistan",
+          roam: false,
+          silent: true,
+          layoutCenter: MAP_LAYOUT.center,
+          layoutSize: MAP_LAYOUT.size,
+          itemStyle: { areaColor: "transparent", borderColor: "transparent" },
+          emphasis: { disabled: true },
+        },
         series: [
           {
             type: "map",
             map: "uzbekistan",
             roam: false,
             selectedMode: false,
-            layoutCenter: ["52%", "52%"],
-            layoutSize: "118%",
+            layoutCenter: MAP_LAYOUT.center,
+            layoutSize: MAP_LAYOUT.size,
             itemStyle: {
               borderColor: "#ffffff",
               borderWidth: 1,
@@ -125,7 +162,37 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
               itemStyle: { borderColor: "#0a2430", borderWidth: 1.5 },
             },
             label: { show: false },
-            data,
+            data: mapData,
+          },
+          {
+            type: "scatter",
+            coordinateSystem: "geo",
+            geoIndex: 0,
+            z: 12,
+            symbolSize: 16,
+            data: enclaveData,
+            itemStyle: {
+              borderColor: "#ffffff",
+              borderWidth: 2,
+              shadowBlur: 5,
+              shadowColor: "rgba(11,27,43,0.35)",
+            },
+            emphasis: { scale: 1.35 },
+            label: {
+              show: true,
+              position: "right",
+              distance: 6,
+              formatter: (p: { name: string }) => p.name.replace(" шаҳри", " ш."),
+              color: "#0b1b2b",
+              fontFamily: FONT_SANS,
+              fontWeight: 600,
+              fontSize: 10.5,
+              backgroundColor: "#ffffff",
+              padding: [2, 5],
+              borderRadius: 4,
+              borderColor: "#e2e8ef",
+              borderWidth: 1,
+            },
           },
         ],
       },
