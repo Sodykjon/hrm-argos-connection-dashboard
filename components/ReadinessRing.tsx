@@ -7,29 +7,37 @@ import { FONT_MONO, type EChartsOption } from "@/lib/echarts";
 export function ReadinessRing({
   percent,
   size = 186,
+  showLabel = true,
 }: {
   percent: number;
   size?: number;
+  showLabel?: boolean;
 }) {
   const pct = toPct(percent);
   const color = rampColor(percent);
 
   const option: EChartsOption = {
-    title: {
-      text: fmtPct(percent, 1),
-      left: "center",
-      top: "38%",
-      textStyle: {
-        fontFamily: FONT_MONO,
-        fontSize: 34,
-        fontWeight: 600,
-        color: "#eaf1fb",
-      },
-    },
+    animationDuration: 1500,
+    animationEasing: "cubicOut",
+    ...(showLabel
+      ? {
+          title: {
+            text: fmtPct(percent, 1),
+            left: "center",
+            top: "center",
+            textStyle: {
+              fontFamily: FONT_MONO,
+              fontSize: 34,
+              fontWeight: 600,
+              color: "#eaf1fb",
+            },
+          },
+        }
+      : {}),
     series: [
       {
         type: "pie",
-        radius: ["74%", "92%"],
+        radius: ["73%", "93%"],
         center: ["50%", "50%"],
         silent: true,
         startAngle: 90,
@@ -40,8 +48,8 @@ export function ReadinessRing({
             value: pct,
             itemStyle: {
               color,
-              borderRadius: 10,
-              shadowBlur: 18,
+              borderRadius: 12,
+              shadowBlur: 22,
               shadowColor: color,
             },
           },

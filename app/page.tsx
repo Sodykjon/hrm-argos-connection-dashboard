@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getLatestSnapshot } from "@/lib/data";
-import { ReadinessRing } from "@/components/ReadinessRing";
-import { NationalBar } from "@/components/NationalBar";
+import { OverviewHero } from "@/components/OverviewHero";
+import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
-import { GoalBanner } from "@/components/GoalBanner";
 import { LiveSync } from "@/components/LiveSync";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { fmtInt } from "@/lib/format";
 import { S } from "@/lib/strings";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,7 @@ export default async function OverviewPage() {
 
   return (
     <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6">
-      {/* context line */}
+      {/* title + live status */}
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="text-[1.3rem] font-bold tracking-tight sm:text-[1.5rem]">
           {S.overview.mapTitle}
@@ -25,103 +26,64 @@ export default async function OverviewPage() {
         <LiveSync />
       </div>
 
-      {/* goal */}
-      <GoalBanner totals={totals} />
+      {/* live streaming ticker */}
+      <LiveFeed regions={regions} />
 
-      {/* hero: readiness + KPI */}
-      <section className="grid gap-4 lg:grid-cols-[minmax(260px,340px)_1fr]">
-        <div className="card flex flex-col items-center p-5 text-center">
-          <span className="eyebrow">{S.overview.heroEyebrow}</span>
-          <div className="my-1">
-            <ReadinessRing percent={totals.percent} />
-          </div>
-          <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-goal-soft px-2.5 py-0.5 text-[0.7rem] font-semibold text-goal">
-            <span className="h-1.5 w-1.5 rounded-full bg-goal" />
-            {S.goal.target100}
-          </span>
-          <p className="text-[0.8rem] text-ink-soft">
-            <span className="tnum font-semibold text-ink">
-              {new Intl.NumberFormat("ru-RU").format(totals.ulangan)}
-            </span>{" "}
-            {S.units.of}{" "}
-            <span className="tnum">
-              {new Intl.NumberFormat("ru-RU").format(totals.total)}
-            </span>{" "}
-            {S.overview.orgsUnit} уланган
-          </p>
-          <div className="mt-5 w-full border-t border-line pt-4">
-            <NationalBar totals={totals} />
-          </div>
-        </div>
+      {/* hero: commanding readiness figure */}
+      <OverviewHero totals={totals} />
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2">
-          <StatTile
-            label={S.kpi.total}
-            value={totals.total}
-            accent="sov"
-            hint={S.kpi.totalHint}
-          />
-          <StatTile
-            label={S.kpi.ulangan}
-            value={totals.ulangan}
-            accent="ul"
-            shareOfTotal={totals.ulangan / totals.total}
-          />
-          <StatTile
-            label={S.kpi.ulanmagan}
-            value={totals.ulanmagan}
-            accent="un"
-            shareOfTotal={totals.ulanmagan / totals.total}
-          />
-          <StatTile
-            label={S.kpi.ochirilgan}
-            value={totals.ochirilgan}
-            accent="och"
-            shareOfTotal={totals.ochirilgan / totals.total}
-          />
-        </div>
-      </section>
+      {/* KPI row */}
+      <RevealGroup className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <RevealItem className="h-full">
+          <StatTile label={S.kpi.total} value={totals.total} accent="sov" hint={S.kpi.totalHint} />
+        </RevealItem>
+        <RevealItem className="h-full">
+          <StatTile label={S.kpi.ulangan} value={totals.ulangan} accent="ul" shareOfTotal={totals.ulangan / totals.total} />
+        </RevealItem>
+        <RevealItem className="h-full">
+          <StatTile label={S.kpi.ulanmagan} value={totals.ulanmagan} accent="un" shareOfTotal={totals.ulanmagan / totals.total} />
+        </RevealItem>
+        <RevealItem className="h-full">
+          <StatTile label={S.kpi.ochirilgan} value={totals.ochirilgan} accent="och" shareOfTotal={totals.ochirilgan / totals.total} />
+        </RevealItem>
+      </RevealGroup>
 
       {/* map + ranking */}
-      <NationalBoard regions={regions} />
+      <Reveal>
+        <NationalBoard regions={regions} />
+      </Reveal>
 
       {/* lowest 3 */}
-      <AttentionStrip regions={regions} />
+      <Reveal>
+        <AttentionStrip regions={regions} />
+      </Reveal>
 
       {/* quick links */}
-      <section className="grid gap-3 sm:grid-cols-2">
-        <Link
-          href="/ulanmaganlar"
-          className="card card-link group flex items-center justify-between p-5"
-        >
-          <span>
-            <span className="block text-[0.95rem] font-semibold">
-              {S.overview.seeUnconnected}
+      <RevealGroup className="grid gap-3 sm:grid-cols-2">
+        <RevealItem>
+          <Link href="/ulanmaganlar" className="card card-link group flex items-center justify-between p-5">
+            <span>
+              <span className="block text-[0.95rem] font-semibold">{S.overview.seeUnconnected}</span>
+              <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
+                <span className="tnum font-semibold text-un">{fmtInt(totals.ulanmagan)}</span>{" "}
+                {S.overview.orgsUnit} · раҳбар ва телефон билан
+              </span>
             </span>
-            <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
-              <span className="tnum font-semibold text-un">
-                {new Intl.NumberFormat("ru-RU").format(totals.ulanmagan)}
-              </span>{" "}
-              {S.overview.orgsUnit} · раҳбар ва телефон билан
+            <Arrow />
+          </Link>
+        </RevealItem>
+        <RevealItem>
+          <Link href="/trend" className="card card-link group flex items-center justify-between p-5">
+            <span>
+              <span className="block text-[0.95rem] font-semibold">{S.overview.seeTrend}</span>
+              <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
+                Уланиш даражасининг вақт бўйича ўзгариши
+              </span>
             </span>
-          </span>
-          <Arrow />
-        </Link>
-        <Link
-          href="/trend"
-          className="card card-link group flex items-center justify-between p-5"
-        >
-          <span>
-            <span className="block text-[0.95rem] font-semibold">
-              {S.overview.seeTrend}
-            </span>
-            <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
-              Уланиш даражасининг вақт бўйича ўзгариши
-            </span>
-          </span>
-          <Arrow />
-        </Link>
-      </section>
+            <Arrow />
+          </Link>
+        </RevealItem>
+      </RevealGroup>
     </div>
   );
 }
