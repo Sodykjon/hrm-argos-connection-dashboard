@@ -16,6 +16,9 @@ export const S = {
     active: "Тизим фаол",
     syncing: "Синхронизация…",
     updatedShort: "янгиланди",
+    lastSync: "сўнгги синхронизация",
+    justNow: "ҳозиргина",
+    secAgo: "сония олдин",
   },
 
   goal: {
