@@ -43,7 +43,7 @@ export default function AdminPage() {
     setParsing(true);
     try {
       const buf = await fileToBuffer(file);
-      setParsed(parseHisobot(buf));
+      setParsed(parseHisobot(buf, file.name));
     } catch (e) {
       setParsed(null);
       setError(e instanceof Error ? e.message : S.admin.errParse);

@@ -1,12 +1,15 @@
-// Browser-side xlsx parsing for the admin upload page. Mirrors the validated
-// Python seed generator so uploaded data has the exact same normalized shape.
+// Browser-side xlsx parsing for the admin upload page. Handles BOTH ARGOS export
+// formats:
+//   (A) two-sheet "HRM_ARGOS_hisobot": «Маълумотлар» (Ҳудуд col) + «Ҳисобот» summary
+//   (B) flat "Reestr" single sheet (Лист1): region group-header rows + Latin names
+// Produces the same normalized snapshot shape either way.
 
 import * as XLSX from "xlsx";
 import type { Org, Registry, RegionStat, Snapshot, Status, Totals } from "./types";
 
 export interface ParseCheck {
-  ok: boolean; // aggregated totals match the file's own ЖАМИ row
-  expected: Totals | null; // from the Ҳисобот sheet
+  ok: boolean;
+  expected: Totals | null; // from the Ҳисобот summary (format A only)
   got: Totals; // aggregated from per-org rows
 }
 
@@ -41,7 +44,7 @@ function aoa(ws: XLSX.WorkSheet): string[][] {
 }
 
 const cell = (row: string[], i: number): string =>
-  row && row[i] != null ? String(row[i]).trim() : "";
+  row && i >= 0 && row[i] != null ? String(row[i]).trim() : "";
 
 function toInt(s: string): number {
   const n = parseInt(String(s).replace(/[^\d-]/g, ""), 10);
@@ -59,24 +62,117 @@ function normStatus(v: string): Status {
   if (s === "faol") return "ulangan";
   if (s.includes("chiril") || s.includes("ochiril") || s.includes("ўчирил"))
     return "ochirilgan";
-  return "ulanmagan"; // only "Уланмаган" lands here
+  return "ulanmagan"; // "Уланмаган" / "Ulanmagan"
 }
 
-// ------------------------------------------------------------------- hisobot
+// Latin region names (new format) -> Cyrillic (used by the map/slugs)
+const LAT_TO_CYR: Record<string, string> = {
+  "Respublika muassasalari": "Республика муассасалари",
+  "Qoraqalpogʻiston Respublikasi": "Қорақалпоғистон Республикаси",
+  "Andijon viloyati": "Андижон вилояти",
+  "Buxoro viloyati": "Бухоро вилояти",
+  "Jizzax viloyati": "Жиззах вилояти",
+  "Qashqadaryo viloyati": "Қашқадарё вилояти",
+  "Navoiy viloyati": "Навоий вилояти",
+  "Namangan viloyati": "Наманган вилояти",
+  "Samarqand viloyati": "Самарқанд вилояти",
+  "Surxondaryo viloyati": "Сурхондарё вилояти",
+  "Sirdaryo viloyati": "Сирдарё вилояти",
+  "Toshkent viloyati": "Тошкент вилояти",
+  "Fargʻona viloyati": "Фарғона вилояти",
+  "Xorazm viloyati": "Хоразм вилояти",
+  "Toshkent shahri": "Тошкент шаҳри",
+};
+const normKey = (s: string) =>
+  s.toLowerCase().replace(/[ʻʼ'`´]/g, "").replace(/\s+/g, " ").trim();
+const LAT_NORM = new Map(
+  Object.entries(LAT_TO_CYR).map(([k, v]) => [normKey(k), v]),
+);
+function latToCyr(name: string): string {
+  return LAT_TO_CYR[name] ?? LAT_NORM.get(normKey(name)) ?? name;
+}
 
-export function parseHisobot(buf: ArrayBuffer): ParsedHisobot {
-  const wb = readBook(buf);
-  const warnings: string[] = [];
+// ---- shared: aggregate orgs -> regions/totals + build the snapshot ----
+function buildSnapshot(
+  orgs: Org[],
+  date: string,
+  expected: Totals | null,
+  warnings: string[],
+): ParsedHisobot {
+  const agg = new Map<
+    string,
+    { total: number; ulangan: number; ulanmagan: number; ochirilgan: number }
+  >();
+  for (const o of orgs) {
+    const a =
+      agg.get(o.region) ?? { total: 0, ulangan: 0, ulanmagan: 0, ochirilgan: 0 };
+    a.total += 1;
+    a[o.status] += 1;
+    agg.set(o.region, a);
+  }
 
-  const details = findSheet(wb, ["Маълумот"]);
+  const regions: RegionStat[] = [...agg.keys()].map((name) => {
+    const a = agg.get(name)!;
+    return {
+      name,
+      total: a.total,
+      ulangan: a.ulangan,
+      ulanmagan: a.ulanmagan,
+      ochirilgan: a.ochirilgan,
+      percent: a.total ? a.ulangan / a.total : 0,
+    };
+  });
+
+  const got: Totals = regions.reduce(
+    (t, r) => ({
+      total: t.total + r.total,
+      ulangan: t.ulangan + r.ulangan,
+      ulanmagan: t.ulanmagan + r.ulanmagan,
+      ochirilgan: t.ochirilgan + r.ochirilgan,
+      percent: 0,
+    }),
+    { total: 0, ulangan: 0, ulanmagan: 0, ochirilgan: 0, percent: 0 },
+  );
+  got.percent = got.total ? got.ulangan / got.total : 0;
+
+  const ok = expected
+    ? expected.total === got.total &&
+      expected.ulangan === got.ulangan &&
+      expected.ulanmagan === got.ulanmagan &&
+      expected.ochirilgan === got.ochirilgan
+    : true; // flat format has no summary to cross-check
+  if (expected && !ok)
+    warnings.push("Файлдаги ЖАМИ йиғиндиси ҳисобланган йиғинди билан фарқ қилади.");
+
+  const snapshot: Snapshot = {
+    date,
+    uploadedAt: new Date().toISOString(),
+    totals: got,
+    regions,
+    orgs,
+  };
+  return { snapshot, check: { ok, expected, got }, warnings };
+}
+
+function extractDate(...texts: string[]): string {
+  for (const t of texts) {
+    const m = /(\d{2})[.\-_/](\d{2})[.\-_/](\d{4})/.exec(t || "");
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+  }
+  return new Date().toISOString().slice(0, 10);
+}
+
+// ---- format A: two-sheet «Маълумотлар» + «Ҳисобот» ----
+function parseTwoSheet(
+  wb: XLSX.WorkBook,
+  details: XLSX.WorkSheet,
+  warnings: string[],
+): ParsedHisobot {
   const summary = findSheet(wb, ["Ҳисобот", "исобот"]);
-  if (!details) throw new Error("«Маълумотлар» варағи топилмади");
 
-  // --- report date from the summary title, else today ---
   let date = new Date().toISOString().slice(0, 10);
   if (summary) {
-    const rows = aoa(summary);
-    for (const r of rows) {
+    for (const r of aoa(summary)) {
       const joined = r.join(" ");
       const m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(joined);
       if (m && joined.includes("ҳолат")) {
@@ -86,7 +182,6 @@ export function parseHisobot(buf: ArrayBuffer): ParsedHisobot {
     }
   }
 
-  // --- per-org rows (source of truth) ---
   const drows = aoa(details);
   const orgs: Org[] = [];
   for (let i = 1; i < drows.length; i++) {
@@ -105,17 +200,13 @@ export function parseHisobot(buf: ArrayBuffer): ParsedHisobot {
   }
   if (orgs.length === 0) throw new Error("Ташкилотлар рўйхати бўш");
 
-  // --- the file's own ЖАМИ, read column-agnostically (SheetJS may trim a
-  //     leading blank column, so we can't rely on fixed indices) ---
   let expected: Totals | null = null;
   if (summary) {
     for (const r of aoa(summary)) {
       if (!r.some((c) => String(c).trim() === "ЖАМИ")) continue;
-      // pure-integer cells in order: total, ulangan, ulanmagan, ochirilgan
-      // (the "%" cell is excluded — it contains a "%" sign)
       const nums = r
         .map((c) => String(c).trim())
-        .filter((s) => /^\d[\d\s ]*$/.test(s))
+        .filter((s) => /^\d[\d\s ]*$/.test(s))
         .map(toInt);
       if (nums.length >= 4) {
         expected = {
@@ -130,63 +221,71 @@ export function parseHisobot(buf: ArrayBuffer): ParsedHisobot {
     }
   }
 
-  // --- aggregate by region ---
-  const agg = new Map<
-    string,
-    { total: number; ulangan: number; ulanmagan: number; ochirilgan: number }
-  >();
-  for (const o of orgs) {
-    const a =
-      agg.get(o.region) ??
-      { total: 0, ulangan: 0, ulanmagan: 0, ochirilgan: 0 };
-    a.total += 1;
-    a[o.status] += 1;
-    agg.set(o.region, a);
+  return buildSnapshot(orgs, date, expected, warnings);
+}
+
+// ---- format B: flat single sheet (Лист1) with region group-header rows ----
+function parseFlat(
+  wb: XLSX.WorkBook,
+  fileName: string | undefined,
+  warnings: string[],
+): ParsedHisobot {
+  // pick the sheet whose header row mentions STIR + Status; else the first
+  let ws: XLSX.WorkSheet | null = null;
+  for (const name of wb.SheetNames) {
+    const first = (aoa(wb.Sheets[name])[0] ?? []).map((c) =>
+      String(c).toLowerCase(),
+    );
+    const j = first.join("|");
+    if ((j.includes("stir") || j.includes("стир")) && j.includes("нома")) {
+      ws = wb.Sheets[name];
+      break;
+    }
   }
+  if (!ws) ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = aoa(ws);
+  if (rows.length < 2) throw new Error("Файл бўш ёки нотаниш формат");
 
-  // region order = first appearance in the details sheet (i.e. report order)
-  const regions: RegionStat[] = [...agg.keys()].map((name) => {
-      const a = agg.get(name)!;
-      return {
-        name,
-        total: a.total,
-        ulangan: a.ulangan,
-        ulanmagan: a.ulanmagan,
-        ochirilgan: a.ochirilgan,
-        percent: a.total ? a.ulangan / a.total : 0,
-      };
+  const header = rows[0].map((c) => String(c).toLowerCase().trim());
+  const findCol = (...keys: string[]) =>
+    header.findIndex((h) => keys.some((k) => h.includes(k)));
+  const nameCol = Math.max(0, findCol("muassasa", "nomi", "номи", "название"));
+  const stirCol = Math.max(1, findCol("stir", "стир", "inn", "инн"));
+  const statusCol = Math.max(2, findCol("статус", "status", "holat", "ҳолат"));
+  const contractCol = findCol("шартнома", "shartnoma", "contract");
+
+  const orgs: Org[] = [];
+  let region = "";
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    const name = cell(r, nameCol);
+    const stir = normStir(cell(r, stirCol));
+    if (name && !stir) {
+      region = latToCyr(name); // region group-header row
+      continue;
+    }
+    if (!stir) continue;
+    orgs.push({
+      region,
+      name,
+      stir,
+      status: normStatus(cell(r, statusCol)),
+      contract: cell(r, contractCol),
     });
+  }
+  if (orgs.length === 0) throw new Error("Ташкилотлар рўйхати бўш");
 
-  const got: Totals = regions.reduce(
-    (t, r) => ({
-      total: t.total + r.total,
-      ulangan: t.ulangan + r.ulangan,
-      ulanmagan: t.ulanmagan + r.ulanmagan,
-      ochirilgan: t.ochirilgan + r.ochirilgan,
-      percent: 0,
-    }),
-    { total: 0, ulangan: 0, ulanmagan: 0, ochirilgan: 0, percent: 0 },
-  );
-  got.percent = got.total ? got.ulangan / got.total : 0;
+  return buildSnapshot(orgs, extractDate(fileName ?? ""), null, warnings);
+}
 
-  const ok =
-    !!expected &&
-    expected.total === got.total &&
-    expected.ulangan === got.ulangan &&
-    expected.ulanmagan === got.ulanmagan &&
-    expected.ochirilgan === got.ochirilgan;
-  if (expected && !ok)
-    warnings.push("Файлдаги ЖАМИ йиғиндиси ҳисобланган йиғинди билан фарқ қилади.");
+// ------------------------------------------------------------------- hisobot
 
-  const snapshot: Snapshot = {
-    date,
-    uploadedAt: new Date().toISOString(),
-    totals: got,
-    regions,
-    orgs,
-  };
-
-  return { snapshot, check: { ok, expected, got }, warnings };
+export function parseHisobot(buf: ArrayBuffer, fileName?: string): ParsedHisobot {
+  const wb = readBook(buf);
+  const warnings: string[] = [];
+  const details = findSheet(wb, ["Маълумот"]);
+  if (details) return parseTwoSheet(wb, details, warnings);
+  return parseFlat(wb, fileName, warnings);
 }
 
 // ------------------------------------------------------------------ registry
