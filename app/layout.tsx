@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { S } from "@/lib/strings";
+import { Analytics } from "@vercel/analytics/next";
 
 const golos = Golos_Text({
   variable: "--font-golos",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1 w-full">{children}</main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );
