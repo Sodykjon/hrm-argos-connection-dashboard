@@ -1,19 +1,21 @@
 import Link from "next/link";
-import { getLatestSnapshot } from "@/lib/data";
+import { getLatestSnapshot, getLatestCompletion } from "@/lib/data";
 import { OverviewHero } from "@/components/OverviewHero";
 import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { LiveSync } from "@/components/LiveSync";
+import { ReadinessRing } from "@/components/ReadinessRing";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { fmtInt } from "@/lib/format";
+import { fmtInt, fmtPct } from "@/lib/format";
 import { S } from "@/lib/strings";
 
 export const dynamic = "force-dynamic";
 
 export default async function OverviewPage() {
   const { snapshot } = await getLatestSnapshot();
+  const { snapshot: completion } = await getLatestCompletion();
   const { totals, regions } = snapshot;
 
   return (
@@ -56,6 +58,36 @@ export default async function OverviewPage() {
       {/* lowest 3 */}
       <Reveal>
         <AttentionStrip regions={regions} />
+      </Reveal>
+
+      {/* data-completion summary */}
+      <Reveal>
+        <Link
+          href="/toldirilish"
+          className="card card-link group flex items-center gap-4 p-5 sm:gap-5"
+        >
+          <div className="shrink-0">
+            <ReadinessRing percent={completion.overall.avg} size={92} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <span className="block text-[0.95rem] font-semibold">
+              {S.completion.overviewCard}
+            </span>
+            <span className="mt-0.5 block text-[0.8rem] text-ink-soft">
+              {S.completion.avg}:{" "}
+              <span className="tnum font-semibold text-sov">
+                {fmtPct(completion.overall.avg, 1)}
+              </span>{" "}
+              · <span className="tnum">{fmtInt(completion.overall.orgCount)}</span>{" "}
+              {S.completion.orgsUnit} ·{" "}
+              <span className="tnum font-semibold text-un">
+                {fmtInt(completion.overall.zeroCount)}
+              </span>{" "}
+              — {S.completion.zero}
+            </span>
+          </div>
+          <Arrow />
+        </Link>
       </Reveal>
 
       {/* quick links */}

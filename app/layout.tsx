@@ -3,6 +3,7 @@ import { Golos_Text, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AppChrome } from "@/components/AppChrome";
 import { S } from "@/lib/strings";
 
 const golos = Golos_Text({
@@ -33,9 +34,9 @@ export default function RootLayout({
       className={`${golos.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <SiteHeader />
-        <main className="flex-1 w-full">{children}</main>
-        <SiteFooter />
+        <AppChrome header={<SiteHeader />} footer={<SiteFooter />}>
+          {children}
+        </AppChrome>
       </body>
     </html>
   );

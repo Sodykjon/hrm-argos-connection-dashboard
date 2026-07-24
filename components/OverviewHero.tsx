@@ -31,14 +31,14 @@ export function OverviewHero({ totals }: { totals: Totals }) {
             </div>
           </div>
 
-          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.92rem] text-ink-soft">
-            <span className="relative flex h-2 w-2">
-              <span className="live-dot absolute inline-flex h-2 w-2 rounded-full bg-ul" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-ul" />
+          <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[1.15rem] text-ink-soft sm:text-[1.4rem]">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="live-dot absolute inline-flex h-2.5 w-2.5 rounded-full bg-ul" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-ul" />
             </span>
-            <AnimatedNumber value={totals.ulangan} className="tnum font-semibold text-ul glow-ul" />
+            <span className="tnum font-semibold text-ink">{fmtInt(totals.total)}</span>
             <span>{S.units.of}</span>
-            <span className="tnum text-ink">{fmtInt(totals.total)}</span>
+            <AnimatedNumber value={totals.ulangan} className="tnum font-bold text-ul glow-ul" />
             <span>та ташкилот уланган</span>
           </p>
 

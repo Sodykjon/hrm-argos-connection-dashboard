@@ -3,6 +3,7 @@ import Image from "next/image";
 import { S } from "@/lib/strings";
 import { Nav } from "./Nav";
 import { LiveStatus } from "./LiveStatus";
+import { LogoutButton } from "./LogoutButton";
 
 export function SiteHeader() {
   return (
@@ -36,6 +37,7 @@ export function SiteHeader() {
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
           <LiveStatus />
           <Nav />
+          {process.env.SITE_PASSWORD ? <LogoutButton /> : null}
         </div>
       </div>
     </header>

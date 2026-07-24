@@ -21,11 +21,39 @@ const SLUG_MAP: Record<string, string> = {
   "Фарғона вилояти": "fargona",
   "Хоразм вилояти": "xorazm",
   "Тошкент шаҳри": "toshkent-shahri",
+  // Non-geographic completion-only groups (org hierarchy, not on the map)
+  "Марказий аппарат": "markaziy-apparat",
+  "Санитар-эпидемиология қўмитаси": "sanepid-qomita",
+  "Республика марказлари": "respublika-markazlari",
 };
 
 const REVERSE: Record<string, string> = Object.fromEntries(
   Object.entries(SLUG_MAP).map(([name, slug]) => [slug, name]),
 );
+
+// The 14 geographic viloyat/republic regions drawn on the choropleth map.
+// (Used by the completion dashboard, whose non-geographic groups above must be
+// excluded from the map explicitly rather than via isRepublic.)
+export const GEO_REGIONS = [
+  "Қорақалпоғистон Республикаси",
+  "Андижон вилояти",
+  "Бухоро вилояти",
+  "Жиззах вилояти",
+  "Қашқадарё вилояти",
+  "Навоий вилояти",
+  "Наманган вилояти",
+  "Самарқанд вилояти",
+  "Сирдарё вилояти",
+  "Сурхондарё вилояти",
+  "Тошкент вилояти",
+  "Фарғона вилояти",
+  "Хоразм вилояти",
+  "Тошкент шаҳри",
+];
+const GEO_SET = new Set(GEO_REGIONS);
+export function isGeographicRegion(name: string): boolean {
+  return GEO_SET.has(name);
+}
 
 /** Fallback slug for an unknown region name (future-proofing new uploads). */
 function fallbackSlug(name: string): string {

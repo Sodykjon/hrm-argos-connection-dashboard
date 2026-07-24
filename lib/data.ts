@@ -3,11 +3,25 @@
 
 import seedSnapshotJson from "@/data/seed-snapshot.json";
 import seedRegistryJson from "@/data/registry.json";
-import type { ManifestEntry, Registry, Snapshot } from "./types";
-import { getManifest, getRegistryRef, getSnapshotByRef } from "./store";
+import seedCompletionJson from "@/data/seed-completion.json";
+import type {
+  CompletionManifestEntry,
+  CompletionSnapshot,
+  ManifestEntry,
+  Registry,
+  Snapshot,
+} from "./types";
+import {
+  getCompletionByRef,
+  getCompletionManifest,
+  getManifest,
+  getRegistryRef,
+  getSnapshotByRef,
+} from "./store";
 
 const seedSnapshot = seedSnapshotJson as unknown as Snapshot;
 const seedRegistry = seedRegistryJson as unknown as Registry;
+const seedCompletion = seedCompletionJson as unknown as CompletionSnapshot;
 
 export interface DashboardData {
   snapshot: Snapshot;
@@ -55,6 +69,44 @@ export async function getHistory(): Promise<ManifestEntry[]> {
       url: "seed",
       totals: seedSnapshot.totals,
       regions: seedSnapshot.regions,
+    },
+  ];
+}
+
+// --- completion ("Тўлдирилиш даражаси") -------------------------------------
+
+export interface CompletionData {
+  snapshot: CompletionSnapshot;
+  isSeed: boolean;
+}
+
+export async function getLatestCompletion(): Promise<CompletionData> {
+  try {
+    const manifest = await getCompletionManifest();
+    if (manifest?.latestUrl) {
+      const snap = await getCompletionByRef(manifest.latestUrl);
+      if (snap) return { snapshot: snap, isSeed: false };
+    }
+  } catch {
+    /* fall through to seed */
+  }
+  return { snapshot: seedCompletion, isSeed: true };
+}
+
+export async function getCompletionHistory(): Promise<CompletionManifestEntry[]> {
+  try {
+    const manifest = await getCompletionManifest();
+    if (manifest?.snapshots?.length) return manifest.snapshots;
+  } catch {
+    /* fall through */
+  }
+  return [
+    {
+      date: seedCompletion.date,
+      uploadedAt: seedCompletion.uploadedAt,
+      url: "seed",
+      overall: seedCompletion.overall,
+      regions: seedCompletion.regions,
     },
   ];
 }

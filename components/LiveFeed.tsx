@@ -1,9 +1,14 @@
-import type { RegionStat } from "@/lib/types";
 import { rampColor, fmtPct } from "@/lib/format";
 
-/** Continuously scrolling ticker of per-region connection status — reads like a
- *  live data stream. Pure CSS marquee (pauses on hover, static on reduced-motion). */
-export function LiveFeed({ regions }: { regions: RegionStat[] }) {
+/** Continuously scrolling ticker of per-region figures — reads like a live data
+ *  stream. Pure CSS marquee (pauses on hover, static on reduced-motion).
+ *  Takes any rows with a name + a 0..1 percent (RegionStat and the completion
+ *  region rows both satisfy this). */
+export function LiveFeed({
+  regions,
+}: {
+  regions: { name: string; percent: number }[];
+}) {
   const items = [...regions].sort((a, b) => b.percent - a.percent);
   const loop = [...items, ...items]; // duplicated for a seamless -50% loop
 
