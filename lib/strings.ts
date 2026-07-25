@@ -196,6 +196,13 @@ export const S = {
     compHistory: "Юкланган кунлар",
     compErrParse:
       "CSV файлни ўқиб бўлмади. hrm.argos.uz bookmarklet юклаган .csv файл эканига ишонч ҳосил қилинг.",
+    cleanupSection: "Хотирани тозалаш (Vercel Blob)",
+    cleanupHint:
+      "Эски снапшот файлларини ўчиради (энг сўнггилари ва жорий маълумот сақланади). Blob тўлиб қолса босинг.",
+    cleanupBtn: "Хотирани тозалаш",
+    cleanupBusy: "Тозаланмоқда…",
+    cleanupDone: (n: number) => `Тайёр — ${n} та эски файл ўчирилди.`,
+    cleanupNone: "Тозалашга эски файл топилмади (хотира аллақачон тоза).",
     password: "Админ пароли",
     passwordPh: "Паролни киритинг",
     hisobotFile: "HRM ARGOS ҳисоботи (.xlsx)",
