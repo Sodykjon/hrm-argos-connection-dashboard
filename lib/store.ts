@@ -174,38 +174,6 @@ async function pruneSnapshots(prefix: string, keepUrl: string): Promise<void> {
   }
 }
 
-/**
- * On-demand cleanup: delete every stale snapshot blob (both datasets), keeping
- * only the newest of each. Frees a full Blob store immediately without needing
- * a fresh upload. Returns how many blobs were removed.
- */
-export async function cleanupBlobs(): Promise<{ deleted: number }> {
-  if (!hasBlob()) return { deleted: 0 };
-  const [m, cm] = await Promise.all([getManifest(), getCompletionManifest()]);
-  const targets: Array<[string, string | undefined]> = [
-    ["snapshots/", m?.latestUrl],
-    ["completion-snapshots/", cm?.latestUrl],
-  ];
-  let deleted = 0;
-  try {
-    const { list, del } = await import("@vercel/blob");
-    for (const [prefix, keep] of targets) {
-      // Safety: if we don't know the current latest for this dataset, skip it —
-      // never risk deleting the only remaining snapshot.
-      if (!keep) continue;
-      const { blobs } = await list({ prefix, token: TOKEN });
-      const stale = blobs.filter((b) => b.url !== keep).map((b) => b.url);
-      if (stale.length) {
-        await del(stale, { token: TOKEN });
-        deleted += stale.length;
-      }
-    }
-  } catch {
-    /* best-effort */
-  }
-  return { deleted };
-}
-
 // ------------------------------------------------------------------- public API
 
 export interface PutResult {

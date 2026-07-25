@@ -44,11 +44,6 @@ export default function AdminPage() {
   const [compDone, setCompDone] = useState(false);
   const [compHistory, setCompHistory] = useState<CompHistoryItem[]>([]);
 
-  // storage cleanup
-  const [cleanBusy, setCleanBusy] = useState(false);
-  const [cleanMsg, setCleanMsg] = useState<string | null>(null);
-  const [cleanErr, setCleanErr] = useState<string | null>(null);
-
   useEffect(() => {
     fetch("/api/snapshots")
       .then((r) => r.json())
@@ -156,32 +151,6 @@ export default function AdminPage() {
       setError(S.admin.errGeneric);
     } finally {
       setPublishing(false);
-    }
-  }
-
-  async function cleanupStorage() {
-    if (!password) return;
-    setCleanBusy(true);
-    setCleanMsg(null);
-    setCleanErr(null);
-    try {
-      const res = await fetch("/api/cleanup", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      if (res.ok) {
-        const d = (await res.json()) as { deleted?: number };
-        setCleanMsg(
-          d.deleted ? S.admin.cleanupDone(d.deleted) : S.admin.cleanupNone,
-        );
-      } else if (res.status === 401) setCleanErr(S.admin.errAuth);
-      else if (res.status === 501) setCleanErr(S.admin.errNoStore);
-      else setCleanErr(S.admin.errGeneric);
-    } catch {
-      setCleanErr(S.admin.errGeneric);
-    } finally {
-      setCleanBusy(false);
     }
   }
 
@@ -428,45 +397,6 @@ export default function AdminPage() {
             </ul>
           </div>
         )}
-      </div>
-
-      {/* ---- storage cleanup (Vercel Blob) ---- */}
-      <div className="space-y-3 border-t border-line pt-6">
-        <div>
-          <h2 className="text-[1.05rem] font-semibold">{S.admin.cleanupSection}</h2>
-          <p className="mt-0.5 text-[0.8rem] text-ink-soft">{S.admin.cleanupHint}</p>
-        </div>
-        <div className="card space-y-4 p-5">
-          <label className="block">
-            <span className="mb-1.5 block text-[0.82rem] font-medium text-ink-soft">
-              {S.admin.password}
-            </span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={S.admin.passwordPh}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-[0.9rem] outline-none focus:border-sov focus:bg-surface"
-            />
-          </label>
-          {cleanMsg && (
-            <p className="rounded-lg bg-ul-soft px-3.5 py-2.5 text-[0.82rem] font-medium text-ul">
-              {cleanMsg}
-            </p>
-          )}
-          {cleanErr && (
-            <p className="rounded-lg bg-un-soft px-3.5 py-2.5 text-[0.82rem] font-medium text-un">
-              {cleanErr}
-            </p>
-          )}
-          <button
-            onClick={cleanupStorage}
-            disabled={!password || cleanBusy}
-            className="inline-flex items-center gap-2 rounded-lg border border-line bg-paper px-5 py-2.5 text-[0.85rem] font-semibold text-ink-soft transition-colors hover:bg-surface hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {cleanBusy ? S.admin.cleanupBusy : S.admin.cleanupBtn}
-          </button>
-        </div>
       </div>
     </div>
   );
