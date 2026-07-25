@@ -163,6 +163,9 @@ export async function cleanupBlobs(): Promise<{ deleted: number }> {
   try {
     const { list, del } = await import("@vercel/blob");
     for (const [prefix, keep] of targets) {
+      // Safety: if we don't know the current latest for this dataset, skip it —
+      // never risk deleting the only remaining snapshot.
+      if (!keep) continue;
       const { blobs } = await list({ prefix, token: TOKEN });
       const stale = blobs.filter((b) => b.url !== keep).map((b) => b.url);
       if (stale.length) {
