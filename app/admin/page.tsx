@@ -146,9 +146,20 @@ export default function AdminPage() {
       } else if (res.status === 401) setError(S.admin.errAuth);
       else if (res.status === 501) setError(S.admin.errNoStore);
       else if (res.status === 400) setError(S.admin.errParse);
-      else setError(S.admin.errGeneric);
-    } catch {
-      setError(S.admin.errGeneric);
+      else {
+        let detail = ` — HTTP ${res.status}`;
+        try {
+          const d = (await res.json()) as { detail?: string };
+          if (d?.detail) detail = ` — ${d.detail}`;
+        } catch {
+          /* non-JSON platform error (e.g. 413 too large) — keep HTTP code */
+        }
+        setError(S.admin.errGeneric + detail);
+      }
+    } catch (e) {
+      setError(
+        S.admin.errGeneric + (e instanceof Error ? ` — ${e.message}` : ""),
+      );
     } finally {
       setPublishing(false);
     }
