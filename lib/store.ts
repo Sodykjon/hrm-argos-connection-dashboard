@@ -57,7 +57,25 @@ async function readRef<T>(ref: string): Promise<T | null> {
   return readLocal<T>(ref);
 }
 
+// In-memory memo so the read path does NOT hit Blob `list` (an "advanced
+// operation") on every render. Data changes only on upload (~daily), so a short
+// TTL is safe; a publish refreshes the memo instantly on the writing instance,
+// and other warm instances catch up within the TTL. Fluid Compute reuses
+// instances, so this persists across requests. Local dev memoizes too.
+const MEMO_TTL = 600_000; // 10 min
+let manifestMemo: { at: number; val: Manifest } | null = null;
+let completionMemo: { at: number; val: CompletionManifest } | null = null;
+
 export async function getManifest(): Promise<Manifest | null> {
+  if (manifestMemo && Date.now() - manifestMemo.at < MEMO_TTL) {
+    return manifestMemo.val;
+  }
+  const val = await loadManifest();
+  if (val) manifestMemo = { at: Date.now(), val };
+  return val;
+}
+
+async function loadManifest(): Promise<Manifest | null> {
   if (hasBlob()) {
     const { list } = await import("@vercel/blob");
     try {
@@ -83,6 +101,15 @@ export async function getRegistryRef(ref: string): Promise<Registry | null> {
 // --- completion (separate namespace so it never touches manifest.json) ------
 
 export async function getCompletionManifest(): Promise<CompletionManifest | null> {
+  if (completionMemo && Date.now() - completionMemo.at < MEMO_TTL) {
+    return completionMemo.val;
+  }
+  const val = await loadCompletionManifest();
+  if (val) completionMemo = { at: Date.now(), val };
+  return val;
+}
+
+async function loadCompletionManifest(): Promise<CompletionManifest | null> {
   if (hasBlob()) {
     const { list } = await import("@vercel/blob");
     try {
@@ -228,6 +255,7 @@ export async function publish(
   const latestUrl = snapshots[snapshots.length - 1].url;
   const next: Manifest = { latestUrl, registryUrl, snapshots };
   await writeJson(MANIFEST_KEY, next);
+  manifestMemo = { at: Date.now(), val: next }; // instant freshness, no re-list
 
   // Keep only the newest-by-date snapshot blob (history lives in the manifest).
   await pruneSnapshots("snapshots/", latestUrl);
@@ -277,6 +305,7 @@ export async function publishCompletion(
   const latestUrl = snapshots[snapshots.length - 1].url;
   const next: CompletionManifest = { latestUrl, snapshots };
   await writeJson(COMPLETION_MANIFEST_KEY, next);
+  completionMemo = { at: Date.now(), val: next }; // instant freshness, no re-list
 
   // Keep only the newest-by-date snapshot blob.
   await pruneSnapshots("completion-snapshots/", latestUrl);
