@@ -128,6 +128,25 @@ async function writeJson(key: string, data: unknown): Promise<string> {
   return hasBlob() ? writeBlob(key, data) : writeLocal(key, data);
 }
 
+/**
+ * Delete every blob under `prefix` except `keepUrl` (best-effort). Keeps Blob
+ * usage tiny — only the newest snapshot per dataset is retained. Safe because
+ * the trend/history reads from the (inline) manifest, never from old snapshot
+ * blobs; only the latest snapshot is ever fetched. Local dev (no Blob) is a
+ * no-op.
+ */
+async function pruneSnapshots(prefix: string, keepUrl: string): Promise<void> {
+  if (!hasBlob()) return;
+  try {
+    const { list, del } = await import("@vercel/blob");
+    const { blobs } = await list({ prefix, token: TOKEN });
+    const stale = blobs.filter((b) => b.url !== keepUrl).map((b) => b.url);
+    if (stale.length) await del(stale, { token: TOKEN });
+  } catch {
+    /* best-effort — never fail a publish because cleanup hiccuped */
+  }
+}
+
 // ------------------------------------------------------------------- public API
 
 export interface PutResult {
@@ -143,10 +162,14 @@ export async function publish(
   snapshot: Snapshot,
   registry?: Registry | null,
 ): Promise<PutResult> {
+  const manifest = (await getManifest()) ?? { latestUrl: "", snapshots: [] };
+
+  // Free space first: drop old snapshot blobs (keep the current latest) so an
+  // already-full Blob store self-heals on the next upload.
+  if (manifest.latestUrl) await pruneSnapshots("snapshots/", manifest.latestUrl);
+
   const key = `snapshots/${snapshot.date}-${Date.now()}.json`;
   const url = await writeJson(key, snapshot);
-
-  const manifest = (await getManifest()) ?? { latestUrl: "", snapshots: [] };
 
   const entry: ManifestEntry = {
     date: snapshot.date,
@@ -174,6 +197,9 @@ export async function publish(
   const next: Manifest = { latestUrl, registryUrl, snapshots };
   await writeJson(MANIFEST_KEY, next);
 
+  // Keep only the newest-by-date snapshot blob (history lives in the manifest).
+  await pruneSnapshots("snapshots/", latestUrl);
+
   return { snapshots: snapshots.length, registryUpdated };
 }
 
@@ -189,13 +215,17 @@ export interface CompletionPutResult {
 export async function publishCompletion(
   snapshot: CompletionSnapshot,
 ): Promise<CompletionPutResult> {
-  const key = `completion-snapshots/${snapshot.date}-${Date.now()}.json`;
-  const url = await writeJson(key, snapshot);
-
   const manifest = (await getCompletionManifest()) ?? {
     latestUrl: "",
     snapshots: [],
   };
+
+  // Free space first (see publish): keep the current latest, drop the rest.
+  if (manifest.latestUrl)
+    await pruneSnapshots("completion-snapshots/", manifest.latestUrl);
+
+  const key = `completion-snapshots/${snapshot.date}-${Date.now()}.json`;
+  const url = await writeJson(key, snapshot);
 
   const entry: CompletionManifestEntry = {
     date: snapshot.date,
@@ -215,6 +245,9 @@ export async function publishCompletion(
   const latestUrl = snapshots[snapshots.length - 1].url;
   const next: CompletionManifest = { latestUrl, snapshots };
   await writeJson(COMPLETION_MANIFEST_KEY, next);
+
+  // Keep only the newest-by-date snapshot blob.
+  await pruneSnapshots("completion-snapshots/", latestUrl);
 
   return { snapshots: snapshots.length };
 }
