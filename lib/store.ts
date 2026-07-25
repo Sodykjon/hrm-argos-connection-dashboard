@@ -13,6 +13,7 @@
 // the trend/history lives inline in the manifest. There is no per-day
 // accumulation, so nothing to prune and storage stays tiny.
 
+import { cache } from "react";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type {
@@ -95,21 +96,13 @@ async function writeKey(key: string, data: unknown): Promise<void> {
 
 // ------------------------------------------------------------------- read API
 
-// In-memory memo so repeated renders don't re-read the manifest on every
-// request. Data changes only on upload (~daily); a publish refreshes the memo
-// instantly, and other warm instances catch up within the TTL.
-const MEMO_TTL = 600_000; // 10 min
-let manifestMemo: { at: number; val: Manifest } | null = null;
-let completionMemo: { at: number; val: CompletionManifest } | null = null;
-
-export async function getManifest(): Promise<Manifest | null> {
-  if (manifestMemo && Date.now() - manifestMemo.at < MEMO_TTL) {
-    return manifestMemo.val;
-  }
-  const val = await readKey<Manifest>(K.manifest);
-  if (val) manifestMemo = { at: Date.now(), val };
-  return val;
-}
+// Per-request memo (React cache): collapses the several getManifest() calls in a
+// single page render into ONE KV read, without caching across requests — so a
+// fresh upload is visible on the very next request, with no stale window. KV
+// reads are cheap, so there is no reason for a longer-lived cache.
+export const getManifest = cache(
+  async (): Promise<Manifest | null> => readKey<Manifest>(K.manifest),
+);
 
 export async function getSnapshotByRef(ref: string): Promise<Snapshot | null> {
   return readKey<Snapshot>(ref);
@@ -119,14 +112,10 @@ export async function getRegistryRef(ref: string): Promise<Registry | null> {
   return readKey<Registry>(ref);
 }
 
-export async function getCompletionManifest(): Promise<CompletionManifest | null> {
-  if (completionMemo && Date.now() - completionMemo.at < MEMO_TTL) {
-    return completionMemo.val;
-  }
-  const val = await readKey<CompletionManifest>(K.compManifest);
-  if (val) completionMemo = { at: Date.now(), val };
-  return val;
-}
+export const getCompletionManifest = cache(
+  async (): Promise<CompletionManifest | null> =>
+    readKey<CompletionManifest>(K.compManifest),
+);
 
 export async function getCompletionByRef(
   ref: string,
@@ -180,7 +169,6 @@ export async function publish(
 
   const next: Manifest = { latestUrl: K.snapshot, registryUrl, snapshots };
   await writeKey(K.manifest, next);
-  manifestMemo = { at: Date.now(), val: next }; // instant freshness
 
   return { snapshots: snapshots.length, registryUpdated };
 }
@@ -220,7 +208,6 @@ export async function publishCompletion(
 
   const next: CompletionManifest = { latestUrl: K.compSnapshot, snapshots };
   await writeKey(K.compManifest, next);
-  completionMemo = { at: Date.now(), val: next }; // instant freshness
 
   return { snapshots: snapshots.length };
 }
