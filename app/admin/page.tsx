@@ -436,7 +436,19 @@ export default function AdminPage() {
           <h2 className="text-[1.05rem] font-semibold">{S.admin.cleanupSection}</h2>
           <p className="mt-0.5 text-[0.8rem] text-ink-soft">{S.admin.cleanupHint}</p>
         </div>
-        <div className="card space-y-3 p-5">
+        <div className="card space-y-4 p-5">
+          <label className="block">
+            <span className="mb-1.5 block text-[0.82rem] font-medium text-ink-soft">
+              {S.admin.password}
+            </span>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={S.admin.passwordPh}
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-[0.9rem] outline-none focus:border-sov focus:bg-surface"
+            />
+          </label>
           {cleanMsg && (
             <p className="rounded-lg bg-ul-soft px-3.5 py-2.5 text-[0.82rem] font-medium text-ul">
               {cleanMsg}
@@ -454,9 +466,6 @@ export default function AdminPage() {
           >
             {cleanBusy ? S.admin.cleanupBusy : S.admin.cleanupBtn}
           </button>
-          <p className="text-[0.72rem] text-ink-faint">
-            Юқоридаги майдонга админ паролини киритиб, тугмани босинг.
-          </p>
         </div>
       </div>
     </div>
