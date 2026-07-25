@@ -16,25 +16,31 @@ import type {
 // Canonical region names — MUST match the keys in lib/regions.ts SLUG_MAP
 // (and the geojson feature names).
 const CITY = "Тошкент шаҳри";
+// Region keyword matchers — Cyrillic/Russian AND Latin/Uzbek, because the source
+// "Бош ташкилот" column may arrive in either script (e.g. "Самарканд" or
+// "Samarqand"). Apostrophes vary ('/’/ʻ), so `.?` stands in for them.
 const REGION_BY_KEYWORD: Array<[RegExp, string]> = [
-  [/каракалпакстан/i, "Қорақалпоғистон Республикаси"],
-  [/андижан/i, "Андижон вилояти"],
-  [/бухар/i, "Бухоро вилояти"],
-  [/джизак/i, "Жиззах вилояти"],
-  [/кашкадар/i, "Қашқадарё вилояти"],
-  [/наваи/i, "Навоий вилояти"], // "Наваийской" — no "о"
-  [/наманган/i, "Наманган вилояти"],
-  [/самарканд/i, "Самарқанд вилояти"],
-  [/сырдар/i, "Сирдарё вилояти"],
-  [/сурхандар/i, "Сурхондарё вилояти"],
-  [/ташкентск/i, "Тошкент вилояти"], // "Ташкентской области"
-  [/ферган/i, "Фарғона вилояти"], // "Ферганской" — stem
-  [/хорезм/i, "Хоразм вилояти"],
+  [/каракалпакстан|qoraqalpog|karakalpak/i, "Қорақалпоғистон Республикаси"],
+  [/андижан|andijon/i, "Андижон вилояти"],
+  [/бухар|buxoro/i, "Бухоро вилояти"],
+  [/джизак|jizzax/i, "Жиззах вилояти"],
+  [/кашкадар|qashqadar/i, "Қашқадарё вилояти"],
+  [/наваи|навои|navoi/i, "Навоий вилояти"], // "Наваийской" — no "о"
+  [/наманган|namangan/i, "Наманган вилояти"],
+  [/самарканд|samarqand/i, "Самарқанд вилояти"],
+  [/сырдар|sirdar/i, "Сирдарё вилояти"],
+  [/сурхандар|сурхондар|surxondar/i, "Сурхондарё вилояти"],
+  [/ташкентск|toshkent viloyati/i, "Тошкент вилояти"], // region, not the city
+  [/ферган|farg.?ona/i, "Фарғона вилояти"], // "Ферганской" / "Farg'ona"
+  [/хорезм|xorazm/i, "Хоразм вилояти"],
 ];
 
 function regionKeyword(text: string): string | null {
   const t = text || "";
-  if (/ташкент/i.test(t) && /город/i.test(t)) return CITY; // "города Ташкента" / "Ташкентское городское"
+  // Tashkent CITY (checked before Toshkent viloyati): "города Ташкента" /
+  // "Ташкентское городское" / "Toshkent shahar/shahri".
+  if ((/ташкент/i.test(t) && /город/i.test(t)) || /toshkent shah/i.test(t))
+    return CITY;
   for (const [re, name] of REGION_BY_KEYWORD) if (re.test(t)) return name;
   return null;
 }
@@ -51,20 +57,32 @@ function regionKeyword(text: string): string | null {
  */
 export function completionRegion(group: string, id?: string): string {
   const g = (group || "").trim();
-  // 1. central apparatus (the ministry itself)
-  if (id === "1052" || g === "Министерство здравоохранения Республики Узбекистан") {
-    return "Марказий аппарат";
-  }
-  // 2a. Karakalpakstan republican health authority → its viloyat
-  if (/каракалпакстан/i.test(g)) return "Қорақалпоғистон Республикаси";
-  // 2b. regional SSV health administration → viloyat
-  if (/управление здравоохранения/i.test(g)) {
+  // 1. sanitary-epidemiological committee (and all its facilities). Checked
+  //    FIRST because in Latin its name also begins with the ministry's name.
+  if (/санитарно-эпидемиолог|sanitariya.?epidemiolog|sanitar.{0,3}epidemiolog/i.test(g))
+    return "Санитар-эпидемиология қўмитаси";
+  // 2. Karakalpakstan republican health authority → its viloyat
+  if (/каракалпакстан|qoraqalpog|karakalpak/i.test(g))
+    return "Қорақалпоғистон Республикаси";
+  // 3. regional SSV health administration → viloyat (Cyrillic OR Latin). Gated
+  //    on the "administration" phrase so a republican institute that merely
+  //    mentions a region in its name is never mis-filed into that viloyat.
+  if (
+    /управление здравоохранения|соғлиқни сақлаш бошқарма|sog.?liqni saqlash (bosh )?boshqarmasi/i.test(
+      g,
+    )
+  ) {
     const r = regionKeyword(g);
     if (r) return r;
   }
-  // 3. sanitary-epidemiological committee (and all its facilities)
-  if (/санитарно-эпидемиолог/i.test(g)) return "Санитар-эпидемиология қўмитаси";
-  // 4. republican centres / institutes / agencies / everything else
+  // 4. central apparatus — the ministry HQ itself (id or exact name only)
+  if (
+    id === "1052" ||
+    g === "Министерство здравоохранения Республики Узбекистан" ||
+    /^o.?zbekiston respublikasi sog.?liqni saqlash vazirligi$/i.test(g)
+  )
+    return "Марказий аппарат";
+  // 5. republican centres / institutes / agencies / everything else
   return "Республика марказлари";
 }
 
