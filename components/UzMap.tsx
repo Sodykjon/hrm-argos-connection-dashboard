@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
 import type { RegionStat } from "@/lib/types";
 import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
+import { regionLabel, regionLabelShort } from "@/lib/regions";
+import { useS, useLang } from "@/lib/i18n/client";
 
 interface UzMapProps {
   regions: RegionStat[]; // geographic regions only
@@ -22,6 +24,8 @@ const ENCLAVE_MARKERS: Record<string, [number, number]> = {
 const MAP_LAYOUT = { center: ["52%", "52%"] as [string, string], size: "118%" };
 
 export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) {
+  const S = useS();
+  const lang = useLang();
   const elRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<EChartsType | null>(null);
   const [ready, setReady] = useState(false);
@@ -98,11 +102,16 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
       name: string;
       data?: { percent: number; ulangan: number; total: number; ulanmagan: number };
     }) => {
+      // p.name is the canonical region key (matches the GeoJSON) — translate
+      // it for display only.
+      const label = regionLabel(p.name, lang);
       const d = p.data;
-      if (!d || d.percent === undefined) return p.name;
-      return `<b>${p.name}</b><br/>Уланиш: <b>${fmtPct(d.percent)}</b><br/>Уланган: ${fmtInt(
-        d.ulangan,
-      )} / ${fmtInt(d.total)}<br/>Уланмаган: ${fmtInt(d.ulanmagan)}`;
+      if (!d || d.percent === undefined) return label;
+      return `<b>${label}</b><br/>${S.map.connection}: <b>${fmtPct(
+        d.percent,
+      )}</b><br/>${S.map.connected}: ${fmtInt(d.ulangan)} / ${fmtInt(
+        d.total,
+      )}<br/>${S.map.unconnected}: ${fmtInt(d.ulanmagan)}`;
     };
 
     chart.setOption(
@@ -190,7 +199,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
                 show: true,
                 position: "right",
                 distance: 6,
-                formatter: (p: { name: string }) => p.name.replace(" шаҳри", " ш."),
+                formatter: (p: { name: string }) => regionLabelShort(p.name, lang),
                 color: "#eaf1fb",
                 fontFamily: FONT_SANS,
                 fontWeight: 600,
@@ -207,7 +216,9 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
       },
       { notMerge: true },
     );
-  }, [regions, ready]);
+    // `lang` is a dependency: switching language must redraw the labels and
+    // tooltip, not just the surrounding React tree.
+  }, [regions, ready, lang, S]);
 
   // external hover linkage
   useEffect(() => {
@@ -221,10 +232,10 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
 
   return (
     <div className="relative">
-      <div ref={elRef} className="h-[320px] w-full sm:h-[420px]" role="img" aria-label="Ўзбекистон ҳудудлари бўйича уланиш харитаси" />
+      <div ref={elRef} className="h-[320px] w-full sm:h-[420px]" role="img" aria-label={S.map.ariaConnection} />
       {!ready && (
         <div className="absolute inset-0 grid place-items-center text-[0.8rem] text-ink-faint">
-          Харита юкланмоқда…
+          {S.map.loading}
         </div>
       )}
     </div>

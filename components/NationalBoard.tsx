@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { RegionStat } from "@/lib/types";
 import { UzMap } from "./UzMap";
-import { isRepublic, regionSlug } from "@/lib/regions";
+import { isRepublic, regionSlug, regionLabel } from "@/lib/regions";
 import { rampColor, fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { useS, useLang } from "@/lib/i18n/client";
 import { useRouter } from "next/navigation";
 
 export function NationalBoard({ regions }: { regions: RegionStat[] }) {
+  const S = useS();
+  const lang = useLang();
   const [active, setActive] = useState<string | null>(null);
   const router = useRouter();
 
@@ -71,7 +73,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
                     <span className="min-w-0 flex-1">
                       <span className="flex items-baseline justify-between gap-2">
                         <span className="truncate text-[0.83rem] font-medium">
-                          {r.name}
+                          {regionLabel(r.name, lang)}
                         </span>
                         <span
                           className="tnum shrink-0 text-[0.83rem] font-semibold"

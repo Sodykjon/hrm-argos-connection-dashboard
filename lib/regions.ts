@@ -115,3 +115,11 @@ const REGION_RU: Record<string, string> = {
 export function regionLabel(name: string, lang: Lang): string {
   return lang === "ru" ? (REGION_RU[name] ?? name) : name;
 }
+
+/** Same, abbreviated — for cramped map labels. */
+export function regionLabelShort(name: string, lang: Lang): string {
+  const label = regionLabel(name, lang);
+  return lang === "ru"
+    ? label.replace(/^город /, "г. ")
+    : label.replace(" шаҳри", " ш.");
+}

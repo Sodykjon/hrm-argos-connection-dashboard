@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { RegionStat } from "@/lib/types";
-import { regionSlug } from "@/lib/regions";
+import { regionSlug, regionLabel } from "@/lib/regions";
 import { rampColor, fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getLang, getS } from "@/lib/i18n/server";
 
-export function AttentionStrip({ regions }: { regions: RegionStat[] }) {
+export async function AttentionStrip({ regions }: { regions: RegionStat[] }) {
+  const S = await getS();
+  const lang = await getLang();
   const lowest = [...regions].sort((a, b) => a.percent - b.percent).slice(0, 3);
 
   return (
@@ -33,7 +35,7 @@ export function AttentionStrip({ regions }: { regions: RegionStat[] }) {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[0.9rem] font-semibold">
-                  {r.name}
+                  {regionLabel(r.name, lang)}
                 </span>
                 <span className="mt-0.5 block text-[0.76rem] text-ink-soft">
                   {S.status.ulanmagan}:{" "}

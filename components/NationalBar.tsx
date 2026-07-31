@@ -1,9 +1,10 @@
 import type { Totals } from "@/lib/types";
 import { fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 
 /** One horizontal stacked bar showing the ulangan/ulanmagan/ochirilgan split. */
-export function NationalBar({ totals }: { totals: Totals }) {
+export async function NationalBar({ totals }: { totals: Totals }) {
+  const S = await getS();
   const segs = [
     { key: "ul", label: S.status.ulangan, value: totals.ulangan, cls: "bg-ul" },
     { key: "un", label: S.status.ulanmagan, value: totals.ulanmagan, cls: "bg-un" },

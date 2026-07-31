@@ -3,9 +3,11 @@ import { ReadinessRing } from "./ReadinessRing";
 import { NationalBar } from "./NationalBar";
 import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getLang, getS } from "@/lib/i18n/server";
 
-export function OverviewHero({ totals }: { totals: Totals }) {
+export async function OverviewHero({ totals }: { totals: Totals }) {
+  const S = await getS();
+  const lang = await getLang();
   const gap = 1 - totals.percent;
   return (
     <section className="border-live card rise overflow-hidden p-6 sm:p-8">
@@ -25,7 +27,7 @@ export function OverviewHero({ totals }: { totals: Totals }) {
                 {S.goal.target100}
               </span>
               <div className="text-[0.72rem] text-ink-faint">
-                100%&apos;гача:{" "}
+                {S.goal.gapLabel}{" "}
                 <span className="tnum font-semibold text-goal">{fmtPct(gap, 1)}</span>
               </div>
             </div>
@@ -36,10 +38,22 @@ export function OverviewHero({ totals }: { totals: Totals }) {
               <span className="live-dot absolute inline-flex h-2.5 w-2.5 rounded-full bg-ul" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-ul" />
             </span>
-            <span className="tnum font-semibold text-ink">{fmtInt(totals.total)}</span>
-            <span>{S.units.of}</span>
-            <AnimatedNumber value={totals.ulangan} className="tnum font-bold text-ul glow-ul" />
-            <span>та ташкилот уланган</span>
+            {/* Uzbek says "of 3 886, 3 241 connected"; Russian puts the
+                connected figure first — same numbers, idiomatic order. */}
+            {lang === "ru" ? (
+              <>
+                <AnimatedNumber value={totals.ulangan} className="tnum font-bold text-ul glow-ul" />
+                <span>{S.units.of}</span>
+                <span className="tnum font-semibold text-ink">{fmtInt(totals.total)}</span>
+              </>
+            ) : (
+              <>
+                <span className="tnum font-semibold text-ink">{fmtInt(totals.total)}</span>
+                <span>{S.units.of}</span>
+                <AnimatedNumber value={totals.ulangan} className="tnum font-bold text-ul glow-ul" />
+              </>
+            )}
+            <span>{S.overview.orgsConnected}</span>
           </p>
 
           <div className="mt-6 max-w-xl">

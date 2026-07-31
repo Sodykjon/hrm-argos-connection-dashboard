@@ -3,6 +3,7 @@
 import { Chart } from "./Chart";
 import { rampColor, toPct, fmtPct } from "@/lib/format";
 import { FONT_MONO, type EChartsOption } from "@/lib/echarts";
+import { useS } from "@/lib/i18n/client";
 
 export function ReadinessRing({
   percent,
@@ -13,6 +14,7 @@ export function ReadinessRing({
   size?: number;
   showLabel?: boolean;
 }) {
+  const S = useS();
   const pct = toPct(percent);
   const color = rampColor(percent);
 
@@ -63,7 +65,7 @@ export function ReadinessRing({
     <Chart
       option={option}
       style={{ width: size, height: size }}
-      ariaLabel={`Уланиш даражаси ${fmtPct(percent, 1)}`}
+      ariaLabel={`${S.kpi.rate} ${fmtPct(percent, 1)}`}
     />
   );
 }
