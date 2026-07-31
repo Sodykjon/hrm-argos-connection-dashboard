@@ -2,11 +2,12 @@ import { getHistory } from "@/lib/data";
 import { TrendChart } from "@/components/TrendChart";
 import { StatTile } from "@/components/StatTile";
 import { fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function TrendPage() {
+  const S = await getS();
   const history = await getHistory();
   const latest = history[history.length - 1];
   const first = history[0];
@@ -45,7 +46,7 @@ export default async function TrendPage() {
         <StatTile label={S.status.ulanmagan} value={latest.totals.ulanmagan} accent="un" />
         <div className="card flex flex-col justify-between p-4 sm:p-5">
           <span className="text-[0.8rem] font-medium text-ink-soft">
-            Ўзгариш (биринчи ҳисоботдан)
+            {S.trend.change}
           </span>
           <span
             className={`tnum mt-3 text-[2rem] font-semibold leading-none sm:text-[2.35rem] ${

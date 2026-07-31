@@ -5,11 +5,14 @@ import { Chart } from "./Chart";
 import type { ManifestEntry } from "@/lib/types";
 import { fmtDate, fmtPct, fmtInt, toPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
-import { S } from "@/lib/strings";
+import { regionLabel } from "@/lib/regions";
+import { useS, useLang } from "@/lib/i18n/client";
 
 const TOTAL = "__total__";
 
 export function TrendChart({ history }: { history: ManifestEntry[] }) {
+  const S = useS();
+  const lang = useLang();
   const [scope, setScope] = useState(TOTAL);
 
   const regionNames = useMemo(
@@ -48,9 +51,9 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         formatter: (params: unknown) => {
           const arr = params as Array<{ dataIndex: number }>;
           const p = points[arr[0].dataIndex];
-          return `${fmtDate(p.date)}<br/>Уланиш: <b>${fmtPct(p.percent)}</b><br/>Уланган: ${fmtInt(
-            p.ulangan,
-          )} / ${fmtInt(p.total)}`;
+          return `${fmtDate(p.date)}<br/>${S.map.connection}: <b>${fmtPct(
+            p.percent,
+          )}</b><br/>${S.map.connected}: ${fmtInt(p.ulangan)} / ${fmtInt(p.total)}`;
         },
       },
       xAxis: {
@@ -87,7 +90,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
             symbol: "none",
             lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
             label: {
-              formatter: "Мақсад — 100%",
+              formatter: S.goal.target100,
               position: "insideEndTop",
               color: "#f7c14b",
               fontFamily: FONT_MONO,
@@ -98,7 +101,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         },
       ],
     };
-  }, [points]);
+  }, [points, S]);
 
   return (
     <div>
@@ -109,10 +112,10 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           onChange={(e) => setScope(e.target.value)}
           className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[0.8rem] font-medium text-ink outline-none focus:border-sov"
         >
-          <option value={TOTAL}>Жами (Республика бўйича)</option>
+          <option value={TOTAL}>{S.trend.totalOption}</option>
           {regionNames.map((n) => (
             <option key={n} value={n}>
-              {n}
+              {regionLabel(n, lang)}
             </option>
           ))}
         </select>
