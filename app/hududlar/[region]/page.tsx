@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLatestSnapshot, getRegistry } from "@/lib/data";
-import { regionFromSlug } from "@/lib/regions";
+import { regionFromSlug, regionLabel } from "@/lib/regions";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { NationalBar } from "@/components/NationalBar";
 import { StatTile } from "@/components/StatTile";
 import { OrgTable } from "@/components/OrgTable";
 import type { Status } from "@/lib/types";
 import { fmtDate } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getLang, getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +17,8 @@ export default async function RegionPage({
 }: {
   params: Promise<{ region: string }>;
 }) {
+  const S = await getS();
+  const lang = await getLang();
   const { region: slug } = await params;
   const { snapshot } = await getLatestSnapshot();
   const registry = await getRegistry();
@@ -50,7 +52,7 @@ export default async function RegionPage({
         </Link>
         <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="text-[1.4rem] font-bold tracking-tight sm:text-[1.7rem]">
-            {name}
+            {regionLabel(name, lang)}
           </h1>
           <p className="text-[0.78rem] text-ink-faint">
             {S.region.rankOf(rank, snapshot.regions.length)} ·{" "}
