@@ -5,7 +5,8 @@ import { Chart } from "../Chart";
 import type { CompletionManifestEntry } from "@/lib/types";
 import { fmtDate, fmtPct, fmtInt, toPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
-import { S } from "@/lib/strings";
+import { regionLabel } from "@/lib/regions";
+import { useS, useLang } from "@/lib/i18n/client";
 
 const TOTAL = "__total__";
 
@@ -14,6 +15,8 @@ export function CompletionTrend({
 }: {
   history: CompletionManifestEntry[];
 }) {
+  const S = useS();
+  const lang = useLang();
   const [scope, setScope] = useState(TOTAL);
 
   // Union of region names across ALL snapshots (a region can appear/disappear
@@ -59,9 +62,9 @@ export function CompletionTrend({
           const arr = params as Array<{ dataIndex: number }>;
           const p = points[arr[0].dataIndex];
           const val = p.avg == null ? "—" : fmtPct(p.avg);
-          return `${fmtDate(p.date)}<br/>Тўлдирилиш: <b>${val}</b><br/>Ташкилотлар: ${fmtInt(
-            p.orgCount,
-          )}`;
+          return `${fmtDate(p.date)}<br/>${S.map.completion}: <b>${val}</b><br/>${
+            S.map.orgs
+          }: ${fmtInt(p.orgCount)}`;
         },
       },
       xAxis: {
@@ -103,7 +106,7 @@ export function CompletionTrend({
             symbol: "none",
             lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
             label: {
-              formatter: "Мақсад — 100%",
+              formatter: S.goal.target100,
               position: "insideEndTop",
               color: "#f7c14b",
               fontFamily: FONT_MONO,
@@ -114,7 +117,7 @@ export function CompletionTrend({
         },
       ],
     };
-  }, [points]);
+  }, [points, S]);
 
   return (
     <div>
@@ -125,10 +128,10 @@ export function CompletionTrend({
           onChange={(e) => setScope(e.target.value)}
           className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[0.8rem] font-medium text-ink outline-none focus:border-sov"
         >
-          <option value={TOTAL}>Жами (Республика бўйича)</option>
+          <option value={TOTAL}>{S.completion.totalOption}</option>
           {regionNames.map((n) => (
             <option key={n} value={n}>
-              {n}
+              {regionLabel(n, lang)}
             </option>
           ))}
         </select>

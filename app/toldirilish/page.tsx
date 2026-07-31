@@ -11,11 +11,13 @@ import { CompletionTrend } from "@/components/completion/CompletionTrend";
 import { CompletionTable } from "@/components/completion/CompletionTable";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate, toPct, rampColor } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { CENTRAL } from "@/lib/regions";
+import { getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function CompletionPage() {
+  const S = await getS();
   const { snapshot } = await getLatestCompletion();
   const history = await getCompletionHistory();
   const { overall, regions, orgs } = snapshot;
@@ -32,9 +34,9 @@ export default async function CompletionPage() {
   const regionNames = regions.map((r) => r.name);
   // Use the "Марказий аппарат" group average so this card matches the region
   // page it links to; fall back to the ministry HQ org (id 1052) if the group
-  // is missing.
+  // is missing. Match on the canonical key — the label is translated.
   const central =
-    regions.find((r) => r.name === S.completion.central)?.avg ??
+    regions.find((r) => r.name === CENTRAL)?.avg ??
     orgs.find((o) => o.id === "1052")?.completion ??
     0;
   const centralColor = rampColor(central);

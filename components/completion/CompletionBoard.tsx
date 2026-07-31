@@ -5,11 +5,13 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CompletionRegionStat } from "@/lib/types";
 import { CompletionMap } from "./CompletionMap";
-import { isGeographicRegion, regionSlug } from "@/lib/regions";
+import { isGeographicRegion, regionSlug, regionLabel } from "@/lib/regions";
 import { rampColor, fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { useS, useLang } from "@/lib/i18n/client";
 
 export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }) {
+  const S = useS();
+  const lang = useLang();
   const [active, setActive] = useState<string | null>(null);
   const router = useRouter();
 
@@ -71,7 +73,7 @@ export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }
                     <span className="min-w-0 flex-1">
                       <span className="flex items-baseline justify-between gap-2">
                         <span className="truncate text-[0.83rem] font-medium">
-                          {r.name}
+                          {regionLabel(r.name, lang)}
                         </span>
                         <span
                           className="tnum shrink-0 text-[0.83rem] font-semibold"

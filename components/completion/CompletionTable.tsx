@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import type { CompletionOrg } from "@/lib/types";
 import { fmtPct, rampColor, toPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { regionLabel } from "@/lib/regions";
+import { useS, useLang } from "@/lib/i18n/client";
 
 interface CompletionTableProps {
   rows: CompletionOrg[];
@@ -14,6 +15,8 @@ interface CompletionTableProps {
 const ALL = "__all__";
 
 export function CompletionTable({ rows, regions, exportName }: CompletionTableProps) {
+  const S = useS();
+  const lang = useLang();
   const [q, setQ] = useState("");
   const [region, setRegion] = useState(ALL);
   const [asc, setAsc] = useState(true); // worst-first by default
@@ -36,13 +39,14 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
 
   async function exportXlsx() {
     const XLSX = await import("xlsx");
+    // Headers follow the chosen language; organisation names never do.
     const data = filtered.map((o, i) => ({
-      "№": i + 1,
-      "Ташкилот номи": o.name,
-      Ҳудуд: o.region,
-      ID: o.id,
-      "orgType": o.orgType ?? "",
-      "Тўлдирилиш, %": toPct(o.completion),
+      [S.completion.col.n]: i + 1,
+      [S.completion.col.name]: o.name,
+      [S.completion.col.region]: regionLabel(o.region, lang),
+      [S.completion.col.id]: o.id,
+      orgType: o.orgType ?? "",
+      [S.completion.col.rate]: toPct(o.completion),
     }));
     const ws = XLSX.utils.json_to_sheet(data);
     ws["!cols"] = [
@@ -54,7 +58,7 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
       { wch: 16 },
     ];
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Тўлдирилиш");
+    XLSX.utils.book_append_sheet(wb, ws, S.completion.sheet);
     XLSX.writeFile(wb, `${exportName}.xlsx`);
   }
 
@@ -76,8 +80,9 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
           >
             <option value={ALL}>{S.completion.allRegions}</option>
             {regions.map((r) => (
+              // value stays the canonical name — only the label is translated
               <option key={r} value={r}>
-                {r}
+                {regionLabel(r, lang)}
               </option>
             ))}
           </select>
@@ -142,7 +147,7 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
                   </td>
                   {regions && (
                     <td className="hidden px-3 py-2.5 text-ink-soft md:table-cell">
-                      {o.region}
+                      {regionLabel(o.region, lang)}
                     </td>
                   )}
                   <td className="tnum hidden px-3 py-2.5 text-ink-soft sm:table-cell">

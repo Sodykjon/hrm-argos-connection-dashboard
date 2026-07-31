@@ -6,6 +6,10 @@ import type { Lang } from "./i18n";
 
 export const REPUBLIC = "Республика муассасалари";
 
+/** Ministry HQ group in the completion data. A canonical key, never a label —
+ *  comparing a data value against a translated string would break in Russian. */
+export const CENTRAL = "Марказий аппарат";
+
 // Cyrillic region name -> URL slug (latin, stable & readable)
 const SLUG_MAP: Record<string, string> = {
   "Республика муассасалари": "respublika",

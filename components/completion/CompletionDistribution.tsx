@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Chart } from "../Chart";
 import { rampColor, fmtInt } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
+import { useS } from "@/lib/i18n/client";
 
 export interface DistBand {
   label: string;
@@ -12,6 +13,7 @@ export interface DistBand {
 }
 
 export function CompletionDistribution({ data }: { data: DistBand[] }) {
+  const S = useS();
   const option: EChartsOption = useMemo(
     () => ({
       grid: { left: 44, right: 16, top: 16, bottom: 28 },
@@ -24,7 +26,7 @@ export function CompletionDistribution({ data }: { data: DistBand[] }) {
         formatter: (params: unknown) => {
           const arr = params as Array<{ dataIndex: number }>;
           const d = data[arr[0].dataIndex];
-          return `${d.label}<br/><b>${fmtInt(d.count)}</b> ташкилот`;
+          return `${d.label}<br/><b>${fmtInt(d.count)}</b> ${S.units.orgs}`;
         },
       },
       xAxis: {
