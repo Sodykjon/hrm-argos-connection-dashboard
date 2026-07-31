@@ -19,7 +19,7 @@ export async function AttentionStrip({ regions }: { regions: RegionStat[] }) {
         </span>
       </div>
       <div className="grid gap-3 sm:grid-cols-3">
-        {lowest.map((r, i) => {
+        {lowest.map((r) => {
           const color = rampColor(r.percent);
           return (
             <Link

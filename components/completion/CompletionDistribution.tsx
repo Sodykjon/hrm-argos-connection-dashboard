@@ -60,7 +60,8 @@ export function CompletionDistribution({ data }: { data: DistBand[] }) {
         },
       ],
     }),
-    [data],
+    // `S` is a dependency: the tooltip text must follow a language switch.
+    [data, S],
   );
 
   return <Chart option={option} className="h-[300px] w-full sm:h-[340px]" />;
