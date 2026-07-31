@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 import { Nav } from "./Nav";
+import { LangSwitch } from "./LangSwitch";
 import { LiveStatus } from "./LiveStatus";
 import { LogoutButton } from "./LogoutButton";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const S = await getS();
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-b from-band to-band-2 text-white shadow-band">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-2.5 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6">
@@ -35,6 +37,7 @@ export function SiteHeader() {
           </span>
         </Link>
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
+          <LangSwitch />
           <LiveStatus />
           <Nav />
           {process.env.SITE_PASSWORD ? <LogoutButton /> : null}
