@@ -1,6 +1,7 @@
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const S = await getS();
   return (
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-1 px-4 py-5 text-[0.75rem] text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-6">

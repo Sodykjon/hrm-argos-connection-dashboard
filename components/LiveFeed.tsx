@@ -1,14 +1,17 @@
 import { rampColor, fmtPct } from "@/lib/format";
+import { regionLabel } from "@/lib/regions";
+import { getLang } from "@/lib/i18n/server";
 
 /** Continuously scrolling ticker of per-region figures — reads like a live data
  *  stream. Pure CSS marquee (pauses on hover, static on reduced-motion).
  *  Takes any rows with a name + a 0..1 percent (RegionStat and the completion
  *  region rows both satisfy this). */
-export function LiveFeed({
+export async function LiveFeed({
   regions,
 }: {
   regions: { name: string; percent: number }[];
 }) {
+  const lang = await getLang();
   const items = [...regions].sort((a, b) => b.percent - a.percent);
   const loop = [...items, ...items]; // duplicated for a seamless -50% loop
 
@@ -36,7 +39,7 @@ export function LiveFeed({
                 className="h-1.5 w-1.5 rounded-full"
                 style={{ background: c, boxShadow: `0 0 8px ${c}` }}
               />
-              <span className="text-ink-soft">{r.name}</span>
+              <span className="text-ink-soft">{regionLabel(r.name, lang)}</span>
               <span className="tnum font-semibold" style={{ color: c }}>
                 {fmtPct(r.percent, 1)}
               </span>

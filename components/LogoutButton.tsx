@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { S } from "@/lib/strings";
+import { useS } from "@/lib/i18n/client";
 
 export function LogoutButton() {
+  const S = useS();
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 

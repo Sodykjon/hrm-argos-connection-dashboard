@@ -1,5 +1,5 @@
 import type { Status } from "./types";
-import { S } from "./strings";
+import { getStrings, type Lang } from "./i18n";
 
 const NBSP = " "; // narrow no-break space — thousands separator
 
@@ -30,35 +30,39 @@ export interface StatusMeta {
   dot: string; // tailwind bg class for dot
 }
 
-export const STATUS_META: Record<Status, StatusMeta> = {
-  ulangan: {
-    key: "ulangan",
-    label: S.status.ulangan,
-    color: "var(--color-ul)",
-    text: "text-ul",
-    bg: "bg-ul",
-    softBg: "bg-ul-soft",
-    dot: "bg-ul",
-  },
-  ulanmagan: {
-    key: "ulanmagan",
-    label: S.status.ulanmagan,
-    color: "var(--color-un)",
-    text: "text-un",
-    bg: "bg-un",
-    softBg: "bg-un-soft",
-    dot: "bg-un",
-  },
-  ochirilgan: {
-    key: "ochirilgan",
-    label: S.status.ochirilganShort,
-    color: "var(--color-och)",
-    text: "text-och",
-    bg: "bg-och",
-    softBg: "bg-och-soft",
-    dot: "bg-och",
-  },
-};
+/** Status colours are fixed; only the labels follow the language. */
+export function statusMeta(lang: Lang): Record<Status, StatusMeta> {
+  const S = getStrings(lang);
+  return {
+    ulangan: {
+      key: "ulangan",
+      label: S.status.ulangan,
+      color: "var(--color-ul)",
+      text: "text-ul",
+      bg: "bg-ul",
+      softBg: "bg-ul-soft",
+      dot: "bg-ul",
+    },
+    ulanmagan: {
+      key: "ulanmagan",
+      label: S.status.ulanmagan,
+      color: "var(--color-un)",
+      text: "text-un",
+      bg: "bg-un",
+      softBg: "bg-un-soft",
+      dot: "bg-un",
+    },
+    ochirilgan: {
+      key: "ochirilgan",
+      label: S.status.ochirilganShort,
+      color: "var(--color-och)",
+      text: "text-och",
+      bg: "bg-och",
+      softBg: "bg-och-soft",
+      dot: "bg-och",
+    },
+  };
+}
 
 /** color ramp for the map / ranking: red (low) -> amber -> green (high) */
 export function rampColor(pct: number): string {
@@ -89,18 +93,23 @@ export function fmtDate(iso: string): string {
   return `${m[3]}.${m[2]}.${m[1]}`;
 }
 
-/** relative time in Uzbek Cyrillic: "5 сония олдин", "3 дақиқа олдин", ... */
-export function fmtAgo(iso: string, nowMs: number): string {
+/**
+ * Relative time: "5 сония олдин" / "5 сек. назад".
+ * Russian units are abbreviated on purpose — that sidesteps the 1 / 2-4 / 5+
+ * plural forms without pulling in a plural library.
+ */
+export function fmtAgo(iso: string, nowMs: number, lang: Lang): string {
   const then = new Date(iso).getTime();
   if (isNaN(then)) return "";
   const s = Math.max(0, Math.floor((nowMs - then) / 1000));
-  if (s < 45) return `${s} сония олдин`;
+  const ru = lang === "ru";
+  if (s < 45) return ru ? `${s} сек. назад` : `${s} сония олдин`;
   const m = Math.floor(s / 60);
-  if (m < 60) return `${m} дақиқа олдин`;
+  if (m < 60) return ru ? `${m} мин. назад` : `${m} дақиқа олдин`;
   const h = Math.floor(m / 60);
-  if (h < 24) return `${h} соат олдин`;
+  if (h < 24) return ru ? `${h} ч. назад` : `${h} соат олдин`;
   const d = Math.floor(h / 24);
-  return `${d} кун олдин`;
+  return ru ? `${d} дн. назад` : `${d} кун олдин`;
 }
 
 /** ISO timestamp -> "02.07.2026, 14:30" */

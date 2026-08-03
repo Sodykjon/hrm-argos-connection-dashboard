@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { S } from "@/lib/strings";
+import { useS } from "@/lib/i18n/client";
 
 /** Live "just synced" indicator that cycles with the 30s auto-refresh, so the
  *  dashboard always reads as being kept up to date in real time. */
 export function LiveSync() {
+  const S = useS();
   const [ago, setAgo] = useState(0);
 
   useEffect(() => {

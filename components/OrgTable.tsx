@@ -2,9 +2,10 @@
 
 import { useMemo, useState } from "react";
 import type { Org, Registry, Status } from "@/lib/types";
-import { STATUS_META } from "@/lib/format";
+import { statusMeta } from "@/lib/format";
+import { regionLabel } from "@/lib/regions";
 import { StatusPill } from "./StatusPill";
-import { S } from "@/lib/strings";
+import { useS, useLang } from "@/lib/i18n/client";
 
 interface OrgTableProps {
   rows: Org[];
@@ -25,6 +26,9 @@ export function OrgTable({
   showStatus,
   exportName,
 }: OrgTableProps) {
+  const S = useS();
+  const lang = useLang();
+  const META = statusMeta(lang);
   const [q, setQ] = useState("");
   const [region, setRegion] = useState(ALL);
   const [status, setStatus] = useState(ALL);
@@ -48,17 +52,18 @@ export function OrgTable({
     const XLSX = await import("xlsx");
     const data = filtered.map((o, i) => {
       const r = registry[o.stir] ?? {};
+      // Headers follow the chosen language; organisation names never do.
       return {
-        "№": i + 1,
-        "Ташкилот номи": o.name,
-        Ҳудуд: o.region,
-        СТИР: o.stir,
-        Раҳбар: r.rahbar ?? "",
-        Телефон: r.tel ?? "",
-        "Электрон почта": r.email ?? "",
-        Манзил: r.manzil ?? "",
-        Ҳолат: STATUS_META[o.status].label,
-        Шартнома: o.contract ?? "",
+        [S.unconnected.col.n]: i + 1,
+        [S.unconnected.col.name]: o.name,
+        [S.unconnected.col.region]: regionLabel(o.region, lang),
+        [S.unconnected.col.stir]: o.stir,
+        [S.unconnected.col.rahbar]: r.rahbar ?? "",
+        [S.unconnected.col.tel]: r.tel ?? "",
+        [S.unconnected.col.email]: r.email ?? "",
+        [S.unconnected.col.manzil]: r.manzil ?? "",
+        [S.unconnected.col.status]: META[o.status].label,
+        [S.unconnected.col.contract]: o.contract ?? "",
       };
     });
     const ws = XLSX.utils.json_to_sheet(data);
@@ -67,7 +72,7 @@ export function OrgTable({
       { wch: 16 }, { wch: 22 }, { wch: 40 }, { wch: 16 }, { wch: 16 },
     ];
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Ташкилотлар");
+    XLSX.utils.book_append_sheet(wb, ws, S.unconnected.sheet);
     XLSX.writeFile(wb, `${exportName}.xlsx`);
   }
 
@@ -89,7 +94,8 @@ export function OrgTable({
           >
             <option value={ALL}>{S.unconnected.allRegions}</option>
             {regions.map((r) => (
-              <option key={r} value={r}>{r}</option>
+              // value stays the canonical name — only the label is translated
+              <option key={r} value={r}>{regionLabel(r, lang)}</option>
             ))}
           </select>
         )}
@@ -99,9 +105,9 @@ export function OrgTable({
             onChange={(e) => setStatus(e.target.value)}
             className="rounded-lg border border-line bg-surface px-3 py-2 text-[0.82rem] font-medium outline-none focus:border-sov"
           >
-            <option value={ALL}>Барча ҳолатлар</option>
+            <option value={ALL}>{S.unconnected.allStatuses}</option>
             {statuses.map((s) => (
-              <option key={s} value={s}>{STATUS_META[s].label}</option>
+              <option key={s} value={s}>{META[s].label}</option>
             ))}
           </select>
         )}
@@ -168,7 +174,7 @@ export function OrgTable({
                   </td>
                   {regions && (
                     <td className="hidden px-3 py-2.5 text-ink-soft md:table-cell">
-                      {o.region}
+                      {regionLabel(o.region, lang)}
                     </td>
                   )}
                   <td className="tnum px-3 py-2.5 text-ink-soft">{o.stir}</td>

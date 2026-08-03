@@ -11,7 +11,7 @@ import {
 import { parseCompletionCsv, type ParsedCompletion } from "@/lib/parse-completion";
 import type { Registry } from "@/lib/types";
 import { fmtInt, fmtPct, fmtDate, fmtDateTime } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { useS } from "@/lib/i18n/client";
 
 interface HistoryItem {
   date: string;
@@ -26,6 +26,7 @@ interface CompHistoryItem {
 }
 
 export default function AdminPage() {
+  const S = useS();
   const [password, setPassword] = useState("");
   const [parsed, setParsed] = useState<ParsedHisobot | null>(null);
   const [registry, setRegistry] = useState<Registry | null>(null);
@@ -196,7 +197,7 @@ export default function AdminPage() {
               onClick={() => { setDone(false); setParsed(null); setRegistry(null); setRegistryCount(0); }}
               className="rounded-lg border border-line px-5 py-2.5 text-[0.85rem] font-semibold text-ink-soft hover:bg-paper"
             >
-              Яна юклаш
+              {S.admin.again}
             </button>
           </div>
         </div>
@@ -221,7 +222,9 @@ export default function AdminPage() {
               label={S.admin.registryFile}
               hint={S.admin.registryHint}
               onPick={onRegistry}
-              picked={registryCount ? `${fmtInt(registryCount)} ёзув` : undefined}
+              picked={
+                registryCount ? S.admin.records(fmtInt(registryCount)) : undefined
+              }
             />
           </div>
 
@@ -327,7 +330,7 @@ export default function AdminPage() {
                 onClick={() => { setCompDone(false); setCompParsed(null); }}
                 className="rounded-lg border border-line px-5 py-2.5 text-[0.85rem] font-semibold text-ink-soft hover:bg-paper"
               >
-                Яна юклаш
+                {S.admin.again}
               </button>
             </div>
           </div>
@@ -428,6 +431,7 @@ function FileCard({
   required?: boolean;
   accept?: string;
 }) {
+  const S = useS();
   return (
     <label className="card flex cursor-pointer flex-col gap-2 p-4 transition-colors hover:border-sov/50">
       <div className="flex items-start justify-between gap-2">

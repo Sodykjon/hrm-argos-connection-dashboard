@@ -1,11 +1,12 @@
 import { getLatestSnapshot, getRegistry } from "@/lib/data";
 import { OrgTable } from "@/components/OrgTable";
 import { fmtDate } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function UnconnectedPage() {
+  const S = await getS();
   const { snapshot } = await getLatestSnapshot();
   const registry = await getRegistry();
 

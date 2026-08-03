@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
 import type { CompletionRegionStat } from "@/lib/types";
 import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { regionLabel, regionLabelShort } from "@/lib/regions";
+import { useS, useLang } from "@/lib/i18n/client";
 
 interface CompletionMapProps {
   regions: CompletionRegionStat[]; // geographic regions only
@@ -26,6 +27,8 @@ export function CompletionMap({
   onHover,
   onSelect,
 }: CompletionMapProps) {
+  const S = useS();
+  const lang = useLang();
   const elRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<EChartsType | null>(null);
   const [ready, setReady] = useState(false);
@@ -95,11 +98,16 @@ export function CompletionMap({
       name: string;
       data?: { avg: number; orgCount: number; zeroCount: number };
     }) => {
+      // p.name is the canonical region key (matches the GeoJSON) — translate
+      // it for display only.
+      const label = regionLabel(p.name, lang);
       const d = p.data;
-      if (!d || d.avg === undefined) return p.name;
-      return `<b>${p.name}</b><br/>Тўлдирилиш: <b>${fmtPct(
+      if (!d || d.avg === undefined) return label;
+      return `<b>${label}</b><br/>${S.map.completion}: <b>${fmtPct(
         d.avg,
-      )}</b><br/>Ташкилотлар: ${fmtInt(d.orgCount)}<br/>0%: ${fmtInt(d.zeroCount)}`;
+      )}</b><br/>${S.map.orgs}: ${fmtInt(d.orgCount)}<br/>0%: ${fmtInt(
+        d.zeroCount,
+      )}`;
     };
 
     chart.setOption(
@@ -185,7 +193,7 @@ export function CompletionMap({
                 show: true,
                 position: "right",
                 distance: 6,
-                formatter: (p: { name: string }) => p.name.replace(" шаҳри", " ш."),
+                formatter: (p: { name: string }) => regionLabelShort(p.name, lang),
                 color: "#eaf1fb",
                 fontFamily: FONT_SANS,
                 fontWeight: 600,
@@ -202,7 +210,9 @@ export function CompletionMap({
       },
       { notMerge: true },
     );
-  }, [regions, ready]);
+    // `lang` is a dependency: switching language must redraw the labels and
+    // tooltip, not just the surrounding React tree.
+  }, [regions, ready, lang, S]);
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -219,7 +229,7 @@ export function CompletionMap({
         ref={elRef}
         className="h-[320px] w-full sm:h-[420px]"
         role="img"
-        aria-label="Ўзбекистон ҳудудлари бўйича тўлдирилиш харитаси"
+        aria-label={S.map.ariaCompletion}
       />
       {!ready && (
         <div className="absolute inset-0 grid place-items-center text-[0.8rem] text-ink-faint">

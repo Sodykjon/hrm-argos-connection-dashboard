@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { S } from "@/lib/strings";
+import { useS } from "@/lib/i18n/client";
+import { LangSwitch } from "@/components/LangSwitch";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function LoginPage() {
+  const S = useS();
   const router = useRouter();
   const reduce = useReducedMotion();
   const [password, setPassword] = useState("");
@@ -102,6 +104,11 @@ export default function LoginPage() {
             ? {}
             : { variants: container, initial: "hidden", animate: "show" })}
         >
+          {/* language — chosen before signing in */}
+          <motion.div {...mi} className="mb-4 flex justify-end">
+            <LangSwitch />
+          </motion.div>
+
           {/* live status strip */}
           <motion.div
             {...mi}

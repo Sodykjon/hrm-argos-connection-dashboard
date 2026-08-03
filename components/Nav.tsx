@@ -2,23 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { S } from "@/lib/strings";
-
-const LINKS: {
-  href: string;
-  label: string;
-  exact?: boolean;
-  highlight?: boolean;
-}[] = [
-  { href: "/", label: S.nav.overview, exact: true },
-  { href: "/ulanmaganlar", label: S.nav.unconnected },
-  { href: "/trend", label: S.nav.trend },
-  { href: "/toldirilish", label: S.nav.completion, highlight: true },
-  { href: "/admin", label: S.nav.admin },
-];
+import { useS } from "@/lib/i18n/client";
 
 export function Nav() {
+  const S = useS();
   const path = usePathname();
+  // Built inside the component: at module scope the labels would freeze in
+  // whichever language was loaded first.
+  const LINKS: {
+    href: string;
+    label: string;
+    exact?: boolean;
+    highlight?: boolean;
+  }[] = [
+    { href: "/", label: S.nav.overview, exact: true },
+    { href: "/ulanmaganlar", label: S.nav.unconnected },
+    { href: "/trend", label: S.nav.trend },
+    { href: "/toldirilish", label: S.nav.completion, highlight: true },
+    { href: "/admin", label: S.nav.admin },
+  ];
   return (
     <nav className="scroll-quiet -mx-1 flex items-center gap-1 overflow-x-auto">
       {LINKS.map((l) => {

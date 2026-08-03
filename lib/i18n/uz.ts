@@ -1,7 +1,9 @@
-// All user-facing UI text — Uzbek Cyrillic. Data labels (region/org names)
+// All user-facing UI text (Uzbek Cyrillic). Data labels (region/org names)
 // come from the source file and are rendered as-is.
+// Deliberately no `as const`: lib/i18n/ru.ts is typed against this object, and
+// literal types would demand identical text rather than the same shape.
 
-export const S = {
+export const UZ = {
   appTitle: "HRM ARGOS — уланиш мониторинги",
   appDescription:
     "Соғлиқни сақлаш вазирлиги — тиббиёт ташкилотларининг HRM ARGOS тизимига уланганлик ҳолати",
@@ -24,6 +26,7 @@ export const S = {
   goal: {
     target: "Мақсад",
     target100: "Мақсад — 100%",
+    gapLabel: "100%'гача:",
     ribbon: "Барча тиббиёт ташкилотларини hrm.argos.uz тизимига 100% улаш",
     remaining: "100%'гача қолди",
     toGoal: "мақсадгача",
@@ -72,6 +75,26 @@ export const S = {
     orgsUnit: "та ташкилот",
     seeUnconnected: "Уланмаганлар рўйхати",
     seeTrend: "Динамикани кўриш",
+    unconnectedHint: "раҳбар ва телефон билан",
+    trendHint: "Уланиш даражасининг вақт бўйича ўзгариши",
+    orgsConnected: "та ташкилот уланган",
+  },
+
+  notFound: {
+    title: "Саҳифа топилмади",
+    hint: "Сўралган ҳудуд ёки саҳифа мавжуд эмас.",
+    home: "Бош саҳифага қайтиш",
+  },
+
+  map: {
+    connection: "Уланиш",
+    connected: "Уланган",
+    unconnected: "Уланмаган",
+    completion: "Тўлдирилиш",
+    orgs: "Ташкилотлар",
+    loading: "Харита юкланмоқда…",
+    ariaConnection: "Ўзбекистон ҳудудлари бўйича уланиш харитаси",
+    ariaCompletion: "Ўзбекистон ҳудудлари бўйича тўлдирилиш харитаси",
   },
 
   region: {
@@ -87,7 +110,9 @@ export const S = {
     subtitle: "HRM ARGOS тизимига ҳали уланмаган муассасалар",
     search: "Ташкилот, СТИР ёки раҳбар бўйича қидириш…",
     allRegions: "Барча ҳудудлар",
+    allStatuses: "Барча ҳолатлар",
     export: "Excel'га юклаш",
+    sheet: "Ташкилотлар",
     count: (n: number) => `${n} та ташкилот`,
     empty: "Танланган шарт бўйича ташкилот топилмади.",
     col: {
@@ -97,8 +122,10 @@ export const S = {
       stir: "СТИР",
       rahbar: "Раҳбар",
       tel: "Телефон",
+      email: "Электрон почта",
       manzil: "Манзил",
       status: "Ҳолат",
+      contract: "Шартнома",
     },
     noContact: "маълумот йўқ",
   },
@@ -112,6 +139,8 @@ export const S = {
       "Ҳозирча битта ҳисобот мавжуд. Янги ҳисоботлар юкланган сари динамика тўлдирилиб боради.",
     byRegion: "Ҳудудлар кесимида",
     snapshots: (n: number) => `${n} та ҳисобот`,
+    totalOption: "Жами (Республика бўйича)",
+    change: "Ўзгариш (биринчи ҳисоботдан)",
   },
 
   completion: {
@@ -153,6 +182,8 @@ export const S = {
       id: "ID",
       rate: "Тўлдирилиш, %",
     },
+    sheet: "Тўлдирилиш",
+    totalOption: "Жами (Республика бўйича)",
     ring: "Тўлдирилиш даражаси",
     overviewCard: "Маълумотлар тўлдирилиши",
     overviewMore: "Батафсил",
@@ -219,6 +250,8 @@ export const S = {
     errGeneric: "Хатолик юз берди. Қайта уриниб кўринг.",
     validated: "Текширилди",
     mismatch: "Файл ичидаги йиғинди билан фарқ борлиги аниқланди",
+    again: "Яна юклаш",
+    records: (n: string) => `${n} ёзув`,
   },
 
   units: {
@@ -231,4 +264,4 @@ export const S = {
     source: "Манба: ARGOS HRM ҳисоботи",
     map: "Харита: geoBoundaries (CC BY 4.0)",
   },
-} as const;
+};

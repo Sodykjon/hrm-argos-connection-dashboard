@@ -4,7 +4,9 @@ import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AppChrome } from "@/components/AppChrome";
-import { S } from "@/lib/strings";
+import { getLang, getS } from "@/lib/i18n/server";
+import { htmlLang } from "@/lib/i18n";
+import { LangProvider } from "@/lib/i18n/client";
 
 const golos = Golos_Text({
   variable: "--font-golos",
@@ -20,23 +22,27 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: S.appTitle,
-  description: S.appDescription,
-};
+// Depends on the language cookie, so it resolves at request time.
+export async function generateMetadata(): Promise<Metadata> {
+  const S = await getS();
+  return { title: S.appTitle, description: S.appDescription };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const lang = await getLang();
   return (
     <html
-      lang="uz-Cyrl"
+      lang={htmlLang(lang)}
       className={`${golos.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <AppChrome header={<SiteHeader />} footer={<SiteFooter />}>
-          {children}
-        </AppChrome>
+        <LangProvider lang={lang}>
+          <AppChrome header={<SiteHeader />} footer={<SiteFooter />}>
+            {children}
+          </AppChrome>
+        </LangProvider>
       </body>
     </html>
   );

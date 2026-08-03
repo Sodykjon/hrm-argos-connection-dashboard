@@ -2,7 +2,13 @@
 // non-geographic distinction ("Республика муассасалари" is a central category,
 // not a place on the map).
 
+import type { Lang } from "./i18n";
+
 export const REPUBLIC = "Республика муассасалари";
+
+/** Ministry HQ group in the completion data. A canonical key, never a label —
+ *  comparing a data value against a translated string would break in Russian. */
+export const CENTRAL = "Марказий аппарат";
 
 // Cyrillic region name -> URL slug (latin, stable & readable)
 const SLUG_MAP: Record<string, string> = {
@@ -81,4 +87,43 @@ export function regionFromSlug(
 
 export function isRepublic(name: string): boolean {
   return name === REPUBLIC;
+}
+
+/** Display-only Russian names. Keys stay the canonical Uzbek-Cyrillic names. */
+const REGION_RU: Record<string, string> = {
+  "Республика муассасалари": "Республиканские учреждения",
+  "Қорақалпоғистон Республикаси": "Республика Каракалпакстан",
+  "Андижон вилояти": "Андижанская область",
+  "Бухоро вилояти": "Бухарская область",
+  "Жиззах вилояти": "Джизакская область",
+  "Қашқадарё вилояти": "Кашкадарьинская область",
+  "Навоий вилояти": "Навоийская область",
+  "Наманган вилояти": "Наманганская область",
+  "Самарқанд вилояти": "Самаркандская область",
+  "Сирдарё вилояти": "Сырдарьинская область",
+  "Сурхондарё вилояти": "Сурхандарьинская область",
+  "Тошкент вилояти": "Ташкентская область",
+  "Фарғона вилояти": "Ферганская область",
+  "Хоразм вилояти": "Хорезмская область",
+  "Тошкент шаҳри": "город Ташкент",
+  "Марказий аппарат": "Центральный аппарат",
+  "Санитар-эпидемиология қўмитаси":
+    "Комитет санитарно-эпидемиологического благополучия",
+  "Республика марказлари": "Республиканские центры",
+};
+
+/**
+ * How a region name is shown. Never use the result as a key, a slug input or a
+ * map-feature match — those stay on the canonical Uzbek-Cyrillic name.
+ */
+export function regionLabel(name: string, lang: Lang): string {
+  return lang === "ru" ? (REGION_RU[name] ?? name) : name;
+}
+
+/** Same, abbreviated — for cramped map labels. */
+export function regionLabelShort(name: string, lang: Lang): string {
+  const label = regionLabel(name, lang);
+  return lang === "ru"
+    ? label.replace(/^город /, "г. ")
+    : label.replace(" шаҳри", " ш.");
 }

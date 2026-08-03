@@ -9,11 +9,12 @@ import { LiveSync } from "@/components/LiveSync";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtInt, fmtPct } from "@/lib/format";
-import { S } from "@/lib/strings";
+import { getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function OverviewPage() {
+  const S = await getS();
   const { snapshot } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
   const { totals, regions } = snapshot;
@@ -98,7 +99,7 @@ export default async function OverviewPage() {
               <span className="block text-[0.95rem] font-semibold">{S.overview.seeUnconnected}</span>
               <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
                 <span className="tnum font-semibold text-un">{fmtInt(totals.ulanmagan)}</span>{" "}
-                {S.overview.orgsUnit} · раҳбар ва телефон билан
+                {S.overview.orgsUnit} · {S.overview.unconnectedHint}
               </span>
             </span>
             <Arrow />
@@ -109,7 +110,7 @@ export default async function OverviewPage() {
             <span>
               <span className="block text-[0.95rem] font-semibold">{S.overview.seeTrend}</span>
               <span className="mt-0.5 block text-[0.78rem] text-ink-soft">
-                Уланиш даражасининг вақт бўйича ўзгариши
+                {S.overview.trendHint}
               </span>
             </span>
             <Arrow />

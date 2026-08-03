@@ -1,5 +1,6 @@
 import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { fmtPct } from "@/lib/format";
+import { getS } from "@/lib/i18n/server";
 
 type Accent = "sov" | "ul" | "un" | "och";
 
@@ -30,7 +31,8 @@ interface StatTileProps {
   shareOfTotal?: number; // 0..1 -> shown as "%dan"
 }
 
-export function StatTile({ label, value, accent, hint, shareOfTotal }: StatTileProps) {
+export async function StatTile({ label, value, accent, hint, shareOfTotal }: StatTileProps) {
+  const S = await getS();
   return (
     <div className="card relative flex h-full flex-col justify-between overflow-hidden p-4 sm:p-5">
       <span
@@ -50,7 +52,9 @@ export function StatTile({ label, value, accent, hint, shareOfTotal }: StatTileP
       <div className="mt-1.5 flex items-baseline gap-2 text-[0.72rem] text-ink-faint">
         {hint && <span>{hint}</span>}
         {shareOfTotal !== undefined && (
-          <span className="tnum">{fmtPct(shareOfTotal, 1)} жамидан</span>
+          <span className="tnum">
+            {fmtPct(shareOfTotal, 1)} {S.overview.ofTotal}
+          </span>
         )}
       </div>
     </div>

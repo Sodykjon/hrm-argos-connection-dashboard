@@ -1,8 +1,11 @@
+"use client";
+
 import type { Status } from "@/lib/types";
-import { STATUS_META } from "@/lib/format";
+import { statusMeta } from "@/lib/format";
+import { useLang } from "@/lib/i18n/client";
 
 export function StatusPill({ status }: { status: Status }) {
-  const m = STATUS_META[status];
+  const m = statusMeta(useLang())[status];
   const soft: Record<Status, string> = {
     ulangan: "bg-ul-soft text-ul",
     ulanmagan: "bg-un-soft text-un",
