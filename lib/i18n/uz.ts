@@ -40,6 +40,9 @@ export const UZ = {
     trend: "Динамика",
     completion: "Маълумотлар тўлдириш даражаси",
     admin: "Маълумот юклаш",
+    pension: "Пенсия ёши",
+    groupRollout: "АРГОС жорий этилиши",
+    groupAnalytics: "Кадрлар таҳлили",
   },
 
   status: {
@@ -95,6 +98,8 @@ export const UZ = {
     loading: "Харита юкланмоқда…",
     ariaConnection: "Ўзбекистон ҳудудлари бўйича уланиш харитаси",
     ariaCompletion: "Ўзбекистон ҳудудлари бўйича тўлдирилиш харитаси",
+    pensionShare: "Пенсия ёши улуши",
+    people: "Ходимлар",
   },
 
   region: {
@@ -192,6 +197,81 @@ export const UZ = {
     centralMore: "Батафсил кўриш",
   },
 
+  pension: {
+    navTitle: "Пенсия ёши",
+    title: "Пенсия ёшидаги ва унга яқинлашган ходимлар",
+    subtitle:
+      "hrm.argos.uz ёш тақсимоти ҳисоботи асосида — ҳудуд ва жинс кесимида",
+    asOf: "ҳолатига",
+
+    heroEyebrow: "Кадрлар алмашинуви эҳтиёжи",
+    // The big number is rendered separately; this is the sentence after it.
+    heroTail: (oneIn: number, nearly: boolean) =>
+      `ходим — ${nearly ? "деярли " : ""}ҳар ${oneIn} нафардан бири — бугун пенсия ёшида ёки шу йил ичида пенсия ёшига етади`,
+    // Used when the share is too small for an honest "one in N".
+    heroTailPlain:
+      "ходим бугун пенсия ёшида ёки шу йил ичида пенсия ёшига етади",
+
+    working: "Пенсия ёшида, ишламоқда",
+    workingHint: "Пенсия ҳуқуқига эга бўлиб, фаолиятда",
+    reaching: "Шу йили пенсия ёшига етади",
+    reachingHint: "Жорий йил ичида",
+    total: "Жами ходимлар",
+    totalHint: "Амалдаги ходимлар сони",
+    women: "Шундан хотин-қизлар",
+    womenHint: "Пенсия ёшидагилар ичида",
+
+    mapTitle: "Ҳудудлар бўйича пенсия ёши улуши",
+    mapHint: "Ҳудуд устига босиб, батафсил кўринг",
+    mapKey: (lo: string, hi: string) =>
+      `Шкала ${lo} — ${hi} оралиғида (нисбий)`,
+    rankingTitle: "Ҳудудлар рейтинги",
+    rankingHint: "юқоридан пастга",
+
+    ageTitle: "Ёш таркиби",
+    ageHint: "Ходимларнинг ёш гуруҳлари бўйича тақсимоти",
+    band: {
+      u30: "30 ёшгача",
+      a3040: "30–40 ёш",
+      a4050: "40–50 ёш",
+      a5060: "50–60 ёш",
+      a60p: "60 ёшдан юқори",
+    },
+    seriesWomen: "Хотин-қизлар",
+    seriesMen: "Эркаклар",
+
+    trendTitle: "Динамика",
+    trendSubtitle: "Пенсия ёшидагилар улушининг вақт бўйича ўзгариши",
+    trendLine: "Алмашинув улуши, %",
+    trendSingle:
+      "Ҳозирча битта ҳисобот мавжуд. Янги ҳисоботлар юкланган сари динамика тўлдирилиб боради.",
+    totalOption: "Жами (Республика бўйича)",
+
+    tableTitle: "Ҳудудлар кесими",
+    search: "Ҳудуд бўйича қидириш…",
+    export: "Excel'га юклаш",
+    sheet: "Пенсия ёши",
+    count: (n: number) => `${n} та ҳудуд`,
+    empty: "Танланган шарт бўйича ҳудуд топилмади.",
+    col: {
+      n: "№",
+      region: "Ҳудуд",
+      total: "Жами ходим",
+      women: "Хотин-қизлар",
+      working: "Пенсия ёшида",
+      reaching: "Шу йили етади",
+      share: "Алмашинув улуши",
+    },
+
+    noRegions: "Ҳудудлар кесими ҳали юкланмаган",
+    noRegionsHint:
+      "Ҳозирча фақат республика бўйича умумий кўрсаткич мавжуд. 14 та ҳудуд бўйича маълумот юклангач, харита ва рейтинг кўринади.",
+
+    overviewCard: "Пенсия ёши ва кадрлар алмашинуви",
+    peopleUnit: "нафар",
+    regionsUnit: "та ҳудуд",
+  },
+
   login: {
     eyebrow: "Хавфсиз кириш",
     title: "HRM ARGOS мониторинги",
@@ -252,6 +332,19 @@ export const UZ = {
     mismatch: "Файл ичидаги йиғинди билан фарқ борлиги аниқланди",
     again: "Яна юклаш",
     records: (n: string) => `${n} ёзув`,
+    penSection: "Пенсия ёши (CSV)",
+    penSubtitle:
+      "hrm.argos.uz ёш тақсимоти ҳисоботидан олинган CSV файлни юкланг (bookmarklet юклаб берган).",
+    penFile: "Пенсия ёши CSV файли",
+    penHint: "HRM_pensiya_ЙИЛ-ОЙ-КУН.csv",
+    penTotal: "Жами",
+    penWorking: "Пенсия ёшида",
+    penReaching: "Шу йили етади",
+    penRegions: "Ҳудудлар",
+    penPublish: "Пенсия дашбордини янгилаш",
+    penHistory: "Юкланган ҳисоботлар",
+    penErrParse:
+      "CSV файлни ўқиб бўлмади. hrm.argos.uz bookmarklet юклаган .csv файл эканига ишонч ҳосил қилинг.",
   },
 
   units: {
