@@ -22,6 +22,9 @@ import type {
   CompletionSnapshot,
   Manifest,
   ManifestEntry,
+  PensionManifest,
+  PensionManifestEntry,
+  PensionSnapshot,
   Registry,
   Snapshot,
 } from "./types";
@@ -46,6 +49,8 @@ const K = {
   registry: "registry",
   compManifest: "completion:manifest",
   compSnapshot: "completion:snapshot:latest",
+  penManifest: "pension:manifest",
+  penSnapshot: "pension:snapshot:latest",
 } as const;
 
 // ---------------------------------------------------------------- redis client
@@ -121,6 +126,17 @@ export async function getCompletionByRef(
   ref: string,
 ): Promise<CompletionSnapshot | null> {
   return readKey<CompletionSnapshot>(ref);
+}
+
+export const getPensionManifest = cache(
+  async (): Promise<PensionManifest | null> =>
+    readKey<PensionManifest>(K.penManifest),
+);
+
+export async function getPensionByRef(
+  ref: string,
+): Promise<PensionSnapshot | null> {
+  return readKey<PensionSnapshot>(ref);
 }
 
 // ------------------------------------------------------------------ write API
@@ -208,6 +224,46 @@ export async function publishCompletion(
 
   const next: CompletionManifest = { latestUrl: K.compSnapshot, snapshots };
   await writeKey(K.compManifest, next);
+
+  return { snapshots: snapshots.length };
+}
+
+export interface PensionPutResult {
+  snapshots: number;
+}
+
+/**
+ * Persist a new pension snapshot and update its manifest. Independent of
+ * publish() and publishCompletion() — own keys, own manifest.
+ */
+export async function publishPension(
+  snapshot: PensionSnapshot,
+): Promise<PensionPutResult> {
+  const manifest = (await getPensionManifest()) ?? {
+    latestUrl: "",
+    snapshots: [],
+  };
+
+  const entry: PensionManifestEntry = {
+    date: snapshot.date,
+    uploadedAt: snapshot.uploadedAt,
+    url: K.penSnapshot,
+    overall: snapshot.overall,
+    regions: snapshot.regions,
+  };
+  const kept = manifest.snapshots.filter((s) => s.date !== snapshot.date);
+  const snapshots = [...kept, entry].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
+  const newestDate = snapshots[snapshots.length - 1].date;
+
+  // Backfilling an older report must never replace the current dashboard data.
+  if (snapshot.date === newestDate) {
+    await writeKey(K.penSnapshot, snapshot);
+  }
+
+  const next: PensionManifest = { latestUrl: K.penSnapshot, snapshots };
+  await writeKey(K.penManifest, next);
 
   return { snapshots: snapshots.length };
 }
