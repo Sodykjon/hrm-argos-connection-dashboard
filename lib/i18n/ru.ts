@@ -251,7 +251,7 @@ export const RU = {
 
     tableTitle: "Разрез по регионам",
     search: "Поиск по региону…",
-    export: "Выгрузить в Excel",
+    export: "Скачать в Excel",
     sheet: "Пенсионный возраст",
     count: (n: number) => `${n} регионов`,
     empty: "По заданным условиям регион не найден.",
@@ -338,9 +338,9 @@ export const RU = {
     records: (n: string) => `${n} записей`,
     penSection: "Пенсионный возраст (CSV)",
     penSubtitle:
-      "Загрузите CSV из отчёта возрастного распределения hrm.argos.uz (выгружен bookmarklet'ом).",
+      "Загрузите CSV из отчёта возрастного распределения hrm.argos.uz (выгружен букмарклетом).",
     penFile: "CSV файл пенсионного возраста",
-    penHint: "HRM_pensiya_ГГГГ-ММ-ДД.csv",
+    penHint: "HRM_pensiya_ГОД-МЕСЯЦ-ДЕНЬ.csv",
     penTotal: "Всего",
     penWorking: "В пенс. возрасте",
     penReaching: "Достигнут в этом году",
@@ -348,7 +348,7 @@ export const RU = {
     penPublish: "Обновить дашборд пенсионного возраста",
     penHistory: "Загруженные отчёты",
     penErrParse:
-      "Не удалось прочитать CSV. Убедитесь, что это файл .csv, выгруженный bookmarklet'ом hrm.argos.uz.",
+      "Не удалось прочитать CSV. Убедитесь, что это файл .csv, выгруженный букмарклетом hrm.argos.uz.",
   },
 
   units: {
