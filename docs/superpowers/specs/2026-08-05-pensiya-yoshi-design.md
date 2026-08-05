@@ -210,31 +210,98 @@ national and regional pulls disagree beyond drift.
 
 ## Pages and UI
 
-- `/pensiya` — main dashboard
-- `/pensiya/[region]` — per-region detail
-- new nav entry; third upload section on `/admin`
+Audience: the Minister. The page is presented on a projector and walked through,
+so its top must be readable at 2–3 m and fit one 1920×1080 screen without
+scrolling. Detail lives below the fold, where the HR department reads it.
 
-Components, reusing the existing primitives (`StatTile`, `Chart`, `UzMap`,
-`SahifaShapka` equivalents already used by the completion board):
+Routes: `/pensiya`, `/pensiya/[region]`, plus a third upload section on `/admin`.
 
-- **KPI tiles** — total staff · pension-age working (count + %) · reaching this
-  year (count + %) · women's share within the pension-age group
-- **Choropleth** — regions by pension-age share. If the national spread turns out
-  to be narrow, keep the explicit key stating the ramp endpoints, as the
-  connection map does; the honesty of that key is the point.
-- **Age pyramid** — 30–40 / 40–50 / 50–60 / 60+ stacked, women split out
-- **Region table** — sorted by share, with the gender columns and the residual row
-- **Trend** — accumulates as uploads land
+### Placement in the dashboard
+
+The existing five pages all answer one question — *how far along is the ARGOS
+rollout*. Connection %, completion %, unconnected list, trend: process metrics
+without exception. Pension age is the first page that says something about the
+workforce itself, and adding it to the flat nav row as pill #6 would bury the
+most consequential number in the product. Three placements, together:
+
+1. **`/pensiya`** — the dedicated page described below.
+2. **A card on `/`**, directly above the existing completion card and mirroring
+   its shape: one line, one number, click-through. The Minister sees the figure
+   on open without having to know where to look.
+3. **Nav split into two labelled groups** — «АРГОС ЖОРИЙ ЭТИЛИШИ» (overview ·
+   ulanmaganlar · trend · to'ldirilish) and «КАДРЛАР ТАҲЛИЛИ» (pensiya). A thin
+   divider and two eyebrow labels; pill styling unchanged. This also creates the
+   slot for later analytics pages without a second nav redesign.
+
+The connection hero on `/` is **not** displaced. The rollout deadlines (15.08
+connection, 15.09 completion) are what the Minister is actively tracking; the
+dashboard keeps its identity.
+
+### `/pensiya` layout, top to bottom
+
+**1. Hero — a statement, not a gauge.** The completion page opens with an
+average percentage; that is the wrong opening here. Open with the
+replacement-demand figure:
+
+> **94 981 ходим** — деярли ҳар 7 нафардан бири — бугун пенсия ёшида ёки шу йил
+> ичида пенсия ёшига етади
+
+with the two components split beneath it: 79 672 already working past pension
+age (11.6 %) and 15 309 reaching it this year (2.2 %). This is the number that
+implies an action — how many people must be ready to be replaced.
+
+Wording constraint: 94 981 / 689 461 = 13.8 %, which is *less* than one in seven
+(14.3 %). "деярли ҳар 7 нафардан бири" is therefore correct and "ҳар 7 нафардан
+бири" overstates. Do not round it up. The hero recomputes from the snapshot, so
+the phrasing must hold for other values too — if the share ever exceeds 1/7,
+the "деярли" qualifier must drop rather than silently become wrong.
+
+**2. Map + ranking**, in the two-column `CompletionBoard` shape: choropleth of
+regions by pension-age share on the left, worst-first ranked list on the right,
+hover syncing both, click → `/pensiya/[region]`. If the national spread turns
+out to be narrow, keep an explicit key stating the ramp endpoints, exactly as the
+connection map does; the honesty of that key is the point.
+
+**3. Age structure** — 30–40 / 40–50 / 50–60 / 60+, women split out. Context
+rather than headline, so it sits below the map.
+
+**4. Trend** — accumulates as uploads land. Must render sensibly with a single
+data point, because it starts with one.
+
+**5. Region table** — all 15 rows including the residual, every column, export,
+below the fold.
 
 Dark "national monitoring center" styling, tokens from `app/globals.css`. No
 auto-refresh (settled earlier: static display of uploaded data).
 
+### Gender: show it, do not editorialize
+
+Women are 549 586 / 689 461 = **79.7 %** of the workforce and 59 000 / 79 672 =
+**74.1 %** of the pension-age group. "74 % of pension-age staff are women" reads
+like a finding but is *below* the base rate — as a headline it would mislead.
+Gender appears as a split on the tiles, chart and table, with no claim attached.
+
+### Open question — why 79 672 > 39 362
+
+"Pension age and still working" (79 672) is roughly double the 60+ count
+(39 362). The likely explanation is that women's pension age is 55, so women
+aged 55–60 fall into the pension group while sitting in the 50–60 age band. The
+arithmetic fits, but the current statutory pension ages must be confirmed by the
+user before any such explanation appears in the UI. Until then the page shows
+both figures and explains nothing.
+
 ## i18n
 
-New `pension` section in `lib/i18n/uz.ts` and `lib/i18n/ru.ts`. `ru.ts` uses
-`satisfies Strings`, so a missing key fails the build. Region names are never
-translated as keys — only through `regionLabel()`. Any ECharts option memo must
-list the dictionary in its deps, or the chart keeps the old language.
+New `pension` section in `lib/i18n/uz.ts` and `lib/i18n/ru.ts`, plus the two nav
+group labels. `ru.ts` uses `satisfies Strings`, so a missing key fails the build.
+Region names are never translated as keys — only through `regionLabel()`. Any
+ECharts option memo must list the dictionary in its deps, or the chart keeps the
+old language. `Nav.tsx` already builds its link list inside the component for
+this reason; the grouped version must keep doing so.
+
+The hero sentence is not a template with a number substituted into it — Uzbek and
+Russian order the clause differently, the way `OverviewHero` already special-cases
+`lang === "ru"`. Each language gets its own composition.
 
 ## Tests
 
