@@ -1,7 +1,8 @@
-import { getLatestPension } from "@/lib/data";
+import { getLatestPension, getPensionHistory } from "@/lib/data";
 import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
+import { PensionTrend } from "@/components/pension/PensionTrend";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function PensionPage() {
   const S = await getS();
   const { snapshot } = await getLatestPension();
+  const history = await getPensionHistory();
   const { overall, regions } = snapshot;
 
   return (
@@ -94,7 +96,16 @@ export default async function PensionPage() {
         </div>
       </Reveal>
 
-      {/* Task 10 inserts the trend here */}
+      <Reveal>
+        <div className="card p-4 sm:p-5">
+          <div className="mb-2">
+            <h2 className="text-[0.95rem] font-semibold">{S.pension.trendTitle}</h2>
+            <p className="text-[0.78rem] text-ink-soft">{S.pension.trendSubtitle}</p>
+          </div>
+          <PensionTrend history={history} />
+        </div>
+      </Reveal>
+
       {/* Task 11 inserts the region table here */}
     </div>
   );
