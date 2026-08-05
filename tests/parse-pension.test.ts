@@ -139,3 +139,63 @@ test("tolerates a BOM, CRLF line endings and thin-space grouped numbers", () => 
   assert.equal(snapshot.overall.pensionWorking, 79672);
   assert.equal(snapshot.overall.reachingWomen, 12177);
 });
+
+/** Same shape as row(), but overrides a single column by its CSV header name
+ *  (as it appears in HEADER) -- for isolating one non-`total` field's
+ *  behaviour from the rest of the shape. */
+function rowWith(
+  name: string,
+  total: number,
+  field: string,
+  value: number,
+): string {
+  const cells = row(name, total).split(";");
+  cells[HEADER.split(";").indexOf(field)] = String(value);
+  return cells.join(";");
+}
+
+test("clamps a single overshooting non-total field to 0 and warns, without throwing", () => {
+  // `total` reconciles (300 + 200 = 500 <= 1000), so the hard refusal never
+  // fires. But the regional pulls of "a3040" alone sum to 80 (Andijon's 80 +
+  // Buxoro's 0), overshooting the national pull's a3040 of 50 -- exactly the
+  // drift between 15 separate live requests that the residual guard must
+  // tolerate instead of rejecting the whole upload.
+  const csv = [
+    HEADER,
+    rowWith("МИЛЛИЙ", 1000, "a3040", 50),
+    rowWith("Andijon viloyati", 300, "a3040", 80),
+    row("Buxoro viloyati", 200),
+  ].join("\n");
+  const { snapshot, warnings } = parsePensionCsv(
+    csv,
+    "HRM_pensiya_2026-08-05.csv",
+  );
+
+  assert.equal(snapshot.regions.length, 3, "2 regions + 1 residual");
+  const residual = snapshot.regions.at(-1);
+  assert.equal(residual?.name, "Марказий аппарат ва республика марказлари");
+  assert.equal(
+    residual?.a3040,
+    0,
+    "the overshooting field is clamped, not left negative",
+  );
+  assert.equal(
+    residual?.total,
+    500,
+    "total reconciled, so the hard guard above never touches this row",
+  );
+  assert.equal(
+    residual?.totalWomen,
+    400,
+    "a field that did not overshoot keeps its real subtracted value",
+  );
+  assert.equal(
+    residual?.pensionWorking,
+    500,
+    "the clamp is surgical -- unrelated fields are unaffected",
+  );
+
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /a3040/, "the warning names the offending column");
+  assert.match(warnings[0], /30/, "the warning names the overshoot amount");
+});

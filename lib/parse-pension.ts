@@ -99,8 +99,6 @@ const COLUMNS = [
   "reaching", "reachingWomen",
 ] as const satisfies ReadonlyArray<keyof PensionStat>;
 
-type CountField = (typeof COLUMNS)[number];
-
 /** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
 function count(raw: string | undefined): number {
   const cleaned = (raw ?? "").replace(/[\s  ']/g, "").trim();
@@ -200,7 +198,22 @@ export function parsePensionCsv(
     // The central apparatus and the republican centres sit outside every
     // viloyat, so the gap is real and is shown, not hidden.
     if (sum.total < overall.total) {
-      regions.push(subtract(overall, sum, PENSION_RESIDUAL));
+      const residual = subtract(overall, sum, PENSION_RESIDUAL);
+      // `total` is guarded hard above: if the two pulls disagree about the size
+      // of the population, nothing downstream is trustworthy. The other columns
+      // are a different case -- the 15 rows come from 15 requests against a live
+      // report over 8-15 minutes, and pulls minutes apart are already known to
+      // differ by a handful of people. Clamping a small negative and naming it
+      // beats refusing a 15-minute pull over three people.
+      for (const c of COLUMNS) {
+        if (residual[c] < 0) {
+          warnings.push(
+            `"${c}" устуни бўйича ҳудудлар йиғиндиси миллий кўрсаткичдан ${-residual[c]} тага катта — қолдиқ қатори 0 га тенглаштирилди.`,
+          );
+          residual[c] = 0;
+        }
+      }
+      regions.push(residual);
     }
   }
 
