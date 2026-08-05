@@ -1,5 +1,5 @@
 import type { Status } from "./types";
-import { getStrings, type Lang } from "./i18n";
+import { getStrings, type Lang } from "./i18n/index.ts";
 
 const NBSP = " "; // narrow no-break space — thousands separator
 

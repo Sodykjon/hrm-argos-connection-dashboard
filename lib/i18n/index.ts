@@ -1,8 +1,8 @@
 // Language plumbing. The viewer's choice rides in a cookie; the canonical data
 // (region names, organisation names, slugs, KV payloads) is never translated.
 
-import { UZ } from "./uz";
-import { RU } from "./ru";
+import { UZ } from "./uz.ts";
+import { RU } from "./ru.ts";
 
 export type Lang = "uz" | "ru";
 
