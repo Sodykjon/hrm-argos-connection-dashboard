@@ -86,3 +86,124 @@ export function isNationalRow(raw: string): boolean {
   const t = (raw || "").trim();
   return t === "" || NATIONAL.test(t);
 }
+
+// ---------------------------------------------------------------- CSV parsing
+
+const COLUMNS = [
+  "total", "totalWomen",
+  "a3040", "a3040Women",
+  "a4050", "a4050Women",
+  "a5060", "a5060Women",
+  "a60p", "a60pWomen",
+  "pensionWorking", "pensionWorkingWomen",
+  "reaching", "reachingWomen",
+] as const satisfies ReadonlyArray<keyof PensionStat>;
+
+type CountField = (typeof COLUMNS)[number];
+
+/** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
+function count(raw: string | undefined): number {
+  const cleaned = (raw ?? "").replace(/[\s  ']/g, "").trim();
+  if (!cleaned) return 0;
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? Math.round(n) : 0;
+}
+
+function emptyStat(name: string): PensionStat {
+  const s = { name } as PensionStat;
+  for (const c of COLUMNS) s[c] = 0;
+  return s;
+}
+
+function subtract(a: PensionStat, b: PensionStat, name: string): PensionStat {
+  const out = emptyStat(name);
+  for (const c of COLUMNS) out[c] = a[c] - b[c];
+  return out;
+}
+
+function addInto(acc: PensionStat, r: PensionStat): void {
+  for (const c of COLUMNS) acc[c] += r[c];
+}
+
+function dateFromName(fileName?: string): string | null {
+  const m = /(\d{4})-(\d{2})-(\d{2})/.exec(fileName ?? "");
+  return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
+}
+
+export function buildPensionSnapshot(
+  overall: PensionStat,
+  regions: PensionStat[],
+  date: string,
+): PensionSnapshot {
+  return { date, uploadedAt: new Date().toISOString(), overall, regions };
+}
+
+export interface ParsedPension {
+  snapshot: PensionSnapshot;
+  warnings: string[];
+}
+
+export function parsePensionCsv(
+  text: string,
+  fileName?: string,
+): ParsedPension {
+  const warnings: string[] = [];
+  const lines = text
+    .replace(/^﻿/, "")
+    .split(/\r?\n/)
+    .filter((l) => l.trim().length > 0);
+  if (lines.length < 2) throw new Error("CSV бўш ёки нотўғри форматда.");
+
+  let overall: PensionStat | null = null;
+  const regions: PensionStat[] = [];
+  const seen = new Set<string>();
+
+  for (let i = 1; i < lines.length; i++) {
+    const f = lines[i].split(";");
+    const label = (f[0] ?? "").trim();
+    const national = isNationalRow(label);
+    // resolveArgosRegion throws naming the offender — let it propagate so the
+    // upload fails loudly instead of quietly losing a region.
+    const name = national ? "" : resolveArgosRegion(label);
+
+    const stat = emptyStat(name);
+    COLUMNS.forEach((c, k) => {
+      stat[c] = count(f[k + 1]);
+    });
+
+    if (national) {
+      overall = stat;
+      continue;
+    }
+    if (seen.has(name)) {
+      warnings.push(`Такрорланган ҳудуд қатори ўтказиб юборилди: ${name}`);
+      continue;
+    }
+    seen.add(name);
+    regions.push(stat);
+  }
+
+  if (!overall) {
+    throw new Error('CSV да миллий қатор ("МИЛЛИЙ") топилмади.');
+  }
+
+  if (regions.length > 0) {
+    const sum = emptyStat("");
+    for (const r of regions) addInto(sum, r);
+
+    if (sum.total > overall.total) {
+      throw new Error(
+        `Ҳудудлар йиғиндиси миллий кўрсаткичдан катта ` +
+          `(${sum.total} > ${overall.total}). Юклаш бекор қилинди.`,
+      );
+    }
+    // The central apparatus and the republican centres sit outside every
+    // viloyat, so the gap is real and is shown, not hidden.
+    if (sum.total < overall.total) {
+      regions.push(subtract(overall, sum, PENSION_RESIDUAL));
+    }
+  }
+
+  const date = dateFromName(fileName) ?? new Date().toISOString().slice(0, 10);
+  return { snapshot: buildPensionSnapshot(overall, regions, date), warnings };
+}
