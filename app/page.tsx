@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLatestSnapshot, getLatestCompletion } from "@/lib/data";
+import { getLatestSnapshot, getLatestCompletion, getLatestPension } from "@/lib/data";
 import { OverviewHero } from "@/components/OverviewHero";
 import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
@@ -7,6 +7,7 @@ import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { LiveSync } from "@/components/LiveSync";
 import { ReadinessRing } from "@/components/ReadinessRing";
+import { PensionOverviewCard } from "@/components/pension/PensionOverviewCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
@@ -17,6 +18,7 @@ export default async function OverviewPage() {
   const S = await getS();
   const { snapshot } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
+  const { snapshot: pension } = await getLatestPension();
   const { totals, regions } = snapshot;
 
   return (
@@ -59,6 +61,11 @@ export default async function OverviewPage() {
       {/* lowest 3 */}
       <Reveal>
         <AttentionStrip regions={regions} />
+      </Reveal>
+
+      {/* pension exposure — above completion: the more consequential figure */}
+      <Reveal>
+        <PensionOverviewCard stat={pension.overall} />
       </Reveal>
 
       {/* data-completion summary */}
