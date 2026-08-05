@@ -10,6 +10,11 @@ export const REPUBLIC = "Республика муассасалари";
  *  comparing a data value against a translated string would break in Russian. */
 export const CENTRAL = "Марказий аппарат";
 
+/** Σ(14 regions) < national, because the central apparatus and the republican
+ *  centres sit outside every viloyat. The difference is shown as this explicit
+ *  row rather than left as a silent gap. Not geographic — never on the map. */
+export const PENSION_RESIDUAL = "Марказий аппарат ва республика марказлари";
+
 // Cyrillic region name -> URL slug (latin, stable & readable)
 const SLUG_MAP: Record<string, string> = {
   "Республика муассасалари": "respublika",
@@ -31,6 +36,7 @@ const SLUG_MAP: Record<string, string> = {
   "Марказий аппарат": "markaziy-apparat",
   "Санитар-эпидемиология қўмитаси": "sanepid-qomita",
   "Республика марказлари": "respublika-markazlari",
+  "Марказий аппарат ва республика марказлари": "markaz-respublika",
 };
 
 const REVERSE: Record<string, string> = Object.fromEntries(
@@ -110,6 +116,8 @@ const REGION_RU: Record<string, string> = {
   "Санитар-эпидемиология қўмитаси":
     "Комитет санитарно-эпидемиологического благополучия",
   "Республика марказлари": "Республиканские центры",
+  "Марказий аппарат ва республика марказлари":
+    "Центральный аппарат и республиканские центры",
 };
 
 /**

@@ -115,3 +115,52 @@ export interface CompletionManifest {
   latestUrl: string;
   snapshots: CompletionManifestEntry[]; // chronological (oldest → newest)
 }
+
+// ---------------------------------------------------------------------------
+// Pension age ("Пенсия ёши") — a THIRD statistic sourced from the hrm.argos.uz
+// report GetAllEmployeeDistributionBySeniority, ingested via CSV upload. Fully
+// decoupled from the two datasets above (own keys, own manifest, own pages).
+// All figures are integer head-counts; shares are derived at render time.
+// ---------------------------------------------------------------------------
+
+export interface PensionStat {
+  name: string; // canonical Cyrillic region name; "" for the national row
+  total: number;
+  totalWomen: number;
+  a3040: number;
+  a3040Women: number;
+  a4050: number;
+  a4050Women: number;
+  a5060: number;
+  a5060Women: number;
+  a60p: number;
+  a60pWomen: number;
+  /** Already at pension age and still working. */
+  pensionWorking: number;
+  pensionWorkingWomen: number;
+  /** Reaches pension age during the current year. */
+  reaching: number;
+  reachingWomen: number;
+}
+
+export interface PensionSnapshot {
+  date: string; // ISO date of the report, e.g. "2026-08-05"
+  uploadedAt: string; // ISO timestamp the snapshot entered the system
+  overall: PensionStat; // national
+  regions: PensionStat[]; // 14 geographic + 1 residual; [] when only national
+}
+
+// A snapshot is ~15 rows, so the manifest carries every field inline and the
+// trend needs no separate payload.
+export interface PensionManifestEntry {
+  date: string;
+  uploadedAt: string;
+  url: string;
+  overall: PensionStat;
+  regions: PensionStat[];
+}
+
+export interface PensionManifest {
+  latestUrl: string;
+  snapshots: PensionManifestEntry[]; // chronological (oldest → newest)
+}
