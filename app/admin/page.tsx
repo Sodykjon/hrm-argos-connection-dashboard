@@ -9,6 +9,7 @@ import {
   type ParsedHisobot,
 } from "@/lib/parse";
 import { parseCompletionCsv, type ParsedCompletion } from "@/lib/parse-completion";
+import { parsePensionCsv, type ParsedPension } from "@/lib/parse-pension";
 import type { Registry } from "@/lib/types";
 import { fmtInt, fmtPct, fmtDate, fmtDateTime } from "@/lib/format";
 import { useS } from "@/lib/i18n/client";
@@ -23,6 +24,12 @@ interface CompHistoryItem {
   date: string;
   uploadedAt: string;
   overall: { orgCount: number; avg: number; zeroCount: number; below50: number };
+}
+
+interface PenHistoryItem {
+  date: string;
+  uploadedAt: string;
+  overall: { total: number; pensionWorking: number; reaching: number };
 }
 
 export default function AdminPage() {
@@ -45,6 +52,14 @@ export default function AdminPage() {
   const [compDone, setCompDone] = useState(false);
   const [compHistory, setCompHistory] = useState<CompHistoryItem[]>([]);
 
+  // pension (separate dataset)
+  const [penParsed, setPenParsed] = useState<ParsedPension | null>(null);
+  const [penParsing, setPenParsing] = useState(false);
+  const [penPublishing, setPenPublishing] = useState(false);
+  const [penError, setPenError] = useState<string | null>(null);
+  const [penDone, setPenDone] = useState(false);
+  const [penHistory, setPenHistory] = useState<PenHistoryItem[]>([]);
+
   useEffect(() => {
     fetch("/api/snapshots")
       .then((r) => r.json())
@@ -58,6 +73,13 @@ export default function AdminPage() {
       .then((d) => setCompHistory(d.snapshots ?? []))
       .catch(() => {});
   }, [compDone]);
+
+  useEffect(() => {
+    fetch("/api/pension")
+      .then((r) => r.json())
+      .then((d) => setPenHistory(d.snapshots ?? []))
+      .catch(() => {});
+  }, [penDone]);
 
   async function onCompletion(file: File | undefined) {
     if (!file) return;
@@ -95,6 +117,48 @@ export default function AdminPage() {
       setCompError(S.admin.errGeneric);
     } finally {
       setCompPublishing(false);
+    }
+  }
+
+  async function onPension(file: File | undefined) {
+    if (!file) return;
+    setPenError(null);
+    setPenDone(false);
+    setPenParsing(true);
+    try {
+      const text = await file.text();
+      setPenParsed(parsePensionCsv(text, file.name));
+    } catch (e) {
+      setPenParsed(null);
+      // parsePensionCsv throws a specific Uzbek message (unknown region,
+      // missing national row, regions exceeding the total) — show it verbatim,
+      // it is the only thing that tells the user which row is wrong.
+      setPenError(e instanceof Error ? e.message : S.admin.penErrParse);
+    } finally {
+      setPenParsing(false);
+    }
+  }
+
+  async function publishPensionSnapshot() {
+    if (!penParsed || !password) return;
+    setPenPublishing(true);
+    setPenError(null);
+    try {
+      const res = await fetch("/api/pension", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ password, snapshot: penParsed.snapshot }),
+      });
+      if (res.ok) {
+        setPenDone(true);
+      } else if (res.status === 401) setPenError(S.admin.errAuth);
+      else if (res.status === 501) setPenError(S.admin.errNoStore);
+      else if (res.status === 400) setPenError(S.admin.penErrParse);
+      else setPenError(S.admin.errGeneric);
+    } catch {
+      setPenError(S.admin.errGeneric);
+    } finally {
+      setPenPublishing(false);
     }
   }
 
@@ -168,6 +232,7 @@ export default function AdminPage() {
 
   const t = parsed?.snapshot.totals;
   const ct = compParsed?.snapshot.overall;
+  const pt = penParsed?.snapshot.overall;
 
   return (
     <div className="mx-auto max-w-[900px] space-y-5 px-4 py-6 sm:px-6">
@@ -404,6 +469,123 @@ export default function AdminPage() {
                   <span className="tnum font-medium">{fmtDate(h.date)}</span>
                   <span className="tnum text-ink-soft">
                     {fmtPct(h.overall.avg, 1)} · {fmtInt(h.overall.orgCount)} {S.units.org}
+                  </span>
+                  <span className="tnum text-[0.72rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* ---- pension age (separate dataset) ---- */}
+      <div className="space-y-4 border-t border-line pt-6">
+        <div>
+          <h2 className="text-[1.05rem] font-semibold">{S.admin.penSection}</h2>
+          <p className="mt-0.5 text-[0.8rem] text-ink-soft">{S.admin.penSubtitle}</p>
+        </div>
+
+        {penDone ? (
+          <div className="card space-y-4 p-6 text-center">
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-ul-soft">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="m5 12.5 4.5 4.5L19 7" stroke="var(--color-ul)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <div>
+              <p className="text-[1.05rem] font-semibold">{S.admin.success}</p>
+              <p className="mt-1 text-[0.83rem] text-ink-soft">{S.admin.successHint}</p>
+            </div>
+            <div className="flex justify-center gap-3">
+              <Link href="/pensiya" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-sov-deep">
+                {S.admin.goDashboard}
+              </Link>
+              <button
+                onClick={() => { setPenDone(false); setPenParsed(null); }}
+                className="rounded-lg border border-line px-5 py-2.5 text-[0.85rem] font-semibold text-ink-soft hover:bg-paper"
+              >
+                {S.admin.again}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FileCard
+                label={S.admin.penFile}
+                hint={S.admin.penHint}
+                accept=".csv,text/csv"
+                onPick={onPension}
+                picked={
+                  penParsed
+                    ? `${fmtDate(penParsed.snapshot.date)} · ${fmtInt(penParsed.snapshot.regions.length)} ${S.pension.regionsUnit}`
+                    : penParsing
+                      ? S.admin.parsing
+                      : undefined
+                }
+                required
+              />
+              {pt && (
+                <div className="card p-5">
+                  <span className="eyebrow">{S.admin.preview}</span>
+                  <div className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    <PreviewStat label={S.admin.penTotal} value={fmtInt(pt.total)} />
+                    <PreviewStat label={S.admin.penWorking} value={fmtInt(pt.pensionWorking)} tone="un" />
+                    <PreviewStat label={S.admin.penReaching} value={fmtInt(pt.reaching)} tone="un" />
+                    <PreviewStat label={S.admin.penRegions} value={fmtInt(penParsed?.snapshot.regions.length ?? 0)} />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {penParsed && penParsed.warnings.length > 0 && (
+              <ul className="card space-y-1 p-4 text-[0.8rem] text-goal">
+                {penParsed.warnings.map((w, i) => (
+                  <li key={i}>{w}</li>
+                ))}
+              </ul>
+            )}
+
+            <div className="card space-y-4 p-5">
+              <label className="block">
+                <span className="mb-1.5 block text-[0.82rem] font-medium text-ink-soft">
+                  {S.admin.password}
+                </span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={S.admin.passwordPh}
+                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-[0.9rem] outline-none focus:border-sov focus:bg-surface"
+                />
+              </label>
+
+              {penError && (
+                <p className="rounded-lg bg-un-soft px-3.5 py-2.5 text-[0.82rem] font-medium text-un">
+                  {penError}
+                </p>
+              )}
+
+              <button
+                onClick={publishPensionSnapshot}
+                disabled={!penParsed || !password || penPublishing}
+                className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {penPublishing ? S.admin.publishing : S.admin.penPublish}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {penHistory.length > 0 && (
+          <div className="card p-5">
+            <span className="eyebrow">{S.admin.penHistory}</span>
+            <ul className="mt-3 divide-y divide-line-soft">
+              {[...penHistory].reverse().map((h, i) => (
+                <li key={i} className="flex items-center justify-between gap-3 py-2.5 text-[0.82rem]">
+                  <span className="tnum font-medium">{fmtDate(h.date)}</span>
+                  <span className="tnum text-ink-soft">
+                    {fmtInt(h.overall.pensionWorking)} / {fmtInt(h.overall.total)}
                   </span>
                   <span className="tnum text-[0.72rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
                 </li>
