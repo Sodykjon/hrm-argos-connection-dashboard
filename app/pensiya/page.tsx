@@ -3,6 +3,7 @@ import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
 import { PensionTrend } from "@/components/pension/PensionTrend";
+import { PensionTable } from "@/components/pension/PensionTable";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -106,7 +107,15 @@ export default async function PensionPage() {
         </div>
       </Reveal>
 
-      {/* Task 11 inserts the region table here */}
+      {regions.length > 0 && (
+        <section className="space-y-3">
+          <h2 className="text-[0.95rem] font-semibold">{S.pension.tableTitle}</h2>
+          <PensionTable
+            rows={regions}
+            exportName={`HRM_pensiya_${snapshot.date}`}
+          />
+        </section>
+      )}
     </div>
   );
 }
