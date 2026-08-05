@@ -1,5 +1,6 @@
 import { getLatestPension } from "@/lib/data";
 import { PensionHero } from "@/components/pension/PensionHero";
+import { PensionBoard } from "@/components/pension/PensionBoard";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -76,7 +77,12 @@ export default async function PensionPage() {
         </Reveal>
       ) : null}
 
-      {/* Task 8 inserts the map + ranking board here */}
+      {regions.length > 0 && (
+        <Reveal>
+          <PensionBoard regions={regions} />
+        </Reveal>
+      )}
+
       {/* Task 9 inserts the age structure chart here */}
       {/* Task 10 inserts the trend here */}
       {/* Task 11 inserts the region table here */}
