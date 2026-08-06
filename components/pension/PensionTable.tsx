@@ -37,13 +37,13 @@ export function PensionTable({
     [enriched],
   );
 
-  // Regions first, everything else under its own heading. The table is titled
-  // «Ҳудудлар кесими» and Республика муассасалари is not a region — sorted in
-  // among the viloyats it reads as one. It still has to appear: drop it and
-  // 65 810 staff vanish and the table stops adding up to the national figure
-  // printed above it. Written generically rather than against that one name, so
-  // a future non-geographic row lands in the group instead of the ranking.
-  const { geo, levels } = useMemo(() => {
+  // One list. Республика муассасалари sorts and ranks with the viloyats like
+  // any other row -- it is 65 810 people, larger than nine of the fourteen
+  // regions, and setting it apart made the table harder to read rather than
+  // more honest. The footnote below says what it is. The map and the
+  // «Ҳудудлар рейтинги» beside it stay geographic, because neither can place a
+  // row that is not a place.
+  const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const out = enriched.filter(({ stat }) => {
       if (!needle) return true;
@@ -52,33 +52,22 @@ export function PensionTable({
         regionLabel(stat.name, lang).toLowerCase().includes(needle)
       );
     });
-    const sorted = [...out].sort((a, b) =>
-      desc
-        ? b.m.exposedShare - a.m.exposedShare
-        : a.m.exposedShare - b.m.exposedShare,
+    return [...out].sort((a, b) =>
+      desc ? b.m.exposedShare - a.m.exposedShare : a.m.exposedShare - b.m.exposedShare,
     );
-    return {
-      geo: sorted.filter(({ stat }) => isGeographicRegion(stat.name)),
-      levels: sorted.filter(({ stat }) => !isGeographicRegion(stat.name)),
-    };
   }, [enriched, q, desc, lang]);
 
-  const filtered = useMemo(() => [...geo, ...levels], [geo, levels]);
-
-  // Named in the footnote so the reader can see what leaving them out would cost.
-  const levelsStaff = useMemo(
-    () => levels.reduce((sum, { stat }) => sum + stat.total, 0),
-    [levels],
+  const hasNonGeographic = useMemo(
+    () => filtered.some(({ stat }) => !isGeographicRegion(stat.name)),
+    [filtered],
   );
 
   async function exportXlsx() {
     const XLSX = await import("xlsx");
     // Headers follow the chosen language; region names go through
     // regionLabel for display only — the canonical key is never exported.
-    // Rank only the regions, exactly as on screen. Numbering the level rows
-    // would let a sorted sheet be read as "the 15th worst region".
     const data = filtered.map(({ stat, m }, i) => ({
-      [S.pension.col.n]: i < geo.length ? i + 1 : "",
+      [S.pension.col.n]: i + 1,
       [S.pension.col.region]: regionLabel(stat.name, lang),
       [S.pension.col.total]: stat.total,
       [S.pension.col.women]: stat.totalWomen,
@@ -118,7 +107,7 @@ export function PensionTable({
 
       <div className="flex items-center justify-between px-4 py-2 text-[0.75rem] text-ink-faint">
         <span className="tnum font-medium text-ink-soft">
-          {S.pension.count(geo.length, levels.length)}
+          {S.pension.count(filtered.length)}
         </span>
       </div>
 
@@ -152,34 +141,13 @@ export function PensionTable({
             </tr>
           </thead>
           <tbody>
-            {geo.map(({ stat, m }, i) => (
+            {filtered.map(({ stat, m }, i) => (
               <Row
                 key={stat.name}
                 name={regionLabel(stat.name, lang)}
                 stat={stat}
                 share={m.exposedShare}
                 rank={i + 1}
-                ramp={ramp}
-              />
-            ))}
-
-            {levels.length > 0 && (
-              <tr className="border-y border-line bg-paper/70">
-                <td
-                  colSpan={7}
-                  className="px-3 py-2 text-[0.7rem] uppercase tracking-wide text-ink-faint"
-                >
-                  {S.kadrlar.levelsDivider}
-                </td>
-              </tr>
-            )}
-            {levels.map(({ stat, m }) => (
-              <Row
-                key={stat.name}
-                name={regionLabel(stat.name, lang)}
-                stat={stat}
-                share={m.exposedShare}
-                rank={null}
                 ramp={ramp}
               />
             ))}
@@ -195,21 +163,15 @@ export function PensionTable({
         </table>
       </div>
 
-      {levels.length > 0 && (
+      {hasNonGeographic && (
         <p className="border-t border-line px-4 py-3 text-[0.72rem] leading-relaxed text-ink-faint">
-          {S.kadrlar.levelsNote(fmtInt(levelsStaff))}
+          {S.kadrlar.republicNote}
         </p>
       )}
     </div>
   );
 }
 
-/**
- * `rank === null` marks an ARGOS level rather than a region. Those rows keep
- * their figures but lose the rank and the bar: the bar is scaled to the
- * geographic spread, so a level above that spread would render as a full bar
- * and read as the country's worst region.
- */
 function Row({
   name,
   stat,
@@ -220,24 +182,19 @@ function Row({
   name: string;
   stat: KadrlarStat;
   share: number;
-  rank: number | null;
+  rank: number;
   ramp: { min: number; max: number };
 }) {
-  const isLevel = rank === null;
   const color = riskColor(riskT(share, ramp));
-  const width = ramp.max > 0 ? (share / ramp.max) * 100 : 0;
+  // Clamped: the ramp spans the geographic rows only, so a non-geographic row
+  // above that spread would compute past 100 % and clip without saying so.
+  const width = ramp.max > 0 ? Math.min(100, (share / ramp.max) * 100) : 0;
 
   return (
     <tr className="border-b border-line-soft align-top hover:bg-paper">
-      <td className="tnum px-3 py-2.5 text-ink-faint">{rank ?? "—"}</td>
+      <td className="tnum px-3 py-2.5 text-ink-faint">{rank}</td>
       <td className="px-3 py-2.5">
-        <div
-          className={`max-w-[38ch] leading-snug ${
-            isLevel ? "text-ink-soft" : "font-medium"
-          }`}
-        >
-          {name}
-        </div>
+        <div className="max-w-[38ch] font-medium leading-snug">{name}</div>
       </td>
       <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
         {fmtInt(stat.total)}
@@ -252,26 +209,20 @@ function Row({
         {fmtInt(stat.reaching)}
       </td>
       <td className="px-3 py-2.5">
-        {isLevel ? (
-          <span className="tnum text-[0.82rem] text-ink-soft">
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
+            <span
+              className="block h-full rounded-full"
+              style={{ width: `${width}%`, background: color }}
+            />
+          </span>
+          <span
+            className="tnum shrink-0 text-[0.82rem] font-semibold"
+            style={{ color }}
+          >
             {fmtPct(share, 1)}
           </span>
-        ) : (
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
-              <span
-                className="block h-full rounded-full"
-                style={{ width: `${width}%`, background: color }}
-              />
-            </span>
-            <span
-              className="tnum shrink-0 text-[0.82rem] font-semibold"
-              style={{ color }}
-            >
-              {fmtPct(share, 1)}
-            </span>
-          </div>
-        )}
+        </div>
       </td>
     </tr>
   );

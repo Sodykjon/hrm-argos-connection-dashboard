@@ -38,10 +38,13 @@ export function VakansiyaTable({
     [enriched],
   );
 
-  // Geographic regions first, then ARGOS's non-geographic branches under their
-  // own heading — same rule as /pensiya, and for the same reason: the table is
-  // titled «Ҳудудлар кесими» and those two rows are not regions.
-  const { geo, levels } = useMemo(() => {
+  // One list. Республика муассасалари sorts and ranks with the viloyats like
+  // any other row -- it is 65 810 people, larger than nine of the fourteen
+  // regions, and setting it apart made the table harder to read rather than
+  // more honest. The footnote below says what it is. The map and the
+  // «Ҳудудлар рейтинги» beside it stay geographic, because neither can place a
+  // row that is not a place.
+  const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const out = enriched.filter(({ stat }) => {
       if (!needle) return true;
@@ -50,29 +53,22 @@ export function VakansiyaTable({
         regionLabel(stat.name, lang).toLowerCase().includes(needle)
       );
     });
-    const sorted = [...out].sort((a, b) =>
+    return [...out].sort((a, b) =>
       desc ? b.m.rate - a.m.rate : a.m.rate - b.m.rate,
     );
-    return {
-      geo: sorted.filter(({ stat }) => isGeographicRegion(stat.name)),
-      levels: sorted.filter(({ stat }) => !isGeographicRegion(stat.name)),
-    };
   }, [enriched, q, desc, lang]);
 
-  const filtered = useMemo(() => [...geo, ...levels], [geo, levels]);
-
-  const levelsStaff = useMemo(
-    () => levels.reduce((sum, { stat }) => sum + stat.total, 0),
-    [levels],
+  const hasNonGeographic = useMemo(
+    () => filtered.some(({ stat }) => !isGeographicRegion(stat.name)),
+    [filtered],
   );
 
   async function exportXlsx() {
     const XLSX = await import("xlsx");
     // Headers follow the chosen language; region names go through
     // regionLabel for display only — the canonical key is never exported.
-    // Rank only the regions, exactly as on screen.
     const data = filtered.map(({ stat, m }, i) => ({
-      [S.vakansiya.col.n]: i < geo.length ? i + 1 : "",
+      [S.vakansiya.col.n]: i + 1,
       [S.vakansiya.col.region]: regionLabel(stat.name, lang),
       [S.vakansiya.col.stavka]: stat.stavka,
       [S.vakansiya.col.filled]: stat.total,
@@ -113,7 +109,7 @@ export function VakansiyaTable({
 
       <div className="flex items-center justify-between px-4 py-2 text-[0.75rem] text-ink-faint">
         <span className="tnum font-medium text-ink-soft">
-          {S.vakansiya.count(geo.length, levels.length)}
+          {S.vakansiya.count(filtered.length)}
         </span>
       </div>
 
@@ -150,34 +146,13 @@ export function VakansiyaTable({
             </tr>
           </thead>
           <tbody>
-            {geo.map(({ stat, m }, i) => (
+            {filtered.map(({ stat, m }, i) => (
               <Row
                 key={stat.name}
                 name={regionLabel(stat.name, lang)}
                 stat={stat}
                 rate={m.rate}
                 rank={i + 1}
-                ramp={ramp}
-              />
-            ))}
-
-            {levels.length > 0 && (
-              <tr className="border-y border-line bg-paper/70">
-                <td
-                  colSpan={8}
-                  className="px-3 py-2 text-[0.7rem] uppercase tracking-wide text-ink-faint"
-                >
-                  {S.kadrlar.levelsDivider}
-                </td>
-              </tr>
-            )}
-            {levels.map(({ stat, m }) => (
-              <Row
-                key={stat.name}
-                name={regionLabel(stat.name, lang)}
-                stat={stat}
-                rate={m.rate}
-                rank={null}
                 ramp={ramp}
               />
             ))}
@@ -193,17 +168,15 @@ export function VakansiyaTable({
         </table>
       </div>
 
-      {levels.length > 0 && (
+      {hasNonGeographic && (
         <p className="border-t border-line px-4 py-3 text-[0.72rem] leading-relaxed text-ink-faint">
-          {S.kadrlar.levelsNote(fmtInt(levelsStaff))}
+          {S.kadrlar.republicNote}
         </p>
       )}
     </div>
   );
 }
 
-/** `rank === null` marks an ARGOS level: figures kept, rank and bar dropped,
- *  because the bar is scaled to the geographic spread these rows sit outside. */
 function Row({
   name,
   stat,
@@ -214,24 +187,19 @@ function Row({
   name: string;
   stat: KadrlarStat;
   rate: number;
-  rank: number | null;
+  rank: number;
   ramp: { min: number; max: number };
 }) {
-  const isLevel = rank === null;
   const color = riskColor(riskT(rate, ramp));
-  const width = ramp.max > 0 ? (rate / ramp.max) * 100 : 0;
+  // Clamped: the ramp spans the geographic rows only, so a non-geographic row
+  // above that spread would compute past 100 % and clip without saying so.
+  const width = ramp.max > 0 ? Math.min(100, (rate / ramp.max) * 100) : 0;
 
   return (
     <tr className="border-b border-line-soft align-top hover:bg-paper">
-      <td className="tnum px-3 py-2.5 text-ink-faint">{rank ?? "—"}</td>
+      <td className="tnum px-3 py-2.5 text-ink-faint">{rank}</td>
       <td className="px-3 py-2.5">
-        <div
-          className={`max-w-[38ch] leading-snug ${
-            isLevel ? "text-ink-soft" : "font-medium"
-          }`}
-        >
-          {name}
-        </div>
+        <div className="max-w-[38ch] font-medium leading-snug">{name}</div>
       </td>
       <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft md:table-cell">
         {fmtInt(stat.stavka)}
@@ -249,26 +217,20 @@ function Row({
         {fmtInt(stat.dismissed)}
       </td>
       <td className="px-3 py-2.5">
-        {isLevel ? (
-          <span className="tnum text-[0.82rem] text-ink-soft">
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
+            <span
+              className="block h-full rounded-full"
+              style={{ width: `${width}%`, background: color }}
+            />
+          </span>
+          <span
+            className="tnum shrink-0 text-[0.82rem] font-semibold"
+            style={{ color }}
+          >
             {fmtPct(rate, 1)}
           </span>
-        ) : (
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
-              <span
-                className="block h-full rounded-full"
-                style={{ width: `${width}%`, background: color }}
-              />
-            </span>
-            <span
-              className="tnum shrink-0 text-[0.82rem] font-semibold"
-              style={{ color }}
-            >
-              {fmtPct(rate, 1)}
-            </span>
-          </div>
-        )}
+        </div>
       </td>
     </tr>
   );
