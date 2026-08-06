@@ -65,13 +65,13 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
     // interpolate somehow; the measured values themselves are carried by the
     // dot series below, which is the only thing the tooltip speaks for.
     const curveData: Array<[number, number]> = [];
-    let kneeX: number | null = null;
+    let knee: [number, number] | null = null;
     for (let i = 0; i < n; i++) {
       const y = toPct(points[i].percent);
       if (i > 0 && dayGap(points[i - 1].date, points[i].date) > 60) {
         const prevY = toPct(points[i - 1].percent);
-        kneeX = i - 0.45;
-        curveData.push([kneeX, prevY + (y - prevY) * 0.04]);
+        knee = [i - 0.45, prevY + (y - prevY) * 0.04];
+        curveData.push(knee);
       }
       curveData.push([i, y]);
     }
@@ -228,30 +228,31 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                     },
                   ]
                 : []),
-              // A red marker at the knee, dated 20.06 — the user's own start
-              // date for the connection campaign, placed where the curve
-              // leaves the flat run. An annotation, not a measurement: no
-              // value attaches to it, and it appears only while the long-gap
-              // knee it explains exists.
-              ...(kneeX !== null
-                ? [
-                    {
-                      xAxis: kneeX,
-                      lineStyle: { color: "#ff5a63", type: "dashed" as const, width: 1.5 },
-                      label: {
-                        formatter: KNEE_DATE_LABEL,
-                        position: "start" as const,
-                        color: "#ff5a63",
-                        fontFamily: FONT_MONO,
-                        fontSize: 11,
-                        fontWeight: "bold" as const,
-                      },
-                    },
-                  ]
-                : []),
             ],
           },
         },
+        // The knee as a plain dot on the curve, dated beneath — the user's
+        // campaign-start annotation. Silent: no value attaches, the tooltip
+        // never answers for it.
+        ...(knee
+          ? [
+              {
+                type: "scatter" as const,
+                silent: true,
+                symbolSize: 9,
+                data: [knee],
+                itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
+                label: {
+                  show: true,
+                  position: "bottom" as const,
+                  formatter: KNEE_DATE_LABEL,
+                  fontFamily: FONT_MONO,
+                  fontSize: 11,
+                  color: "#8ba0bd",
+                },
+              },
+            ]
+          : []),
         {
           // The measured reports: dots, endpoint labels, and the only series
           // the tooltip answers for.
