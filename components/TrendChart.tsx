@@ -127,7 +127,10 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       series: [
         {
           type: "line",
-          smooth: true,
+          // Straight segments, not spline: with few points the smoothing
+          // rounded every step into a slope, and the sharp week-over-week
+          // jumps are exactly what the page wants seen.
+          smooth: false,
           symbol: "circle",
           symbolSize: 9,
           data: points.map((p) => toPct(p.percent)),
