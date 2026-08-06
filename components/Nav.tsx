@@ -30,6 +30,7 @@ export function Nav() {
       label: S.nav.groupAnalytics,
       links: [
         { href: "/pensiya", label: S.nav.pension },
+        { href: "/vakansiya", label: S.nav.vakansiya },
         { href: "/admin", label: S.nav.admin },
       ],
     },
