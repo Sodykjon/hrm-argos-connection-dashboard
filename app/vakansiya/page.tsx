@@ -4,7 +4,6 @@ import { VakansiyaHero } from "@/components/vakansiya/VakansiyaHero";
 import { VakansiyaBoard } from "@/components/vakansiya/VakansiyaBoard";
 import { VakansiyaTable } from "@/components/vakansiya/VakansiyaTable";
 import { StatTile } from "@/components/StatTile";
-import { LiveSync } from "@/components/LiveSync";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
@@ -25,12 +24,6 @@ export default async function VakansiyaPage() {
             {S.vakansiya.title}
           </h1>
           <p className="mt-1 text-[0.82rem] text-ink-soft">{S.vakansiya.subtitle}</p>
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <LiveSync />
-          <p className="tnum text-[0.75rem] text-ink-faint">
-            {fmtDate(snapshot.date)} {S.vakansiya.asOf}
-          </p>
         </div>
       </header>
 

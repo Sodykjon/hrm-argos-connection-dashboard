@@ -15,13 +15,9 @@ export const RU = {
   argosDomain: "hrm.argos.uz",
 
   live: {
-    monitoring: "Мониторинг в реальном времени",
     active: "Система активна",
     syncing: "Синхронизация…",
     updatedShort: "обновлено",
-    lastSync: "последняя синхронизация",
-    justNow: "только что",
-    secAgo: "сек. назад",
   },
 
   goal: {
@@ -297,7 +293,6 @@ export const RU = {
     navTitle: "Вакансии",
     title: "Вакантные места и движение кадров",
     subtitle: "По конструктору статистики hrm.argos.uz — в разрезе регионов",
-    asOf: "по состоянию на",
 
     heroEyebrow: "Незаполненные рабочие места",
     heroTail: (rate: string) =>

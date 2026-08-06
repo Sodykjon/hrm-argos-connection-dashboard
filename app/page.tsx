@@ -5,7 +5,6 @@ import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
-import { LiveSync } from "@/components/LiveSync";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { PensionOverviewCard } from "@/components/pension/PensionOverviewCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -23,13 +22,9 @@ export default async function OverviewPage() {
 
   return (
     <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6">
-      {/* title + live status */}
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-[1.3rem] font-bold tracking-tight sm:text-[1.5rem]">
-          {S.overview.mapTitle}
-        </h1>
-        <LiveSync />
-      </div>
+      <h1 className="text-[1.3rem] font-bold tracking-tight sm:text-[1.5rem]">
+        {S.overview.mapTitle}
+      </h1>
 
       {/* live streaming ticker */}
       <LiveFeed regions={regions} />

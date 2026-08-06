@@ -14,13 +14,9 @@ export const UZ = {
   argosDomain: "hrm.argos.uz",
 
   live: {
-    monitoring: "Реал вақт мониторинги",
     active: "Тизим фаол",
     syncing: "Синхронизация…",
     updatedShort: "янгиланди",
-    lastSync: "сўнгги синхронизация",
-    justNow: "ҳозиргина",
-    secAgo: "сония олдин",
   },
 
   goal: {
@@ -310,7 +306,6 @@ export const UZ = {
     navTitle: "Вакансиялар",
     title: "Бўш иш ўринлари ва кадрлар ҳаракати",
     subtitle: "hrm.argos.uz статистика конструктори асосида — ҳудудлар кесимида",
-    asOf: "ҳолатига",
 
     heroEyebrow: "Тўлдирилмаган иш ўринлари",
     // The count is rendered separately; this is the sentence after it.

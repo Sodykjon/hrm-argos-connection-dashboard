@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getLatestCompletion, getCompletionHistory } from "@/lib/data";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { StatTile } from "@/components/StatTile";
-import { LiveSync } from "@/components/LiveSync";
 import { LiveFeed } from "@/components/LiveFeed";
 import { AnimatedNumber } from "@/components/motion/AnimatedNumber";
 import { CompletionBoard } from "@/components/completion/CompletionBoard";
@@ -50,12 +49,9 @@ export default async function CompletionPage() {
           </h1>
           <p className="mt-1 text-[0.82rem] text-ink-soft">{S.completion.subtitle}</p>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <LiveSync />
-          <p className="tnum text-[0.75rem] text-ink-faint">
-            {fmtDate(snapshot.date)} {S.completion.asOf}
-          </p>
-        </div>
+        <p className="tnum text-[0.75rem] text-ink-faint">
+          {fmtDate(snapshot.date)} {S.completion.asOf}
+        </p>
       </header>
 
       {/* live streaming ticker */}

@@ -45,8 +45,7 @@ export async function SiteHeader() {
           </span>
         </Link>
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          {/* Decorative clock — every data page carries its own LiveSync, so
-              below md it only costs width. */}
+          {/* Decorative clock — hidden below md, where it only costs width. */}
           <span className="hidden md:block">
             <LiveStatus />
           </span>
