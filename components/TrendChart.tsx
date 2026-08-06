@@ -10,6 +10,11 @@ import { useS, useLang } from "@/lib/i18n/client";
 
 const TOTAL = "__total__";
 
+/** Days between two ISO dates. */
+function dayGap(a: string, b: string): number {
+  return Math.abs(new Date(b).getTime() - new Date(a).getTime()) / 86_400_000;
+}
+
 export function TrendChart({ history }: { history: ManifestEntry[] }) {
   const S = useS();
   const lang = useLang();
@@ -41,10 +46,31 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
   }, [history, scope]);
 
   const option: EChartsOption = useMemo(() => {
+    const n = points.length;
     const first = points[0];
-    const last = points[points.length - 1];
+    const last = points[n - 1];
     const deltaPts = first && last ? (last.percent - first.percent) * 100 : 0;
-    const grew = deltaPts > 0.5 && points.length > 1;
+    const grew = deltaPts > 0.5 && n > 1;
+
+    // The visible curve, drawn to the user's hand sketch: where two reports
+    // are separated by a long reportless gap (months, not days), the line
+    // HOLDS the earlier value across the gap and sweeps up into the later
+    // point with a rounded knee — not a five-month diagonal (asserts steady
+    // growth nobody measured), not a right-angled step (rejected as ugly).
+    // The shaping point sits inside an interval where EVERY rendering must
+    // interpolate somehow; the measured values themselves are carried by the
+    // dot series below, which is the only thing the tooltip speaks for.
+    const curveData: Array<[number, number]> = [];
+    for (let i = 0; i < n; i++) {
+      const y = toPct(points[i].percent);
+      if (i > 0 && dayGap(points[i - 1].date, points[i].date) > 60) {
+        const prevY = toPct(points[i - 1].percent);
+        curveData.push([i - 0.45, prevY + (y - prevY) * 0.04]);
+      }
+      curveData.push([i, y]);
+    }
+
+    const dotsData = points.map((p, i) => [i, toPct(p.percent)]);
 
     return {
       grid: { left: 44, right: 18, top: 46, bottom: 34 },
@@ -88,28 +114,40 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           }
         : {}),
       tooltip: {
-        trigger: "axis",
+        // Item trigger on the dot series only: the shaping curve must never
+        // answer a hover with an interpolated value.
+        trigger: "item",
         backgroundColor: "#0b3663",
         borderWidth: 0,
         textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {
-          const arr = params as Array<{ dataIndex: number }>;
-          const p = points[arr[0].dataIndex];
+          const { dataIndex } = params as { dataIndex: number };
+          const p = points[dataIndex];
+          if (!p) return "";
           return `${fmtDate(p.date)}<br/>${S.map.connection}: <b>${fmtPct(
             p.percent,
           )}</b><br/>${S.map.connected}: ${fmtInt(p.ulangan)} / ${fmtInt(p.total)}`;
         },
       },
       xAxis: {
-        // Category axis: only the report dates, evenly spaced. The time axis
-        // was tried and rejected — five reportless months stretched into a
-        // long empty run that dominated the chart. One slot per report keeps
-        // the flat January step narrow and gives the climb the width.
-        type: "category",
-        data: points.map((p) => fmtDate(p.date)),
+        // A value axis with one unit per report — same even spacing the
+        // category axis gave (the true-time axis stretched five reportless
+        // months into an ugly run and was rejected), but it accepts the
+        // fractional x the knee point needs.
+        type: "value",
+        min: -0.2,
+        max: n - 1 + 0.2,
+        interval: 1,
+        splitLine: { show: false },
         axisLine: { lineStyle: { color: "#22334f" } },
         axisTick: { show: false },
-        axisLabel: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 11 },
+        axisLabel: {
+          color: "#8ba0bd",
+          fontFamily: FONT_MONO,
+          fontSize: 11,
+          formatter: (v: number) =>
+            Number.isInteger(v) && points[v] ? fmtDate(points[v].date) : "",
+        },
       },
       yAxis: {
         type: "value",
@@ -130,35 +168,17 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       },
       series: [
         {
+          // The drawn curve: silent, symbol-free, carries the area and the
+          // reference lines. Monotone smoothing so the swoop never bulges
+          // past a measured value.
           type: "line",
-          // Smooth spline — the step version's right angles read as ugly on
-          // sight. smoothMonotone keeps the curve from overshooting past the
-          // measured values, so no bulge ever rises above a real point.
+          silent: true,
           smooth: true,
           smoothMonotone: "x",
-          symbol: "circle",
-          symbolSize: 9,
-          data: points.map((p) => toPct(p.percent)),
+          symbol: "none",
+          data: curveData,
           lineStyle: { color: "#2fd07a", width: 3, shadowBlur: 12, shadowColor: "rgba(47,208,122,0.55)" },
-          itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
           areaStyle: { color: "rgba(47,208,122,0.14)" },
-          // Endpoint values on the chart itself: the story is the distance
-          // between the first report and today, and it should not depend on
-          // the reader hovering the right two dots.
-          label: {
-            show: true,
-            position: "top",
-            fontFamily: FONT_MONO,
-            fontSize: 11,
-            fontWeight: "bold",
-            color: "#eaf1fb",
-            formatter: (p: unknown) => {
-              const { dataIndex, value } = p as { dataIndex: number; value: number };
-              return dataIndex === 0 || dataIndex === points.length - 1
-                ? fmtPct((value ?? 0) / 100, 1)
-                : "";
-            },
-          },
           markLine: {
             silent: true,
             symbol: "none",
@@ -192,6 +212,31 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                   ]
                 : []),
             ],
+          },
+        },
+        {
+          // The measured reports: dots, endpoint labels, and the only series
+          // the tooltip answers for.
+          type: "scatter",
+          symbolSize: 9,
+          data: dotsData,
+          itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
+          label: {
+            show: true,
+            position: "top",
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            fontWeight: "bold",
+            color: "#eaf1fb",
+            formatter: (p: unknown) => {
+              const { dataIndex, value } = p as {
+                dataIndex: number;
+                value: [number, number];
+              };
+              return dataIndex === 0 || dataIndex === n - 1
+                ? fmtPct((value?.[1] ?? 0) / 100, 1)
+                : "";
+            },
           },
         },
       ],
