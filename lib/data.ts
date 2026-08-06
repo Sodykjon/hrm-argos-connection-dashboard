@@ -73,11 +73,16 @@ export async function getHistory(): Promise<ManifestEntry[]> {
     if (manifest?.snapshots?.length) {
       // The pre-migration trend history was lost with the suspended Blob
       // store. The bundled launch report (02.07.2026, 66.9%) is the one
-      // surviving record from before the gap, so it is restored as the
-      // trend's first point — a real report, not an estimate. Skipped as
-      // soon as any upload covers that date or an earlier one.
-      const covered = manifest.snapshots.some((s) => s.date <= seedEntry.date);
-      return covered ? manifest.snapshots : [seedEntry, ...manifest.snapshots];
+      // surviving record from before the gap, so it is merged back in — a
+      // real report, not an estimate. Only an upload for that SAME date
+      // replaces it: an older upload (the user has since backfilled a
+      // January report) must not suppress it, or the trend loses the very
+      // point that separates the flat months from the July climb.
+      const covered = manifest.snapshots.some((s) => s.date === seedEntry.date);
+      const merged = covered
+        ? [...manifest.snapshots]
+        : [...manifest.snapshots, seedEntry];
+      return merged.sort((a, b) => a.date.localeCompare(b.date));
     }
   } catch {
     /* fall through */

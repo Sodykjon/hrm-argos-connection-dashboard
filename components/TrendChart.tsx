@@ -101,11 +101,24 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         },
       },
       xAxis: {
-        type: "category",
-        data: points.map((p) => fmtDate(p.date)),
+        // A TIME axis, not category. Category spacing gave every gap one slot,
+        // so five flat months between 30.01 and 02.07 were as wide as one
+        // week in July — hiding exactly the contrast the page is about. Real
+        // spacing makes the long flat run long and the July climb steep.
+        type: "time",
         axisLine: { lineStyle: { color: "#22334f" } },
         axisTick: { show: false },
-        axisLabel: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 11 },
+        axisLabel: {
+          color: "#8ba0bd",
+          fontFamily: FONT_MONO,
+          fontSize: 11,
+          formatter: (v: number) => {
+            const d = new Date(v);
+            const dd = String(d.getDate()).padStart(2, "0");
+            const mm = String(d.getMonth() + 1).padStart(2, "0");
+            return `${dd}.${mm}`;
+          },
+        },
       },
       yAxis: {
         type: "value",
@@ -127,13 +140,16 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       series: [
         {
           type: "line",
-          // Straight segments, not spline: with few points the smoothing
-          // rounded every step into a slope, and the sharp week-over-week
-          // jumps are exactly what the page wants seen.
-          smooth: false,
+          // Sample-and-hold: each report's value runs FLAT until the next
+          // report, then jumps. Between two distant measurements the previous
+          // diagonal asserted five months of steady growth nobody measured;
+          // the step says only "last known value", which is all we know —
+          // and it renders the story the numbers actually tell: flat at 37%
+          // from January, vertical takeoff when the campaign starts in July.
+          step: "end",
           symbol: "circle",
           symbolSize: 9,
-          data: points.map((p) => toPct(p.percent)),
+          data: points.map((p) => [p.date, toPct(p.percent)]),
           lineStyle: { color: "#2fd07a", width: 3, shadowBlur: 12, shadowColor: "rgba(47,208,122,0.55)" },
           itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
           areaStyle: { color: "rgba(47,208,122,0.14)" },
@@ -148,9 +164,12 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
             fontWeight: "bold",
             color: "#eaf1fb",
             formatter: (p: unknown) => {
-              const { dataIndex, value } = p as { dataIndex: number; value: number };
+              const { dataIndex, value } = p as {
+                dataIndex: number;
+                value: [string, number];
+              };
               return dataIndex === 0 || dataIndex === points.length - 1
-                ? fmtPct((value ?? 0) / 100, 1)
+                ? fmtPct((value?.[1] ?? 0) / 100, 1)
                 : "";
             },
           },
