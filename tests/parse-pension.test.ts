@@ -122,8 +122,11 @@ test("warns but does not fail on a duplicated region row", () => {
     row("Andijon viloyati", 300),
   ].join("\n");
   const { snapshot, warnings } = parsePensionCsv(csv, "x.csv");
-  assert.equal(warnings.length, 1);
-  assert.match(warnings[0], /Андижон вилояти/);
+  // Assert on content, not count: a partial upload legitimately also warns
+  // about the 13 regions it is missing.
+  assert.ok(
+    warnings.some((w) => /Такрорланган ҳудуд/.test(w) && /Андижон вилояти/.test(w)),
+  );
   assert.equal(
     snapshot.regions.filter((r) => r.name === "Андижон вилояти").length,
     1,
@@ -195,7 +198,74 @@ test("clamps a single overshooting non-total field to 0 and warns, without throw
     "the clamp is surgical -- unrelated fields are unaffected",
   );
 
-  assert.equal(warnings.length, 1);
-  assert.match(warnings[0], /a3040/, "the warning names the offending column");
-  assert.match(warnings[0], /30/, "the warning names the overshoot amount");
+  // Content, not count: a partial upload also warns about missing regions.
+  const clamp = warnings.find((w) => /қолдиқ қатори 0/.test(w));
+  assert.ok(clamp, "the clamp must announce itself");
+  assert.match(clamp, /a3040/, "the warning names the offending column");
+  assert.match(clamp, /30/, "the warning names the overshoot amount");
+});
+
+// --- input guards -----------------------------------------------------------
+// Every field is read positionally, so without these the parser trusts the
+// bookmarklet completely. The first real 15-row upload is when that bites.
+
+test("throws naming the column when the header order is wrong", () => {
+  const swapped = HEADER.replace(
+    "jami;jami_ayol",
+    "jami_ayol;jami",
+  );
+  assert.throws(
+    () => parsePensionCsv(`${swapped}\n${row("МИЛЛИЙ", 1000)}`, "x.csv"),
+    /2-устун "jami"/,
+    "a reordered header must fail loudly, not silently read the wrong columns",
+  );
+});
+
+test("warns on a region row whose total is zero", () => {
+  const csv = [
+    HEADER,
+    row("МИЛЛИЙ", 1000),
+    row("Andijon viloyati", 0),
+    row("Buxoro viloyati", 400),
+  ].join("\n");
+  const { warnings } = parsePensionCsv(csv, "x.csv");
+  assert.ok(
+    warnings.some((w) => /Андижон вилояти/.test(w) && /0/.test(w)),
+    "a zero-total region would otherwise render as the healthiest in the country",
+  );
+});
+
+test("warns when geographic regions are missing, naming them", () => {
+  const csv = [HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 300)].join("\n");
+  const { warnings } = parsePensionCsv(csv, "x.csv");
+  const w = warnings.find((x) => /Йўқ:/.test(x));
+  assert.ok(w, "an omitted region is silently absorbed into the residual");
+  assert.match(w, /Бухоро вилояти/);
+  assert.match(w, /Хоразм вилояти/);
+});
+
+test("does not warn about missing regions on a national-only upload", () => {
+  const { warnings } = parsePensionCsv(
+    `${HEADER}\n${row("МИЛЛИЙ", 1000)}`,
+    "x.csv",
+  );
+  assert.equal(warnings.filter((w) => /Йўқ:/.test(w)).length, 0);
+});
+
+test("keeps the first national row and warns about a second", () => {
+  const csv = [HEADER, row("МИЛЛИЙ", 1000), row("МИЛЛИЙ", 5)].join("\n");
+  const { snapshot, warnings } = parsePensionCsv(csv, "x.csv");
+  assert.equal(snapshot.overall.total, 1000, "the first national row wins");
+  assert.ok(warnings.some((w) => /иккинчи миллий/i.test(w)));
+});
+
+test("warns when a non-empty cell is not a number, and treats it as 0", () => {
+  const bad = [
+    "Andijon viloyati", 300, 240, "н/д", 0, 0, 0, 0, 0, 0, 0, 300, 240, 0, 0,
+  ].join(";");
+  const csv = [HEADER, row("МИЛЛИЙ", 1000), bad].join("\n");
+  const { snapshot, warnings } = parsePensionCsv(csv, "x.csv");
+  const andijon = snapshot.regions.find((r) => r.name === "Андижон вилояти");
+  assert.equal(andijon?.a3040, 0);
+  assert.ok(warnings.some((w) => /a3040/.test(w) && /н\/д/.test(w)));
 });

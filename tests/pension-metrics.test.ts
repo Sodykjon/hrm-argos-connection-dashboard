@@ -102,3 +102,16 @@ test("worst is red and best is green, the opposite of rampColor", () => {
   assert.equal(riskColor(1), "rgb(228, 72, 61)", "worst = red");
   assert.equal(riskColor(0), "rgb(16, 160, 109)", "best = green");
 });
+
+test("at exactly one-in-N the qualifier drops — equality falls on the safe side", () => {
+  // 100/700 is exactly 1/7. The comparison is strict `<`, so "ҳар 7 нафардан
+  // бири" is precisely true here and must NOT be softened to "деярли".
+  const m = pensionMetrics({
+    ...NATIONAL,
+    total: 700,
+    pensionWorking: 100,
+    reaching: 0,
+  });
+  assert.equal(m.oneIn, 7);
+  assert.equal(m.nearly, false);
+});

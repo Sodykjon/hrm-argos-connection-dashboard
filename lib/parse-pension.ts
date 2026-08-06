@@ -7,7 +7,7 @@
 // happens HERE, under test, not in the bookmarklet.
 
 import type { PensionSnapshot, PensionStat } from "./types";
-import { PENSION_RESIDUAL } from "./regions.ts";
+import { GEO_REGIONS, PENSION_RESIDUAL } from "./regions.ts";
 
 // --------------------------------------------------------------- region names
 
@@ -100,11 +100,47 @@ const COLUMNS = [
 ] as const satisfies ReadonlyArray<keyof PensionStat>;
 
 /** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
-function count(raw: string | undefined): number {
+const HEADER = [
+  "hudud",
+  "jami", "jami_ayol",
+  "a3040", "a3040_ayol",
+  "a4050", "a4050_ayol",
+  "a5060", "a5060_ayol",
+  "a60p", "a60p_ayol",
+  "pensiya", "pensiya_ayol",
+  "yetadigan", "yetadigan_ayol",
+] as const;
+
+/**
+ * Every field below is read by POSITION, so the header is the only contract
+ * this parser has with its input. If the bookmarklet ever emits the columns in
+ * a different order, reading them positionally would produce plausible,
+ * completely wrong numbers with no error anywhere — on this dashboard that
+ * means a wrong figure in front of the Minister. Hence a hard throw.
+ */
+function assertHeader(line: string): void {
+  const got = line.split(";").map((h) => h.trim().toLowerCase());
+  for (let k = 0; k < HEADER.length; k++) {
+    if (got[k] !== HEADER[k]) {
+      throw new Error(
+        `CSV сарлавҳаси мос келмади: ${k + 1}-устун "${HEADER[k]}" ` +
+          `бўлиши керак, "${got[k] ?? ""}" келди. Юклаш бекор қилинди.`,
+      );
+    }
+  }
+}
+
+/** A non-empty cell that will not parse is reported through `onBad` rather
+ *  than quietly becoming 0 — a masked zero reads as a real figure downstream. */
+function count(raw: string | undefined, onBad?: () => void): number {
   const cleaned = (raw ?? "").replace(/[\s  ']/g, "").trim();
   if (!cleaned) return 0;
   const n = Number(cleaned);
-  return Number.isFinite(n) ? Math.round(n) : 0;
+  if (!Number.isFinite(n)) {
+    onBad?.();
+    return 0;
+  }
+  return Math.round(n);
 }
 
 function emptyStat(name: string): PensionStat {
@@ -151,6 +187,7 @@ export function parsePensionCsv(
     .split(/\r?\n/)
     .filter((l) => l.trim().length > 0);
   if (lines.length < 2) throw new Error("CSV бўш ёки нотўғри форматда.");
+  assertHeader(lines[0]);
 
   let overall: PensionStat | null = null;
   const regions: PensionStat[] = [];
@@ -166,10 +203,23 @@ export function parsePensionCsv(
 
     const stat = emptyStat(name);
     COLUMNS.forEach((c, k) => {
-      stat[c] = count(f[k + 1]);
+      stat[c] = count(f[k + 1], () => {
+        warnings.push(
+          `${i + 1}-қатор, "${c}" устуни: "${(f[k + 1] ?? "").trim()}" сон эмас — 0 деб олинди.`,
+        );
+      });
     });
 
     if (national) {
+      // Mirror the duplicate-region path below: warn and keep the first.
+      // Silently overwriting would replace the national totals — the figures
+      // every share on the page is computed against.
+      if (overall) {
+        warnings.push(
+          `${i + 1}-қатор: иккинчи миллий қатор ўтказиб юборилди, биринчиси сақланди.`,
+        );
+        continue;
+      }
       overall = stat;
       continue;
     }
@@ -177,12 +227,34 @@ export function parsePensionCsv(
       warnings.push(`Такрорланган ҳудуд қатори ўтказиб юборилди: ${name}`);
       continue;
     }
+    // A zero-total region is almost always a truncated row or a failed regional
+    // pull. Left alone it becomes the LOWEST exposure share, so the map paints
+    // that viloyat the healthiest in the country and the worst-first ranking
+    // sorts it last — the opposite of the truth. Warn; the operator decides.
+    if (stat.total === 0) {
+      warnings.push(
+        `${name}: жами ходимлар сони 0 — қатор тўлиқ юкланмаган бўлиши мумкин.`,
+      );
+    }
     seen.add(name);
     regions.push(stat);
   }
 
   if (!overall) {
     throw new Error('CSV да миллий қатор ("МИЛЛИЙ") топилмади.');
+  }
+
+  if (regions.length > 0) {
+    // An omitted region is not visible anywhere downstream: it is silently
+    // absorbed into the residual row, inflating "Марказий аппарат ва
+    // республика марказлари" by that region's whole staff.
+    const missing = GEO_REGIONS.filter((g) => !seen.has(g));
+    if (missing.length > 0) {
+      warnings.push(
+        `${GEO_REGIONS.length} та ҳудуддан ${GEO_REGIONS.length - missing.length} таси юкланди. ` +
+          `Йўқ: ${missing.join(", ")}. Улар қолдиқ қаторига қўшилиб кетади.`,
+      );
+    }
   }
 
   if (regions.length > 0) {
