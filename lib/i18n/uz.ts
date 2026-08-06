@@ -78,6 +78,16 @@ export const UZ = {
     unconnectedHint: "раҳбар ва телефон билан",
     trendHint: "Уланиш даражасининг вақт бўйича ўзгариши",
     orgsConnected: "та ташкилот уланган",
+
+    // The leadership-PDF regional summary table (worst-first + ЖАМИ row).
+    regionTableTitle: "Ҳудудлар кесими",
+    regionTableHint: "паст кўрсаткичдан юқорисига",
+    regionTableSheet: "Уланиш",
+    col: {
+      region: "Ҳудуд",
+      total: "Жами",
+      percent: "Уланиш, %",
+    },
   },
 
   notFound: {
@@ -184,6 +194,8 @@ export const UZ = {
       region: "Ҳудуд",
       id: "ID",
       rate: "Тўлдирилиш, %",
+      inReport: "Ҳисоботда",
+      zero: "0 % да",
     },
     sheet: "Тўлдирилиш",
     totalOption: "Жами (Республика бўйича)",
@@ -193,6 +205,9 @@ export const UZ = {
     central: "Марказий аппарат",
     centralHint: "Соғлиқни сақлаш вазирлиги марказий аппарати",
     centralMore: "Батафсил кўриш",
+
+    regionTableTitle: "Ҳудудлар кесими",
+    regionTableSheet: "Тўлдирилиш",
   },
 
   // Shared by /pensiya and /vakansiya: both read the same snapshot, and this
@@ -440,6 +455,7 @@ export const UZ = {
     org: "ташкилот",
     orgs: "ташкилот",
     of: "дан",
+    totalRow: "ЖАМИ",
   },
 
   footer: {

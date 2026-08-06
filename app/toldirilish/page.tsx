@@ -5,6 +5,7 @@ import { StatTile } from "@/components/StatTile";
 import { LiveFeed } from "@/components/LiveFeed";
 import { AnimatedNumber } from "@/components/motion/AnimatedNumber";
 import { CompletionBoard } from "@/components/completion/CompletionBoard";
+import { CompletionRegionTable } from "@/components/completion/CompletionRegionTable";
 import { CompletionDistribution } from "@/components/completion/CompletionDistribution";
 import { CompletionTrend } from "@/components/completion/CompletionTrend";
 import { CompletionTable } from "@/components/completion/CompletionTable";
@@ -125,6 +126,15 @@ export default async function CompletionPage() {
       {/* map + ranking */}
       <Reveal>
         <CompletionBoard regions={regions} />
+      </Reveal>
+
+      {/* regional summary table, leadership-PDF format */}
+      <Reveal>
+        <CompletionRegionTable
+          regions={regions}
+          overall={snapshot.overall}
+          exportName={`HRM_tuldirilish_hududlar_${snapshot.date}`}
+        />
       </Reveal>
 
       {/* distribution + trend (equal size) */}

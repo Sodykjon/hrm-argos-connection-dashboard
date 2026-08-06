@@ -5,6 +5,7 @@ import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
+import { ConnectionRegionTable } from "@/components/ConnectionRegionTable";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { PensionOverviewCard } from "@/components/pension/PensionOverviewCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -56,6 +57,15 @@ export default async function OverviewPage() {
       {/* lowest 3 */}
       <Reveal>
         <AttentionStrip regions={regions} />
+      </Reveal>
+
+      {/* regional summary table, leadership-PDF format */}
+      <Reveal>
+        <ConnectionRegionTable
+          regions={regions}
+          totals={totals}
+          exportName={`HRM_ulanish_hududlar_${snapshot.date}`}
+        />
       </Reveal>
 
       {/* pension exposure — above completion: the more consequential figure */}

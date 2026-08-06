@@ -80,6 +80,15 @@ export const RU = {
     unconnectedHint: "с руководителем и телефоном",
     trendHint: "Изменение уровня подключения во времени",
     orgsConnected: "организаций подключено",
+
+    regionTableTitle: "Разрез по регионам",
+    regionTableHint: "от низкого показателя к высокому",
+    regionTableSheet: "Подключение",
+    col: {
+      region: "Регион",
+      total: "Всего",
+      percent: "Подключение, %",
+    },
   },
 
   notFound: {
@@ -186,6 +195,8 @@ export const RU = {
       region: "Регион",
       id: "ID",
       rate: "Заполнение, %",
+      inReport: "В отчёте",
+      zero: "На 0 %",
     },
     sheet: "Заполнение",
     totalOption: "Всего (по республике)",
@@ -195,6 +206,9 @@ export const RU = {
     central: "Центральный аппарат",
     centralHint: "Центральный аппарат Министерства здравоохранения",
     centralMore: "Смотреть подробнее",
+
+    regionTableTitle: "Разрез по регионам",
+    regionTableSheet: "Заполнение",
   },
 
   kadrlar: {
@@ -425,6 +439,7 @@ export const RU = {
     org: "организация",
     orgs: "организаций",
     of: "из",
+    totalRow: "ИТОГО",
   },
 
   footer: {
