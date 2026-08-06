@@ -131,13 +131,11 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       series: [
         {
           type: "line",
-          // Sample-and-hold: each report's value runs FLAT until the next
-          // report, then jumps. Between two distant measurements the previous
-          // diagonal asserted five months of steady growth nobody measured;
-          // the step says only "last known value", which is all we know —
-          // and it renders the story the numbers actually tell: flat at 37%
-          // from January, vertical takeoff when the campaign starts in July.
-          step: "end",
+          // Smooth spline — the step version's right angles read as ugly on
+          // sight. smoothMonotone keeps the curve from overshooting past the
+          // measured values, so no bulge ever rises above a real point.
+          smooth: true,
+          smoothMonotone: "x",
           symbol: "circle",
           symbolSize: 9,
           data: points.map((p) => toPct(p.percent)),
