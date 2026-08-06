@@ -114,29 +114,61 @@ export default async function CompletionPage() {
           <div className="min-w-0 flex-1">
             <span className="block text-[0.92rem] font-semibold">{S.completion.central}</span>
             <span className="block text-[0.75rem] text-ink-faint">{S.completion.centralHint}</span>
-            {/* The tick marks the baseline the chip on the right names, so the
-                bar itself shows the distance covered. */}
-            <span className="relative mt-2 block h-1.5 w-full max-w-[320px] overflow-hidden rounded-full bg-line-soft">
-              <span
-                className="block h-full rounded-full"
-                style={{ width: `${central * 100}%`, background: centralColor }}
-              />
-              {centralGrew && (
+            {centralGrew ? (
+              /* Before/after pair: two lengths side by side say "climbed" at a
+                 glance, where a tick on one bar had to be hunted for. */
+              <span className="mt-2.5 grid w-full max-w-[360px] grid-cols-[auto_1fr_auto] items-center gap-x-2.5 gap-y-1.5">
+                <span className="text-[0.68rem] uppercase tracking-wide text-ink-faint">
+                  {S.completion.centralBefore}
+                </span>
+                <span className="block h-1.5 overflow-hidden rounded-full bg-line-soft">
+                  <span
+                    className="block h-full rounded-full bg-och/70"
+                    style={{ width: `${CENTRAL_BASELINE * 100}%` }}
+                  />
+                </span>
+                <span className="tnum text-right text-[0.78rem] text-ink-soft">
+                  {fmtPct(CENTRAL_BASELINE, 0)}
+                </span>
+
+                <span className="text-[0.68rem] uppercase tracking-wide text-ink-faint">
+                  {S.completion.centralNow}
+                </span>
+                <span className="block h-2 overflow-hidden rounded-full bg-line-soft">
+                  <span
+                    className="block h-full rounded-full"
+                    style={{
+                      width: `${central * 100}%`,
+                      background: centralColor,
+                      boxShadow: `0 0 10px ${centralColor}66`,
+                    }}
+                  />
+                </span>
                 <span
-                  aria-hidden
-                  className="absolute top-0 h-full w-[2px] bg-paper/90"
-                  style={{ left: `${CENTRAL_BASELINE * 100}%` }}
+                  className="tnum text-right text-[0.78rem] font-semibold"
+                  style={{ color: centralColor }}
+                >
+                  {fmtPct(central, 1)}
+                </span>
+              </span>
+            ) : (
+              <span className="mt-2 block h-1.5 w-full max-w-[320px] overflow-hidden rounded-full bg-line-soft">
+                <span
+                  className="block h-full rounded-full"
+                  style={{ width: `${central * 100}%`, background: centralColor }}
                 />
-              )}
-            </span>
+              </span>
+            )}
           </div>
           <div className="shrink-0 text-right">
             {centralGrew && (
-              <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-ul/30 bg-ul-soft px-2 py-0.5 text-[0.7rem] font-semibold text-ul">
+              <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-ul/30 bg-ul-soft px-2 py-0.5 text-[0.72rem] font-bold text-ul">
                 <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
-                  <path d="M6 10V2m0 0L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 10V2m0 0L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                {S.completion.centralWas(fmtPct(CENTRAL_BASELINE, 0))}
+                {S.completion.centralDelta(
+                  Math.round((central - CENTRAL_BASELINE) * 100),
+                )}
               </span>
             )}
             <span className="block" style={{ color: centralColor }}>

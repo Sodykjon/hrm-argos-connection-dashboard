@@ -207,7 +207,10 @@ export const UZ = {
     centralMore: "Батафсил кўриш",
     // The baseline is the user's own figure (07.08.2026), shown without a
     // source at their explicit instruction; the value lives in the page.
-    centralWas: (from: string) => `аввал ${from} эди`,
+    centralBefore: "аввал",
+    centralNow: "ҳозир",
+    // Percentage POINTS, spelled out so the chip cannot be read as "+42%".
+    centralDelta: (pts: number) => `+${pts} фоиз бандига ўсди`,
 
     regionTableTitle: "Ҳудудлар кесими",
     regionTableSheet: "Тўлдирилиш",
