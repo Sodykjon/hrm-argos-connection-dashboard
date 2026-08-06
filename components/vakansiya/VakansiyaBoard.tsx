@@ -21,7 +21,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
 
   // Ranked worst-first, GEOGRAPHIC ONLY — the same rule /pensiya had to be
   // corrected into. ARGOS's level branches are not regions, and a
-  // two-organisation branch topping «Ҳудудлар рейтинги» answers the question
+  // one-hospital branch topping «Ҳудудлар рейтинги» answers the question
   // wrongly. The level rows still appear in full in the table below.
   const ranked = useMemo(
     () =>

@@ -8,12 +8,27 @@ Source: the statistics constructor (`#/report/constructor`), not the
 From `GET /api/Staff/Institution/GetSpInstitutionTreeV2`, walking
 `Министерство здравоохранения (1052)`.
 
-| Branch | Organisations |
-|---|---|
-| Территориальный уровень | 1 976 across 14 regions |
-| Республиканский уровень | 358 |
-| Районный/городской уровень | 2 |
-| **Whole ministry** | **2 338** |
+The counts below are ORGANISATIONS — the descendants of each branch node. The
+branch node itself is a grouping node, not an organisation: `idsOf()` includes
+it, so each branch is sent one more id than it has organisations. Verified that
+this costs nothing: `institutionIds: [4]` (the district branch node) returns an
+empty `items` array, so grouping nodes contribute no figures and nothing is
+double-counted.
+
+| Branch | Organisations | Ids sent |
+|---|---|---|
+| Территориальный уровень | 1 976 across 14 regions | 1 977 |
+| Республиканский уровень | 357 | 358 |
+| Районный/городской уровень | **1** | 2 |
+| **Whole ministry** | **2 337** | 2 338 |
+
+**The district/city branch holds a single organisation**, and it is
+`Республиканская клиническая больница глазных болезней` (id 33195) — a
+*republican* hospital sitting in the *district/city* branch, so the branch is a
+misclassification rather than a real level. 154 posts, 154 filled, 0 vacancies,
+31 staff at pension age. Worth reporting to the ARGOS administrators; until they
+move it, the branch has to stay in the data or the region rows stop summing to
+the national figure.
 
 Per region, largest first — the spread is wide enough that a single batch size
 cannot be assumed to suit all of them:
@@ -37,8 +52,8 @@ cannot be assumed to suit all of them:
 | Batch | Organisations | Result |
 |---|---|---|
 | 1 institution (1052) | 1 | 200, 264 ms |
-| Районный/городской уровень | 2 | 200, 1.1 s |
-| Республиканский уровень | 358 | 200, 9.8 s, 327 items |
+| Районный/городской уровень | 2 ids / 1 org | 200, 1.1 s |
+| Республиканский уровень | 358 ids / 357 orgs | 200, 9.8 s, 327 items |
 | **Самаркандская — the biggest region** | **488** | **200, 3.8–11.3 s, 224 items** |
 | whole ministry | 2 338 | **500 Execution Timeout Expired** at 30 s |
 

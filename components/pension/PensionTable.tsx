@@ -25,7 +25,7 @@ export function PensionTable({
   );
 
   // Scaled to the geographic spread, matching the map and the ranking. Include
-  // the level rows and a two-organisation branch sets ramp.max, compressing
+  // the level rows and a single-hospital branch sets ramp.max, compressing
   // every viloyat's bar and colour toward the bottom of the scale.
   const ramp = useMemo(
     () =>
@@ -39,7 +39,7 @@ export function PensionTable({
 
   // Split, not merged. The table is titled «Ҳудудлар кесими», and ARGOS's two
   // non-geographic branches sorted in among the viloyats read as regions —
-  // «Туман/шаҳар даражаси» is 2 organisations and 154 people. They still have
+  // «Туман/шаҳар даражаси» is ONE hospital, 154 people. They still have
   // to appear: drop them and 65 810 staff vanish and the table stops adding up
   // to the national figure. So they get their own labelled group at the bottom.
   const { geo, levels } = useMemo(() => {

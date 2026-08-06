@@ -26,7 +26,7 @@ export function VakansiyaTable({
   );
 
   // Scaled to the geographic spread, matching the map and the ranking. Include
-  // the level rows and a two-organisation branch sets ramp.max, compressing
+  // the level rows and a single-hospital branch sets ramp.max, compressing
   // every viloyat's bar and colour toward the bottom of the scale.
   const ramp = useMemo(
     () =>
