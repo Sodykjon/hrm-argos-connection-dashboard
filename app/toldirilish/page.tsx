@@ -10,7 +10,7 @@ import { CompletionDistribution } from "@/components/completion/CompletionDistri
 import { CompletionTrend } from "@/components/completion/CompletionTrend";
 import { CompletionTable } from "@/components/completion/CompletionTable";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { fmtDate, toPct, rampColor } from "@/lib/format";
+import { fmtDate, fmtPct, toPct, rampColor } from "@/lib/format";
 import { CENTRAL } from "@/lib/regions";
 import { getS } from "@/lib/i18n/server";
 
@@ -40,6 +40,16 @@ export default async function CompletionPage() {
     orgs.find((o) => o.id === "1052")?.completion ??
     0;
   const centralColor = rampColor(central);
+
+  // The campaign-start baseline for the central apparatus. NOT from stored
+  // data: every CSV we hold (24.07 onwards) already shows ~90%, so the climb
+  // predates the first pull. The figure is the user's own recollection,
+  // supplied 07.08.2026 with an explicit instruction to show it without a
+  // source. Do not "correct" it from history — history starts too late to
+  // contain it. Chip and tick render only while the current value stays above
+  // it, so the claim can never invert into nonsense.
+  const CENTRAL_BASELINE = 0.48;
+  const centralGrew = central > CENTRAL_BASELINE;
 
   return (
     <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6">
@@ -104,15 +114,32 @@ export default async function CompletionPage() {
           <div className="min-w-0 flex-1">
             <span className="block text-[0.92rem] font-semibold">{S.completion.central}</span>
             <span className="block text-[0.75rem] text-ink-faint">{S.completion.centralHint}</span>
-            <span className="mt-2 block h-1.5 w-full max-w-[320px] overflow-hidden rounded-full bg-line-soft">
+            {/* The tick marks the baseline the chip on the right names, so the
+                bar itself shows the distance covered. */}
+            <span className="relative mt-2 block h-1.5 w-full max-w-[320px] overflow-hidden rounded-full bg-line-soft">
               <span
                 className="block h-full rounded-full"
                 style={{ width: `${central * 100}%`, background: centralColor }}
               />
+              {centralGrew && (
+                <span
+                  aria-hidden
+                  className="absolute top-0 h-full w-[2px] bg-paper/90"
+                  style={{ left: `${CENTRAL_BASELINE * 100}%` }}
+                />
+              )}
             </span>
           </div>
           <div className="shrink-0 text-right">
-            <span style={{ color: centralColor }}>
+            {centralGrew && (
+              <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-ul/30 bg-ul-soft px-2 py-0.5 text-[0.7rem] font-semibold text-ul">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M6 10V2m0 0L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {S.completion.centralWas(fmtPct(CENTRAL_BASELINE, 0))}
+              </span>
+            )}
+            <span className="block" style={{ color: centralColor }}>
               <AnimatedNumber
                 value={toPct(central)}
                 kind="pct"

@@ -205,6 +205,9 @@ export const UZ = {
     central: "Марказий аппарат",
     centralHint: "Соғлиқни сақлаш вазирлиги марказий аппарати",
     centralMore: "Батафсил кўриш",
+    // The baseline is the user's own figure (07.08.2026), shown without a
+    // source at their explicit instruction; the value lives in the page.
+    centralWas: (from: string) => `аввал ${from} эди`,
 
     regionTableTitle: "Ҳудудлар кесими",
     regionTableSheet: "Тўлдирилиш",

@@ -206,6 +206,7 @@ export const RU = {
     central: "Центральный аппарат",
     centralHint: "Центральный аппарат Министерства здравоохранения",
     centralMore: "Смотреть подробнее",
+    centralWas: (from: string) => `ранее было ${from}`,
 
     regionTableTitle: "Разрез по регионам",
     regionTableSheet: "Заполнение",
