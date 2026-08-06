@@ -154,6 +154,10 @@ export const UZ = {
     snapshots: (n: number) => `${n} та ҳисобот`,
     totalOption: "Жами (Республика бўйича)",
     change: "Ўзгариш (биринчи ҳисоботдан)",
+    // Chart badge. Percentage POINTS, spelled the same way the completion
+    // card does, so "+16,5" cannot be read as "grew by 16.5 percent".
+    deltaPts: (n: string) => `+${n} фоиз банди`,
+    sinceFirst: "биринчи ҳисоботдан бери",
   },
 
   completion: {

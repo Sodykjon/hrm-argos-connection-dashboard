@@ -41,8 +41,52 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
   }, [history, scope]);
 
   const option: EChartsOption = useMemo(() => {
+    const first = points[0];
+    const last = points[points.length - 1];
+    const deltaPts = first && last ? (last.percent - first.percent) * 100 : 0;
+    const grew = deltaPts > 0.5 && points.length > 1;
+
     return {
-      grid: { left: 44, right: 18, top: 20, bottom: 34 },
+      grid: { left: 44, right: 18, top: 46, bottom: 34 },
+      // The climb badge lives on the chart itself: the growth since the first
+      // report is the page's whole message, and it should not depend on the
+      // reader noticing a tile elsewhere. Values are real; the axis below is
+      // clearly labelled, so the tightened range amplifies without inventing.
+      ...(grew
+        ? {
+            graphic: [
+              {
+                type: "text",
+                left: 64,
+                top: 14,
+                silent: true,
+                style: {
+                  text: `↑ ${S.trend.deltaPts(
+                    deltaPts.toFixed(1).replace(".", ","),
+                  )}`,
+                  fill: "#2fd07a",
+                  fontFamily: FONT_MONO,
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  shadowBlur: 14,
+                  shadowColor: "rgba(47,208,122,0.5)",
+                },
+              },
+              {
+                type: "text",
+                left: 66,
+                top: 40,
+                silent: true,
+                style: {
+                  text: S.trend.sinceFirst,
+                  fill: "#7086a4",
+                  fontFamily: FONT_SANS,
+                  fontSize: 11,
+                },
+              },
+            ],
+          }
+        : {}),
       tooltip: {
         trigger: "axis",
         backgroundColor: "#0b3663",
@@ -65,7 +109,12 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       },
       yAxis: {
         type: "value",
-        min: 0,
+        // Floored to the nearest 5 below the observed minimum instead of 0:
+        // on a 0–100 axis a 66.9 → 83.4 climb occupies a sixth of the chart
+        // and reads as flat. The axis labels stay on every gridline, so the
+        // tightened range is visible, not hidden.
+        min: ({ min }: { min: number }) =>
+          Math.max(0, Math.floor((min - 3) / 5) * 5),
         max: 100,
         splitLine: { lineStyle: { color: "#172a45" } },
         axisLabel: {
@@ -105,15 +154,36 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           markLine: {
             silent: true,
             symbol: "none",
-            lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
-            label: {
-              formatter: S.goal.target100,
-              position: "insideEndTop",
-              color: "#f7c14b",
-              fontFamily: FONT_MONO,
-              fontSize: 10,
-            },
-            data: [{ yAxis: 100 }],
+            data: [
+              {
+                yAxis: 100,
+                lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
+                label: {
+                  formatter: S.goal.target100,
+                  position: "insideEndTop",
+                  color: "#f7c14b",
+                  fontFamily: FONT_MONO,
+                  fontSize: 10,
+                },
+              },
+              // The first report's level as a dashed floor: the vertical gap
+              // between this line and the last point IS the progress.
+              ...(grew
+                ? [
+                    {
+                      yAxis: toPct(first.percent),
+                      lineStyle: { color: "#7086a4", type: "dashed" as const, width: 1 },
+                      label: {
+                        formatter: `${fmtDate(first.date)} · ${fmtPct(first.percent, 1)}`,
+                        position: "insideStartBottom" as const,
+                        color: "#7086a4",
+                        fontFamily: FONT_MONO,
+                        fontSize: 10,
+                      },
+                    },
+                  ]
+                : []),
+            ],
           },
         },
       ],

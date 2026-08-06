@@ -155,6 +155,8 @@ export const RU = {
     snapshots: (n: number) => `${n} отчётов`,
     totalOption: "Всего (по республике)",
     change: "Изменение (с первого отчёта)",
+    deltaPts: (n: string) => `+${n} проц. пункта`,
+    sinceFirst: "с первого отчёта",
   },
 
   completion: {
