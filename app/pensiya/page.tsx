@@ -2,7 +2,6 @@ import { getLatestPension } from "@/lib/data";
 import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
-import { PensionWave } from "@/components/pension/PensionWave";
 import { PensionTable } from "@/components/pension/PensionTable";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
@@ -101,10 +100,6 @@ export default async function PensionPage() {
           </div>
           <PensionAgeChart stat={overall} />
         </div>
-      </Reveal>
-
-      <Reveal>
-        <PensionWave stat={overall} />
       </Reveal>
 
       {regions.length > 0 && (
