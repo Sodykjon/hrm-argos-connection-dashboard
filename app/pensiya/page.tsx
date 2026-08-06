@@ -37,6 +37,13 @@ export default async function PensionPage() {
 
       <PensionHero stat={overall} />
 
+      {/* Names the report the headline came from. ARGOS publishes several staff
+          totals differing by 100 000+; without this the first question in the
+          room is "whose number is that?" and there is no answer on screen. */}
+      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+        {S.pension.sourceNote(fmtDate(snapshot.date))}
+      </p>
+
       <RevealGroup className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <RevealItem className="h-full">
           <StatTile label={S.pension.total} value={overall.total} accent="sov" hint={S.pension.totalHint} />

@@ -269,6 +269,12 @@ export const UZ = {
     rankOf: (n: number, total: number) =>
       `Алмашинув эҳтиёжи бўйича: ${n} / ${total}`,
 
+    // Sits under the hero's absolute count. ARGOS publishes several staff
+    // totals that differ by over 100 000 depending on which report you open,
+    // so the page names the one it used and says what that one counts.
+    sourceNote: (date: string) =>
+      `Манба: hrm.argos.uz — «Ходимларнинг ёш тақсимоти» ҳисоботи, ${date} ҳолатига. Ҳисобот амалда фаолият кўрсатаётган ходимларни санайди; тизимнинг бошқа ҳисоботларида қамров фарқ қилиши мумкин.`,
+
     noRegions: "Ҳудудлар кесими ҳали юкланмаган",
     noRegionsHint:
       "Ҳозирча фақат республика бўйича умумий кўрсаткич мавжуд. 14 та ҳудуд бўйича маълумот юклангач, харита ва рейтинг кўринади.",

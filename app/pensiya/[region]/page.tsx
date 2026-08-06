@@ -59,6 +59,11 @@ export default async function PensionRegionPage({
 
       <PensionHero stat={stat} />
 
+      {/* Region pages get clicked into during a presentation too. */}
+      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+        {S.pension.sourceNote(fmtDate(snapshot.date))}
+      </p>
+
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatTile label={S.pension.total} value={stat.total} accent="sov" hint={S.pension.totalHint} />
         <StatTile
