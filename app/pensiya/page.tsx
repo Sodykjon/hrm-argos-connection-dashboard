@@ -2,6 +2,7 @@ import { getLatestKadrlar } from "@/lib/data";
 import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
+import { PensionForecast } from "@/components/pension/PensionForecast";
 import { PensionTable } from "@/components/pension/PensionTable";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
@@ -92,15 +93,35 @@ export default async function PensionPage() {
         </Reveal>
       )}
 
-      <Reveal>
-        <div className="card p-4 sm:p-5">
-          <div className="mb-2">
-            <h2 className="text-[0.95rem] font-semibold">{S.pension.ageTitle}</h2>
-            <p className="text-[0.78rem] text-ink-soft">{S.pension.ageHint}</p>
+      {/* Both charts read `overall` only, so this row renders even before any
+          regional upload exists. */}
+      <div className="grid items-stretch gap-5 lg:grid-cols-2">
+        <Reveal className="h-full">
+          <div className="card flex h-full flex-col p-4 sm:p-5">
+            <div className="mb-2">
+              <h2 className="text-[0.95rem] font-semibold">{S.pension.ageTitle}</h2>
+              <p className="text-[0.78rem] text-ink-soft">{S.pension.ageHint}</p>
+            </div>
+            <PensionAgeChart stat={overall} />
           </div>
-          <PensionAgeChart stat={overall} />
-        </div>
-      </Reveal>
+        </Reveal>
+        <Reveal className="h-full">
+          <div className="card flex h-full flex-col p-4 sm:p-5">
+            <div className="mb-2">
+              <h2 className="text-[0.95rem] font-semibold">
+                {S.pension.forecastTitle}
+              </h2>
+              <p className="text-[0.78rem] text-ink-soft">
+                {S.pension.forecastHint}
+              </p>
+            </div>
+            <PensionForecast stat={overall} />
+            <p className="mt-2 text-[0.72rem] leading-relaxed text-ink-faint">
+              {S.pension.forecastFootnote}
+            </p>
+          </div>
+        </Reveal>
+      </div>
 
       {regions.length > 0 && (
         <section className="space-y-3">
