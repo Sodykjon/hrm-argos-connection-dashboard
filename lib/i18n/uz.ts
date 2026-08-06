@@ -333,8 +333,13 @@ export const UZ = {
 
     turnoverTitle: "Кадрлар ҳаракати",
     turnoverHint: "Ҳисобот даврида ишга қабул қилинган ва ишдан бўшаган ходимлар",
+    // Not a guess any more: verified against ARGOS per-organisation on
+    // 06.08.2026. 133 of Samarkand's 224 organisations recorded 80%+ of their
+    // ENTIRE staff as "accepted" in the period (Каттақўрғон tumani bo'limi:
+    // 1 924 of 1 939; Тойлоқ: 1 854 of 1 855), while dismissals total 644 —
+    // the signature of bulk onboarding into ARGOS, not of real hiring.
     turnoverNote:
-      "Самарқанд вилоятидаги қабул кўрсаткичи бошқа ҳудудлардан кескин фарқ қилади — манбадаги оммавий қайта рўйхатга олиш бўлиши мумкин.",
+      "Самарқанд вилоятидаги қабул кўрсаткичи реал ёллашни эмас, ташкилотларнинг АРГОСга оммавий киритилишини акс эттиради: 06.08.2026 текширувида 224 ташкилотдан 133 таси бутун штатининг 80% дан кўпини айнан шу даврда «қабул қилинган» деб рўйхатга олгани аниқланди (бўшаганлар атиги 644 нафар).",
     accepted: "Ишга қабул қилинган",
     dismissed: "Ишдан бўшаган",
     net: "Соф ўзгариш",
