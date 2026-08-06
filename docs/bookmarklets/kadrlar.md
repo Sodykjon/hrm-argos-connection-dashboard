@@ -32,40 +32,47 @@ cannot be assumed to suit all of them:
 | Каракалпакстан | 67 |
 | Сырдарьинская | 55 |
 
-## Measured limits
+## Measured limits (2026-08-06)
 
 | Batch | Organisations | Result |
 |---|---|---|
-| 1 institution (1052) | 1 | **200, 264 ms** |
-| whole ministry | 2 134 | **500 Execution Timeout Expired** |
-| biggest region (Самаркандская) | 488 | **400 validation error, 67 ms** — see below |
-| republican level | 358 | not measured — session expired |
-| district level | 2 | not measured — session expired |
+| 1 institution (1052) | 1 | 200, 264 ms |
+| Районный/городской уровень | 2 | 200, 1.1 s |
+| Республиканский уровень | 358 | 200, 9.8 s, 327 items |
+| **Самаркандская — the biggest region** | **488** | **200, 3.8–11.3 s, 224 items** |
+| whole ministry | 2 338 | **500 Execution Timeout Expired** at 30 s |
 
-**Safe batch size: NOT YET ESTABLISHED.** Do not write the extraction script
-against a guessed number.
+**Batch = one branch.** The largest region fits in a single request, so the pull
+is 16 requests — 14 regions plus the two other levels — and takes roughly a
+minute. No sub-batching is needed. Keep a halve-and-retry on a 500 anyway: the
+ceiling sits between 488 and 2 338 and could move as organisations are added.
 
-### The unresolved 400
+### `metaData.rows` must be 1–200, and does not paginate
 
-The 488-organisation request failed in 67 ms with
-`One or more validation errors occurred` — a *validation* rejection, not the
-timeout the whole-ministry request produced. That is a different failure mode
-and it is not yet understood. Candidates, in order of likelihood:
+An early attempt sent `rows: 5000` and got a 400 in 67 ms — a *validation*
+rejection, not a size problem:
 
-1. `metaData.rows` was set to 5000; the app itself sends 10. There may be a
-   server-side cap.
-2. `institutionIds` may have a length limit lower than 488.
-3. The `selectTreeNodes` set used here is larger than any the app sends in one
-   request, and some combination may be rejected.
+```json
+{"errors":{"MetaData.rows":["Row must be between 1 and 200"]}}
+```
 
-**This matters for the script's retry logic.** The plan's Task 5 halves a batch
-on a 500 and retries; a 400 would fall straight through that and abort the pull.
-Whatever the cause turns out to be, the retry has to handle both codes, or the
-cause has to be removed.
+The same 400 appeared at 50 ids, which is what proved the batch size was
+innocent. **Send `rows: 200`.**
 
-Next session, with a live token, isolate it by varying one thing at a time:
-send `rows: 10` at 488 ids; send the full node set at 50 ids; send a minimal
-node set at 488 ids. The one that flips the result names the constraint.
+`rows` does not limit the returned items. Verified on the 488-id request: `rows:1`,
+`rows:10` and `rows:200` each returned all **224** items with an identical
+`totalEmployee` sum of **60 148**. There is no pagination to handle.
+
+### Cross-check against the old source
+
+That 60 148 for Samarkand is byte-identical to the figure the previous extraction
+produced from `all-employee-distribution-by-seniority`'s
+«Управление здравоохранения Самаркандской области (МА+барча Хтлар)» rollup. Two
+independent endpoints, two different grouping mechanisms, the same number — good
+evidence that the source switch preserves the regional cut.
+
+Note 488 ids return only 224 items: organisations with no staff record produce no
+row. Sum the items; do not expect one row per id.
 
 ## The script
 
