@@ -7,7 +7,11 @@
 // happens HERE, under test, not in the bookmarklet.
 
 import type { KadrlarSnapshot, KadrlarStat } from "./types";
-import { GEO_REGIONS, PENSION_RESIDUAL } from "./regions.ts";
+import {
+  GEO_REGIONS,
+  LEVEL_DISTRICT,
+  LEVEL_REPUBLICAN,
+} from "./regions.ts";
 
 // --------------------------------------------------------------- region names
 
@@ -67,7 +71,8 @@ for (const [argos, canonical] of ARGOS_TO_CANONICAL) {
   LOOKUP.set(normalize(argos), canonical);
   LOOKUP.set(normalize(canonical), canonical);
 }
-LOOKUP.set(normalize(PENSION_RESIDUAL), PENSION_RESIDUAL);
+LOOKUP.set(normalize(LEVEL_REPUBLICAN), LEVEL_REPUBLICAN);
+LOOKUP.set(normalize(LEVEL_DISTRICT), LEVEL_DISTRICT);
 
 /** Resolve an incoming region name, or throw naming the offender. */
 export function resolveArgosRegion(raw: string): string {
@@ -90,25 +95,17 @@ export function isNationalRow(raw: string): boolean {
 // ---------------------------------------------------------------- CSV parsing
 
 const COLUMNS = [
-  "total", "totalWomen",
-  "a3040", "a3040Women",
-  "a4050", "a4050Women",
-  "a5060", "a5060Women",
-  "a60p", "a60pWomen",
-  "pensionWorking", "pensionWorkingWomen",
-  "reaching", "reachingWomen",
+  "stavka", "total", "totalWomen", "vacant", "accepted", "dismissed",
+  "u30", "a3040", "a4050", "a5060", "a60p",
+  "pensionWorking", "pensionWorkingWomen", "reaching", "reachingWomen",
 ] as const satisfies ReadonlyArray<keyof KadrlarStat>;
 
 /** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
 const HEADER = [
   "hudud",
-  "jami", "jami_ayol",
-  "a3040", "a3040_ayol",
-  "a4050", "a4050_ayol",
-  "a5060", "a5060_ayol",
-  "a60p", "a60p_ayol",
-  "pensiya", "pensiya_ayol",
-  "yetadigan", "yetadigan_ayol",
+  "shtat", "jami", "jami_ayol", "vakansiya", "qabul", "boshagan",
+  "u30", "a3040", "a4050", "a5060", "a60p",
+  "pensiya", "pensiya_ayol", "yetadigan", "yetadigan_ayol",
 ] as const;
 
 /**
@@ -149,11 +146,6 @@ function emptyStat(name: string): KadrlarStat {
   return s;
 }
 
-function subtract(a: KadrlarStat, b: KadrlarStat, name: string): KadrlarStat {
-  const out = emptyStat(name);
-  for (const c of COLUMNS) out[c] = a[c] - b[c];
-  return out;
-}
 
 function addInto(acc: KadrlarStat, r: KadrlarStat): void {
   for (const c of COLUMNS) acc[c] += r[c];
@@ -227,6 +219,14 @@ export function parseKadrlarCsv(
       warnings.push(`Такрорланган ҳудуд қатори ўтказиб юборилди: ${name}`);
       continue;
     }
+    // Upstream computes vacancies as positions minus filled posts — verified
+    // 434 = 320 + 114 on institution 1052. If that stops holding, one of the
+    // three numbers is wrong, and the vacancy page rests on all three.
+    if (stat.stavka !== stat.total + stat.vacant) {
+      warnings.push(
+        `${name}: штат (${stat.stavka}) ≠ ходимлар (${stat.total}) + вакансия (${stat.vacant}).`,
+      );
+    }
     // A zero-total region is almost always a truncated row or a failed regional
     // pull. Left alone it becomes the LOWEST exposure share, so the map paints
     // that viloyat the healthiest in the country and the worst-first ranking
@@ -245,47 +245,30 @@ export function parseKadrlarCsv(
   }
 
   if (regions.length > 0) {
-    // An omitted region is not visible anywhere downstream: it is silently
-    // absorbed into the residual row, inflating "Марказий аппарат ва
-    // республика марказлари" by that region's whole staff.
+    // An omitted region used to vanish into the computed residual, silently
+    // inflating it by that region's whole staff. There is no residual to hide
+    // in now, so the row would simply be missing -- still worth naming.
     const missing = GEO_REGIONS.filter((g) => !seen.has(g));
     if (missing.length > 0) {
       warnings.push(
         `${GEO_REGIONS.length} та ҳудуддан ${GEO_REGIONS.length - missing.length} таси юкланди. ` +
-          `Йўқ: ${missing.join(", ")}. Улар қолдиқ қаторига қўшилиб кетади.`,
+          `Йўқ: ${missing.join(", ")}.`,
       );
     }
-  }
 
-  if (regions.length > 0) {
     const sum = emptyStat("");
     for (const r of regions) addInto(sum, r);
 
-    if (sum.total > overall.total) {
-      throw new Error(
-        `Ҳудудлар йиғиндиси миллий кўрсаткичдан катта ` +
-          `(${sum.total} > ${overall.total}). Юклаш бекор қилинди.`,
+    // Rows arrive from separate requests against a live system, so exact
+    // equality is not expected. A gap is NAMED rather than absorbed: the old
+    // computed residual row hid exactly this, and afterwards nobody could say
+    // what was inside it.
+    const gap = overall.total - sum.total;
+    if (gap !== 0) {
+      warnings.push(
+        `Қаторлар йиғиндиси миллий кўрсаткичдан ${Math.abs(gap)} тага ` +
+          `${gap > 0 ? "кам" : "кўп"} (${sum.total} / ${overall.total}).`,
       );
-    }
-    // The central apparatus and the republican centres sit outside every
-    // viloyat, so the gap is real and is shown, not hidden.
-    if (sum.total < overall.total) {
-      const residual = subtract(overall, sum, PENSION_RESIDUAL);
-      // `total` is guarded hard above: if the two pulls disagree about the size
-      // of the population, nothing downstream is trustworthy. The other columns
-      // are a different case -- the 15 rows come from 15 requests against a live
-      // report over 8-15 minutes, and pulls minutes apart are already known to
-      // differ by a handful of people. Clamping a small negative and naming it
-      // beats refusing a 15-minute pull over three people.
-      for (const c of COLUMNS) {
-        if (residual[c] < 0) {
-          warnings.push(
-            `"${c}" устуни бўйича ҳудудлар йиғиндиси миллий кўрсаткичдан ${-residual[c]} тага катта — қолдиқ қатори 0 га тенглаштирилди.`,
-          );
-          residual[c] = 0;
-        }
-      }
-      regions.push(residual);
     }
   }
 

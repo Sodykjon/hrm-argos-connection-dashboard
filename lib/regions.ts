@@ -11,18 +11,14 @@ export const REPUBLIC = "Республика муассасалари";
 export const CENTRAL = "Марказий аппарат";
 
 /**
- * Σ(14 regions) < national, because a large set of organisations reports
- * straight to the ministry rather than to a viloyat health administration.
- * The difference is shown as this explicit row, never left as a silent gap.
- * Not geographic — never on the map.
- *
- * Named for what the row IS (the complement) rather than for its contents.
- * An earlier name enumerated them — "central apparatus and republican centres"
- * — and was wrong: verified against the live report on 2026-08-06, 24 936 of
- * the 66 117 (38 %) is the sanitary-epidemiological committee, which is
- * neither. Enumerating invites exactly that error; describing does not.
+ * ARGOS's own top-level branches beside the 14 viloyats, taken straight from
+ * GetSpInstitutionTreeV2. Not geographic — never on the map, but real rows with
+ * real organisations behind them, which is what the computed residual row they
+ * replace could never claim: it was a subtraction whose contents nobody could
+ * name, and 38 % of it turned out to be the sanitary committee.
  */
-export const PENSION_RESIDUAL = "Ҳудудий бошқармаларга кирмаган ташкилотлар";
+export const LEVEL_REPUBLICAN = "Республика даражаси";
+export const LEVEL_DISTRICT = "Туман/шаҳар даражаси";
 
 // Cyrillic region name -> URL slug (latin, stable & readable)
 const SLUG_MAP: Record<string, string> = {
@@ -45,7 +41,8 @@ const SLUG_MAP: Record<string, string> = {
   "Марказий аппарат": "markaziy-apparat",
   "Санитар-эпидемиология қўмитаси": "sanepid-qomita",
   "Республика марказлари": "respublika-markazlari",
-  "Ҳудудий бошқармаларга кирмаган ташкилотлар": "markaz-respublika",
+  "Республика даражаси": "respublika-darajasi",
+  "Туман/шаҳар даражаси": "tuman-shahar",
 };
 
 const REVERSE: Record<string, string> = Object.fromEntries(
@@ -125,8 +122,8 @@ const REGION_RU: Record<string, string> = {
   "Санитар-эпидемиология қўмитаси":
     "Комитет санитарно-эпидемиологического благополучия",
   "Республика марказлари": "Республиканские центры",
-  "Ҳудудий бошқармаларга кирмаган ташкилотлар":
-    "Организации вне областных управлений",
+  "Республика даражаси": "Республиканский уровень",
+  "Туман/шаҳар даражаси": "Районный/городской уровень",
 };
 
 /**

@@ -1,9 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { resolveArgosRegion, isNationalRow } from "../lib/parse-kadrlar.ts";
-// Imported rather than hard-coded: these assertions are about the residual row
-// existing and carrying the right numbers, not about its wording.
-import { PENSION_RESIDUAL } from "../lib/regions.ts";
+// Imported rather than hard-coded: these assertions are about the level rows
+// existing and carrying the right numbers, not about their wording.
+import { LEVEL_REPUBLICAN, LEVEL_DISTRICT } from "../lib/regions.ts";
 
 test("resolves every plain Latin ARGOS region name", () => {
   assert.equal(resolveArgosRegion("Andijon viloyati"), "Андижон вилояти");
@@ -34,6 +34,11 @@ test("is idempotent on an already-canonical Cyrillic name", () => {
   assert.equal(resolveArgosRegion("Тошкент шаҳри"), "Тошкент шаҳри");
 });
 
+test("resolves the two ARGOS level names", () => {
+  assert.equal(resolveArgosRegion("Республика даражаси"), LEVEL_REPUBLICAN);
+  assert.equal(resolveArgosRegion("Туман/шаҳар даражаси"), LEVEL_DISTRICT);
+});
+
 test("tolerates case and stray whitespace", () => {
   assert.equal(resolveArgosRegion("  buxoro   VILOYATI "), "Бухоро вилояти");
 });
@@ -53,83 +58,103 @@ test("recognises the national row marker", () => {
   assert.equal(isNationalRow("Andijon viloyati"), false);
 });
 
+// --- CSV parsing ------------------------------------------------------------
+
 import { parseKadrlarCsv } from "../lib/parse-kadrlar.ts";
 
 const HEADER =
-  "hudud;jami;jami_ayol;a3040;a3040_ayol;a4050;a4050_ayol;a5060;a5060_ayol;" +
-  "a60p;a60p_ayol;pensiya;pensiya_ayol;yetadigan;yetadigan_ayol";
+  "hudud;shtat;jami;jami_ayol;vakansiya;qabul;boshagan;u30;a3040;a4050;a5060;a60p;" +
+  "pensiya;pensiya_ayol;yetadigan;yetadigan_ayol";
 
-/** A row with `total` split evenly across the shape, so sums are easy to check. */
-function row(name: string, total: number): string {
+/** A row whose staffing identity holds: shtat = jami + vakansiya. */
+function row(name: string, total: number, vacant = 0): string {
   const w = Math.round(total * 0.8);
-  return [name, total, w, 0, 0, 0, 0, 0, 0, 0, 0, total, w, 0, 0].join(";");
+  return [name, total + vacant, total, w, vacant, 0, 0,
+          total, 0, 0, 0, 0, total, w, 0, 0].join(";");
 }
 
+const NL = String.fromCharCode(10);
+
 test("parses a national-only CSV into an empty region list", () => {
-  const csv = `${HEADER}\n${row("МИЛЛИЙ", 1000)}`;
-  const { snapshot } = parseKadrlarCsv(csv, "HRM_pensiya_2026-08-05.csv");
-  assert.equal(snapshot.date, "2026-08-05");
+  const { snapshot } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000)].join(NL), "HRM_kadrlar_2026-08-06.csv");
+  assert.equal(snapshot.date, "2026-08-06");
   assert.equal(snapshot.overall.total, 1000);
   assert.equal(snapshot.overall.totalWomen, 800);
   assert.deepEqual(snapshot.regions, []);
 });
 
-test("appends the residual row = national minus the sum of regions", () => {
-  const csv = [
+test("reads staffing and vacancies", () => {
+  const { snapshot } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000, 120)].join(NL), "x.csv");
+  assert.equal(snapshot.overall.stavka, 1120);
+  assert.equal(snapshot.overall.total, 1000);
+  assert.equal(snapshot.overall.vacant, 120);
+});
+
+test("keeps the two ARGOS level rows as ordinary rows", () => {
+  const { snapshot, warnings } = parseKadrlarCsv([
     HEADER,
     row("МИЛЛИЙ", 1000),
     row("Andijon viloyati", 300),
-    row("Buxoro viloyati", 200),
-  ].join("\n");
-  const { snapshot } = parseKadrlarCsv(csv, "HRM_pensiya_2026-08-05.csv");
-
-  assert.equal(snapshot.regions.length, 3, "2 regions + 1 residual");
-  const residual = snapshot.regions.at(-1);
-  assert.equal(residual?.name, PENSION_RESIDUAL);
-  assert.equal(residual?.total, 500);
-  assert.equal(residual?.totalWomen, 800 - 240 - 160);
-  assert.equal(residual?.pensionWorking, 500);
-});
-
-test("omits the residual row when the regions already account for everything", () => {
-  const csv = [HEADER, row("МИЛЛИЙ", 500), row("Andijon viloyati", 500)].join("\n");
-  const { snapshot } = parseKadrlarCsv(csv, "HRM_pensiya_2026-08-05.csv");
-  assert.equal(snapshot.regions.length, 1);
-  assert.equal(snapshot.regions[0].name, "Андижон вилояти");
-});
-
-test("rejects a CSV whose regions exceed the national total", () => {
-  const csv = [HEADER, row("МИЛЛИЙ", 100), row("Andijon viloyati", 300)].join("\n");
-  assert.throws(
-    () => parseKadrlarCsv(csv, "HRM_pensiya_2026-08-05.csv"),
-    /Ҳудудлар йиғиндиси/,
-    "a negative residual means the national and regional pulls disagree",
+    row("Республика даражаси", 500),
+    row("Туман/шаҳар даражаси", 200),
+  ].join(NL), "HRM_kadrlar_2026-08-06.csv");
+  assert.equal(snapshot.regions.length, 3);
+  const names = snapshot.regions.map((r) => r.name);
+  assert.ok(names.includes(LEVEL_REPUBLICAN));
+  assert.ok(names.includes(LEVEL_DISTRICT));
+  assert.equal(
+    warnings.filter((w) => /Қаторлар йиғиндиси/.test(w)).length,
+    0,
+    "300 + 500 + 200 reconciles with 1000",
   );
+});
+
+test("warns with the amount when the rows do not reconcile", () => {
+  const { warnings } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 300)].join(NL), "x.csv");
+  assert.ok(
+    warnings.some((w) => /Қаторлар йиғиндиси/.test(w) && /700/.test(w)),
+    "the shortfall must be named, not absorbed into an invented row",
+  );
+});
+
+test("never synthesises a row by subtraction", () => {
+  const { snapshot } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 300)].join(NL), "x.csv");
+  assert.equal(snapshot.regions.length, 1, "only rows that were actually in the file");
+});
+
+test("warns when shtat does not equal employees plus vacancies", () => {
+  // 999 != 1000 + 120. The vacancy page rests on this identity holding.
+  const bad = ["Andijon viloyati", 999, 1000, 800, 120, 0, 0,
+               1000, 0, 0, 0, 0, 1000, 800, 0, 0].join(";");
+  const { warnings } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 5000), bad].join(NL), "x.csv");
+  assert.ok(warnings.some((w) => /штат/.test(w) && /Андижон/.test(w)));
 });
 
 test("rejects a CSV with no national row", () => {
-  const csv = [HEADER, row("Andijon viloyati", 300)].join("\n");
-  assert.throws(() => parseKadrlarCsv(csv, "x.csv"), /МИЛЛИЙ/);
+  assert.throws(
+    () => parseKadrlarCsv([HEADER, row("Andijon viloyati", 300)].join(NL), "x.csv"),
+    /МИЛЛИЙ/,
+  );
 });
 
 test("names the offending region when one cannot be resolved", () => {
-  const csv = [HEADER, row("МИЛЛИЙ", 900), row("Atlantis viloyati", 100)].join("\n");
-  assert.throws(() => parseKadrlarCsv(csv, "x.csv"), /Atlantis viloyati/);
+  assert.throws(
+    () => parseKadrlarCsv(
+      [HEADER, row("МИЛЛИЙ", 900), row("Atlantis viloyati", 100)].join(NL), "x.csv"),
+    /Atlantis viloyati/,
+  );
 });
 
 test("warns but does not fail on a duplicated region row", () => {
-  const csv = [
-    HEADER,
-    row("МИЛЛИЙ", 1000),
-    row("Andijon viloyati", 300),
-    row("Andijon viloyati", 300),
-  ].join("\n");
-  const { snapshot, warnings } = parseKadrlarCsv(csv, "x.csv");
-  // Assert on content, not count: a partial upload legitimately also warns
-  // about the 13 regions it is missing.
-  assert.ok(
-    warnings.some((w) => /Такрорланган ҳудуд/.test(w) && /Андижон вилояти/.test(w)),
-  );
+  const { snapshot, warnings } = parseKadrlarCsv([
+    HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 300), row("Andijon viloyati", 300),
+  ].join(NL), "x.csv");
+  assert.ok(warnings.some((w) => /Такрорланган ҳудуд/.test(w) && /Андижон вилояти/.test(w)));
   assert.equal(
     snapshot.regions.filter((r) => r.name === "Андижон вилояти").length,
     1,
@@ -138,100 +163,36 @@ test("warns but does not fail on a duplicated region row", () => {
 });
 
 test("tolerates a BOM, CRLF line endings and thin-space grouped numbers", () => {
-  const csv =
-    "﻿" + [HEADER, "МИЛЛИЙ;689 461;549 586;0;0;0;0;0;0;0;0;79 672;59 000;15 309;12 177"].join("\r\n");
-  const { snapshot } = parseKadrlarCsv(csv, "HRM_pensiya_2026-08-05.csv");
-  assert.equal(snapshot.overall.total, 689461);
-  assert.equal(snapshot.overall.pensionWorking, 79672);
-  assert.equal(snapshot.overall.reachingWomen, 12177);
-});
-
-/** Same shape as row(), but overrides a single column by its CSV header name
- *  (as it appears in HEADER) -- for isolating one non-`total` field's
- *  behaviour from the rest of the shape. */
-function rowWith(
-  name: string,
-  total: number,
-  field: string,
-  value: number,
-): string {
-  const cells = row(name, total).split(";");
-  cells[HEADER.split(";").indexOf(field)] = String(value);
-  return cells.join(";");
-}
-
-test("clamps a single overshooting non-total field to 0 and warns, without throwing", () => {
-  // `total` reconciles (300 + 200 = 500 <= 1000), so the hard refusal never
-  // fires. But the regional pulls of "a3040" alone sum to 80 (Andijon's 80 +
-  // Buxoro's 0), overshooting the national pull's a3040 of 50 -- exactly the
-  // drift between 15 separate live requests that the residual guard must
-  // tolerate instead of rejecting the whole upload.
-  const csv = [
+  const BOM = String.fromCharCode(0xfeff);
+  const CRLF = String.fromCharCode(13, 10);
+  const csv = BOM + [
     HEADER,
-    rowWith("МИЛЛИЙ", 1000, "a3040", 50),
-    rowWith("Andijon viloyati", 300, "a3040", 80),
-    row("Buxoro viloyati", 200),
-  ].join("\n");
-  const { snapshot, warnings } = parseKadrlarCsv(
-    csv,
-    "HRM_pensiya_2026-08-05.csv",
-  );
-
-  assert.equal(snapshot.regions.length, 3, "2 regions + 1 residual");
-  const residual = snapshot.regions.at(-1);
-  assert.equal(residual?.name, PENSION_RESIDUAL);
-  assert.equal(
-    residual?.a3040,
-    0,
-    "the overshooting field is clamped, not left negative",
-  );
-  assert.equal(
-    residual?.total,
-    500,
-    "total reconciled, so the hard guard above never touches this row",
-  );
-  assert.equal(
-    residual?.totalWomen,
-    400,
-    "a field that did not overshoot keeps its real subtracted value",
-  );
-  assert.equal(
-    residual?.pensionWorking,
-    500,
-    "the clamp is surgical -- unrelated fields are unaffected",
-  );
-
-  // Content, not count: a partial upload also warns about missing regions.
-  const clamp = warnings.find((w) => /қолдиқ қатори 0/.test(w));
-  assert.ok(clamp, "the clamp must announce itself");
-  assert.match(clamp, /a3040/, "the warning names the offending column");
-  assert.match(clamp, /30/, "the warning names the overshoot amount");
+    "МИЛЛИЙ;780 000;689 485;549 622;90 515;0;0;92 780;233 081;188 588;135 681;39 355;79 686;59 019;15 306;12 176",
+  ].join(CRLF);
+  const { snapshot } = parseKadrlarCsv(csv, "HRM_kadrlar_2026-08-06.csv");
+  assert.equal(snapshot.overall.total, 689485);
+  assert.equal(snapshot.overall.stavka, 780000);
+  assert.equal(snapshot.overall.vacant, 90515);
+  assert.equal(snapshot.overall.reachingWomen, 12176);
 });
 
 // --- input guards -----------------------------------------------------------
-// Every field is read positionally, so without these the parser trusts the
-// bookmarklet completely. The first real 15-row upload is when that bites.
+// Every field is read positionally, so without these the parser trusts whatever
+// the extraction script emitted.
 
 test("throws naming the column when the header order is wrong", () => {
-  const swapped = HEADER.replace(
-    "jami;jami_ayol",
-    "jami_ayol;jami",
-  );
+  const swapped = HEADER.replace("shtat;jami;", "jami;shtat;");
   assert.throws(
-    () => parseKadrlarCsv(`${swapped}\n${row("МИЛЛИЙ", 1000)}`, "x.csv"),
-    /2-устун "jami"/,
+    () => parseKadrlarCsv([swapped, row("МИЛЛИЙ", 1000)].join(NL), "x.csv"),
+    /2-устун "shtat"/,
     "a reordered header must fail loudly, not silently read the wrong columns",
   );
 });
 
 test("warns on a region row whose total is zero", () => {
-  const csv = [
-    HEADER,
-    row("МИЛЛИЙ", 1000),
-    row("Andijon viloyati", 0),
-    row("Buxoro viloyati", 400),
-  ].join("\n");
-  const { warnings } = parseKadrlarCsv(csv, "x.csv");
+  const { warnings } = parseKadrlarCsv([
+    HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 0), row("Buxoro viloyati", 1000),
+  ].join(NL), "x.csv");
   assert.ok(
     warnings.some((w) => /Андижон вилояти/.test(w) && /0/.test(w)),
     "a zero-total region would otherwise render as the healthiest in the country",
@@ -239,36 +200,32 @@ test("warns on a region row whose total is zero", () => {
 });
 
 test("warns when geographic regions are missing, naming them", () => {
-  const csv = [HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 300)].join("\n");
-  const { warnings } = parseKadrlarCsv(csv, "x.csv");
-  const w = warnings.find((x) => /Йўқ:/.test(x));
-  assert.ok(w, "an omitted region is silently absorbed into the residual");
+  const w = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000), row("Andijon viloyati", 1000)].join(NL), "x.csv")
+    .warnings.find((x) => /Йўқ:/.test(x));
+  assert.ok(w);
   assert.match(w, /Бухоро вилояти/);
   assert.match(w, /Хоразм вилояти/);
 });
 
 test("does not warn about missing regions on a national-only upload", () => {
   const { warnings } = parseKadrlarCsv(
-    `${HEADER}\n${row("МИЛЛИЙ", 1000)}`,
-    "x.csv",
-  );
+    [HEADER, row("МИЛЛИЙ", 1000)].join(NL), "x.csv");
   assert.equal(warnings.filter((w) => /Йўқ:/.test(w)).length, 0);
 });
 
 test("keeps the first national row and warns about a second", () => {
-  const csv = [HEADER, row("МИЛЛИЙ", 1000), row("МИЛЛИЙ", 5)].join("\n");
-  const { snapshot, warnings } = parseKadrlarCsv(csv, "x.csv");
+  const { snapshot, warnings } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000), row("МИЛЛИЙ", 5)].join(NL), "x.csv");
   assert.equal(snapshot.overall.total, 1000, "the first national row wins");
   assert.ok(warnings.some((w) => /иккинчи миллий/i.test(w)));
 });
 
 test("warns when a non-empty cell is not a number, and treats it as 0", () => {
-  const bad = [
-    "Andijon viloyati", 300, 240, "н/д", 0, 0, 0, 0, 0, 0, 0, 300, 240, 0, 0,
-  ].join(";");
-  const csv = [HEADER, row("МИЛЛИЙ", 1000), bad].join("\n");
-  const { snapshot, warnings } = parseKadrlarCsv(csv, "x.csv");
-  const andijon = snapshot.regions.find((r) => r.name === "Андижон вилояти");
-  assert.equal(andijon?.a3040, 0);
-  assert.ok(warnings.some((w) => /a3040/.test(w) && /н\/д/.test(w)));
+  const bad = ["Andijon viloyati", 300, 300, 240, 0, 0, 0,
+               "н/д", 0, 0, 0, 0, 300, 240, 0, 0].join(";");
+  const { snapshot, warnings } = parseKadrlarCsv(
+    [HEADER, row("МИЛЛИЙ", 1000), bad].join(NL), "x.csv");
+  assert.equal(snapshot.regions.find((r) => r.name === "Андижон вилояти")?.u30, 0);
+  assert.ok(warnings.some((w) => /u30/.test(w)));
 });
