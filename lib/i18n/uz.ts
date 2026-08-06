@@ -264,7 +264,7 @@ export const UZ = {
     // totals that differ by over 100 000 depending on which report you open,
     // so the page names the one it used and says what that one counts.
     sourceNote: (date: string) =>
-      `Манба: hrm.argos.uz — «Ходимларнинг ёш тақсимоти» ҳисоботи, ${date} ҳолатига. Ҳисобот амалда фаолият кўрсатаётган ходимларни санайди; тизимнинг бошқа ҳисоботларида қамров фарқ қилиши мумкин.`,
+      `Манба: hrm.argos.uz — статистика конструктори, ${date} ҳолатига. Кўрсаткич «Амалдаги ходимлар сони» устунидан олинган; тизимнинг бошқа ҳисоботларида қамров фарқ қилиши мумкин.`,
 
     noRegions: "Ҳудудлар кесими ҳали юкланмаган",
     noRegionsHint:

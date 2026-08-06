@@ -76,8 +76,129 @@ row. Sum the items; do not expect one row per id.
 
 ## The script
 
-Not written yet — blocked on the batch size above. See
-`docs/superpowers/plans/2026-08-06-kadrlar-source-switch.md`, Task 5.
+Paste into the browser console on a logged-in `hrm.argos.uz` page. Takes about
+four minutes: sixteen branch requests of a few seconds each, then the national
+request, which times out and has to bisect (see the note after the script).
+
+```js
+const tok = localStorage.accessToken;
+
+const NODES = [
+  { key: "general" },
+  { key: "totalStavka", parentKey: "general" }, { key: "totalEmployee", parentKey: "general" },
+  { key: "totalVakant", parentKey: "general" }, { key: "totalWomen", parentKey: "general" },
+  { key: "totalAcceptEmployee", parentKey: "general" }, { key: "totalDismissedEmployee", parentKey: "general" },
+  { key: "age" }, { key: "ageTo30", parentKey: "age" }, { key: "ageFrom30To40", parentKey: "age" },
+  { key: "ageFrom40To50", parentKey: "age" }, { key: "ageFrom50To60", parentKey: "age" },
+  { key: "ageFrom60", parentKey: "age" },
+  { key: "pensionAge" }, { key: "totalPensionAge", parentKey: "pensionAge" },
+  { key: "totalPensionAgeWoman", parentKey: "pensionAge" },
+  { key: "currentYearPensionAge" }, { key: "totalCurrentYearPensionAge", parentKey: "currentYearPensionAge" },
+  { key: "totalCurrentYearPensionAgeWoman", parentKey: "currentYearPensionAge" },
+];
+const F = {
+  stavka: "totalStavka", total: "totalEmployee", totalWomen: "totalWomen",
+  vacant: "totalVakant", accepted: "totalAcceptEmployee", dismissed: "totalDismissedEmployee",
+  u30: "ageTo30", a3040: "ageFrom30To40", a4050: "ageFrom40To50",
+  a5060: "ageFrom50To60", a60p: "ageFrom60",
+  pensionWorking: "totalPensionAge", pensionWorkingWomen: "totalPensionAgeWoman",
+  reaching: "totalCurrentYearPensionAge", reachingWomen: "totalCurrentYearPensionAgeWoman",
+};
+const ORDER = ["stavka","total","totalWomen","vacant","accepted","dismissed",
+               "u30","a3040","a4050","a5060","a60p",
+               "pensionWorking","pensionWorkingWomen","reaching","reachingWomen"];
+
+// The tree's Территориальный уровень gives the 14 regions directly; these
+// patterns only map ARGOS's oblast wording onto the dashboard's canonical keys.
+// They are NOT used to decide which organisation belongs where -- the hierarchy
+// does that, which is the whole gain over the previous extraction.
+const REGION = [
+  [/Каракалпакстан/i, "Қорақалпоғистон Республикаси"],
+  [/Андижан/i, "Андижон вилояти"], [/Бухар/i, "Бухоро вилояти"],
+  [/Джизак/i, "Жиззах вилояти"], [/Кашкадар/i, "Қашқадарё вилояти"],
+  [/Нава[ий]+/i, "Навоий вилояти"], [/Наманган/i, "Наманган вилояти"],
+  [/Самарканд/i, "Самарқанд вилояти"], [/Сырдар/i, "Сирдарё вилояти"],
+  [/Сурхандар/i, "Сурхондарё вилояти"], [/Ташкентск/i, "Тошкент вилояти"],
+  [/Ферган/i, "Фарғона вилояти"], [/Хорезм/i, "Хоразм вилояти"],
+  [/город.{0,4}Ташкент|Ташкент.{0,4}город/i, "Тошкент шаҳри"],
+];
+
+const idsOf = (n) => { const o = []; (function w(x){ if (x.data) o.push(Number(x.data)); (x.children||[]).forEach(w); })(n); return o; };
+
+// rows must be 1..200. On a 500 the batch halves and retries: the national
+// request needs this, and the per-branch ceiling can move as orgs are added.
+async function fetchIds(ids, depth = 0) {
+  const r = await fetch("/api/report/constructor/GetReport", {
+    method: "POST",
+    headers: { "content-type": "application/json", authorization: "Bearer " + tok },
+    body: JSON.stringify({ metaData: { first: 1, rows: 200 }, institutionIds: ids, selectTreeNodes: NODES }),
+  });
+  if (r.status !== 200) {
+    if (ids.length <= 4 || depth > 6) throw new Error(`batch ${ids.length} -> ${r.status}`);
+    const h = Math.ceil(ids.length / 2);
+    console.warn(`  split ${ids.length} (${r.status})`);
+    return (await fetchIds(ids.slice(0, h), depth + 1)).concat(await fetchIds(ids.slice(h), depth + 1));
+  }
+  return ((await r.json()).general?.items) || [];
+}
+async function totalsFor(ids, label) {
+  const acc = Object.fromEntries(ORDER.map(k => [k, 0]));
+  for (const it of await fetchIds(ids)) for (const k of ORDER) acc[k] += Number(it[F[k]] || 0);
+  console.log(`${label}: ${acc.total} ходим, ${acc.vacant} вакансия`);
+  return acc;
+}
+
+const tree = await (await fetch("/api/Staff/Institution/GetSpInstitutionTreeV2",
+  { headers: { authorization: "Bearer " + tok } })).json();
+const moh = tree[0].children[0];
+const branch = (re) => moh.children.find(c => re.test(c.label || ""));
+const terr = branch(/Территориальн/i);
+if (!terr || terr.children.length !== 14) throw new Error(`expected 14 regions, got ${terr?.children?.length}`);
+
+const rows = [];
+for (const node of terr.children) {
+  const hit = REGION.find(([re]) => re.test(node.label || ""));
+  if (!hit) throw new Error(`unmapped region: ${node.label}`);
+  rows.push([hit[1], await totalsFor(idsOf(node), hit[1])]);
+}
+rows.push(["Республика даражаси", await totalsFor(idsOf(branch(/Республиканск/i)), "Республика даражаси")]);
+rows.push(["Туман/шаҳар даражаси", await totalsFor(idsOf(branch(/Районн/i)), "Туман/шаҳар даражаси")]);
+const national = await totalsFor(idsOf(moh), "МИЛЛИЙ");
+
+const line = (n, a) => [n, ...ORDER.map(k => a[k])].join(";");
+const csv = [
+  "hudud;shtat;jami;jami_ayol;vakansiya;qabul;boshagan;u30;a3040;a4050;a5060;a60p;pensiya;pensiya_ayol;yetadigan;yetadigan_ayol",
+  line("МИЛЛИЙ", national), ...rows.map(([n, a]) => line(n, a)),
+].join("\n");
+console.log(`gap: ${national.total - rows.reduce((s, [, a]) => s + a.total, 0)}`);
+copy(csv);
+csv;
+```
+
+Save the output as `HRM_kadrlar_YYYY-MM-DD.csv` — the parser takes the report
+date from the filename — and upload it in the pension section of `/admin`.
+
+### The national row is the slow part
+
+`idsOf(moh)` is all 2 338 organisations, which always 500s, so the bisection
+runs: 2 338 → 1 169 → 585 → 292… Each failure costs a 30-second timeout, so the
+national row alone takes two to three minutes. Observed on 2026-08-06: 585 failed
+and the ceiling therefore sits between 488 and 585.
+
+It could be replaced by summing the sixteen branches, which would be instant. It
+is kept as a separate request on purpose: summing would make the reconciliation
+check true by construction and it would stop being a check. The 323-person gap it
+found on the first real run is the kind of thing that is worth three minutes.
+
+## Sanity checks before uploading
+
+- 17 rows plus the header.
+- The national `jami` should be near 689 000. If it reads ≈2 184 the wrong scope
+  was pulled.
+- The printed `gap` is what the parser will warn about. A few hundred out of
+  689 000 is live drift across a four-minute pull; thousands is not.
+- `unmapped region` means ARGOS renamed a branch — add the pattern, do not
+  loosen an existing one.
 
 ## Field reference
 
