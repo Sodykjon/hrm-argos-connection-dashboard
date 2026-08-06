@@ -8,9 +8,10 @@
 
 import type { KadrlarSnapshot, KadrlarStat } from "./types";
 import {
+  ARGOS_LEVEL_DISTRICT,
+  ARGOS_LEVEL_REPUBLICAN,
   GEO_REGIONS,
-  LEVEL_DISTRICT,
-  LEVEL_REPUBLICAN,
+  REPUBLIC,
 } from "./regions.ts";
 
 // --------------------------------------------------------------- region names
@@ -71,8 +72,13 @@ for (const [argos, canonical] of ARGOS_TO_CANONICAL) {
   LOOKUP.set(normalize(argos), canonical);
   LOOKUP.set(normalize(canonical), canonical);
 }
-LOOKUP.set(normalize(LEVEL_REPUBLICAN), LEVEL_REPUBLICAN);
-LOOKUP.set(normalize(LEVEL_DISTRICT), LEVEL_DISTRICT);
+// MANY-TO-ONE, on purpose. Both of ARGOS's non-geographic branches land on the
+// single canonical key REPUBLIC — see the comment on ARGOS_LEVEL_DISTRICT for
+// why the district/city branch is not a level. Rows that resolve to the same
+// canonical name are summed below, not dropped.
+LOOKUP.set(normalize(ARGOS_LEVEL_REPUBLICAN), REPUBLIC);
+LOOKUP.set(normalize(ARGOS_LEVEL_DISTRICT), REPUBLIC);
+LOOKUP.set(normalize(REPUBLIC), REPUBLIC);
 
 /** Resolve an incoming region name, or throw naming the offender. */
 export function resolveArgosRegion(raw: string): string {
@@ -181,8 +187,14 @@ export function parseKadrlarCsv(
   assertHeader(lines[0]);
 
   let overall: KadrlarStat | null = null;
-  const regions: KadrlarStat[] = [];
-  const seen = new Set<string>();
+  // Keyed by CANONICAL name, so two source rows resolving to the same key are
+  // added together rather than one being dropped. Insertion order is preserved,
+  // so the output keeps the CSV's order.
+  const byName = new Map<string, KadrlarStat>();
+  // Duplicate detection runs on the SOURCE label, not the canonical name. The
+  // resolver is deliberately many-to-one now: two different labels sharing a key
+  // is a designed merge, while the same label twice is still a malformed CSV.
+  const seenLabel = new Set<string>();
 
   for (let i = 1; i < lines.length; i++) {
     const f = lines[i].split(";");
@@ -225,10 +237,15 @@ export function parseKadrlarCsv(
       overall = stat;
       continue;
     }
-    if (seen.has(name)) {
-      warnings.push(`Такрорланган ҳудуд қатори ўтказиб юборилди: ${name}`);
+    const labelKey = normalize(label);
+    if (seenLabel.has(labelKey)) {
+      warnings.push(
+        `Такрорланган ҳудуд қатори ўтказиб юборилди: "${label}" (${name}).`,
+      );
       continue;
     }
+    seenLabel.add(labelKey);
+
     // A zero-total region is almost always a truncated row or a failed regional
     // pull. Left alone it becomes the LOWEST exposure share, so the map paints
     // that viloyat the healthiest in the country and the worst-first ranking
@@ -238,9 +255,22 @@ export function parseKadrlarCsv(
         `${name}: жами ходимлар сони 0 — қатор тўлиқ юкланмаган бўлиши мумкин.`,
       );
     }
-    seen.add(name);
-    regions.push(stat);
+
+    const existing = byName.get(name);
+    if (existing) {
+      // Named rather than silent: the operator should see that the dashboard
+      // corrected ARGOS's classification, and by how many people.
+      addInto(existing, stat);
+      warnings.push(
+        `«${label}» (${stat.total} нафар) «${name}» қаторига қўшилди — ` +
+          `АРГОСда алоҳида тармоқ сифатида турибди, аслида ҳудуд эмас.`,
+      );
+    } else {
+      byName.set(name, stat);
+    }
   }
+
+  const regions = [...byName.values()];
 
   if (!overall) {
     throw new Error('CSV да миллий қатор ("МИЛЛИЙ") топилмади.');
@@ -250,7 +280,7 @@ export function parseKadrlarCsv(
     // An omitted region used to vanish into the computed residual, silently
     // inflating it by that region's whole staff. There is no residual to hide
     // in now, so the row would simply be missing -- still worth naming.
-    const missing = GEO_REGIONS.filter((g) => !seen.has(g));
+    const missing = GEO_REGIONS.filter((g) => !byName.has(g));
     if (missing.length > 0) {
       warnings.push(
         `${GEO_REGIONS.length} та ҳудуддан ${GEO_REGIONS.length - missing.length} таси юкланди. ` +

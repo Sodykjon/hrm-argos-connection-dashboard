@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { resolveArgosRegion, isNationalRow } from "../lib/parse-kadrlar.ts";
 // Imported rather than hard-coded: these assertions are about the level rows
 // existing and carrying the right numbers, not about their wording.
-import { LEVEL_REPUBLICAN, LEVEL_DISTRICT } from "../lib/regions.ts";
+import { REPUBLIC } from "../lib/regions.ts";
 
 test("resolves every plain Latin ARGOS region name", () => {
   assert.equal(resolveArgosRegion("Andijon viloyati"), "Андижон вилояти");
@@ -34,9 +34,12 @@ test("is idempotent on an already-canonical Cyrillic name", () => {
   assert.equal(resolveArgosRegion("Тошкент шаҳри"), "Тошкент шаҳри");
 });
 
-test("resolves the two ARGOS level names", () => {
-  assert.equal(resolveArgosRegion("Республика даражаси"), LEVEL_REPUBLICAN);
-  assert.equal(resolveArgosRegion("Туман/шаҳар даражаси"), LEVEL_DISTRICT);
+test("folds both ARGOS level names onto the one republican key", () => {
+  // Many-to-one on purpose: «Районный/городской уровень» holds a single
+  // misclassified republican hospital, not a level. See ARGOS_LEVEL_DISTRICT.
+  assert.equal(resolveArgosRegion("Республика даражаси"), REPUBLIC);
+  assert.equal(resolveArgosRegion("Туман/шаҳар даражаси"), REPUBLIC);
+  assert.equal(resolveArgosRegion(REPUBLIC), REPUBLIC);
 });
 
 test("tolerates case and stray whitespace", () => {
@@ -92,7 +95,7 @@ test("reads staffing and vacancies", () => {
   assert.equal(snapshot.overall.vacant, 120);
 });
 
-test("keeps the two ARGOS level rows as ordinary rows", () => {
+test("SUMS the two ARGOS level rows into one republican row", () => {
   const { snapshot, warnings } = parseKadrlarCsv([
     HEADER,
     row("МИЛЛИЙ", 1000),
@@ -100,16 +103,27 @@ test("keeps the two ARGOS level rows as ordinary rows", () => {
     row("Республика даражаси", 500),
     row("Туман/шаҳар даражаси", 200),
   ].join(NL), "HRM_kadrlar_2026-08-06.csv");
-  assert.equal(snapshot.regions.length, 3);
-  const names = snapshot.regions.map((r) => r.name);
-  assert.ok(names.includes(LEVEL_REPUBLICAN));
-  assert.ok(names.includes(LEVEL_DISTRICT));
+
+  assert.equal(snapshot.regions.length, 2, "14 regions + ONE republican row");
+  const rep = snapshot.regions.find((r) => r.name === REPUBLIC);
+  assert.ok(rep, "the republican row must exist");
+  // The point of the whole change: 200 people are ADDED, not dropped. Skipping
+  // the second row as a duplicate would silently lose them, and the shortfall
+  // would surface only as a reconciliation warning nobody could explain.
+  assert.equal(rep.total, 700, "500 + 200");
+  assert.equal(rep.totalWomen, 560, "400 + 160 — every column merges, not just total");
+
   assert.equal(
     warnings.filter((w) => /Қаторлар йиғиндиси/.test(w)).length,
     0,
-    "300 + 500 + 200 reconciles with 1000",
+    "300 + 700 still reconciles with 1000",
+  );
+  assert.ok(
+    warnings.some((w) => /қўшилди/.test(w) && /200/.test(w)),
+    "the merge is announced with its size — a silent correction is worse than none",
   );
 });
+
 
 test("warns with the amount when the rows do not reconcile", () => {
   const { warnings } = parseKadrlarCsv(
@@ -173,6 +187,9 @@ test("warns but does not fail on a duplicated region row", () => {
     1,
     "the duplicate is dropped, not summed",
   );
+  // Guards the merge added for the ARGOS level rows: that path SUMS rows
+  // sharing a canonical name, and must not turn a repeated label into 600.
+  assert.equal(snapshot.regions[0].total, 300, "not 600");
 });
 
 test("tolerates a BOM, CRLF line endings and thin-space grouped numbers", () => {

@@ -22,11 +22,10 @@ export function PensionBoard({ regions }: { regions: KadrlarStat[] }) {
   );
 
   // Ranked worst-first, GEOGRAPHIC ONLY. The heading says «Ҳудудлар рейтинги»
-  // and ARGOS's level branches are not regions: Туман/шаҳар даражаси holds two
-  // organisations and 154 people, and on the first real pull its 22.7 % put it
-  // above Tashkent city's 48 768 at rank 1. A ranking that answers "which
-  // region is worst" must not be topped by something that is not a region.
-  // The level rows are still shown in full in the table below.
+  // and Республика муассасалари is not a region — on the first real pull its
+  // branch ranked above Tashkent city's 48 768 people. A ranking that answers
+  // "which region is worst" must not be topped by something that is not a
+  // region. That row is still shown in full in the table below.
   const ranked = useMemo(
     () =>
       geographic

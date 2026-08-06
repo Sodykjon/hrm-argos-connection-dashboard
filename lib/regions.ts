@@ -11,14 +11,23 @@ export const REPUBLIC = "Республика муассасалари";
 export const CENTRAL = "Марказий аппарат";
 
 /**
- * ARGOS's own top-level branches beside the 14 viloyats, taken straight from
- * GetSpInstitutionTreeV2. Not geographic — never on the map, but real rows with
- * real organisations behind them, which is what the computed residual row they
- * replace could never claim: it was a subtraction whose contents nobody could
- * name, and 38 % of it turned out to be the sanitary committee.
+ * ARGOS's two non-geographic branches, as GetSpInstitutionTreeV2 spells them.
+ * These are INPUT names only — both resolve to REPUBLIC above, which is the one
+ * canonical key the dashboard stores and displays.
+ *
+ * Why both: «Районный/городской уровень» is not a level. Walked on 06.08.2026 it
+ * held exactly one organisation — «Республиканская клиническая больница глазных
+ * болезней» (id 33195), 154 staff — a REPUBLICAN hospital filed under the
+ * district/city branch. Keeping it as its own row put a single misclassified
+ * hospital beside Samarkand in a table of regions, and at 22.7 % it ranked first
+ * until the ranking was restricted to geographic rows. Folding it into the
+ * republican bucket puts it where its own name says it belongs.
+ *
+ * If ARGOS ever fixes the classification the branch simply stops appearing and
+ * the merge becomes a no-op — nothing here needs changing.
  */
-export const LEVEL_REPUBLICAN = "Республика даражаси";
-export const LEVEL_DISTRICT = "Туман/шаҳар даражаси";
+export const ARGOS_LEVEL_REPUBLICAN = "Республика даражаси";
+export const ARGOS_LEVEL_DISTRICT = "Туман/шаҳар даражаси";
 
 // Cyrillic region name -> URL slug (latin, stable & readable)
 const SLUG_MAP: Record<string, string> = {
@@ -41,8 +50,6 @@ const SLUG_MAP: Record<string, string> = {
   "Марказий аппарат": "markaziy-apparat",
   "Санитар-эпидемиология қўмитаси": "sanepid-qomita",
   "Республика марказлари": "respublika-markazlari",
-  "Республика даражаси": "respublika-darajasi",
-  "Туман/шаҳар даражаси": "tuman-shahar",
 };
 
 const REVERSE: Record<string, string> = Object.fromEntries(
@@ -122,8 +129,6 @@ const REGION_RU: Record<string, string> = {
   "Санитар-эпидемиология қўмитаси":
     "Комитет санитарно-эпидемиологического благополучия",
   "Республика марказлари": "Республиканские центры",
-  "Республика даражаси": "Республиканский уровень",
-  "Туман/шаҳар даражаси": "Районный/городской уровень",
 };
 
 /**

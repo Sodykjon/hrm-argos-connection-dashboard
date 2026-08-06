@@ -26,9 +26,18 @@ double-counted.
 `Республиканская клиническая больница глазных болезней` (id 33195) — a
 *republican* hospital sitting in the *district/city* branch, so the branch is a
 misclassification rather than a real level. 154 posts, 154 filled, 0 vacancies,
-31 staff at pension age. Worth reporting to the ARGOS administrators; until they
-move it, the branch has to stay in the data or the region rows stop summing to
-the national figure.
+31 staff at pension age.
+
+**The script still emits both rows; `lib/parse-kadrlar.ts` merges them.** Keep it
+that way. The CSV stays a faithful mirror of what ARGOS returned, and the one
+correction the dashboard applies lives in a tested parser that announces itself
+in the upload warnings, rather than in a browser snippet nobody diffs. Both
+names resolve to the single canonical key `Республика муассасалари`; rows
+sharing a canonical key are summed, so the hospital's 154 staff are added rather
+than dropped. If ARGOS ever fixes the classification the branch stops appearing
+and the merge becomes a no-op — nothing needs changing here.
+
+Worth reporting to the ARGOS administrators regardless: the fix belongs upstream.
 
 Per region, largest first — the spread is wide enough that a single batch size
 cannot be assumed to suit all of them:
