@@ -10,9 +10,12 @@ import { useS, useLang } from "@/lib/i18n/client";
 
 const TOTAL = "__total__";
 
-// The campaign-start marker under the knee. The user's date (07.08.2026
-// instruction), same in both languages; not a report and not a measurement.
+// The campaign-start marker at the knee: the user's own date and value
+// (07.08.2026 instruction, no source — same standing as the completion card's
+// 48% baseline). Not a report: the dot is silent, the tooltip never answers
+// for it, and it is drawn only on the national scope where the figure belongs.
 const KNEE_DATE_LABEL = "20.06";
+const KNEE_PCT = 43;
 
 /** Days between two ISO dates. */
 function dayGap(a: string, b: string): number {
@@ -70,8 +73,15 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
       const y = toPct(points[i].percent);
       if (i > 0 && dayGap(points[i - 1].date, points[i].date) > 60) {
         const prevY = toPct(points[i - 1].percent);
-        knee = [i - 0.45, prevY + (y - prevY) * 0.04];
-        curveData.push(knee);
+        // The labelled 43% knee only on the national curve, and only while it
+        // sits between the surrounding measurements — a region's curve gets a
+        // plain eased bend with no invented figure attached.
+        if (scope === TOTAL && prevY < KNEE_PCT && KNEE_PCT < y) {
+          knee = [i - 0.45, KNEE_PCT];
+          curveData.push(knee);
+        } else {
+          curveData.push([i - 0.45, prevY + (y - prevY) * 0.04]);
+        }
       }
       curveData.push([i, y]);
     }
@@ -245,7 +255,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                 label: {
                   show: true,
                   position: "bottom" as const,
-                  formatter: KNEE_DATE_LABEL,
+                  formatter: `${KNEE_DATE_LABEL} · ${KNEE_PCT}%`,
                   fontFamily: FONT_MONO,
                   fontSize: 11,
                   color: "#8ba0bd",
@@ -280,7 +290,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         },
       ],
     };
-  }, [points, S]);
+  }, [points, scope, S]);
 
   return (
     <div>
