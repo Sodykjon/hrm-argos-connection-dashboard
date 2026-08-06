@@ -1,6 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { resolveArgosRegion, isNationalRow } from "../lib/parse-pension.ts";
+// Imported rather than hard-coded: these assertions are about the residual row
+// existing and carrying the right numbers, not about its wording.
+import { PENSION_RESIDUAL } from "../lib/regions.ts";
 
 test("resolves every plain Latin ARGOS region name", () => {
   assert.equal(resolveArgosRegion("Andijon viloyati"), "Андижон вилояти");
@@ -82,7 +85,7 @@ test("appends the residual row = national minus the sum of regions", () => {
 
   assert.equal(snapshot.regions.length, 3, "2 regions + 1 residual");
   const residual = snapshot.regions.at(-1);
-  assert.equal(residual?.name, "Марказий аппарат ва республика марказлари");
+  assert.equal(residual?.name, PENSION_RESIDUAL);
   assert.equal(residual?.total, 500);
   assert.equal(residual?.totalWomen, 800 - 240 - 160);
   assert.equal(residual?.pensionWorking, 500);
@@ -176,7 +179,7 @@ test("clamps a single overshooting non-total field to 0 and warns, without throw
 
   assert.equal(snapshot.regions.length, 3, "2 regions + 1 residual");
   const residual = snapshot.regions.at(-1);
-  assert.equal(residual?.name, "Марказий аппарат ва республика марказлари");
+  assert.equal(residual?.name, PENSION_RESIDUAL);
   assert.equal(
     residual?.a3040,
     0,
