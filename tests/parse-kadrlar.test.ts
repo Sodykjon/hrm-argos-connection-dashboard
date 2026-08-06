@@ -135,6 +135,19 @@ test("warns when shtat does not equal employees plus vacancies", () => {
   assert.ok(warnings.some((w) => /штат/.test(w) && /Андижон/.test(w)));
 });
 
+test("checks the staffing identity on the national row too", () => {
+  // МИЛЛИЙ is the row every share on the page divides by, and it comes from
+  // its own ARGOS request. It was skipped once: the national branch returned
+  // before the check ran, and 16 of 17 rows were guarded.
+  const bad = ["МИЛЛИЙ", 999, 1000, 800, 120, 0, 0,
+               1000, 0, 0, 0, 0, 1000, 800, 0, 0].join(";");
+  const { warnings } = parseKadrlarCsv([HEADER, bad].join(NL), "x.csv");
+  assert.ok(
+    warnings.some((w) => /штат/.test(w) && /МИЛЛИЙ/.test(w)),
+    "the national row must be guarded, and named when it fails",
+  );
+});
+
 test("rejects a CSV with no national row", () => {
   assert.throws(
     () => parseKadrlarCsv([HEADER, row("Andijon viloyati", 300)].join(NL), "x.csv"),

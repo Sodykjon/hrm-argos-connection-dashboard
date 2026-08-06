@@ -117,7 +117,7 @@ export async function getCompletionHistory(): Promise<CompletionManifestEntry[]>
   ];
 }
 
-// --- pension age ("Пенсия ёши") ---------------------------------------------
+// --- kadrlar ("Кадрлар") ---------------------------------------------
 
 export interface KadrlarData {
   snapshot: KadrlarSnapshot;

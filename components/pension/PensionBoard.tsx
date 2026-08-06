@@ -21,14 +21,18 @@ export function PensionBoard({ regions }: { regions: KadrlarStat[] }) {
     [regions],
   );
 
-  // Ranked worst-first: the point of this page is where the exposure is
-  // greatest. The residual row is included -- it is a real population.
+  // Ranked worst-first, GEOGRAPHIC ONLY. The heading says «Ҳудудлар рейтинги»
+  // and ARGOS's level branches are not regions: Туман/шаҳар даражаси holds two
+  // organisations and 154 people, and on the first real pull its 22.7 % put it
+  // above Tashkent city's 48 768 at rank 1. A ranking that answers "which
+  // region is worst" must not be topped by something that is not a region.
+  // The level rows are still shown in full in the table below.
   const ranked = useMemo(
     () =>
-      regions
+      geographic
         .map((r) => ({ stat: r, m: pensionMetrics(r) }))
         .sort((a, b) => b.m.exposedShare - a.m.exposedShare),
-    [regions],
+    [geographic],
   );
 
   // The colour scale spans only the geographic spread, matching the map.

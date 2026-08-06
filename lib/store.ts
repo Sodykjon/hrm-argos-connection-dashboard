@@ -233,7 +233,7 @@ export interface KadrlarPutResult {
 }
 
 /**
- * Persist a new pension snapshot and update its manifest. Independent of
+ * Persist a new kadrlar snapshot and update its manifest. Independent of
  * publish() and publishCompletion() — own keys, own manifest.
  */
 export async function publishKadrlar(

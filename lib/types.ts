@@ -156,7 +156,7 @@ export interface KadrlarSnapshot {
   date: string; // ISO date of the report, e.g. "2026-08-05"
   uploadedAt: string; // ISO timestamp the snapshot entered the system
   overall: KadrlarStat; // national
-  regions: KadrlarStat[]; // 14 geographic + 1 residual; [] when only national
+  regions: KadrlarStat[]; // 14 viloyats + 2 ARGOS levels; [] when only national
 }
 
 // A snapshot is ~15 rows, so the manifest carries every field inline and the

@@ -1,5 +1,5 @@
-// Parser for the pension-age CSV pulled from the hrm.argos.uz report
-// GetAllEmployeeDistributionBySeniority (HRM_pensiya_YYYY-MM-DD.csv).
+// Parser for the kadrlar CSV pulled from the hrm.argos.uz statistics
+// constructor (HRM_kadrlar_YYYY-MM-DD.csv). See docs/bookmarklets/kadrlar.md.
 // Runs in the browser (admin upload). Pure functions, no framework deps.
 //
 // The CSV carries whatever region names ARGOS returned — Latin, and in one case
@@ -100,7 +100,6 @@ const COLUMNS = [
   "pensionWorking", "pensionWorkingWomen", "reaching", "reachingWomen",
 ] as const satisfies ReadonlyArray<keyof KadrlarStat>;
 
-/** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
 const HEADER = [
   "hudud",
   "shtat", "jami", "jami_ayol", "vakansiya", "qabul", "boshagan",
@@ -127,8 +126,9 @@ function assertHeader(line: string): void {
   }
 }
 
-/** A non-empty cell that will not parse is reported through `onBad` rather
- *  than quietly becoming 0 — a masked zero reads as a real figure downstream. */
+/** "689 461" / "689461" / "" -> number. Strips every kind of grouping space.
+ *  A non-empty cell that will not parse is reported through `onBad` rather than
+ *  quietly becoming 0 — a masked zero reads as a real figure downstream. */
 function count(raw: string | undefined, onBad?: () => void): number {
   const cleaned = (raw ?? "").replace(/[\s  ']/g, "").trim();
   if (!cleaned) return 0;
@@ -145,7 +145,6 @@ function emptyStat(name: string): KadrlarStat {
   for (const c of COLUMNS) s[c] = 0;
   return s;
 }
-
 
 function addInto(acc: KadrlarStat, r: KadrlarStat): void {
   for (const c of COLUMNS) acc[c] += r[c];
@@ -202,6 +201,17 @@ export function parseKadrlarCsv(
       });
     });
 
+    // Checked BEFORE the national branch returns, because МИЛЛИЙ is the row
+    // that most needs it: it comes from its own ARGOS request, every share on
+    // the page divides by it, and the vacancy hero will be vacant / stavka.
+    // Upstream computes vacancies as positions minus filled posts — verified
+    // 434 = 320 + 114 on institution 1052.
+    if (stat.stavka !== stat.total + stat.vacant) {
+      warnings.push(
+        `${name || "МИЛЛИЙ"}: штат (${stat.stavka}) ≠ ходимлар (${stat.total}) + вакансия (${stat.vacant}).`,
+      );
+    }
+
     if (national) {
       // Mirror the duplicate-region path below: warn and keep the first.
       // Silently overwriting would replace the national totals — the figures
@@ -218,14 +228,6 @@ export function parseKadrlarCsv(
     if (seen.has(name)) {
       warnings.push(`Такрорланган ҳудуд қатори ўтказиб юборилди: ${name}`);
       continue;
-    }
-    // Upstream computes vacancies as positions minus filled posts — verified
-    // 434 = 320 + 114 on institution 1052. If that stops holding, one of the
-    // three numbers is wrong, and the vacancy page rests on all three.
-    if (stat.stavka !== stat.total + stat.vacant) {
-      warnings.push(
-        `${name}: штат (${stat.stavka}) ≠ ходимлар (${stat.total}) + вакансия (${stat.vacant}).`,
-      );
     }
     // A zero-total region is almost always a truncated row or a failed regional
     // pull. Left alone it becomes the LOWEST exposure share, so the map paints

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics, riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct, toPct } from "@/lib/format";
-import { regionLabel } from "@/lib/regions";
+import { isGeographicRegion, regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
 export function PensionTable({
@@ -24,8 +24,16 @@ export function PensionTable({
     [rows],
   );
 
+  // Scaled to the geographic spread, matching the map and the ranking. Include
+  // the level rows and a two-organisation branch sets ramp.max, compressing
+  // every viloyat's bar and colour toward the bottom of the scale.
   const ramp = useMemo(
-    () => riskRamp(enriched.map((r) => r.m.exposedShare)),
+    () =>
+      riskRamp(
+        enriched
+          .filter(({ stat }) => isGeographicRegion(stat.name))
+          .map((r) => r.m.exposedShare),
+      ),
     [enriched],
   );
 
