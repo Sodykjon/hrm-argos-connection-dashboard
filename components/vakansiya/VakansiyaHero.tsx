@@ -22,7 +22,9 @@ export async function VakansiyaHero({ stat }: { stat: KadrlarStat }) {
 
   return (
     <section className="border-live card rise overflow-hidden p-6 sm:p-8">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      {/* row-reverse: the ring sits LEFT on desktop, phones keep the headline
+          first — same as PensionHero. */}
+      <div className="flex flex-col gap-8 lg:flex-row-reverse lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <span className="eyebrow text-sov">{S.vakansiya.heroEyebrow}</span>
 

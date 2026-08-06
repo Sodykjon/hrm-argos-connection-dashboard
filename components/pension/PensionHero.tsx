@@ -21,7 +21,10 @@ export async function PensionHero({ stat }: { stat: KadrlarStat }) {
 
   return (
     <section className="border-live card rise overflow-hidden p-6 sm:p-8">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      {/* row-reverse: the donut sits LEFT on desktop while the phone keeps the
+          headline first — swapping DOM order would push the number below the
+          fold on mobile. */}
+      <div className="flex flex-col gap-8 lg:flex-row-reverse lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           <span className="eyebrow text-sov">{S.pension.heroEyebrow}</span>
 
