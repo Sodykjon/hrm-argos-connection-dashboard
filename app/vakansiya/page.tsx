@@ -2,7 +2,6 @@ import { getLatestKadrlar } from "@/lib/data";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { VakansiyaHero } from "@/components/vakansiya/VakansiyaHero";
 import { VakansiyaBoard } from "@/components/vakansiya/VakansiyaBoard";
-import { VakansiyaTurnover } from "@/components/vakansiya/VakansiyaTurnover";
 import { VakansiyaTable } from "@/components/vakansiya/VakansiyaTable";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
@@ -90,17 +89,11 @@ export default async function VakansiyaPage() {
         </Reveal>
       )}
 
-      {regions.length > 0 && (
-        <Reveal>
-          <div className="card p-4 sm:p-5">
-            <div className="mb-2">
-              <h2 className="text-[0.95rem] font-semibold">{S.vakansiya.turnoverTitle}</h2>
-              <p className="text-[0.78rem] text-ink-soft">{S.vakansiya.turnoverHint}</p>
-            </div>
-            <VakansiyaTurnover regions={regions} />
-          </div>
-        </Reveal>
-      )}
+      {/* No turnover chart. Verified 06.08.2026 that the regional accepted
+          figures largely measure bulk onboarding into ARGOS, not hiring —
+          133 of Samarkand's 224 orgs entered 80%+ of their whole staff as
+          "accepted" in the period. A chart of that is disinformation with a
+          legend; the raw columns stay available in the table below. */}
 
       {regions.length > 0 && (
         <section className="space-y-3">
