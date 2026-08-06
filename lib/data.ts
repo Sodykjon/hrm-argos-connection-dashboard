@@ -61,22 +61,29 @@ export async function getRegistry(): Promise<Registry> {
 }
 
 export async function getHistory(): Promise<ManifestEntry[]> {
+  const seedEntry: ManifestEntry = {
+    date: seedSnapshot.date,
+    uploadedAt: seedSnapshot.uploadedAt,
+    url: "seed",
+    totals: seedSnapshot.totals,
+    regions: seedSnapshot.regions,
+  };
   try {
     const manifest = await getManifest();
-    if (manifest?.snapshots?.length) return manifest.snapshots;
+    if (manifest?.snapshots?.length) {
+      // The pre-migration trend history was lost with the suspended Blob
+      // store. The bundled launch report (02.07.2026, 66.9%) is the one
+      // surviving record from before the gap, so it is restored as the
+      // trend's first point — a real report, not an estimate. Skipped as
+      // soon as any upload covers that date or an earlier one.
+      const covered = manifest.snapshots.some((s) => s.date <= seedEntry.date);
+      return covered ? manifest.snapshots : [seedEntry, ...manifest.snapshots];
+    }
   } catch {
     /* fall through */
   }
-  // No uploads yet — a single point from the seed so the trend page still renders.
-  return [
-    {
-      date: seedSnapshot.date,
-      uploadedAt: seedSnapshot.uploadedAt,
-      url: "seed",
-      totals: seedSnapshot.totals,
-      regions: seedSnapshot.regions,
-    },
-  ];
+  // No uploads yet — the seed alone so the trend page still renders.
+  return [seedEntry];
 }
 
 // --- completion ("Тўлдирилиш даражаси") -------------------------------------

@@ -85,6 +85,23 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           lineStyle: { color: "#2fd07a", width: 3, shadowBlur: 12, shadowColor: "rgba(47,208,122,0.55)" },
           itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
           areaStyle: { color: "rgba(47,208,122,0.14)" },
+          // Endpoint values on the chart itself: the story is the distance
+          // between the first report and today, and it should not depend on
+          // the reader hovering the right two dots.
+          label: {
+            show: true,
+            position: "top",
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            fontWeight: "bold",
+            color: "#eaf1fb",
+            formatter: (p: unknown) => {
+              const { dataIndex, value } = p as { dataIndex: number; value: number };
+              return dataIndex === 0 || dataIndex === points.length - 1
+                ? fmtPct((value ?? 0) / 100, 1)
+                : "";
+            },
+          },
           markLine: {
             silent: true,
             symbol: "none",
