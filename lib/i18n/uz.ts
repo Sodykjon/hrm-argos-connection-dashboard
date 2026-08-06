@@ -199,6 +199,15 @@ export const UZ = {
     centralMore: "Батафсил кўриш",
   },
 
+  // Shared by /pensiya and /vakansiya: both read the same snapshot, and this
+  // text describes the DATASET's shape, not either page. ARGOS's tree has three
+  // top-level branches under the ministry, only one of which is geographic.
+  kadrlar: {
+    levelsDivider: "АРГОС даражалари — вилоят эмас",
+    levelsNote: (n: string) =>
+      `«Республика даражаси» ва «Туман/шаҳар даражаси» — вилоятлар эмас, балки АРГОС ташкилий дарахтининг алоҳида тармоқлари. Биринчисига республика муассасалари киради: РИИАТМ ва илмий-текшириш институтлари, республика шифохоналари, вазирлик марказий аппарати — улар бирор вилоятга бириктирилмаган, шу боис харитада ҳам, рейтингда ҳам йўқ. Иккинчиси АРГОСда деярли бўш тармоқ; туман ва шаҳар муассасаларининг қолгани ўз вилояти ичида ҳисобланади. Иккала қатор жадвалда қолдирилди — усиз ${n} нафар ходим йўқолиб, жадвал миллий якунга тўғри келмас эди.`,
+  },
+
   pension: {
     navTitle: "Пенсия ёши",
     title: "Пенсия ёшидаги ва унга яқинлашган ходимлар",
@@ -244,7 +253,10 @@ export const UZ = {
     search: "Ҳудуд бўйича қидириш…",
     export: "Excel'га юклаш",
     sheet: "Пенсия ёши",
-    count: (n: number) => `${n} та ҳудуд`,
+    count: (geo: number, levels: number) =>
+      levels > 0
+        ? `${geo} та ҳудуд · ${levels} та АРГОС даражаси`
+        : `${geo} та ҳудуд`,
     empty: "Танланган шарт бўйича ҳудуд топилмади.",
     col: {
       n: "№",
@@ -316,7 +328,10 @@ export const UZ = {
     search: "Ҳудуд бўйича қидириш…",
     export: "Excel'га юклаш",
     sheet: "Вакансиялар",
-    count: (n: number) => `${n} та ҳудуд`,
+    count: (geo: number, levels: number) =>
+      levels > 0
+        ? `${geo} та ҳудуд · ${levels} та АРГОС даражаси`
+        : `${geo} та ҳудуд`,
     empty: "Танланган шарт бўйича ҳудуд топилмади.",
     col: {
       n: "№",

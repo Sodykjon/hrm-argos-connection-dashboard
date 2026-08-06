@@ -37,7 +37,12 @@ export function PensionTable({
     [enriched],
   );
 
-  const filtered = useMemo(() => {
+  // Split, not merged. The table is titled «Ҳудудлар кесими», and ARGOS's two
+  // non-geographic branches sorted in among the viloyats read as regions —
+  // «Туман/шаҳар даражаси» is 2 organisations and 154 people. They still have
+  // to appear: drop them and 65 810 staff vanish and the table stops adding up
+  // to the national figure. So they get their own labelled group at the bottom.
+  const { geo, levels } = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const out = enriched.filter(({ stat }) => {
       if (!needle) return true;
@@ -46,19 +51,33 @@ export function PensionTable({
         regionLabel(stat.name, lang).toLowerCase().includes(needle)
       );
     });
-    return [...out].sort((a, b) =>
+    const sorted = [...out].sort((a, b) =>
       desc
         ? b.m.exposedShare - a.m.exposedShare
         : a.m.exposedShare - b.m.exposedShare,
     );
+    return {
+      geo: sorted.filter(({ stat }) => isGeographicRegion(stat.name)),
+      levels: sorted.filter(({ stat }) => !isGeographicRegion(stat.name)),
+    };
   }, [enriched, q, desc, lang]);
+
+  const filtered = useMemo(() => [...geo, ...levels], [geo, levels]);
+
+  // Named in the footnote so the reader can see what leaving them out would cost.
+  const levelsStaff = useMemo(
+    () => levels.reduce((sum, { stat }) => sum + stat.total, 0),
+    [levels],
+  );
 
   async function exportXlsx() {
     const XLSX = await import("xlsx");
     // Headers follow the chosen language; region names go through
     // regionLabel for display only — the canonical key is never exported.
+    // Rank only the regions, exactly as on screen. Numbering the level rows
+    // would let a sorted sheet be read as "the 15th worst region".
     const data = filtered.map(({ stat, m }, i) => ({
-      [S.pension.col.n]: i + 1,
+      [S.pension.col.n]: i < geo.length ? i + 1 : "",
       [S.pension.col.region]: regionLabel(stat.name, lang),
       [S.pension.col.total]: stat.total,
       [S.pension.col.women]: stat.totalWomen,
@@ -98,7 +117,7 @@ export function PensionTable({
 
       <div className="flex items-center justify-between px-4 py-2 text-[0.75rem] text-ink-faint">
         <span className="tnum font-medium text-ink-soft">
-          {S.pension.count(filtered.length)}
+          {S.pension.count(geo.length, levels.length)}
         </span>
       </div>
 
@@ -132,51 +151,38 @@ export function PensionTable({
             </tr>
           </thead>
           <tbody>
-            {filtered.map(({ stat, m }, i) => {
-              const color = riskColor(riskT(m.exposedShare, ramp));
-              const width = ramp.max > 0 ? (m.exposedShare / ramp.max) * 100 : 0;
-              return (
-                <tr
-                  key={stat.name}
-                  className="border-b border-line-soft align-top hover:bg-paper"
+            {geo.map(({ stat, m }, i) => (
+              <Row
+                key={stat.name}
+                name={regionLabel(stat.name, lang)}
+                stat={stat}
+                share={m.exposedShare}
+                rank={i + 1}
+                ramp={ramp}
+              />
+            ))}
+
+            {levels.length > 0 && (
+              <tr className="border-y border-line bg-paper/70">
+                <td
+                  colSpan={7}
+                  className="px-3 py-2 text-[0.7rem] uppercase tracking-wide text-ink-faint"
                 >
-                  <td className="tnum px-3 py-2.5 text-ink-faint">{i + 1}</td>
-                  <td className="px-3 py-2.5">
-                    <div className="max-w-[38ch] font-medium leading-snug">
-                      {regionLabel(stat.name, lang)}
-                    </div>
-                  </td>
-                  <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
-                    {fmtInt(stat.total)}
-                  </td>
-                  <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft md:table-cell">
-                    {fmtInt(stat.totalWomen)}
-                  </td>
-                  <td className="tnum px-3 py-2.5 text-right font-medium">
-                    {fmtInt(stat.pensionWorking)}
-                  </td>
-                  <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
-                    {fmtInt(stat.reaching)}
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
-                        <span
-                          className="block h-full rounded-full"
-                          style={{ width: `${width}%`, background: color }}
-                        />
-                      </span>
-                      <span
-                        className="tnum shrink-0 text-[0.82rem] font-semibold"
-                        style={{ color }}
-                      >
-                        {fmtPct(m.exposedShare, 1)}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                  {S.kadrlar.levelsDivider}
+                </td>
+              </tr>
+            )}
+            {levels.map(({ stat, m }) => (
+              <Row
+                key={stat.name}
+                name={regionLabel(stat.name, lang)}
+                stat={stat}
+                share={m.exposedShare}
+                rank={null}
+                ramp={ramp}
+              />
+            ))}
+
             {filtered.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-10 text-center text-ink-faint">
@@ -187,6 +193,85 @@ export function PensionTable({
           </tbody>
         </table>
       </div>
+
+      {levels.length > 0 && (
+        <p className="border-t border-line px-4 py-3 text-[0.72rem] leading-relaxed text-ink-faint">
+          {S.kadrlar.levelsNote(fmtInt(levelsStaff))}
+        </p>
+      )}
     </div>
+  );
+}
+
+/**
+ * `rank === null` marks an ARGOS level rather than a region. Those rows keep
+ * their figures but lose the rank and the bar: the bar is scaled to the
+ * geographic spread, so a level above that spread would render as a full bar
+ * and read as the country's worst region.
+ */
+function Row({
+  name,
+  stat,
+  share,
+  rank,
+  ramp,
+}: {
+  name: string;
+  stat: KadrlarStat;
+  share: number;
+  rank: number | null;
+  ramp: { min: number; max: number };
+}) {
+  const isLevel = rank === null;
+  const color = riskColor(riskT(share, ramp));
+  const width = ramp.max > 0 ? (share / ramp.max) * 100 : 0;
+
+  return (
+    <tr className="border-b border-line-soft align-top hover:bg-paper">
+      <td className="tnum px-3 py-2.5 text-ink-faint">{rank ?? "—"}</td>
+      <td className="px-3 py-2.5">
+        <div
+          className={`max-w-[38ch] leading-snug ${
+            isLevel ? "text-ink-soft" : "font-medium"
+          }`}
+        >
+          {name}
+        </div>
+      </td>
+      <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
+        {fmtInt(stat.total)}
+      </td>
+      <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft md:table-cell">
+        {fmtInt(stat.totalWomen)}
+      </td>
+      <td className="tnum px-3 py-2.5 text-right font-medium">
+        {fmtInt(stat.pensionWorking)}
+      </td>
+      <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
+        {fmtInt(stat.reaching)}
+      </td>
+      <td className="px-3 py-2.5">
+        {isLevel ? (
+          <span className="tnum text-[0.82rem] text-ink-soft">
+            {fmtPct(share, 1)}
+          </span>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft">
+              <span
+                className="block h-full rounded-full"
+                style={{ width: `${width}%`, background: color }}
+              />
+            </span>
+            <span
+              className="tnum shrink-0 text-[0.82rem] font-semibold"
+              style={{ color }}
+            >
+              {fmtPct(share, 1)}
+            </span>
+          </div>
+        )}
+      </td>
+    </tr>
   );
 }
