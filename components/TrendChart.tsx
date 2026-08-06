@@ -10,6 +10,10 @@ import { useS, useLang } from "@/lib/i18n/client";
 
 const TOTAL = "__total__";
 
+// The campaign-start marker under the knee. The user's date (07.08.2026
+// instruction), same in both languages; not a report and not a measurement.
+const KNEE_DATE_LABEL = "20.06";
+
 /** Days between two ISO dates. */
 function dayGap(a: string, b: string): number {
   return Math.abs(new Date(b).getTime() - new Date(a).getTime()) / 86_400_000;
@@ -61,11 +65,13 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
     // interpolate somehow; the measured values themselves are carried by the
     // dot series below, which is the only thing the tooltip speaks for.
     const curveData: Array<[number, number]> = [];
+    let kneeX: number | null = null;
     for (let i = 0; i < n; i++) {
       const y = toPct(points[i].percent);
       if (i > 0 && dayGap(points[i - 1].date, points[i].date) > 60) {
         const prevY = toPct(points[i - 1].percent);
-        curveData.push([i - 0.45, prevY + (y - prevY) * 0.04]);
+        kneeX = i - 0.45;
+        curveData.push([kneeX, prevY + (y - prevY) * 0.04]);
       }
       curveData.push([i, y]);
     }
@@ -145,8 +151,19 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           color: "#8ba0bd",
           fontFamily: FONT_MONO,
           fontSize: 11,
-          formatter: (v: number) =>
-            Number.isInteger(v) && points[v] ? fmtDate(points[v].date) : "",
+          // Labels pinned to the integer slots explicitly. Interval ticks on a
+          // value axis start from min (-0.2), so every tick missed the
+          // integers and the whole axis rendered blank — the shipped bug this
+          // replaces. customValues puts a label exactly on each report.
+          customValues: points.map((_, i) => i),
+          formatter: (v: number) => {
+            const i = Math.round(v);
+            if (Math.abs(v - i) > 1e-6 || !points[i]) return "";
+            const d = new Date(points[i].date);
+            const dd = String(d.getDate()).padStart(2, "0");
+            const mm = String(d.getMonth() + 1).padStart(2, "0");
+            return `${dd}.${mm}`;
+          },
         },
       },
       yAxis: {
@@ -207,6 +224,27 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                         color: "#7086a4",
                         fontFamily: FONT_MONO,
                         fontSize: 10,
+                      },
+                    },
+                  ]
+                : []),
+              // A red marker at the knee, dated 20.06 — the user's own start
+              // date for the connection campaign, placed where the curve
+              // leaves the flat run. An annotation, not a measurement: no
+              // value attaches to it, and it appears only while the long-gap
+              // knee it explains exists.
+              ...(kneeX !== null
+                ? [
+                    {
+                      xAxis: kneeX,
+                      lineStyle: { color: "#ff5a63", type: "dashed" as const, width: 1.5 },
+                      label: {
+                        formatter: KNEE_DATE_LABEL,
+                        position: "start" as const,
+                        color: "#ff5a63",
+                        fontFamily: FONT_MONO,
+                        fontSize: 11,
+                        fontWeight: "bold" as const,
                       },
                     },
                   ]
