@@ -12,11 +12,10 @@ import type { KadrlarStat } from "../lib/types.ts";
 /** The verified national figures, 2026-08-05. */
 const NATIONAL: KadrlarStat = {
   name: "",
+  stavka: 780000, vacant: 90515, accepted: 4210, dismissed: 3980,
   total: 689461, totalWomen: 549586,
-  a3040: 233005, a3040Women: 192116,
-  a4050: 188630, a4050Women: 158289,
-  a5060: 135652, a5060Women: 106055,
-  a60p: 39362, a60pWomen: 18690,
+  u30: 92812,
+  a3040: 233005, a4050: 188630, a5060: 135652, a60p: 39362,
   pensionWorking: 79672, pensionWorkingWomen: 59000,
   reaching: 15309, reachingWomen: 12177,
 };
@@ -54,29 +53,35 @@ test("an empty population does not divide by zero", () => {
   assert.equal(m.nearly, false);
 });
 
-test("the under-30 band is the remainder and completes the breakdown", () => {
-  const bands = ageBands(NATIONAL);
-  assert.equal(bands.length, 5);
-  assert.equal(bands[0].key, "u30");
-  assert.equal(bands[0].total, 92812);
-  assert.equal(bands[0].women, 74436);
+test("age bands are read straight from the source, not derived", () => {
+  const b = ageBands(NATIONAL);
+  assert.equal(b.length, 5);
+  assert.deepEqual(b.map((x) => x.key), ["u30", "a3040", "a4050", "a5060", "a60p"]);
   assert.equal(
-    bands.reduce((a, b) => a + b.total, 0),
+    b.reduce((a, x) => a + x.total, 0),
     NATIONAL.total,
-    "five bands must account for every employee",
+    "five bands still account for every employee",
   );
 });
 
-test("men are never negative when a band's women exceed its total", () => {
-  // Upstream drift can make a sub-count exceed its parent by a handful.
-  const bands = ageBands({ ...NATIONAL, a60p: 100, a60pWomen: 140 });
-  const b60 = bands.find((b) => b.key === "a60p");
-  assert.equal(b60?.men, 0);
+test("u30 comes from the column, not from subtracting the other four", () => {
+  // Deliberately inconsistent: the subtraction would give 92 812, the column
+  // says 1 234. A derived implementation returns the former and fails here.
+  const b = ageBands({ ...NATIONAL, u30: 1234 });
+  assert.equal(b[0].key, "u30");
+  assert.equal(b[0].total, 1234);
 });
 
-test("the under-30 band clamps at zero rather than going negative", () => {
-  const bands = ageBands({ ...NATIONAL, total: 100 });
-  assert.equal(bands[0].total, 0);
+test("age bands clamp a negative to zero", () => {
+  // Upstream drift can still deliver a negative; it must not reach a chart.
+  const b = ageBands({ ...NATIONAL, a60p: -5 });
+  assert.equal(b.find((x) => x.key === "a60p")?.total, 0);
+});
+
+test("age bands carry no gender — the constructor does not supply it", () => {
+  for (const band of ageBands(NATIONAL)) {
+    assert.deepEqual(Object.keys(band).sort(), ["key", "total"]);
+  }
 });
 
 test("the risk ramp spans the observed spread, worst mapped to 1", () => {

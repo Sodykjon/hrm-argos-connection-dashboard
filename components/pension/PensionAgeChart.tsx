@@ -8,8 +8,8 @@ import { fmtInt, fmtPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
 
-const WOMEN = "#3fb6ff";
-const MEN = "#7c8ea8";
+// Single series: the constructor supplies no gender split for age bands.
+const BAR = "#3fb6ff";
 
 export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
   const S = useS();
@@ -22,15 +22,7 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
 
     return {
       grid: { left: 92, right: 24, top: 34, bottom: 24 },
-      legend: {
-        top: 0,
-        right: 0,
-        icon: "roundRect",
-        itemWidth: 10,
-        itemHeight: 10,
-        textStyle: { color: "#8ba0bd", fontFamily: FONT_SANS, fontSize: 11 },
-        data: [S.pension.seriesWomen, S.pension.seriesMen],
-      },
+      legend: { show: false },
       tooltip: {
         trigger: "axis",
         axisPointer: { type: "shadow" },
@@ -41,12 +33,9 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
           const arr = params as Array<{ dataIndex: number }>;
           const b = bands[arr[0].dataIndex];
           const share = totalAll > 0 ? b.total / totalAll : 0;
-          return [
-            `<b>${S.pension.band[b.key as AgeBandKey]}</b>`,
-            `${fmtInt(b.total)} (${fmtPct(share, 1)})`,
-            `${S.pension.seriesWomen}: ${fmtInt(b.women)}`,
-            `${S.pension.seriesMen}: ${fmtInt(b.men)}`,
-          ].join("<br/>");
+          return `<b>${S.pension.band[b.key as AgeBandKey]}</b><br/>${fmtInt(
+            b.total,
+          )} (${fmtPct(share, 1)})`;
         },
       },
       xAxis: {
@@ -70,20 +59,10 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
       },
       series: [
         {
-          name: S.pension.seriesWomen,
           type: "bar",
-          stack: "age",
           barMaxWidth: 26,
-          itemStyle: { color: WOMEN, borderRadius: [3, 0, 0, 3] },
-          data: bands.map((b) => b.women),
-        },
-        {
-          name: S.pension.seriesMen,
-          type: "bar",
-          stack: "age",
-          barMaxWidth: 26,
-          itemStyle: { color: MEN, borderRadius: [0, 3, 3, 0] },
-          data: bands.map((b) => b.men),
+          itemStyle: { color: BAR, borderRadius: [0, 3, 3, 0] },
+          data: bands.map((b) => b.total),
         },
       ],
     };

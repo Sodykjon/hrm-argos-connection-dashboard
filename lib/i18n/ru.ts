@@ -239,8 +239,6 @@ export const RU = {
       a5060: "50–60 лет",
       a60p: "старше 60 лет",
     },
-    seriesWomen: "Женщины",
-    seriesMen: "Мужчины",
 
     tableTitle: "Разрез по регионам",
     search: "Поиск по региону…",

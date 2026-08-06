@@ -49,30 +49,29 @@ export type AgeBandKey = "u30" | "a3040" | "a4050" | "a5060" | "a60p";
 export interface AgeBand {
   key: AgeBandKey;
   total: number;
-  women: number;
-  men: number;
 }
 
 /**
- * The report publishes 30–40, 40–50, 50–60 and 60+, which together fall ~13 %
- * short of the workforce. That shortfall is exactly the under-30 cohort (there
- * is no single under-30 column upstream — only youth-quota splits by position),
- * so it is recovered by subtraction and the chart becomes a complete breakdown.
+ * Five bands straight from the source. The previous implementation recovered
+ * the under-30 band by subtracting the other four from the total, because the
+ * old report had no under-30 column. The constructor has `ageTo30`, so the band
+ * is measured now rather than inferred.
+ *
+ * No gender: the constructor's age group carries none. The page makes its
+ * gender claims from `totalWomen` and the two pension women counts instead.
  */
 export function ageBands(s: KadrlarStat): AgeBand[] {
-  const namedTotal = s.a3040 + s.a4050 + s.a5060 + s.a60p;
-  const namedWomen = s.a3040Women + s.a4050Women + s.a5060Women + s.a60pWomen;
-  const band = (key: AgeBandKey, total: number, women: number): AgeBand => {
-    const t = Math.max(0, total);
-    const w = Math.min(Math.max(0, women), t);
-    return { key, total: t, women: w, men: t - w };
-  };
+  const band = (key: AgeBandKey, total: number): AgeBand => ({
+    key,
+    // Upstream drift can still deliver a negative; it must not reach a chart.
+    total: Math.max(0, total),
+  });
   return [
-    band("u30", s.total - namedTotal, s.totalWomen - namedWomen),
-    band("a3040", s.a3040, s.a3040Women),
-    band("a4050", s.a4050, s.a4050Women),
-    band("a5060", s.a5060, s.a5060Women),
-    band("a60p", s.a60p, s.a60pWomen),
+    band("u30", s.u30),
+    band("a3040", s.a3040),
+    band("a4050", s.a4050),
+    band("a5060", s.a5060),
+    band("a60p", s.a60p),
   ];
 }
 

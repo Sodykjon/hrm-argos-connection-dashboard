@@ -126,16 +126,24 @@ export interface CompletionManifest {
 
 export interface KadrlarStat {
   name: string; // canonical Cyrillic region name; "" for the national row
+  /** Иш ўринлари — established positions, filled or not. */
+  stavka: number;
+  /** Амалдаги ходимлар — people actually in post. */
   total: number;
   totalWomen: number;
+  /** Вакансиялар. Upstream satisfies stavka = total + vacant. */
+  vacant: number;
+  /** Ҳисобот даврида ишга қабул қилинган. */
+  accepted: number;
+  /** Ҳисобот даврида ишдан бўшаган. */
+  dismissed: number;
+  // Age bands. The constructor supplies no gender split for these — only the
+  // overall totalWomen and the two pension women counts below.
+  u30: number;
   a3040: number;
-  a3040Women: number;
   a4050: number;
-  a4050Women: number;
   a5060: number;
-  a5060Women: number;
   a60p: number;
-  a60pWomen: number;
   /** Already at pension age and still working. */
   pensionWorking: number;
   pensionWorkingWomen: number;
