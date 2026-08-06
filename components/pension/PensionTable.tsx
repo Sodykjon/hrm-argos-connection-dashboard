@@ -37,11 +37,12 @@ export function PensionTable({
     [enriched],
   );
 
-  // Split, not merged. The table is titled «Ҳудудлар кесими», and ARGOS's two
-  // non-geographic branches sorted in among the viloyats read as regions —
-  // «Туман/шаҳар даражаси» is ONE hospital, 154 people. They still have
-  // to appear: drop them and 65 810 staff vanish and the table stops adding up
-  // to the national figure. So they get their own labelled group at the bottom.
+  // Regions first, everything else under its own heading. The table is titled
+  // «Ҳудудлар кесими» and Республика муассасалари is not a region — sorted in
+  // among the viloyats it reads as one. It still has to appear: drop it and
+  // 65 810 staff vanish and the table stops adding up to the national figure
+  // printed above it. Written generically rather than against that one name, so
+  // a future non-geographic row lands in the group instead of the ranking.
   const { geo, levels } = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const out = enriched.filter(({ stat }) => {
