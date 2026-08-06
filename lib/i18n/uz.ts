@@ -247,6 +247,21 @@ export const UZ = {
       a60p: "60 ёшдан юқори",
     },
 
+    // Hero donut: the third segment beside working/reaching.
+    donutRest: "Бошқа ходимлар",
+
+    // The 5/10-year points are estimates from the 50–60 band — ARGOS has no
+    // per-year ages. The asterisks live in the labels so the axis itself
+    // separates measurement from estimate; the footnote explains the method.
+    forecastTitle: "Пенсия ёшига етиш прогнози",
+    forecastHint: "Жорий ходимлар таркибининг қариши, жами штатга нисбатан",
+    forecastNow: "Бугун",
+    forecastEoy: "Йил охири",
+    forecastY5: "+5 йил*",
+    forecastY10: "+10 йил*",
+    forecastFootnote:
+      "* Тахминий баҳо: 50–60 ёш гуруҳи ичида ёшлар текис тақсимланган деб олинди (пенсия ёши: аёллар 55, эркаклар 60). Ҳозир 40–50 ёшдаги аёллар ҳисобга олинмаган, ходимлар алмашинуви инобатга олинмайди — баҳо консерватив. Дастлабки икки нуқта — АРГОСнинг ҳақиқий рақамлари.",
+
     tableTitle: "Ҳудудлар кесими",
     search: "Ҳудуд бўйича қидириш…",
     export: "Excel'га юклаш",
@@ -303,6 +318,11 @@ export const UZ = {
     vacantHint: "Тўлдирилмаган иш ўринлари",
     rate: "Бўшлик даражаси",
     rateHint: "Штатга нисбатан",
+
+    // Under the ring's centered percentage. The ring is green because coverage
+    // is high; the caption must say it IS coverage, or beside the red vacancy
+    // headline it reads as "problem solved".
+    ringCaption: "штатнинг тўлдирилганлиги",
 
     mapTitle: "Ҳудудлар бўйича бўшлик даражаси",
     mapHint: "Ҳудуд устига босиб, батафсил кўринг",
