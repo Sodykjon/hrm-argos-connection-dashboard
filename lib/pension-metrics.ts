@@ -44,6 +44,58 @@ export function pensionMetrics(s: KadrlarStat): PensionMetrics {
   };
 }
 
+export type ForecastKey = "now" | "eoy" | "y5" | "y10";
+
+export interface ForecastPoint {
+  key: ForecastKey;
+  /** Staff at or past pension age by this horizon. */
+  count: number;
+  /** Share of TODAY's workforce — fixed denominator, attrition ignored. */
+  share: number; // 0..1
+  /** True on the 5- and 10-year points, which are estimates, not measurements. */
+  estimate: boolean;
+}
+
+/**
+ * How the current workforce ages into pension. The first two points are real
+ * ARGOS figures; the last two are estimates from the 50–60 band, because ARGOS
+ * publishes ages only in decade bands and "reaching this year" is its only
+ * forward-looking number. Method agreed with the user (06.08.2026), and it is
+ * the same approximation the ministry's own regional reports use.
+ *
+ * The subtlety is the dual pension age (women 55, men 60): part of the 50–60
+ * band is ALREADY at pension age. Those women are recoverable from real data —
+ * everyone 60+ is pension-age, so pensionWorking − a60p = working women 55–60.
+ * What remains is the band's not-yet-pension cohort R, spread uniformly:
+ * about half reaches pension age within 5 years, all of it within 10.
+ *
+ * Conservative by construction: women now 40–50 who reach 55 within the
+ * horizon are not counted, and the denominator never grows.
+ */
+export function pensionForecast(s: KadrlarStat): ForecastPoint[] {
+  const total = Math.max(0, s.total);
+  const working = Math.max(0, s.pensionWorking);
+  const reaching = Math.max(0, s.reaching);
+  const a5060 = Math.max(0, s.a5060);
+  const a60p = Math.max(0, s.a60p);
+
+  const womenPension5560 = Math.max(0, working - a60p);
+  const R = Math.max(0, a5060 - womenPension5560 - reaching);
+
+  const now = working;
+  const eoy = working + reaching;
+  const y5 = eoy + Math.round(R / 2);
+  const y10 = eoy + R;
+
+  const share = (count: number) => (total > 0 ? count / total : 0);
+  return [
+    { key: "now", count: now, share: share(now), estimate: false },
+    { key: "eoy", count: eoy, share: share(eoy), estimate: false },
+    { key: "y5", count: y5, share: share(y5), estimate: true },
+    { key: "y10", count: y10, share: share(y10), estimate: true },
+  ];
+}
+
 export type AgeBandKey = "u30" | "a3040" | "a4050" | "a5060" | "a60p";
 
 export interface AgeBand {

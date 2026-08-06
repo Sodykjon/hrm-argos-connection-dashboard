@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   pensionMetrics,
+  pensionForecast,
   ageBands,
   riskRamp,
   riskT,
@@ -106,6 +107,78 @@ test("an empty region list yields a usable ramp", () => {
 test("worst is red and best is green, the opposite of rampColor", () => {
   assert.equal(riskColor(1), "rgb(228, 72, 61)", "worst = red");
   assert.equal(riskColor(0), "rgb(16, 160, 109)", "best = green");
+});
+
+// --- pensionForecast ---------------------------------------------------------
+
+/** The constructor pull of 2026-08-06 — the seed the page actually renders. */
+const SEED: KadrlarStat = {
+  name: "",
+  stavka: 715137, total: 689089, totalWomen: 549311, vacant: 26048,
+  accepted: 64467, dismissed: 8140,
+  u30: 92763, a3040: 232933, a4050: 188472, a5060: 135589, a60p: 39332,
+  pensionWorking: 79596, pensionWorkingWomen: 58956,
+  reaching: 14113, reachingWomen: 11156,
+};
+
+test("forecast reproduces the seed figures exactly", () => {
+  // womenPension5560 = 79 596 − 39 332 = 40 264
+  // R = 135 589 − 40 264 − 14 113 = 81 212
+  const [now, eoy, y5, y10] = pensionForecast(SEED);
+  assert.equal(now.count, 79596);
+  assert.equal(eoy.count, 93709);
+  assert.equal(y5.count, 134315);
+  assert.equal(y10.count, 174921);
+  assert.ok(Math.abs(now.share - 0.1155) < 1e-4);
+  assert.ok(Math.abs(eoy.share - 0.136) < 1e-4);
+  assert.ok(Math.abs(y5.share - 0.1949) < 1e-4);
+  assert.ok(Math.abs(y10.share - 0.2538) < 1e-4);
+});
+
+test("only the 5- and 10-year points are estimates", () => {
+  // The chart draws estimate bars differently; a real point marked as an
+  // estimate undermines the two figures that ARE measurements, and the
+  // reverse presents a guess as a fact in front of the Minister.
+  assert.deepEqual(
+    pensionForecast(SEED).map((p) => p.estimate),
+    [false, false, true, true],
+  );
+});
+
+test("forecast counts never decrease across horizons", () => {
+  const pts = pensionForecast(SEED);
+  for (let i = 1; i < pts.length; i++) {
+    assert.ok(pts[i].count >= pts[i - 1].count, `${pts[i].key} >= ${pts[i - 1].key}`);
+  }
+});
+
+test("forecast survives a60p exceeding pensionWorking", () => {
+  // Known drift case: womenPension5560 clamps to 0 and R = a5060 − reaching.
+  // Monotonicity must hold rather than R going negative.
+  const pts = pensionForecast({ ...SEED, pensionWorking: 30000, a60p: 39332 });
+  assert.equal(pts[1].count, 30000 + SEED.reaching);
+  assert.equal(pts[3].count, pts[1].count + (SEED.a5060 - SEED.reaching));
+  for (let i = 1; i < pts.length; i++) {
+    assert.ok(pts[i].count >= pts[i - 1].count);
+  }
+});
+
+test("forecast with an empty population yields zero shares, no NaN", () => {
+  const pts = pensionForecast({
+    ...SEED, total: 0, pensionWorking: 0, reaching: 0, a5060: 0, a60p: 0,
+  });
+  for (const p of pts) {
+    assert.equal(p.count, 0);
+    assert.equal(p.share, 0);
+  }
+});
+
+test("forecast clamps negative inputs before deriving anything", () => {
+  const pts = pensionForecast({ ...SEED, a5060: -10, reaching: -5 });
+  for (const p of pts) {
+    assert.ok(Number.isFinite(p.share));
+    assert.ok(p.count >= 0);
+  }
 });
 
 test("at exactly one-in-N the qualifier drops — equality falls on the safe side", () => {
