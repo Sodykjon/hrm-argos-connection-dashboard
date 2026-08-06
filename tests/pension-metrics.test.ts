@@ -6,6 +6,7 @@ import {
   riskRamp,
   riskT,
   riskColor,
+  replacementWave,
 } from "../lib/pension-metrics.ts";
 import type { PensionStat } from "../lib/types.ts";
 
@@ -114,4 +115,27 @@ test("at exactly one-in-N the qualifier drops — equality falls on the safe sid
   });
   assert.equal(m.oneIn, 7);
   assert.equal(m.nearly, false);
+});
+
+test("the replacement wave accumulates age bands and never double-counts", () => {
+  const w = replacementWave(NATIONAL);
+  assert.equal(w.length, 3);
+  // Each step is the previous plus exactly one band — mutually exclusive, so a
+  // person can appear once and only once.
+  assert.equal(w[0].count, 39362, "now = 60+");
+  assert.equal(w[1].count, 39362 + 135652, "+ the 50-60 band");
+  assert.equal(w[2].count, 39362 + 135652 + 188630, "+ the 40-50 band");
+  assert.ok(w[0].count < w[1].count && w[1].count < w[2].count, "strictly rising");
+  // The pension counts cut across the bands, so they must not appear here.
+  assert.notEqual(w[0].count, NATIONAL.pensionWorking);
+  assert.ok(
+    w[2].count <= NATIONAL.total,
+    "the wave can never exceed the workforce it is drawn from",
+  );
+});
+
+test("the replacement wave survives an empty population", () => {
+  const w = replacementWave({ ...NATIONAL, total: 0, a60p: 0, a5060: 0, a4050: 0 });
+  assert.deepEqual(w.map((s) => s.count), [0, 0, 0]);
+  assert.deepEqual(w.map((s) => s.share), [0, 0, 0]);
 });

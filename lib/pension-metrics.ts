@@ -76,6 +76,42 @@ export function ageBands(s: PensionStat): AgeBand[] {
   ];
 }
 
+export type WaveKey = "now" | "y10" | "y20";
+
+export interface WaveStep {
+  key: WaveKey;
+  /** Cumulative head-count of today's staff past 60 by then. */
+  count: number;
+  share: number; // 0..1 of today's total
+}
+
+/**
+ * The replacement wave: how much of today's workforce will have passed 60
+ * within the next decade and the one after.
+ *
+ * Built ONLY from the age bands, which are mutually exclusive and sum to the
+ * total. The pension counts (`pensionWorking`, `reaching`) deliberately stay
+ * out: they cut across the bands — a 62-year-old is in both `a60p` and
+ * `pensionWorking`, a woman of 57 in both `a5060` and `pensionWorking` — so
+ * mixing them into one cumulative series would count people twice.
+ *
+ * This ages today's staff forward and nothing else. It models no hiring, no
+ * attrition and no mortality, and it makes no claim about statutory pension
+ * ages — 60 here is the report's own band boundary, not a retirement rule.
+ * The page must say so.
+ */
+export function replacementWave(s: PensionStat): WaveStep[] {
+  const now = Math.max(0, s.a60p);
+  const y10 = now + Math.max(0, s.a5060);
+  const y20 = y10 + Math.max(0, s.a4050);
+  const share = (n: number) => (s.total > 0 ? n / s.total : 0);
+  return [
+    { key: "now", count: now, share: share(now) },
+    { key: "y10", count: y10, share: share(y10) },
+    { key: "y20", count: y20, share: share(y20) },
+  ];
+}
+
 export interface RiskRamp {
   min: number;
   max: number;
