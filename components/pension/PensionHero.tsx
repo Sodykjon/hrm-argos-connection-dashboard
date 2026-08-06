@@ -1,4 +1,4 @@
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics } from "@/lib/pension-metrics";
 import { AnimatedNumber } from "@/components/motion/AnimatedNumber";
 import { fmtInt, fmtPct } from "@/lib/format";
@@ -13,7 +13,7 @@ import { getS } from "@/lib/i18n/server";
  * A bare "one in 7" would overstate, so the copy carries "деярли" whenever the
  * rounded claim exceeds the real share.
  */
-export async function PensionHero({ stat }: { stat: PensionStat }) {
+export async function PensionHero({ stat }: { stat: KadrlarStat }) {
   const S = await getS();
   const m = pensionMetrics(stat);
 

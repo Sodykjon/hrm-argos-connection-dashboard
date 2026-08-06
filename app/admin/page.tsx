@@ -9,7 +9,7 @@ import {
   type ParsedHisobot,
 } from "@/lib/parse";
 import { parseCompletionCsv, type ParsedCompletion } from "@/lib/parse-completion";
-import { parsePensionCsv, type ParsedPension } from "@/lib/parse-pension";
+import { parseKadrlarCsv, type ParsedKadrlar } from "@/lib/parse-kadrlar";
 import type { Registry } from "@/lib/types";
 import { fmtInt, fmtPct, fmtDate, fmtDateTime } from "@/lib/format";
 import { useS } from "@/lib/i18n/client";
@@ -53,7 +53,7 @@ export default function AdminPage() {
   const [compHistory, setCompHistory] = useState<CompHistoryItem[]>([]);
 
   // pension (separate dataset)
-  const [penParsed, setPenParsed] = useState<ParsedPension | null>(null);
+  const [penParsed, setPenParsed] = useState<ParsedKadrlar | null>(null);
   const [penParsing, setPenParsing] = useState(false);
   const [penPublishing, setPenPublishing] = useState(false);
   const [penError, setPenError] = useState<string | null>(null);
@@ -75,7 +75,7 @@ export default function AdminPage() {
   }, [compDone]);
 
   useEffect(() => {
-    fetch("/api/pension")
+    fetch("/api/kadrlar")
       .then((r) => r.json())
       .then((d) => setPenHistory(d.snapshots ?? []))
       .catch(() => {});
@@ -127,10 +127,10 @@ export default function AdminPage() {
     setPenParsing(true);
     try {
       const text = await file.text();
-      setPenParsed(parsePensionCsv(text, file.name));
+      setPenParsed(parseKadrlarCsv(text, file.name));
     } catch (e) {
       setPenParsed(null);
-      // parsePensionCsv throws a specific Uzbek message (unknown region,
+      // parseKadrlarCsv throws a specific Uzbek message (unknown region,
       // missing national row, regions exceeding the total) — show it verbatim,
       // it is the only thing that tells the user which row is wrong.
       setPenError(e instanceof Error ? e.message : S.admin.penErrParse);
@@ -139,12 +139,12 @@ export default function AdminPage() {
     }
   }
 
-  async function publishPensionSnapshot() {
+  async function publishKadrlarSnapshot() {
     if (!penParsed || !password) return;
     setPenPublishing(true);
     setPenError(null);
     try {
-      const res = await fetch("/api/pension", {
+      const res = await fetch("/api/kadrlar", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ password, snapshot: penParsed.snapshot }),
@@ -567,7 +567,7 @@ export default function AdminPage() {
               )}
 
               <button
-                onClick={publishPensionSnapshot}
+                onClick={publishKadrlarSnapshot}
                 disabled={!penParsed || !password || penPublishing}
                 className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
               >

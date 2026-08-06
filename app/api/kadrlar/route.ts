@@ -1,17 +1,17 @@
-import { getPensionHistory } from "@/lib/data";
-import { hasBlob, publishPension } from "@/lib/store";
-import type { PensionSnapshot } from "@/lib/types";
+import { getKadrlarHistory } from "@/lib/data";
+import { hasBlob, publishKadrlar } from "@/lib/store";
+import type { KadrlarSnapshot } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 interface UploadBody {
   password?: string;
-  snapshot?: PensionSnapshot;
+  snapshot?: KadrlarSnapshot;
 }
 
-function validSnapshot(s: unknown): s is PensionSnapshot {
-  const x = s as PensionSnapshot;
+function validSnapshot(s: unknown): s is KadrlarSnapshot {
+  const x = s as KadrlarSnapshot;
   return (
     !!x &&
     typeof x.date === "string" &&
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await publishPension(body.snapshot);
+    const result = await publishKadrlar(body.snapshot);
     return Response.json({ ok: true, ...result });
   } catch (e) {
     return Response.json(
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
 // Lightweight history for the admin panel.
 export async function GET() {
-  const history = await getPensionHistory();
+  const history = await getKadrlarHistory();
   return Response.json({
     count: history.length,
     snapshots: history.map((h) => ({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLatestSnapshot, getLatestCompletion, getLatestPension } from "@/lib/data";
+import { getLatestSnapshot, getLatestCompletion, getLatestKadrlar } from "@/lib/data";
 import { OverviewHero } from "@/components/OverviewHero";
 import { LiveFeed } from "@/components/LiveFeed";
 import { StatTile } from "@/components/StatTile";
@@ -18,7 +18,7 @@ export default async function OverviewPage() {
   const S = await getS();
   const { snapshot } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
-  const { snapshot: pension } = await getLatestPension();
+  const { snapshot: pension } = await getLatestKadrlar();
   const { totals, regions } = snapshot;
 
   return (

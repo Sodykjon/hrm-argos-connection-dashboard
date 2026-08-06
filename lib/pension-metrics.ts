@@ -1,8 +1,8 @@
-// Everything the pension pages derive from a stored PensionStat. Kept out of
+// Everything the pension pages derive from a stored KadrlarStat. Kept out of
 // the components because each function below is a claim the dashboard makes in
 // front of the Minister, and each can be wrong in a way a screenshot hides.
 
-import type { PensionStat } from "./types";
+import type { KadrlarStat } from "./types";
 import { rampColor } from "./format.ts";
 
 export interface PensionMetrics {
@@ -17,7 +17,7 @@ export interface PensionMetrics {
   nearly: boolean;
 }
 
-export function pensionMetrics(s: PensionStat): PensionMetrics {
+export function pensionMetrics(s: KadrlarStat): PensionMetrics {
   const exposed = s.pensionWorking + s.reaching;
   if (s.total <= 0 || exposed <= 0) {
     return {
@@ -59,7 +59,7 @@ export interface AgeBand {
  * is no single under-30 column upstream — only youth-quota splits by position),
  * so it is recovered by subtraction and the chart becomes a complete breakdown.
  */
-export function ageBands(s: PensionStat): AgeBand[] {
+export function ageBands(s: KadrlarStat): AgeBand[] {
   const namedTotal = s.a3040 + s.a4050 + s.a5060 + s.a60p;
   const namedWomen = s.a3040Women + s.a4050Women + s.a5060Women + s.a60pWomen;
   const band = (key: AgeBandKey, total: number, women: number): AgeBand => {

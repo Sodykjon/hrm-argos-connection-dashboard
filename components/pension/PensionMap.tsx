@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics, riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
 interface PensionMapProps {
-  regions: PensionStat[]; // geographic regions only
+  regions: KadrlarStat[]; // geographic regions only
   activeRegion: string | null;
   onHover?: (name: string | null) => void;
   onSelect?: (name: string) => void;

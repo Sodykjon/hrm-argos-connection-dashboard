@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Chart } from "../Chart";
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { ageBands, type AgeBandKey } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
@@ -11,7 +11,7 @@ import { useS } from "@/lib/i18n/client";
 const WOMEN = "#3fb6ff";
 const MEN = "#7c8ea8";
 
-export function PensionAgeChart({ stat }: { stat: PensionStat }) {
+export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
   const S = useS();
 
   const bands = useMemo(() => ageBands(stat), [stat]);

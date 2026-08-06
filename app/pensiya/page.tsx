@@ -1,4 +1,4 @@
-import { getLatestPension } from "@/lib/data";
+import { getLatestKadrlar } from "@/lib/data";
 import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PensionPage() {
   const S = await getS();
-  const { snapshot } = await getLatestPension();
+  const { snapshot } = await getLatestKadrlar();
   const { overall, regions } = snapshot;
 
   return (

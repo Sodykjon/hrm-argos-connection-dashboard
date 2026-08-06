@@ -22,9 +22,9 @@ import type {
   CompletionSnapshot,
   Manifest,
   ManifestEntry,
-  PensionManifest,
-  PensionManifestEntry,
-  PensionSnapshot,
+  KadrlarManifest,
+  KadrlarManifestEntry,
+  KadrlarSnapshot,
   Registry,
   Snapshot,
 } from "./types";
@@ -49,8 +49,8 @@ const K = {
   registry: "registry",
   compManifest: "completion:manifest",
   compSnapshot: "completion:snapshot:latest",
-  penManifest: "pension:manifest",
-  penSnapshot: "pension:snapshot:latest",
+  kadrManifest: "kadrlar:manifest",
+  kadrSnapshot: "kadrlar:snapshot:latest",
 } as const;
 
 // ---------------------------------------------------------------- redis client
@@ -128,15 +128,15 @@ export async function getCompletionByRef(
   return readKey<CompletionSnapshot>(ref);
 }
 
-export const getPensionManifest = cache(
-  async (): Promise<PensionManifest | null> =>
-    readKey<PensionManifest>(K.penManifest),
+export const getKadrlarManifest = cache(
+  async (): Promise<KadrlarManifest | null> =>
+    readKey<KadrlarManifest>(K.kadrManifest),
 );
 
-export async function getPensionByRef(
+export async function getKadrlarByRef(
   ref: string,
-): Promise<PensionSnapshot | null> {
-  return readKey<PensionSnapshot>(ref);
+): Promise<KadrlarSnapshot | null> {
+  return readKey<KadrlarSnapshot>(ref);
 }
 
 // ------------------------------------------------------------------ write API
@@ -228,7 +228,7 @@ export async function publishCompletion(
   return { snapshots: snapshots.length };
 }
 
-export interface PensionPutResult {
+export interface KadrlarPutResult {
   snapshots: number;
 }
 
@@ -236,18 +236,18 @@ export interface PensionPutResult {
  * Persist a new pension snapshot and update its manifest. Independent of
  * publish() and publishCompletion() — own keys, own manifest.
  */
-export async function publishPension(
-  snapshot: PensionSnapshot,
-): Promise<PensionPutResult> {
-  const manifest = (await getPensionManifest()) ?? {
+export async function publishKadrlar(
+  snapshot: KadrlarSnapshot,
+): Promise<KadrlarPutResult> {
+  const manifest = (await getKadrlarManifest()) ?? {
     latestUrl: "",
     snapshots: [],
   };
 
-  const entry: PensionManifestEntry = {
+  const entry: KadrlarManifestEntry = {
     date: snapshot.date,
     uploadedAt: snapshot.uploadedAt,
-    url: K.penSnapshot,
+    url: K.kadrSnapshot,
     overall: snapshot.overall,
     regions: snapshot.regions,
   };
@@ -259,11 +259,11 @@ export async function publishPension(
 
   // Backfilling an older report must never replace the current dashboard data.
   if (snapshot.date === newestDate) {
-    await writeKey(K.penSnapshot, snapshot);
+    await writeKey(K.kadrSnapshot, snapshot);
   }
 
-  const next: PensionManifest = { latestUrl: K.penSnapshot, snapshots };
-  await writeKey(K.penManifest, next);
+  const next: KadrlarManifest = { latestUrl: K.kadrSnapshot, snapshots };
+  await writeKey(K.kadrManifest, next);
 
   return { snapshots: snapshots.length };
 }

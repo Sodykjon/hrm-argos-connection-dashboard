@@ -4,13 +4,13 @@
 import seedSnapshotJson from "@/data/seed-snapshot.json";
 import seedRegistryJson from "@/data/registry.json";
 import seedCompletionJson from "@/data/seed-completion.json";
-import seedPensionJson from "@/data/seed-pension.json";
+import seedKadrlarJson from "@/data/seed-kadrlar.json";
 import type {
   CompletionManifestEntry,
   CompletionSnapshot,
   ManifestEntry,
-  PensionManifestEntry,
-  PensionSnapshot,
+  KadrlarManifestEntry,
+  KadrlarSnapshot,
   Registry,
   Snapshot,
 } from "./types";
@@ -18,8 +18,8 @@ import {
   getCompletionByRef,
   getCompletionManifest,
   getManifest,
-  getPensionByRef,
-  getPensionManifest,
+  getKadrlarByRef,
+  getKadrlarManifest,
   getRegistryRef,
   getSnapshotByRef,
 } from "./store";
@@ -27,7 +27,7 @@ import {
 const seedSnapshot = seedSnapshotJson as unknown as Snapshot;
 const seedRegistry = seedRegistryJson as unknown as Registry;
 const seedCompletion = seedCompletionJson as unknown as CompletionSnapshot;
-const seedPension = seedPensionJson as unknown as PensionSnapshot;
+const seedKadrlar = seedKadrlarJson as unknown as KadrlarSnapshot;
 
 export interface DashboardData {
   snapshot: Snapshot;
@@ -119,38 +119,38 @@ export async function getCompletionHistory(): Promise<CompletionManifestEntry[]>
 
 // --- pension age ("Пенсия ёши") ---------------------------------------------
 
-export interface PensionData {
-  snapshot: PensionSnapshot;
+export interface KadrlarData {
+  snapshot: KadrlarSnapshot;
   isSeed: boolean;
 }
 
-export async function getLatestPension(): Promise<PensionData> {
+export async function getLatestKadrlar(): Promise<KadrlarData> {
   try {
-    const manifest = await getPensionManifest();
+    const manifest = await getKadrlarManifest();
     if (manifest?.latestUrl) {
-      const snap = await getPensionByRef(manifest.latestUrl);
+      const snap = await getKadrlarByRef(manifest.latestUrl);
       if (snap) return { snapshot: snap, isSeed: false };
     }
   } catch {
     /* fall through to seed */
   }
-  return { snapshot: seedPension, isSeed: true };
+  return { snapshot: seedKadrlar, isSeed: true };
 }
 
-export async function getPensionHistory(): Promise<PensionManifestEntry[]> {
+export async function getKadrlarHistory(): Promise<KadrlarManifestEntry[]> {
   try {
-    const manifest = await getPensionManifest();
+    const manifest = await getKadrlarManifest();
     if (manifest?.snapshots?.length) return manifest.snapshots;
   } catch {
     /* fall through */
   }
   return [
     {
-      date: seedPension.date,
-      uploadedAt: seedPension.uploadedAt,
+      date: seedKadrlar.date,
+      uploadedAt: seedKadrlar.uploadedAt,
       url: "seed",
-      overall: seedPension.overall,
-      regions: seedPension.regions,
+      overall: seedKadrlar.overall,
+      regions: seedKadrlar.regions,
     },
   ];
 }

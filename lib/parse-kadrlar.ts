@@ -6,7 +6,7 @@
 // misspelled. Resolving them to the dashboard's canonical Uzbek-Cyrillic keys
 // happens HERE, under test, not in the bookmarklet.
 
-import type { PensionSnapshot, PensionStat } from "./types";
+import type { KadrlarSnapshot, KadrlarStat } from "./types";
 import { GEO_REGIONS, PENSION_RESIDUAL } from "./regions.ts";
 
 // --------------------------------------------------------------- region names
@@ -97,7 +97,7 @@ const COLUMNS = [
   "a60p", "a60pWomen",
   "pensionWorking", "pensionWorkingWomen",
   "reaching", "reachingWomen",
-] as const satisfies ReadonlyArray<keyof PensionStat>;
+] as const satisfies ReadonlyArray<keyof KadrlarStat>;
 
 /** "689 461" / "689461" / "" -> number. Strips every kind of grouping space. */
 const HEADER = [
@@ -143,19 +143,19 @@ function count(raw: string | undefined, onBad?: () => void): number {
   return Math.round(n);
 }
 
-function emptyStat(name: string): PensionStat {
-  const s = { name } as PensionStat;
+function emptyStat(name: string): KadrlarStat {
+  const s = { name } as KadrlarStat;
   for (const c of COLUMNS) s[c] = 0;
   return s;
 }
 
-function subtract(a: PensionStat, b: PensionStat, name: string): PensionStat {
+function subtract(a: KadrlarStat, b: KadrlarStat, name: string): KadrlarStat {
   const out = emptyStat(name);
   for (const c of COLUMNS) out[c] = a[c] - b[c];
   return out;
 }
 
-function addInto(acc: PensionStat, r: PensionStat): void {
+function addInto(acc: KadrlarStat, r: KadrlarStat): void {
   for (const c of COLUMNS) acc[c] += r[c];
 }
 
@@ -164,23 +164,23 @@ function dateFromName(fileName?: string): string | null {
   return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
 }
 
-export function buildPensionSnapshot(
-  overall: PensionStat,
-  regions: PensionStat[],
+export function buildKadrlarSnapshot(
+  overall: KadrlarStat,
+  regions: KadrlarStat[],
   date: string,
-): PensionSnapshot {
+): KadrlarSnapshot {
   return { date, uploadedAt: new Date().toISOString(), overall, regions };
 }
 
-export interface ParsedPension {
-  snapshot: PensionSnapshot;
+export interface ParsedKadrlar {
+  snapshot: KadrlarSnapshot;
   warnings: string[];
 }
 
-export function parsePensionCsv(
+export function parseKadrlarCsv(
   text: string,
   fileName?: string,
-): ParsedPension {
+): ParsedKadrlar {
   const warnings: string[] = [];
   const lines = text
     .replace(/^﻿/, "")
@@ -189,8 +189,8 @@ export function parsePensionCsv(
   if (lines.length < 2) throw new Error("CSV бўш ёки нотўғри форматда.");
   assertHeader(lines[0]);
 
-  let overall: PensionStat | null = null;
-  const regions: PensionStat[] = [];
+  let overall: KadrlarStat | null = null;
+  const regions: KadrlarStat[] = [];
   const seen = new Set<string>();
 
   for (let i = 1; i < lines.length; i++) {
@@ -290,5 +290,5 @@ export function parsePensionCsv(
   }
 
   const date = dateFromName(fileName) ?? new Date().toISOString().slice(0, 10);
-  return { snapshot: buildPensionSnapshot(overall, regions, date), warnings };
+  return { snapshot: buildKadrlarSnapshot(overall, regions, date), warnings };
 }

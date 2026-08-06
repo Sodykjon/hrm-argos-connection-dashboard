@@ -7,10 +7,10 @@ import {
   riskT,
   riskColor,
 } from "../lib/pension-metrics.ts";
-import type { PensionStat } from "../lib/types.ts";
+import type { KadrlarStat } from "../lib/types.ts";
 
 /** The verified national figures, 2026-08-05. */
-const NATIONAL: PensionStat = {
+const NATIONAL: KadrlarStat = {
   name: "",
   total: 689461, totalWomen: 549586,
   a3040: 233005, a3040Women: 192116,

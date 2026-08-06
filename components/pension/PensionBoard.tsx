@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { PensionMap } from "./PensionMap";
 import { pensionMetrics, riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { isGeographicRegion, regionSlug, regionLabel } from "@/lib/regions";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 
-export function PensionBoard({ regions }: { regions: PensionStat[] }) {
+export function PensionBoard({ regions }: { regions: KadrlarStat[] }) {
   const S = useS();
   const lang = useLang();
   const [active, setActive] = useState<string | null>(null);

@@ -117,13 +117,14 @@ export interface CompletionManifest {
 }
 
 // ---------------------------------------------------------------------------
-// Pension age ("Пенсия ёши") — a THIRD statistic sourced from the hrm.argos.uz
-// report GetAllEmployeeDistributionBySeniority, ingested via CSV upload. Fully
-// decoupled from the two datasets above (own keys, own manifest, own pages).
+// Kadrlar ("Кадрлар") — the third statistic, sourced from the hrm.argos.uz
+// statistics constructor and ingested via CSV upload. Carries staffing,
+// vacancies, age structure, pension exposure and turnover. Fully decoupled
+// from the two datasets above (own keys, own manifest, own pages).
 // All figures are integer head-counts; shares are derived at render time.
 // ---------------------------------------------------------------------------
 
-export interface PensionStat {
+export interface KadrlarStat {
   name: string; // canonical Cyrillic region name; "" for the national row
   total: number;
   totalWomen: number;
@@ -143,24 +144,24 @@ export interface PensionStat {
   reachingWomen: number;
 }
 
-export interface PensionSnapshot {
+export interface KadrlarSnapshot {
   date: string; // ISO date of the report, e.g. "2026-08-05"
   uploadedAt: string; // ISO timestamp the snapshot entered the system
-  overall: PensionStat; // national
-  regions: PensionStat[]; // 14 geographic + 1 residual; [] when only national
+  overall: KadrlarStat; // national
+  regions: KadrlarStat[]; // 14 geographic + 1 residual; [] when only national
 }
 
 // A snapshot is ~15 rows, so the manifest carries every field inline and the
 // trend needs no separate payload.
-export interface PensionManifestEntry {
+export interface KadrlarManifestEntry {
   date: string;
   uploadedAt: string;
   url: string;
-  overall: PensionStat;
-  regions: PensionStat[];
+  overall: KadrlarStat;
+  regions: KadrlarStat[];
 }
 
-export interface PensionManifest {
+export interface KadrlarManifest {
   latestUrl: string;
-  snapshots: PensionManifestEntry[]; // chronological (oldest → newest)
+  snapshots: KadrlarManifestEntry[]; // chronological (oldest → newest)
 }

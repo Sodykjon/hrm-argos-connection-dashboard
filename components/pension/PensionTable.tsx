@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics, riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct, toPct } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
@@ -11,7 +11,7 @@ export function PensionTable({
   rows,
   exportName,
 }: {
-  rows: PensionStat[];
+  rows: KadrlarStat[];
   exportName: string;
 }) {
   const S = useS();

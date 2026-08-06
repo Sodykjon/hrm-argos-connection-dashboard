@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getLatestPension } from "@/lib/data";
+import { getLatestKadrlar } from "@/lib/data";
 import { regionFromSlug, regionLabel } from "@/lib/regions";
 import { pensionMetrics } from "@/lib/pension-metrics";
 import { PensionHero } from "@/components/pension/PensionHero";
@@ -19,7 +19,7 @@ export default async function PensionRegionPage({
   const S = await getS();
   const lang = await getLang();
   const { region: slug } = await params;
-  const { snapshot } = await getLatestPension();
+  const { snapshot } = await getLatestKadrlar();
 
   const known = snapshot.regions.map((r) => r.name);
   const name = regionFromSlug(slug, known);

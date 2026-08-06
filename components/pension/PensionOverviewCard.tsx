@@ -1,11 +1,11 @@
 import Link from "next/link";
-import type { PensionStat } from "@/lib/types";
+import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
 
 /** Mirrors the completion card's shape, one rung higher on the page. */
-export async function PensionOverviewCard({ stat }: { stat: PensionStat }) {
+export async function PensionOverviewCard({ stat }: { stat: KadrlarStat }) {
   const S = await getS();
   const m = pensionMetrics(stat);
 
