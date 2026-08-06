@@ -31,20 +31,25 @@ export function Nav() {
       links: [
         { href: "/pensiya", label: S.nav.pension },
         { href: "/vakansiya", label: S.nav.vakansiya },
-        { href: "/admin", label: S.nav.admin },
+        // /admin lives in the header's utility row now — it is an operator
+        // tool, and filing it under "Кадрлар таҳлили" put an upload form in an
+        // analytics menu.
       ],
     },
   ];
 
   return (
-    <nav className="scroll-quiet -mx-1 flex items-center gap-3 overflow-x-auto">
+    <nav className="scroll-quiet -mx-1 flex items-center gap-3 overflow-x-auto px-1">
       {groups.map((g, gi) => (
         <div key={g.label} className="flex items-center gap-3">
           {gi > 0 && (
-            <span className="h-7 w-px shrink-0 bg-white/15" aria-hidden />
+            <span className="h-5 w-px shrink-0 bg-white/15" aria-hidden />
           )}
-          <div className="flex flex-col gap-0.5">
-            <span className="whitespace-nowrap px-3.5 text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-white/40">
+          {/* Caption inline-left of its pills: in the dedicated nav row the
+              header pays for height, not width, so the two-line stack the
+              caption-above layout needed is the wrong trade here. */}
+          <div className="flex items-center gap-2.5">
+            <span className="shrink-0 whitespace-nowrap text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-white/40">
               {g.label}
             </span>
             <div className="flex items-center gap-1">

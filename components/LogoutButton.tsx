@@ -36,7 +36,8 @@ export function LogoutButton() {
           strokeLinejoin="round"
         />
       </svg>
-      {S.login.logout}
+      {/* Icon-only on phones; the aria-label above keeps it accessible. */}
+      <span className="hidden sm:inline">{S.login.logout}</span>
     </button>
   );
 }
