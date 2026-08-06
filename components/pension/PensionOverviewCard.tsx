@@ -15,11 +15,16 @@ export async function PensionOverviewCard({ stat }: { stat: PensionStat }) {
       className="card card-link group flex items-center gap-4 p-5 sm:gap-5"
     >
       <span
-        className="grid h-[92px] w-[92px] shrink-0 flex-col place-items-center rounded-2xl border border-un/30 bg-un-soft"
+        className="grid h-[92px] w-[92px] shrink-0 place-content-center justify-items-center gap-1 rounded-2xl border border-un/30 bg-un-soft px-1"
         aria-hidden
       >
         <span className="tnum text-[1.5rem] font-bold leading-none text-un">
           {fmtPct(m.exposedShare, 1)}
+        </span>
+        {/* The completion card never shows a bare percentage either. An
+            unlabelled figure this size reads as whatever the heading implies. */}
+        <span className="text-center text-[0.58rem] leading-tight text-un/70">
+          {S.pension.col.share}
         </span>
       </span>
       <div className="min-w-0 flex-1">

@@ -51,7 +51,7 @@ export default async function PensionRegionPage({
             {regionLabel(name, lang)}
           </h1>
           <p className="text-[0.78rem] text-ink-faint">
-            {S.region.rankOf(rank, snapshot.regions.length)} ·{" "}
+            {S.pension.rankOf(rank, snapshot.regions.length)} ·{" "}
             <span className="tnum">{fmtDate(snapshot.date)}</span> {S.pension.asOf}
           </p>
         </div>

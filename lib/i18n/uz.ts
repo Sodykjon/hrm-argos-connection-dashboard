@@ -98,7 +98,7 @@ export const UZ = {
     loading: "Харита юкланмоқда…",
     ariaConnection: "Ўзбекистон ҳудудлари бўйича уланиш харитаси",
     ariaCompletion: "Ўзбекистон ҳудудлари бўйича тўлдирилиш харитаси",
-    pensionShare: "Пенсия ёши улуши",
+    ariaPension: "Ўзбекистон ҳудудлари бўйича алмашинув эҳтиёжи харитаси",
     people: "Ходимлар",
   },
 
@@ -221,7 +221,7 @@ export const UZ = {
     women: "Шундан хотин-қизлар",
     womenHint: "Пенсия ёшидагилар ичида",
 
-    mapTitle: "Ҳудудлар бўйича пенсия ёши улуши",
+    mapTitle: "Ҳудудлар бўйича алмашинув эҳтиёжи",
     mapHint: "Ҳудуд устига босиб, батафсил кўринг",
     mapKey: (lo: string, hi: string) =>
       `Шкала ${lo} — ${hi} оралиғида (нисбий)`,
@@ -241,7 +241,7 @@ export const UZ = {
     seriesMen: "Эркаклар",
 
     trendTitle: "Динамика",
-    trendSubtitle: "Пенсия ёшидагилар улушининг вақт бўйича ўзгариши",
+    trendSubtitle: "Алмашинув улушининг вақт бўйича ўзгариши",
     trendLine: "Алмашинув улуши, %",
     trendSingle:
       "Ҳозирча битта ҳисобот мавжуд. Янги ҳисоботлар юкланган сари динамика тўлдирилиб боради.",
@@ -262,6 +262,12 @@ export const UZ = {
       reaching: "Шу йили етади",
       share: "Алмашинув улуши",
     },
+
+    // Not S.region.rankOf: on the connection and completion region pages rank 1
+    // means BEST in the country. Here it means the most exposed, so the metric
+    // has to be named or the number reads as its own opposite.
+    rankOf: (n: number, total: number) =>
+      `Алмашинув эҳтиёжи бўйича: ${n} / ${total}`,
 
     noRegions: "Ҳудудлар кесими ҳали юкланмаган",
     noRegionsHint:

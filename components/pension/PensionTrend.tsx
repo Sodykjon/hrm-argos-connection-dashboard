@@ -72,7 +72,9 @@ export function PensionTrend({
           const arr = params as Array<{ dataIndex: number }>;
           const p = points[arr[0].dataIndex];
           const val = p.share == null ? "—" : fmtPct(p.share);
-          return `${fmtDate(p.date)}<br/>${S.map.pensionShare}: <b>${val}</b><br/>${
+          // Same value as the map: pension-age plus reaching-this-year, so it
+          // is labelled as the replacement share, not the pension-age share.
+          return `${fmtDate(p.date)}<br/>${S.pension.col.share}: <b>${val}</b><br/>${
             S.pension.peopleUnit
           }: ${fmtInt(p.exposed)} / ${fmtInt(p.total)}`;
         },

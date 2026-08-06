@@ -108,7 +108,10 @@ export function PensionMap({
       const label = regionLabel(p.name, lang);
       const d = p.data;
       if (!d || d.share === undefined) return label;
-      return `<b>${label}</b><br/>${S.map.pensionShare}: <b>${fmtPct(
+      // col.share ("Алмашинув улуши") is the honest name for this value: it is
+      // pension-age PLUS reaching-this-year. Calling it the pension-age share
+      // would overstate it by 2.2pp against the very next line of this tooltip.
+      return `<b>${label}</b><br/>${S.pension.col.share}: <b>${fmtPct(
         d.share,
       )}</b><br/>${S.pension.col.working}: ${fmtInt(d.working)}<br/>${
         S.pension.col.reaching
@@ -236,7 +239,7 @@ export function PensionMap({
         ref={elRef}
         className="h-[320px] w-full sm:h-[420px]"
         role="img"
-        aria-label={S.pension.mapTitle}
+        aria-label={S.map.ariaPension}
       />
       {!ready && (
         <div className="absolute inset-0 grid place-items-center text-[0.8rem] text-ink-faint">
