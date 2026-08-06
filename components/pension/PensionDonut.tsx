@@ -8,7 +8,10 @@ import { useS } from "@/lib/i18n/client";
 
 const WORKING = "#ff5a63"; // un — already at pension age
 const REACHING = "#f7b23b"; // warn — reaches it this year
-const REST = "#1b3157"; // the ring track colour ReadinessRing uses
+// och, the design system's "neutral/other" token. The first cut used the ring
+// track colour #1b3157, which against the card background read as an empty
+// track rather than as the workforce the two hot segments are part of.
+const REST = "#7488a6";
 
 /**
  * The hero's composition ring: pension-age and reaching-this-year as slices of

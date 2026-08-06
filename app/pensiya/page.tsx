@@ -3,6 +3,7 @@ import { PensionHero } from "@/components/pension/PensionHero";
 import { PensionBoard } from "@/components/pension/PensionBoard";
 import { PensionAgeChart } from "@/components/pension/PensionAgeChart";
 import { PensionForecast } from "@/components/pension/PensionForecast";
+import { GenderSplit } from "@/components/pension/GenderSplit";
 import { PensionTable } from "@/components/pension/PensionTable";
 import { StatTile } from "@/components/StatTile";
 import { LiveSync } from "@/components/LiveSync";
@@ -103,6 +104,7 @@ export default async function PensionPage() {
               <p className="text-[0.78rem] text-ink-soft">{S.pension.ageHint}</p>
             </div>
             <PensionAgeChart stat={overall} />
+            <GenderSplit stat={overall} />
           </div>
         </Reveal>
         <Reveal className="h-full">

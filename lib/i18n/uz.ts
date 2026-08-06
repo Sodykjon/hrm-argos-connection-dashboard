@@ -250,6 +250,13 @@ export const UZ = {
     // Hero donut: the third segment beside working/reaching.
     donutRest: "Бошқа ходимлар",
 
+    // Overall gender strip under the age chart. NOT per band: checked
+    // 07.08.2026 — no ARGOS surface splits age bands by gender, and the note
+    // says so on screen rather than letting the reader assume we chose not to.
+    genderTitle: "Жинс кесими (жами ходимлар)",
+    genderNote: "АРГОС ёш гуруҳларини жинс кесимида бермайди",
+    men: "Эркаклар",
+
     // The 5/10-year points are estimates from the 50–60 band — ARGOS has no
     // per-year ages. The asterisks live in the labels so the axis itself
     // separates measurement from estimate; the footnote explains the method.
