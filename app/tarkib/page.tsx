@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TARKIB, risk5Share } from "@/lib/tarkib";
 import { GEO_REGIONS } from "@/lib/regions";
 import { TarkibHero } from "@/components/tarkib/TarkibHero";
@@ -95,9 +96,20 @@ export default async function TarkibPage() {
           <CompositionStack region={nat} />
         </section>
         <section className="card p-4 sm:p-5">
-          <div className="mb-3">
-            <h2 className="text-[0.95rem] font-semibold">{S.tarkib.gapsTitle}</h2>
-            <p className="text-[0.78rem] text-ink-soft">{S.tarkib.gapsHint}</p>
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h2 className="text-[0.95rem] font-semibold">{S.tarkib.gapsTitle}</h2>
+              <p className="text-[0.78rem] text-ink-soft">{S.tarkib.gapsHint}</p>
+            </div>
+            <Link
+              href="/tarkib/mutaxassislik"
+              className="inline-flex items-center gap-1.5 rounded-full bg-sov px-3.5 py-1.5 text-[0.78rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+            >
+              {S.tarkib.spec.navBtn}
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="m6 3 5 5-5 5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
           <GapsTable gaps={nat.gaps.slice(0, 10)} />
         </section>
