@@ -31,6 +31,7 @@ export function Nav() {
       links: [
         { href: "/pensiya", label: S.nav.pension },
         { href: "/vakansiya", label: S.nav.vakansiya },
+        { href: "/tarkib", label: S.nav.tarkib },
         // /admin lives in the header's utility row now — it is an operator
         // tool, and filing it under "Кадрлар таҳлили" put an upload form in an
         // analytics menu.

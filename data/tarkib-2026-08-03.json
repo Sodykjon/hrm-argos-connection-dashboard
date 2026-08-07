@@ -1,0 +1,4845 @@
+{
+ "date": "2026-08-03",
+ "national": {
+  "shtat": 506809.55,
+  "band": 476029.55,
+  "bosh": 30780.0,
+  "jismoniy": 544674,
+  "dekret": 48364,
+  "pens": 55760,
+  "yaqin": 55129,
+  "qabul": 29880,
+  "boshagan": 24851,
+  "ayol": 428709,
+  "erkak": 115965,
+  "fanD": 417,
+  "fanN": 1310,
+  "vrach": {
+   "shtat": 101654.25,
+   "bosh": 12123.25,
+   "jismoniy": 75252,
+   "band": 89531.0,
+   "pens": 21082,
+   "yaqin": 8592
+  },
+  "yosh": [
+   63370,
+   180895,
+   160123,
+   110257,
+   30029
+  ],
+  "staj": [
+   190597,
+   108501,
+   123887,
+   121689
+  ],
+  "toifa": [
+   81645,
+   84286,
+   378743
+  ],
+  "districts": [],
+  "cats": [
+   {
+    "key": "vrach",
+    "shtat": 101654.25,
+    "bosh": 12123.25,
+    "jismoniy": 75252,
+    "band": 89531.0,
+    "dekret": 2331
+   },
+   {
+    "key": "orta",
+    "shtat": 249925.55,
+    "bosh": 10721.25,
+    "jismoniy": 298521,
+    "band": 239204.3,
+    "dekret": 39587
+   },
+   {
+    "key": "kichik",
+    "shtat": 78833.0,
+    "bosh": 3540.0,
+    "jismoniy": 99695,
+    "band": 75293.0,
+    "dekret": 4854
+   },
+   {
+    "key": "boshqa",
+    "shtat": 67901.75,
+    "bosh": 4024.5,
+    "jismoniy": 64477,
+    "band": 63877.25,
+    "dekret": 1269
+   },
+   {
+    "key": "notibbiy",
+    "shtat": 6890.25,
+    "bosh": 251.5,
+    "jismoniy": 5230,
+    "band": 6638.75,
+    "dekret": 183
+   },
+   {
+    "key": "provfarm",
+    "shtat": 1604.75,
+    "bosh": 119.5,
+    "jismoniy": 1499,
+    "band": 1485.25,
+    "dekret": 140
+   }
+  ],
+  "gaps": [
+   {
+    "name": "Тез ёрдам врачи",
+    "shtat": 11150.5,
+    "jismoniy": 7056,
+    "gap": 4094.5,
+    "koef": 0,
+    "pens": 1375
+   },
+   {
+    "name": "Оила врачи",
+    "shtat": 12793.0,
+    "jismoniy": 10161,
+    "gap": 2632.0,
+    "koef": 0,
+    "pens": 3351
+   },
+   {
+    "name": "Анестезиолог-реаниматолог",
+    "shtat": 4877.8,
+    "jismoniy": 2952,
+    "gap": 1925.7,
+    "koef": 0,
+    "pens": 618
+   },
+   {
+    "name": "СЭО, ЖСХ ва дезстанция врачлари",
+    "shtat": 7193.8,
+    "jismoniy": 5322,
+    "gap": 1871.8,
+    "koef": 0,
+    "pens": 0
+   },
+   {
+    "name": "Акушер-гинеколог",
+    "shtat": 5576.2,
+    "jismoniy": 4441,
+    "gap": 1135.3,
+    "koef": 0,
+    "pens": 1571
+   },
+   {
+    "name": "Врач педиатр",
+    "shtat": 3459.2,
+    "jismoniy": 2449,
+    "gap": 1010.5,
+    "koef": 0,
+    "pens": 1002
+   },
+   {
+    "name": "Умумий амалиёт врачи",
+    "shtat": 3911.5,
+    "jismoniy": 2984,
+    "gap": 927.6,
+    "koef": 0,
+    "pens": 997
+   },
+   {
+    "name": "Врач неонатолог",
+    "shtat": 2135.0,
+    "jismoniy": 1460,
+    "gap": 675.0,
+    "koef": 0,
+    "pens": 593
+   },
+   {
+    "name": "Врач терапевт",
+    "shtat": 2146.2,
+    "jismoniy": 1585,
+    "gap": 561.2,
+    "koef": 0,
+    "pens": 736
+   },
+   {
+    "name": "Ултразвук диагностика врачи",
+    "shtat": 2260.2,
+    "jismoniy": 1709,
+    "gap": 551.5,
+    "koef": 0,
+    "pens": 282
+   },
+   {
+    "name": "Врач болалар анестезиолог-реаниматологи",
+    "shtat": 1227.8,
+    "jismoniy": 702,
+    "gap": 525.9,
+    "koef": 0,
+    "pens": 108
+   },
+   {
+    "name": "Суд тиббий экспертиза врачи",
+    "shtat": 823.0,
+    "jismoniy": 300,
+    "gap": 523.2,
+    "koef": 0,
+    "pens": 58
+   }
+  ]
+ },
+ "regions": {
+  "Андижон вилояти": {
+   "shtat": 44214.8,
+   "band": 43276.8,
+   "bosh": 938.0,
+   "jismoniy": 50503,
+   "dekret": 3098,
+   "pens": 5213,
+   "yaqin": 5148,
+   "qabul": 2427,
+   "boshagan": 1415,
+   "ayol": 39202,
+   "erkak": 11301,
+   "fanD": 76,
+   "fanN": 292,
+   "vrach": {
+    "shtat": 8090.0,
+    "bosh": 388.25,
+    "jismoniy": 7389,
+    "band": 7701.75,
+    "pens": 1868,
+    "yaqin": 774
+   },
+   "yosh": [
+    6351,
+    16873,
+    14286,
+    10295,
+    2698
+   ],
+   "staj": [
+    18653,
+    10263,
+    10422,
+    11165
+   ],
+   "toifa": [
+    8390,
+    6889,
+    35224
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 8090.0,
+     "bosh": 388.25,
+     "jismoniy": 7389,
+     "band": 7701.75,
+     "dekret": 132
+    },
+    {
+     "key": "orta",
+     "shtat": 20853.55,
+     "bosh": 256.75,
+     "jismoniy": 25580,
+     "band": 20596.8,
+     "dekret": 2558
+    },
+    {
+     "key": "kichik",
+     "shtat": 6234.0,
+     "bosh": 34.5,
+     "jismoniy": 8221,
+     "band": 6199.5,
+     "dekret": 256
+    },
+    {
+     "key": "boshqa",
+     "shtat": 8560.25,
+     "bosh": 253.75,
+     "jismoniy": 8864,
+     "band": 8306.5,
+     "dekret": 136
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 370.5,
+     "bosh": 0,
+     "jismoniy": 339,
+     "band": 370.5,
+     "dekret": 11
+    },
+    {
+     "key": "provfarm",
+     "shtat": 106.5,
+     "bosh": 4.75,
+     "jismoniy": 110,
+     "band": 101.75,
+     "dekret": 5
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 17088.0,
+     "bosh": 310.75,
+     "jismoniy": 18292,
+     "pens": 1705,
+     "r5": 19.4,
+     "sof": 51,
+     "vrachTaminl": 96.7
+    },
+    {
+     "name": "Андижон ш.",
+     "shtat": 3598.5,
+     "bosh": 69.5,
+     "jismoniy": 3685,
+     "pens": 511,
+     "r5": 24.3,
+     "sof": 145,
+     "vrachTaminl": 78.6
+    },
+    {
+     "name": "Хонобод ш.",
+     "shtat": 645.75,
+     "bosh": 1.0,
+     "jismoniy": 819,
+     "pens": 61,
+     "r5": 14.8,
+     "sof": 28,
+     "vrachTaminl": 86.0
+    },
+    {
+     "name": "Олтинкўл",
+     "shtat": 1701.5,
+     "bosh": 13.0,
+     "jismoniy": 2104,
+     "pens": 200,
+     "r5": 19.2,
+     "sof": 18,
+     "vrachTaminl": 74.8
+    },
+    {
+     "name": "Андижон",
+     "shtat": 1634.0,
+     "bosh": 7.75,
+     "jismoniy": 2043,
+     "pens": 242,
+     "r5": 22.1,
+     "sof": 122,
+     "vrachTaminl": 112.9
+    },
+    {
+     "name": "Балиқчи",
+     "shtat": 1969.5,
+     "bosh": 43.75,
+     "jismoniy": 2311,
+     "pens": 151,
+     "r5": 15.5,
+     "sof": 5,
+     "vrachTaminl": 66.1
+    },
+    {
+     "name": "Бўстон",
+     "shtat": 883.75,
+     "bosh": 93.0,
+     "jismoniy": 1078,
+     "pens": 67,
+     "r5": 15.9,
+     "sof": 16,
+     "vrachTaminl": 74.2
+    },
+    {
+     "name": "Булоқбоши",
+     "shtat": 1609.25,
+     "bosh": 20.25,
+     "jismoniy": 1858,
+     "pens": 209,
+     "r5": 22.6,
+     "sof": 61,
+     "vrachTaminl": 75.6
+    },
+    {
+     "name": "Жалақудуқ",
+     "shtat": 1455.5,
+     "bosh": 16.25,
+     "jismoniy": 2220,
+     "pens": 249,
+     "r5": 21.4,
+     "sof": 35,
+     "vrachTaminl": 104.9
+    },
+    {
+     "name": "Избоскан",
+     "shtat": 2262.75,
+     "bosh": 18.25,
+     "jismoniy": 2678,
+     "pens": 372,
+     "r5": 23.9,
+     "sof": 105,
+     "vrachTaminl": 99.9
+    },
+    {
+     "name": "Улуғнор",
+     "shtat": 687.75,
+     "bosh": 59.5,
+     "jismoniy": 788,
+     "pens": 102,
+     "r5": 23.4,
+     "sof": 16,
+     "vrachTaminl": 100.0
+    },
+    {
+     "name": "Қўрғонтепа",
+     "shtat": 2218.5,
+     "bosh": 125.75,
+     "jismoniy": 2280,
+     "pens": 256,
+     "r5": 21.3,
+     "sof": 115,
+     "vrachTaminl": 83.1
+    },
+    {
+     "name": "Асака",
+     "shtat": 1959.75,
+     "bosh": 14.25,
+     "jismoniy": 2535,
+     "pens": 225,
+     "r5": 18.8,
+     "sof": 100,
+     "vrachTaminl": 102.6
+    },
+    {
+     "name": "Мархамат",
+     "shtat": 1474.5,
+     "bosh": 3.25,
+     "jismoniy": 2081,
+     "pens": 255,
+     "r5": 23.4,
+     "sof": 8,
+     "vrachTaminl": 102.8
+    },
+    {
+     "name": "Шахрихон",
+     "shtat": 2108.05,
+     "bosh": 2.25,
+     "jismoniy": 2031,
+     "pens": 269,
+     "r5": 24.9,
+     "sof": 40,
+     "vrachTaminl": 94.4
+    },
+    {
+     "name": "Пахтаобод",
+     "shtat": 1780.0,
+     "bosh": 85.5,
+     "jismoniy": 2211,
+     "pens": 223,
+     "r5": 21.0,
+     "sof": 56,
+     "vrachTaminl": 103.0
+    },
+    {
+     "name": "Хўжаобод",
+     "shtat": 1137.75,
+     "bosh": 54.0,
+     "jismoniy": 1489,
+     "pens": 116,
+     "r5": 17.9,
+     "sof": 91,
+     "vrachTaminl": 76.8
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Оила врачи",
+     "shtat": 1333.5,
+     "jismoniy": 1199,
+     "gap": 134.5,
+     "koef": 1.07,
+     "pens": 381
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 570.0,
+     "jismoniy": 441,
+     "gap": 129.0,
+     "koef": 1.15,
+     "pens": 0
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 386.8,
+     "jismoniy": 277,
+     "gap": 109.8,
+     "koef": 1.33,
+     "pens": 54
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 170.2,
+     "jismoniy": 119,
+     "gap": 51.2,
+     "koef": 1.33,
+     "pens": 52
+    },
+    {
+     "name": "Умумий гигиена бўйича санитар врач",
+     "shtat": 109.0,
+     "jismoniy": 63,
+     "gap": 46.0,
+     "koef": 1.33,
+     "pens": 23
+    },
+    {
+     "name": "Врач эпидемиолог",
+     "shtat": 125.2,
+     "jismoniy": 88,
+     "gap": 37.2,
+     "koef": 1.27,
+     "pens": 30
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 122.0,
+     "jismoniy": 87,
+     "gap": 35.0,
+     "koef": 1.29,
+     "pens": 20
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 403.5,
+     "jismoniy": 369,
+     "gap": 34.5,
+     "koef": 1.05,
+     "pens": 128
+    },
+    {
+     "name": "Суд тиббий экспертиза врачи",
+     "shtat": 44.0,
+     "jismoniy": 14,
+     "gap": 30.0,
+     "koef": 2.29,
+     "pens": 4
+    },
+    {
+     "name": "Врач терапевт",
+     "shtat": 171.5,
+     "jismoniy": 147,
+     "gap": 24.5,
+     "koef": 1.1,
+     "pens": 78
+    }
+   ]
+  },
+  "Бухоро вилояти": {
+   "shtat": 33735.0,
+   "band": 33173.0,
+   "bosh": 562.0,
+   "jismoniy": 37337,
+   "dekret": 3093,
+   "pens": 2802,
+   "yaqin": 3463,
+   "qabul": 1422,
+   "boshagan": 1482,
+   "ayol": 29692,
+   "erkak": 7645,
+   "fanD": 93,
+   "fanN": 355,
+   "vrach": {
+    "shtat": 6503.75,
+    "bosh": 334.5,
+    "jismoniy": 5229,
+    "band": 6169.25,
+    "pens": 1108,
+    "yaqin": 506
+   },
+   "yosh": [
+    5042,
+    12844,
+    11075,
+    6926,
+    1450
+   ],
+   "staj": [
+    10748,
+    8602,
+    10289,
+    7698
+   ],
+   "toifa": [
+    6557,
+    6857,
+    23923
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 6503.75,
+     "bosh": 334.5,
+     "jismoniy": 5229,
+     "band": 6169.25,
+     "dekret": 127
+    },
+    {
+     "key": "orta",
+     "shtat": 16342.0,
+     "bosh": 60.25,
+     "jismoniy": 20195,
+     "band": 16281.75,
+     "dekret": 2550
+    },
+    {
+     "key": "kichik",
+     "shtat": 5466.25,
+     "bosh": 42.5,
+     "jismoniy": 6554,
+     "band": 5423.75,
+     "dekret": 253
+    },
+    {
+     "key": "boshqa",
+     "shtat": 4200.25,
+     "bosh": 117.75,
+     "jismoniy": 4051,
+     "band": 4082.5,
+     "dekret": 74
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 1082.0,
+     "bosh": 4.25,
+     "jismoniy": 1165,
+     "band": 1077.75,
+     "dekret": 77
+    },
+    {
+     "key": "provfarm",
+     "shtat": 140.75,
+     "bosh": 2.75,
+     "jismoniy": 143,
+     "band": 138.0,
+     "dekret": 12
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 13021.25,
+     "bosh": 214.25,
+     "jismoniy": 13356,
+     "pens": 953,
+     "r5": 16.1,
+     "sof": 167,
+     "vrachTaminl": 82.9
+    },
+    {
+     "name": "Бухоро ш.",
+     "shtat": 2876.25,
+     "bosh": 82.75,
+     "jismoniy": 2662,
+     "pens": 311,
+     "r5": 20.8,
+     "sof": -83,
+     "vrachTaminl": 79.5
+    },
+    {
+     "name": "Когон ш.",
+     "shtat": 808.5,
+     "bosh": 5.5,
+     "jismoniy": 887,
+     "pens": 88,
+     "r5": 18.6,
+     "sof": 14,
+     "vrachTaminl": 96.4
+    },
+    {
+     "name": "Олот",
+     "shtat": 1289.75,
+     "bosh": 22.5,
+     "jismoniy": 1658,
+     "pens": 92,
+     "r5": 14.5,
+     "sof": -15,
+     "vrachTaminl": 61.7
+    },
+    {
+     "name": "Бухоро",
+     "shtat": 1399.5,
+     "bosh": 10.0,
+     "jismoniy": 1531,
+     "pens": 70,
+     "r5": 13.0,
+     "sof": 35,
+     "vrachTaminl": 89.1
+    },
+    {
+     "name": "Вобкент",
+     "shtat": 1532.75,
+     "bosh": 26.5,
+     "jismoniy": 1751,
+     "pens": 99,
+     "r5": 13.9,
+     "sof": -3,
+     "vrachTaminl": 67.4
+    },
+    {
+     "name": "Ғиждувон",
+     "shtat": 2696.5,
+     "bosh": 7.75,
+     "jismoniy": 3093,
+     "pens": 272,
+     "r5": 18.8,
+     "sof": -98,
+     "vrachTaminl": 92.4
+    },
+    {
+     "name": "Когон",
+     "shtat": 961.5,
+     "bosh": 40.5,
+     "jismoniy": 918,
+     "pens": 82,
+     "r5": 18.8,
+     "sof": -7,
+     "vrachTaminl": 63.5
+    },
+    {
+     "name": "Қоракўл",
+     "shtat": 1874.75,
+     "bosh": 59.75,
+     "jismoniy": 2277,
+     "pens": 178,
+     "r5": 19.8,
+     "sof": -81,
+     "vrachTaminl": 60.6
+    },
+    {
+     "name": "Қоровулбозор",
+     "shtat": 498.75,
+     "bosh": 11.75,
+     "jismoniy": 534,
+     "pens": 33,
+     "r5": 13.9,
+     "sof": 21,
+     "vrachTaminl": 64.8
+    },
+    {
+     "name": "Пешку",
+     "shtat": 1380.0,
+     "bosh": 31.0,
+     "jismoniy": 1685,
+     "pens": 104,
+     "r5": 15.5,
+     "sof": -47,
+     "vrachTaminl": 66.7
+    },
+    {
+     "name": "Ромитан",
+     "shtat": 1830.25,
+     "bosh": 21.5,
+     "jismoniy": 2094,
+     "pens": 198,
+     "r5": 18.8,
+     "sof": 8,
+     "vrachTaminl": 68.7
+    },
+    {
+     "name": "Жондор",
+     "shtat": 2038.75,
+     "bosh": 11.5,
+     "jismoniy": 2702,
+     "pens": 216,
+     "r5": 17.8,
+     "sof": 9,
+     "vrachTaminl": 103.2
+    },
+    {
+     "name": "Шофиркон",
+     "shtat": 1526.5,
+     "bosh": 16.75,
+     "jismoniy": 2189,
+     "pens": 106,
+     "r5": 13.5,
+     "sof": 20,
+     "vrachTaminl": 104.1
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 410.2,
+     "jismoniy": 268,
+     "gap": 142.2,
+     "koef": 1.45,
+     "pens": 32
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 829.5,
+     "jismoniy": 700,
+     "gap": 129.5,
+     "koef": 1.16,
+     "pens": 204
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 370.8,
+     "jismoniy": 265,
+     "gap": 105.8,
+     "koef": 1.2,
+     "pens": 0
+    },
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 515.0,
+     "jismoniy": 450,
+     "gap": 65.0,
+     "koef": 1.14,
+     "pens": 71
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 361.5,
+     "jismoniy": 301,
+     "gap": 60.5,
+     "koef": 1.18,
+     "pens": 82
+    },
+    {
+     "name": "Врач жарроҳ",
+     "shtat": 183.5,
+     "jismoniy": 127,
+     "gap": 56.5,
+     "koef": 1.37,
+     "pens": 21
+    },
+    {
+     "name": "Врач терапевт",
+     "shtat": 139.8,
+     "jismoniy": 95,
+     "gap": 44.8,
+     "koef": 1.33,
+     "pens": 27
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 108.0,
+     "jismoniy": 66,
+     "gap": 42.0,
+     "koef": 1.48,
+     "pens": 31
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 280.8,
+     "jismoniy": 239,
+     "gap": 41.8,
+     "koef": 1.12,
+     "pens": 104
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 153.0,
+     "jismoniy": 114,
+     "gap": 39.0,
+     "koef": 1.27,
+     "pens": 14
+    }
+   ]
+  },
+  "Жиззах вилояти": {
+   "shtat": 20802.75,
+   "band": 19978.0,
+   "bosh": 824.75,
+   "jismoniy": 24397,
+   "dekret": 1686,
+   "pens": 2617,
+   "yaqin": 2192,
+   "qabul": 888,
+   "boshagan": 1074,
+   "ayol": 18791,
+   "erkak": 5606,
+   "fanD": 4,
+   "fanN": 1,
+   "vrach": {
+    "shtat": 4092.75,
+    "bosh": 579.25,
+    "jismoniy": 2625,
+    "band": 3513.5,
+    "pens": 943,
+    "yaqin": 205
+   },
+   "yosh": [
+    2854,
+    8254,
+    7365,
+    4385,
+    1539
+   ],
+   "staj": [
+    8148,
+    5259,
+    5663,
+    5327
+   ],
+   "toifa": [
+    3651,
+    4076,
+    16670
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 4092.75,
+     "bosh": 579.25,
+     "jismoniy": 2625,
+     "band": 3513.5,
+     "dekret": 49
+    },
+    {
+     "key": "orta",
+     "shtat": 10543.5,
+     "bosh": 142.5,
+     "jismoniy": 13758,
+     "band": 10401.0,
+     "dekret": 1339
+    },
+    {
+     "key": "kichik",
+     "shtat": 3191.5,
+     "bosh": 20.5,
+     "jismoniy": 4916,
+     "band": 3171.0,
+     "dekret": 250
+    },
+    {
+     "key": "boshqa",
+     "shtat": 2917.75,
+     "bosh": 78.25,
+     "jismoniy": 3052,
+     "band": 2839.5,
+     "dekret": 40
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 7.0,
+     "bosh": 0.5,
+     "jismoniy": 5,
+     "band": 6.5,
+     "dekret": 0
+    },
+    {
+     "key": "provfarm",
+     "shtat": 50.25,
+     "bosh": 3.75,
+     "jismoniy": 41,
+     "band": 46.5,
+     "dekret": 8
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 7484.0,
+     "bosh": 186.25,
+     "jismoniy": 8726,
+     "pens": 643,
+     "r5": 15.8,
+     "sof": 10,
+     "vrachTaminl": 67.2
+    },
+    {
+     "name": "Жиззах ш.",
+     "shtat": 1349.0,
+     "bosh": 76.0,
+     "jismoniy": 1400,
+     "pens": 223,
+     "r5": 23.4,
+     "sof": 17,
+     "vrachTaminl": 66.4
+    },
+    {
+     "name": "Арнасой",
+     "shtat": 586.0,
+     "bosh": 34.25,
+     "jismoniy": 599,
+     "pens": 58,
+     "r5": 17.9,
+     "sof": -12,
+     "vrachTaminl": 42.7
+    },
+    {
+     "name": "Бахмал",
+     "shtat": 1407.75,
+     "bosh": 52.75,
+     "jismoniy": 1585,
+     "pens": 449,
+     "r5": 37.8,
+     "sof": 38,
+     "vrachTaminl": 59.9
+    },
+    {
+     "name": "Ғаллаорол",
+     "shtat": 1494.0,
+     "bosh": 82.5,
+     "jismoniy": 1843,
+     "pens": 165,
+     "r5": 20.2,
+     "sof": -463,
+     "vrachTaminl": 66.7
+    },
+    {
+     "name": "Шароф Рашидов",
+     "shtat": 1786.75,
+     "bosh": 24.0,
+     "jismoniy": 2141,
+     "pens": 221,
+     "r5": 18.8,
+     "sof": 75,
+     "vrachTaminl": 99.4
+    },
+    {
+     "name": "Дўстлик",
+     "shtat": 863.75,
+     "bosh": 62.75,
+     "jismoniy": 1064,
+     "pens": 61,
+     "r5": 13.0,
+     "sof": 77,
+     "vrachTaminl": 44.8
+    },
+    {
+     "name": "Зомин",
+     "shtat": 1418.25,
+     "bosh": 24.5,
+     "jismoniy": 1861,
+     "pens": 233,
+     "r5": 23.0,
+     "sof": 13,
+     "vrachTaminl": 89.3
+    },
+    {
+     "name": "Зарбдор",
+     "shtat": 892.75,
+     "bosh": 48.25,
+     "jismoniy": 1116,
+     "pens": 150,
+     "r5": 24.4,
+     "sof": 7,
+     "vrachTaminl": 52.3
+    },
+    {
+     "name": "Мирзачўл",
+     "shtat": 633.0,
+     "bosh": 21.25,
+     "jismoniy": 801,
+     "pens": 58,
+     "r5": 14.6,
+     "sof": -6,
+     "vrachTaminl": 49.4
+    },
+    {
+     "name": "Зафаробод",
+     "shtat": 644.25,
+     "bosh": 30.25,
+     "jismoniy": 731,
+     "pens": 60,
+     "r5": 17.4,
+     "sof": 18,
+     "vrachTaminl": 47.0
+    },
+    {
+     "name": "Пахтакор",
+     "shtat": 887.5,
+     "bosh": 60.75,
+     "jismoniy": 912,
+     "pens": 107,
+     "r5": 19.9,
+     "sof": 4,
+     "vrachTaminl": 47.6
+    },
+    {
+     "name": "Фориш",
+     "shtat": 827.5,
+     "bosh": 41.25,
+     "jismoniy": 1031,
+     "pens": 143,
+     "r5": 25.2,
+     "sof": 33,
+     "vrachTaminl": 63.4
+    },
+    {
+     "name": "Янгиобод",
+     "shtat": 528.25,
+     "bosh": 80.0,
+     "jismoniy": 587,
+     "pens": 46,
+     "r5": 16.8,
+     "sof": 3,
+     "vrachTaminl": 31.4
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Оила врачи",
+     "shtat": 595.5,
+     "jismoniy": 430,
+     "gap": 165.5,
+     "koef": 1.18,
+     "pens": 198
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 337.8,
+     "jismoniy": 190,
+     "gap": 147.8,
+     "koef": 1.43,
+     "pens": 0
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 186.0,
+     "jismoniy": 88,
+     "gap": 98.0,
+     "koef": 1.86,
+     "pens": 27
+    },
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 418.0,
+     "jismoniy": 331,
+     "gap": 87.0,
+     "koef": 1.25,
+     "pens": 74
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 206.0,
+     "jismoniy": 122,
+     "gap": 84.0,
+     "koef": 1.42,
+     "pens": 58
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 124.2,
+     "jismoniy": 65,
+     "gap": 59.2,
+     "koef": 1.35,
+     "pens": 29
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 63.0,
+     "jismoniy": 15,
+     "gap": 48.0,
+     "koef": 3.63,
+     "pens": 2
+    },
+    {
+     "name": "Врач терапевт",
+     "shtat": 104.0,
+     "jismoniy": 58,
+     "gap": 46.0,
+     "koef": 1.61,
+     "pens": 38
+    },
+    {
+     "name": "Умумий гигиена бўйича санитар врач",
+     "shtat": 75.8,
+     "jismoniy": 31,
+     "gap": 44.8,
+     "koef": 1.75,
+     "pens": 13
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 92.8,
+     "jismoniy": 50,
+     "gap": 42.8,
+     "koef": 1.54,
+     "pens": 10
+    }
+   ]
+  },
+  "Қашқадарё вилояти": {
+   "shtat": 42908.5,
+   "band": 40045.25,
+   "bosh": 2863.25,
+   "jismoniy": 58461,
+   "dekret": 5841,
+   "pens": 5788,
+   "yaqin": 5918,
+   "qabul": 1698,
+   "boshagan": 1558,
+   "ayol": 46729,
+   "erkak": 11732,
+   "fanD": 4,
+   "fanN": 12,
+   "vrach": {
+    "shtat": 8159.0,
+    "bosh": 1152.0,
+    "jismoniy": 6003,
+    "band": 7007.0,
+    "pens": 2043,
+    "yaqin": 720
+   },
+   "yosh": [
+    7509,
+    19218,
+    17122,
+    11836,
+    2776
+   ],
+   "staj": [
+    18724,
+    11745,
+    13594,
+    14398
+   ],
+   "toifa": [
+    4942,
+    7531,
+    45988
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 8159.0,
+     "bosh": 1152.0,
+     "jismoniy": 6003,
+     "band": 7007.0,
+     "dekret": 135
+    },
+    {
+     "key": "orta",
+     "shtat": 23140.0,
+     "bosh": 929.75,
+     "jismoniy": 35774,
+     "band": 22210.25,
+     "dekret": 4981
+    },
+    {
+     "key": "kichik",
+     "shtat": 6432.5,
+     "bosh": 478.5,
+     "jismoniy": 11589,
+     "band": 5954.0,
+     "dekret": 635
+    },
+    {
+     "key": "boshqa",
+     "shtat": 4759.0,
+     "bosh": 106.25,
+     "jismoniy": 4870,
+     "band": 4652.75,
+     "dekret": 81
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 300.0,
+     "bosh": 192.25,
+     "jismoniy": 102,
+     "band": 107.75,
+     "dekret": 3
+    },
+    {
+     "key": "provfarm",
+     "shtat": 118.0,
+     "bosh": 4.5,
+     "jismoniy": 123,
+     "band": 113.5,
+     "dekret": 6
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 12615.25,
+     "bosh": 347.75,
+     "jismoniy": 15415,
+     "pens": 1396,
+     "r5": 18.8,
+     "sof": -228,
+     "vrachTaminl": 68.6
+    },
+    {
+     "name": "Қарши ш.",
+     "shtat": 2238.5,
+     "bosh": 19.75,
+     "jismoniy": 2650,
+     "pens": 298,
+     "r5": 21.4,
+     "sof": 2,
+     "vrachTaminl": 84.7
+    },
+    {
+     "name": "Шаҳрисабз ш.",
+     "shtat": 1716.75,
+     "bosh": 5.5,
+     "jismoniy": 3197,
+     "pens": 538,
+     "r5": 32.9,
+     "sof": 51,
+     "vrachTaminl": 96.9
+    },
+    {
+     "name": "Ғузор",
+     "shtat": 2014.0,
+     "bosh": 5.5,
+     "jismoniy": 3604,
+     "pens": 492,
+     "r5": 25.5,
+     "sof": 48,
+     "vrachTaminl": 105.1
+    },
+    {
+     "name": "Деҳқонобод",
+     "shtat": 1382.25,
+     "bosh": 113.75,
+     "jismoniy": 1922,
+     "pens": 163,
+     "r5": 18.3,
+     "sof": -12,
+     "vrachTaminl": 44.6
+    },
+    {
+     "name": "Қамаши",
+     "shtat": 2204.5,
+     "bosh": 110.25,
+     "jismoniy": 2847,
+     "pens": 347,
+     "r5": 24.9,
+     "sof": -74,
+     "vrachTaminl": 54.8
+    },
+    {
+     "name": "Қарши",
+     "shtat": 1840.5,
+     "bosh": 3.5,
+     "jismoniy": 3383,
+     "pens": 325,
+     "r5": 19.1,
+     "sof": 4,
+     "vrachTaminl": 94.7
+    },
+    {
+     "name": "Косон",
+     "shtat": 1984.25,
+     "bosh": 7.25,
+     "jismoniy": 2994,
+     "pens": 288,
+     "r5": 17.6,
+     "sof": 132,
+     "vrachTaminl": 100.5
+    },
+    {
+     "name": "Китоб",
+     "shtat": 4116.5,
+     "bosh": 1316.75,
+     "jismoniy": 5223,
+     "pens": 469,
+     "r5": 18.7,
+     "sof": 53,
+     "vrachTaminl": 89.1
+    },
+    {
+     "name": "Миришкор",
+     "shtat": 1324.0,
+     "bosh": 69.25,
+     "jismoniy": 1687,
+     "pens": 139,
+     "r5": 16.2,
+     "sof": 21,
+     "vrachTaminl": 52.6
+    },
+    {
+     "name": "Муборак",
+     "shtat": 875.5,
+     "bosh": 176.25,
+     "jismoniy": 1205,
+     "pens": 76,
+     "r5": 12.4,
+     "sof": 41,
+     "vrachTaminl": 50.4
+    },
+    {
+     "name": "Нишон",
+     "shtat": 1533.25,
+     "bosh": 71.5,
+     "jismoniy": 1991,
+     "pens": 163,
+     "r5": 17.7,
+     "sof": -24,
+     "vrachTaminl": 58.5
+    },
+    {
+     "name": "Касби",
+     "shtat": 2292.75,
+     "bosh": 595.25,
+     "jismoniy": 2448,
+     "pens": 188,
+     "r5": 15.4,
+     "sof": 43,
+     "vrachTaminl": 29.8
+    },
+    {
+     "name": "Кўкдала",
+     "shtat": 1289.25,
+     "bosh": 0,
+     "jismoniy": 1329,
+     "pens": 80,
+     "r5": 14.9,
+     "sof": 18,
+     "vrachTaminl": 103.2
+    },
+    {
+     "name": "Чироқчи",
+     "shtat": 1741.0,
+     "bosh": 14.5,
+     "jismoniy": 2835,
+     "pens": 228,
+     "r5": 17.9,
+     "sof": 31,
+     "vrachTaminl": 94.0
+    },
+    {
+     "name": "Шаҳрисабз",
+     "shtat": 1959.0,
+     "bosh": 5.5,
+     "jismoniy": 2844,
+     "pens": 356,
+     "r5": 24.2,
+     "sof": 45,
+     "vrachTaminl": 97.4
+    },
+    {
+     "name": "Яккабоғ",
+     "shtat": 1781.25,
+     "bosh": 1.0,
+     "jismoniy": 2887,
+     "pens": 242,
+     "r5": 17.6,
+     "sof": -11,
+     "vrachTaminl": 105.6
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 1180.8,
+     "jismoniy": 777,
+     "gap": 403.8,
+     "koef": 1.29,
+     "pens": 221
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 908.8,
+     "jismoniy": 519,
+     "gap": 389.8,
+     "koef": 1.11,
+     "pens": 0
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 943.2,
+     "jismoniy": 758,
+     "gap": 185.2,
+     "koef": 1.1,
+     "pens": 304
+    },
+    {
+     "name": "Бош врач ўринбосари",
+     "shtat": 194.5,
+     "jismoniy": 10,
+     "gap": 184.5,
+     "koef": 1.4,
+     "pens": 0
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 429.5,
+     "jismoniy": 308,
+     "gap": 121.5,
+     "koef": 1.16,
+     "pens": 112
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 279.5,
+     "jismoniy": 179,
+     "gap": 100.5,
+     "koef": 1.43,
+     "pens": 50
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 420.5,
+     "jismoniy": 357,
+     "gap": 63.5,
+     "koef": 1.09,
+     "pens": 132
+    },
+    {
+     "name": "Врач психиатр",
+     "shtat": 117.2,
+     "jismoniy": 57,
+     "gap": 60.2,
+     "koef": 1.41,
+     "pens": 22
+    },
+    {
+     "name": "Врач жарроҳ",
+     "shtat": 229.8,
+     "jismoniy": 170,
+     "gap": 59.8,
+     "koef": 1.21,
+     "pens": 50
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 209.8,
+     "jismoniy": 156,
+     "gap": 53.8,
+     "koef": 1.21,
+     "pens": 69
+    }
+   ]
+  },
+  "Навоий вилояти": {
+   "shtat": 18325.75,
+   "band": 17709.75,
+   "bosh": 616.0,
+   "jismoniy": 21152,
+   "dekret": 1611,
+   "pens": 1426,
+   "yaqin": 1806,
+   "qabul": 1091,
+   "boshagan": 663,
+   "ayol": 16621,
+   "erkak": 4531,
+   "fanD": 4,
+   "fanN": 9,
+   "vrach": {
+    "shtat": 3602.5,
+    "bosh": 398.5,
+    "jismoniy": 2456,
+    "band": 3204.0,
+    "pens": 631,
+    "yaqin": 260
+   },
+   "yosh": [
+    2359,
+    7864,
+    6623,
+    3612,
+    694
+   ],
+   "staj": [
+    7572,
+    4893,
+    5006,
+    3681
+   ],
+   "toifa": [
+    2732,
+    3260,
+    15160
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 3602.5,
+     "bosh": 398.5,
+     "jismoniy": 2456,
+     "band": 3204.0,
+     "dekret": 76
+    },
+    {
+     "key": "orta",
+     "shtat": 8931.5,
+     "bosh": 135.25,
+     "jismoniy": 11579,
+     "band": 8796.25,
+     "dekret": 1289
+    },
+    {
+     "key": "kichik",
+     "shtat": 2963.75,
+     "bosh": 16.0,
+     "jismoniy": 4141,
+     "band": 2947.75,
+     "dekret": 180
+    },
+    {
+     "key": "boshqa",
+     "shtat": 2588.25,
+     "bosh": 60.0,
+     "jismoniy": 2748,
+     "band": 2528.25,
+     "dekret": 49
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 150.0,
+     "bosh": 2.5,
+     "jismoniy": 139,
+     "band": 147.5,
+     "dekret": 6
+    },
+    {
+     "key": "provfarm",
+     "shtat": 89.75,
+     "bosh": 3.75,
+     "jismoniy": 89,
+     "band": 86.0,
+     "dekret": 11
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 6054.75,
+     "bosh": 144.75,
+     "jismoniy": 6337,
+     "pens": 373,
+     "r5": 14.4,
+     "sof": -16,
+     "vrachTaminl": 59.3
+    },
+    {
+     "name": "Навоий ш.",
+     "shtat": 1381.25,
+     "bosh": 19.5,
+     "jismoniy": 1357,
+     "pens": 170,
+     "r5": 22.4,
+     "sof": 7,
+     "vrachTaminl": 69.5
+    },
+    {
+     "name": "Зарафшон ш.",
+     "shtat": 888.5,
+     "bosh": 33.25,
+     "jismoniy": 1025,
+     "pens": 43,
+     "r5": 9.2,
+     "sof": 16,
+     "vrachTaminl": 60.7
+    },
+    {
+     "name": "Ғозғон ш.",
+     "shtat": 140.5,
+     "bosh": 29.5,
+     "jismoniy": 107,
+     "pens": 9,
+     "r5": 17.3,
+     "sof": 2,
+     "vrachTaminl": 26.0
+    },
+    {
+     "name": "Конимех",
+     "shtat": 621.0,
+     "bosh": 41.25,
+     "jismoniy": 615,
+     "pens": 45,
+     "r5": 16.7,
+     "sof": -8,
+     "vrachTaminl": 57.4
+    },
+    {
+     "name": "Қизилтепа",
+     "shtat": 1623.5,
+     "bosh": 41.75,
+     "jismoniy": 2716,
+     "pens": 84,
+     "r5": 9.8,
+     "sof": 71,
+     "vrachTaminl": 88.1
+    },
+    {
+     "name": "Навбаҳор",
+     "shtat": 1332.5,
+     "bosh": 37.0,
+     "jismoniy": 1640,
+     "pens": 110,
+     "r5": 15.5,
+     "sof": 28,
+     "vrachTaminl": 86.5
+    },
+    {
+     "name": "Кармана",
+     "shtat": 1721.75,
+     "bosh": 104.25,
+     "jismoniy": 2007,
+     "pens": 135,
+     "r5": 13.9,
+     "sof": 95,
+     "vrachTaminl": 73.9
+    },
+    {
+     "name": "Нурота",
+     "shtat": 1236.0,
+     "bosh": 54.0,
+     "jismoniy": 1476,
+     "pens": 161,
+     "r5": 22.8,
+     "sof": 97,
+     "vrachTaminl": 52.4
+    },
+    {
+     "name": "Томди",
+     "shtat": 365.25,
+     "bosh": 48.75,
+     "jismoniy": 331,
+     "pens": 29,
+     "r5": 16.3,
+     "sof": 11,
+     "vrachTaminl": 30.9
+    },
+    {
+     "name": "Учқудуқ",
+     "shtat": 593.75,
+     "bosh": 46.0,
+     "jismoniy": 741,
+     "pens": 35,
+     "r5": 11.0,
+     "sof": -3,
+     "vrachTaminl": 39.9
+    },
+    {
+     "name": "Хатирчи",
+     "shtat": 2367.0,
+     "bosh": 16.0,
+     "jismoniy": 2800,
+     "pens": 232,
+     "r5": 18.8,
+     "sof": 128,
+     "vrachTaminl": 120.4
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 288.2,
+     "jismoniy": 155,
+     "gap": 133.2,
+     "koef": 1.75,
+     "pens": 49
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 507.0,
+     "jismoniy": 384,
+     "gap": 123.0,
+     "koef": 1.15,
+     "pens": 136
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 240.2,
+     "jismoniy": 121,
+     "gap": 119.2,
+     "koef": 1.7,
+     "pens": 29
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 302.8,
+     "jismoniy": 215,
+     "gap": 87.8,
+     "koef": 1.13,
+     "pens": 0
+    },
+    {
+     "name": "Врач жарроҳ",
+     "shtat": 108.8,
+     "jismoniy": 64,
+     "gap": 44.8,
+     "koef": 1.6,
+     "pens": 13
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 169.0,
+     "jismoniy": 125,
+     "gap": 44.0,
+     "koef": 1.26,
+     "pens": 31
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 127.8,
+     "jismoniy": 89,
+     "gap": 38.8,
+     "koef": 1.3,
+     "pens": 35
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 77.2,
+     "jismoniy": 39,
+     "gap": 38.2,
+     "koef": 1.68,
+     "pens": 14
+    },
+    {
+     "name": "Суд тиббий экспертиза врачи",
+     "shtat": 52.0,
+     "jismoniy": 19,
+     "gap": 33.0,
+     "koef": 2.41,
+     "pens": 3
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 90.0,
+     "jismoniy": 58,
+     "gap": 32.0,
+     "koef": 1.42,
+     "pens": 3
+    }
+   ]
+  },
+  "Наманган вилояти": {
+   "shtat": 42308.25,
+   "band": 37689.75,
+   "bosh": 4618.5,
+   "jismoniy": 43529,
+   "dekret": 4245,
+   "pens": 4707,
+   "yaqin": 4862,
+   "qabul": 2114,
+   "boshagan": 2078,
+   "ayol": 34926,
+   "erkak": 8603,
+   "fanD": 7,
+   "fanN": 10,
+   "vrach": {
+    "shtat": 8251.75,
+    "bosh": 1431.25,
+    "jismoniy": 5713,
+    "band": 6820.5,
+    "pens": 1923,
+    "yaqin": 826
+   },
+   "yosh": [
+    4783,
+    13528,
+    13364,
+    9724,
+    2130
+   ],
+   "staj": [
+    13631,
+    9171,
+    9960,
+    10767
+   ],
+   "toifa": [
+    7123,
+    7657,
+    28749
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 8251.75,
+     "bosh": 1431.25,
+     "jismoniy": 5713,
+     "band": 6820.5,
+     "dekret": 152
+    },
+    {
+     "key": "orta",
+     "shtat": 22121.5,
+     "bosh": 2189.75,
+     "jismoniy": 25391,
+     "band": 19931.75,
+     "dekret": 3555
+    },
+    {
+     "key": "kichik",
+     "shtat": 6724.25,
+     "bosh": 485.75,
+     "jismoniy": 8479,
+     "band": 6238.5,
+     "dekret": 424
+    },
+    {
+     "key": "boshqa",
+     "shtat": 4909.75,
+     "bosh": 493.25,
+     "jismoniy": 3672,
+     "band": 4416.5,
+     "dekret": 93
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 156.25,
+     "bosh": 5.25,
+     "jismoniy": 148,
+     "band": 151.0,
+     "dekret": 4
+    },
+    {
+     "key": "provfarm",
+     "shtat": 144.75,
+     "bosh": 13.25,
+     "jismoniy": 126,
+     "band": 131.5,
+     "dekret": 17
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 12468.5,
+     "bosh": 280.5,
+     "jismoniy": 13051,
+     "pens": 1422,
+     "r5": 22.5,
+     "sof": 19,
+     "vrachTaminl": 68.4
+    },
+    {
+     "name": "Наманган ш.",
+     "shtat": 6187.25,
+     "bosh": 433.25,
+     "jismoniy": 6062,
+     "pens": 651,
+     "r5": 20.0,
+     "sof": -18,
+     "vrachTaminl": 65.6
+    },
+    {
+     "name": "Мингбулоқ",
+     "shtat": 1337.0,
+     "bosh": 44.5,
+     "jismoniy": 1444,
+     "pens": 110,
+     "r5": 18.9,
+     "sof": -7,
+     "vrachTaminl": 66.8
+    },
+    {
+     "name": "Косонсой",
+     "shtat": 4225.5,
+     "bosh": 3195.75,
+     "jismoniy": 1134,
+     "pens": 109,
+     "r5": 20.4,
+     "sof": 35,
+     "vrachTaminl": 22.1
+    },
+    {
+     "name": "Наманган",
+     "shtat": 1512.5,
+     "bosh": 15.75,
+     "jismoniy": 1826,
+     "pens": 213,
+     "r5": 23.0,
+     "sof": 59,
+     "vrachTaminl": 110.0
+    },
+    {
+     "name": "Норин",
+     "shtat": 1390.75,
+     "bosh": 12.5,
+     "jismoniy": 1881,
+     "pens": 207,
+     "r5": 21.1,
+     "sof": -4,
+     "vrachTaminl": 100.3
+    },
+    {
+     "name": "Поп",
+     "shtat": 2229.0,
+     "bosh": 0,
+     "jismoniy": 3027,
+     "pens": 258,
+     "r5": 16.6,
+     "sof": -14,
+     "vrachTaminl": 92.7
+    },
+    {
+     "name": "Тўрақўрғон",
+     "shtat": 2008.25,
+     "bosh": 53.75,
+     "jismoniy": 2135,
+     "pens": 161,
+     "r5": 20.1,
+     "sof": -12,
+     "vrachTaminl": 65.6
+    },
+    {
+     "name": "Уйчи",
+     "shtat": 3039.25,
+     "bosh": 73.0,
+     "jismoniy": 3375,
+     "pens": 413,
+     "r5": 25.3,
+     "sof": -65,
+     "vrachTaminl": 73.0
+    },
+    {
+     "name": "Учқўрғон",
+     "shtat": 1969.75,
+     "bosh": 308.5,
+     "jismoniy": 2235,
+     "pens": 333,
+     "r5": 29.3,
+     "sof": 26,
+     "vrachTaminl": 83.2
+    },
+    {
+     "name": "Чортоқ",
+     "shtat": 1374.0,
+     "bosh": 20.0,
+     "jismoniy": 2148,
+     "pens": 188,
+     "r5": 19.6,
+     "sof": -64,
+     "vrachTaminl": 113.2
+    },
+    {
+     "name": "Чуст",
+     "shtat": 2426.75,
+     "bosh": 81.25,
+     "jismoniy": 2929,
+     "pens": 394,
+     "r5": 24.8,
+     "sof": 18,
+     "vrachTaminl": 79.7
+    },
+    {
+     "name": "Янгиқўрғон",
+     "shtat": 2139.75,
+     "bosh": 99.75,
+     "jismoniy": 2282,
+     "pens": 248,
+     "r5": 22.5,
+     "sof": 63,
+     "vrachTaminl": 66.2
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 927.5,
+     "jismoniy": 444,
+     "gap": 483.5,
+     "koef": 2.09,
+     "pens": 213
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 467.5,
+     "jismoniy": 217,
+     "gap": 250.5,
+     "koef": 1.01,
+     "pens": 75
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 1148.8,
+     "jismoniy": 962,
+     "gap": 186.8,
+     "koef": 1.07,
+     "pens": 314
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 359.2,
+     "jismoniy": 228,
+     "gap": 131.2,
+     "koef": 1.32,
+     "pens": 55
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 438.8,
+     "jismoniy": 318,
+     "gap": 120.8,
+     "koef": 1.19,
+     "pens": 0
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 211.5,
+     "jismoniy": 116,
+     "gap": 95.5,
+     "koef": 1.32,
+     "pens": 60
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 472.2,
+     "jismoniy": 379,
+     "gap": 93.2,
+     "koef": 1.07,
+     "pens": 167
+    },
+    {
+     "name": "Врач кардиореаниматолог",
+     "shtat": 103.5,
+     "jismoniy": 49,
+     "gap": 54.5,
+     "koef": 2.11,
+     "pens": 16
+    },
+    {
+     "name": "Врач терапевт",
+     "shtat": 169.5,
+     "jismoniy": 115,
+     "gap": 54.5,
+     "koef": 1.14,
+     "pens": 51
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 103.0,
+     "jismoniy": 53,
+     "gap": 50.0,
+     "koef": 1.61,
+     "pens": 7
+    }
+   ]
+  },
+  "Самарқанд вилояти": {
+   "shtat": 47027.25,
+   "band": 45095.75,
+   "bosh": 1931.5,
+   "jismoniy": 48689,
+   "dekret": 3684,
+   "pens": 4707,
+   "yaqin": 4518,
+   "qabul": 2962,
+   "boshagan": 2860,
+   "ayol": 35982,
+   "erkak": 12707,
+   "fanD": 103,
+   "fanN": 294,
+   "vrach": {
+    "shtat": 8741.0,
+    "bosh": 666.75,
+    "jismoniy": 7690,
+    "band": 8074.25,
+    "pens": 1866,
+    "yaqin": 735
+   },
+   "yosh": [
+    6121,
+    17493,
+    13463,
+    9036,
+    2576
+   ],
+   "staj": [
+    20481,
+    8821,
+    9566,
+    9821
+   ],
+   "toifa": [
+    7278,
+    7509,
+    33902
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 8741.0,
+     "bosh": 666.75,
+     "jismoniy": 7690,
+     "band": 8074.25,
+     "dekret": 146
+    },
+    {
+     "key": "orta",
+     "shtat": 23190.5,
+     "bosh": 790.75,
+     "jismoniy": 26474,
+     "band": 22399.75,
+     "dekret": 3118
+    },
+    {
+     "key": "kichik",
+     "shtat": 7025.25,
+     "bosh": 227.5,
+     "jismoniy": 7975,
+     "band": 6797.75,
+     "dekret": 325
+    },
+    {
+     "key": "boshqa",
+     "shtat": 5360.5,
+     "bosh": 216.0,
+     "jismoniy": 5183,
+     "band": 5144.5,
+     "dekret": 68
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 2604.5,
+     "bosh": 19.75,
+     "jismoniy": 1270,
+     "band": 2584.75,
+     "dekret": 20
+    },
+    {
+     "key": "provfarm",
+     "shtat": 105.5,
+     "bosh": 10.75,
+     "jismoniy": 97,
+     "band": 94.75,
+     "dekret": 7
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 19746.5,
+     "bosh": 602.5,
+     "jismoniy": 17991,
+     "pens": 1621,
+     "r5": 18.4,
+     "sof": 276,
+     "vrachTaminl": 85.4
+    },
+    {
+     "name": "Самарқанд ш.",
+     "shtat": 3820.5,
+     "bosh": 88.25,
+     "jismoniy": 4105,
+     "pens": 540,
+     "r5": 22.4,
+     "sof": -448,
+     "vrachTaminl": 100.6
+    },
+    {
+     "name": "Каттақўрғон ш.",
+     "shtat": 1315.0,
+     "bosh": 196.75,
+     "jismoniy": 1392,
+     "pens": 137,
+     "r5": 18.9,
+     "sof": 4,
+     "vrachTaminl": 65.8
+    },
+    {
+     "name": "Оқдарё",
+     "shtat": 1119.25,
+     "bosh": 93.25,
+     "jismoniy": 1178,
+     "pens": 148,
+     "r5": 25.6,
+     "sof": -38,
+     "vrachTaminl": 73.1
+    },
+    {
+     "name": "Булунғур",
+     "shtat": 1355.0,
+     "bosh": 81.0,
+     "jismoniy": 1287,
+     "pens": 110,
+     "r5": 18.8,
+     "sof": 17,
+     "vrachTaminl": 82.4
+    },
+    {
+     "name": "Жомбой",
+     "shtat": 1506.0,
+     "bosh": 35.5,
+     "jismoniy": 1608,
+     "pens": 133,
+     "r5": 16.7,
+     "sof": 35,
+     "vrachTaminl": 91.0
+    },
+    {
+     "name": "Иштихон",
+     "shtat": 1570.25,
+     "bosh": 118.75,
+     "jismoniy": 1645,
+     "pens": 104,
+     "r5": 14.0,
+     "sof": 306,
+     "vrachTaminl": 78.1
+    },
+    {
+     "name": "Каттақўрғон",
+     "shtat": 1966.25,
+     "bosh": 171.0,
+     "jismoniy": 2056,
+     "pens": 234,
+     "r5": 20.7,
+     "sof": -76,
+     "vrachTaminl": 77.0
+    },
+    {
+     "name": "Қўшработ",
+     "shtat": 781.0,
+     "bosh": 0,
+     "jismoniy": 813,
+     "pens": 85,
+     "r5": 21.5,
+     "sof": 3,
+     "vrachTaminl": 89.7
+    },
+    {
+     "name": "Нарпай",
+     "shtat": 1147.25,
+     "bosh": 10.5,
+     "jismoniy": 1265,
+     "pens": 119,
+     "r5": 19.1,
+     "sof": -36,
+     "vrachTaminl": 93.2
+    },
+    {
+     "name": "Паяриқ",
+     "shtat": 2498.0,
+     "bosh": 282.75,
+     "jismoniy": 3440,
+     "pens": 311,
+     "r5": 18.2,
+     "sof": -47,
+     "vrachTaminl": 112.0
+    },
+    {
+     "name": "Пастдарғом",
+     "shtat": 1523.5,
+     "bosh": 41.25,
+     "jismoniy": 1715,
+     "pens": 217,
+     "r5": 24.2,
+     "sof": 41,
+     "vrachTaminl": 113.2
+    },
+    {
+     "name": "Пахтачи",
+     "shtat": 1461.5,
+     "bosh": 10.75,
+     "jismoniy": 1630,
+     "pens": 157,
+     "r5": 19.5,
+     "sof": -7,
+     "vrachTaminl": 82.1
+    },
+    {
+     "name": "Самарқанд",
+     "shtat": 1867.25,
+     "bosh": 126.25,
+     "jismoniy": 1963,
+     "pens": 263,
+     "r5": 22.8,
+     "sof": 26,
+     "vrachTaminl": 84.5
+    },
+    {
+     "name": "Нуробод",
+     "shtat": 1359.0,
+     "bosh": 32.5,
+     "jismoniy": 1379,
+     "pens": 141,
+     "r5": 21.2,
+     "sof": -23,
+     "vrachTaminl": 58.5
+    },
+    {
+     "name": "Ургут",
+     "shtat": 2619.75,
+     "bosh": 0,
+     "jismoniy": 3726,
+     "pens": 269,
+     "r5": 13.0,
+     "sof": 73,
+     "vrachTaminl": 134.9
+    },
+    {
+     "name": "Тайлоқ",
+     "shtat": 1371.25,
+     "bosh": 40.5,
+     "jismoniy": 1496,
+     "pens": 118,
+     "r5": 17.3,
+     "sof": -4,
+     "vrachTaminl": 72.7
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 1389.5,
+     "jismoniy": 971,
+     "gap": 418.5,
+     "koef": 1.42,
+     "pens": 168
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 895.5,
+     "jismoniy": 763,
+     "gap": 132.5,
+     "koef": 1.04,
+     "pens": 269
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 372.2,
+     "jismoniy": 288,
+     "gap": 84.2,
+     "koef": 1.17,
+     "pens": 49
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 554.0,
+     "jismoniy": 499,
+     "gap": 55.0,
+     "koef": 1.04,
+     "pens": 197
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 138.0,
+     "jismoniy": 89,
+     "gap": 49.0,
+     "koef": 1.32,
+     "pens": 9
+    },
+    {
+     "name": "Врач эпидемиолог",
+     "shtat": 138.2,
+     "jismoniy": 101,
+     "gap": 37.2,
+     "koef": 1.3,
+     "pens": 41
+    },
+    {
+     "name": "Суд тиббий экспертиза врачи",
+     "shtat": 54.8,
+     "jismoniy": 18,
+     "gap": 36.8,
+     "koef": 1.67,
+     "pens": 2
+    },
+    {
+     "name": "Врач психиатр",
+     "shtat": 100.0,
+     "jismoniy": 73,
+     "gap": 27.0,
+     "koef": 1.33,
+     "pens": 22
+    },
+    {
+     "name": "Муассаса раҳбарлари",
+     "shtat": 143.5,
+     "jismoniy": 120,
+     "gap": 23.5,
+     "koef": 0.98,
+     "pens": 26
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 212.0,
+     "jismoniy": 190,
+     "gap": 22.0,
+     "koef": 1.01,
+     "pens": 24
+    }
+   ]
+  },
+  "Сурхондарё вилояти": {
+   "shtat": 36523.25,
+   "band": 32852.25,
+   "bosh": 3671.0,
+   "jismoniy": 39624,
+   "dekret": 2079,
+   "pens": 4201,
+   "yaqin": 4192,
+   "qabul": 2131,
+   "boshagan": 1153,
+   "ayol": 29864,
+   "erkak": 9760,
+   "fanD": 10,
+   "fanN": 18,
+   "vrach": {
+    "shtat": 7083.0,
+    "bosh": 1378.5,
+    "jismoniy": 4951,
+    "band": 5704.5,
+    "pens": 1804,
+    "yaqin": 625
+   },
+   "yosh": [
+    4082,
+    13415,
+    11712,
+    8385,
+    2030
+   ],
+   "staj": [
+    14152,
+    6589,
+    8535,
+    10348
+   ],
+   "toifa": [
+    5558,
+    6304,
+    27762
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 7083.0,
+     "bosh": 1378.5,
+     "jismoniy": 4951,
+     "band": 5704.5,
+     "dekret": 68
+    },
+    {
+     "key": "orta",
+     "shtat": 18030.25,
+     "bosh": 1252.25,
+     "jismoniy": 21475,
+     "band": 16778.0,
+     "dekret": 1509
+    },
+    {
+     "key": "kichik",
+     "shtat": 6532.0,
+     "bosh": 564.5,
+     "jismoniy": 8615,
+     "band": 5967.5,
+     "dekret": 431
+    },
+    {
+     "key": "boshqa",
+     "shtat": 4697.75,
+     "bosh": 449.0,
+     "jismoniy": 4415,
+     "band": 4248.75,
+     "dekret": 69
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 101.75,
+     "bosh": 11.25,
+     "jismoniy": 103,
+     "band": 90.5,
+     "dekret": 1
+    },
+    {
+     "key": "provfarm",
+     "shtat": 78.5,
+     "bosh": 15.5,
+     "jismoniy": 65,
+     "band": 63.0,
+     "dekret": 1
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 11135.75,
+     "bosh": 970.5,
+     "jismoniy": 11852,
+     "pens": 1074,
+     "r5": 19.3,
+     "sof": -19,
+     "vrachTaminl": 58.2
+    },
+    {
+     "name": "Термиз ш.",
+     "shtat": 1615.5,
+     "bosh": 79.75,
+     "jismoniy": 1615,
+     "pens": 195,
+     "r5": 21.9,
+     "sof": 55,
+     "vrachTaminl": 95.2
+    },
+    {
+     "name": "Олтинсой",
+     "shtat": 1752.75,
+     "bosh": 165.75,
+     "jismoniy": 2244,
+     "pens": 276,
+     "r5": 22.4,
+     "sof": 5,
+     "vrachTaminl": 59.6
+    },
+    {
+     "name": "Ангор",
+     "shtat": 1351.25,
+     "bosh": 107.0,
+     "jismoniy": 1745,
+     "pens": 205,
+     "r5": 23.6,
+     "sof": 83,
+     "vrachTaminl": 72.2
+    },
+    {
+     "name": "Бандихон",
+     "shtat": 761.75,
+     "bosh": 0,
+     "jismoniy": 959,
+     "pens": 93,
+     "r5": 19.0,
+     "sof": 44,
+     "vrachTaminl": 78.8
+    },
+    {
+     "name": "Бойсун",
+     "shtat": 1194.0,
+     "bosh": 27.5,
+     "jismoniy": 1332,
+     "pens": 172,
+     "r5": 25.7,
+     "sof": 89,
+     "vrachTaminl": 62.0
+    },
+    {
+     "name": "Музработ",
+     "shtat": 1224.0,
+     "bosh": 38.0,
+     "jismoniy": 1487,
+     "pens": 141,
+     "r5": 20.9,
+     "sof": -20,
+     "vrachTaminl": 62.1
+    },
+    {
+     "name": "Денов",
+     "shtat": 5441.25,
+     "bosh": 1032.0,
+     "jismoniy": 4475,
+     "pens": 366,
+     "r5": 18.2,
+     "sof": 375,
+     "vrachTaminl": 72.0
+    },
+    {
+     "name": "Жарқўрғон",
+     "shtat": 1926.75,
+     "bosh": 29.5,
+     "jismoniy": 2525,
+     "pens": 239,
+     "r5": 18.3,
+     "sof": 83,
+     "vrachTaminl": 87.6
+    },
+    {
+     "name": "Қумқўрғон",
+     "shtat": 1627.0,
+     "bosh": 45.25,
+     "jismoniy": 1966,
+     "pens": 169,
+     "r5": 18.8,
+     "sof": -6,
+     "vrachTaminl": 82.9
+    },
+    {
+     "name": "Қизириқ",
+     "shtat": 1239.5,
+     "bosh": 384.5,
+     "jismoniy": 1033,
+     "pens": 125,
+     "r5": 20.5,
+     "sof": 190,
+     "vrachTaminl": 45.2
+    },
+    {
+     "name": "Сариосиё",
+     "shtat": 2055.25,
+     "bosh": 251.5,
+     "jismoniy": 2280,
+     "pens": 342,
+     "r5": 27.6,
+     "sof": 43,
+     "vrachTaminl": 86.1
+    },
+    {
+     "name": "Термиз",
+     "shtat": 983.5,
+     "bosh": 14.75,
+     "jismoniy": 1086,
+     "pens": 144,
+     "r5": 26.2,
+     "sof": 12,
+     "vrachTaminl": 63.1
+    },
+    {
+     "name": "Узун",
+     "shtat": 1750.25,
+     "bosh": 150.5,
+     "jismoniy": 2037,
+     "pens": 247,
+     "r5": 24.0,
+     "sof": 4,
+     "vrachTaminl": 74.0
+    },
+    {
+     "name": "Шеробод",
+     "shtat": 1377.5,
+     "bosh": 195.5,
+     "jismoniy": 1485,
+     "pens": 247,
+     "r5": 28.8,
+     "sof": 36,
+     "vrachTaminl": 102.4
+    },
+    {
+     "name": "Шўрчи",
+     "shtat": 1087.25,
+     "bosh": 179.0,
+     "jismoniy": 1503,
+     "pens": 166,
+     "r5": 21.1,
+     "sof": 4,
+     "vrachTaminl": 102.9
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 974.8,
+     "jismoniy": 324,
+     "gap": 650.8,
+     "koef": 2.19,
+     "pens": 138
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 763.0,
+     "jismoniy": 567,
+     "gap": 196.0,
+     "koef": 1.08,
+     "pens": 187
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 307.8,
+     "jismoniy": 187,
+     "gap": 120.8,
+     "koef": 1.21,
+     "pens": 68
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 509.2,
+     "jismoniy": 395,
+     "gap": 114.2,
+     "koef": 1.06,
+     "pens": 0
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 426.8,
+     "jismoniy": 339,
+     "gap": 87.8,
+     "koef": 1.03,
+     "pens": 124
+    },
+    {
+     "name": "Гемодиализ ва диализ блок бўлими врачи",
+     "shtat": 82.0,
+     "jismoniy": 1,
+     "gap": 81.0,
+     "koef": 5.0,
+     "pens": 0
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 343.2,
+     "jismoniy": 263,
+     "gap": 80.2,
+     "koef": 1.2,
+     "pens": 120
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 217.0,
+     "jismoniy": 148,
+     "gap": 69.0,
+     "koef": 1.32,
+     "pens": 87
+    },
+    {
+     "name": "Врач психиатр",
+     "shtat": 116.0,
+     "jismoniy": 59,
+     "gap": 57.0,
+     "koef": 1.44,
+     "pens": 28
+    },
+    {
+     "name": "Бошқа мутахассислр",
+     "shtat": 203.5,
+     "jismoniy": 151,
+     "gap": 52.5,
+     "koef": 0.92,
+     "pens": 14
+    }
+   ]
+  },
+  "Сирдарё вилояти": {
+   "shtat": 16755.5,
+   "band": 15085.75,
+   "bosh": 1669.75,
+   "jismoniy": 18609,
+   "dekret": 2230,
+   "pens": 1655,
+   "yaqin": 1596,
+   "qabul": 1259,
+   "boshagan": 1471,
+   "ayol": 14905,
+   "erkak": 3704,
+   "fanD": 2,
+   "fanN": 3,
+   "vrach": {
+    "shtat": 3126.5,
+    "bosh": 860.75,
+    "jismoniy": 1682,
+    "band": 2265.75,
+    "pens": 602,
+    "yaqin": 144
+   },
+   "yosh": [
+    2228,
+    6527,
+    5825,
+    3192,
+    837
+   ],
+   "staj": [
+    5921,
+    4767,
+    4807,
+    3114
+   ],
+   "toifa": [
+    1670,
+    2848,
+    14091
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 3126.5,
+     "bosh": 860.75,
+     "jismoniy": 1682,
+     "band": 2265.75,
+     "dekret": 47
+    },
+    {
+     "key": "orta",
+     "shtat": 8200.5,
+     "bosh": 357.25,
+     "jismoniy": 10446,
+     "band": 7843.25,
+     "dekret": 1921
+    },
+    {
+     "key": "kichik",
+     "shtat": 2991.0,
+     "bosh": 60.25,
+     "jismoniy": 4066,
+     "band": 2930.75,
+     "dekret": 218
+    },
+    {
+     "key": "boshqa",
+     "shtat": 2355.75,
+     "bosh": 382.25,
+     "jismoniy": 2344,
+     "band": 1973.5,
+     "dekret": 36
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 30.0,
+     "bosh": 1.0,
+     "jismoniy": 30,
+     "band": 29.0,
+     "dekret": 0
+    },
+    {
+     "key": "provfarm",
+     "shtat": 51.75,
+     "bosh": 8.25,
+     "jismoniy": 41,
+     "band": 43.5,
+     "dekret": 8
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 5856.0,
+     "bosh": 700.75,
+     "jismoniy": 6554,
+     "pens": 541,
+     "r5": 16.9,
+     "sof": -163,
+     "vrachTaminl": 46.3
+    },
+    {
+     "name": "Гулистон ш.",
+     "shtat": 1242.75,
+     "bosh": 261.75,
+     "jismoniy": 1137,
+     "pens": 157,
+     "r5": 23.9,
+     "sof": 2,
+     "vrachTaminl": 57.4
+    },
+    {
+     "name": "Ширин ш.",
+     "shtat": 400.0,
+     "bosh": 27.75,
+     "jismoniy": 473,
+     "pens": 41,
+     "r5": 16.5,
+     "sof": -26,
+     "vrachTaminl": 39.3
+    },
+    {
+     "name": "Янгиер ш.",
+     "shtat": 990.5,
+     "bosh": 0,
+     "jismoniy": 970,
+     "pens": 96,
+     "r5": 19.0,
+     "sof": 7,
+     "vrachTaminl": 80.0
+    },
+    {
+     "name": "Оқолтин",
+     "shtat": 905.0,
+     "bosh": 208.75,
+     "jismoniy": 920,
+     "pens": 57,
+     "r5": 12.3,
+     "sof": 17,
+     "vrachTaminl": 42.5
+    },
+    {
+     "name": "Боёвут",
+     "shtat": 1114.5,
+     "bosh": 13.25,
+     "jismoniy": 1543,
+     "pens": 126,
+     "r5": 17.7,
+     "sof": -8,
+     "vrachTaminl": 72.6
+    },
+    {
+     "name": "Сайхунобод",
+     "shtat": 953.0,
+     "bosh": 114.25,
+     "jismoniy": 1218,
+     "pens": 128,
+     "r5": 20.6,
+     "sof": 49,
+     "vrachTaminl": 44.9
+    },
+    {
+     "name": "Гулистон",
+     "shtat": 1405.25,
+     "bosh": 45.75,
+     "jismoniy": 1433,
+     "pens": 100,
+     "r5": 13.3,
+     "sof": 13,
+     "vrachTaminl": 86.8
+    },
+    {
+     "name": "Сардоба",
+     "shtat": 725.75,
+     "bosh": 85.5,
+     "jismoniy": 853,
+     "pens": 44,
+     "r5": 13.1,
+     "sof": -3,
+     "vrachTaminl": 37.2
+    },
+    {
+     "name": "Мирзаобод",
+     "shtat": 673.25,
+     "bosh": 60.0,
+     "jismoniy": 723,
+     "pens": 78,
+     "r5": 18.0,
+     "sof": 0,
+     "vrachTaminl": 75.8
+    },
+    {
+     "name": "Сирдарё",
+     "shtat": 1494.75,
+     "bosh": 146.0,
+     "jismoniy": 1650,
+     "pens": 185,
+     "r5": 21.4,
+     "sof": -145,
+     "vrachTaminl": 51.0
+    },
+    {
+     "name": "Хаваст",
+     "shtat": 994.75,
+     "bosh": 6.0,
+     "jismoniy": 1135,
+     "pens": 102,
+     "r5": 16.4,
+     "sof": 45,
+     "vrachTaminl": 95.3
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Шошилинч тиббий ёрдам врачи",
+     "shtat": 296.0,
+     "jismoniy": 64,
+     "gap": 232.0,
+     "koef": 2.25,
+     "pens": 20
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 189.0,
+     "jismoniy": 64,
+     "gap": 125.0,
+     "koef": 2.02,
+     "pens": 13
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 170.0,
+     "jismoniy": 85,
+     "gap": 85.0,
+     "koef": 1.4,
+     "pens": 55
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 184.2,
+     "jismoniy": 109,
+     "gap": 75.2,
+     "koef": 1.09,
+     "pens": 0
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 289.5,
+     "jismoniy": 222,
+     "gap": 67.5,
+     "koef": 1.17,
+     "pens": 89
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 86.8,
+     "jismoniy": 28,
+     "gap": 58.8,
+     "koef": 1.66,
+     "pens": 13
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 91.5,
+     "jismoniy": 33,
+     "gap": 58.5,
+     "koef": 1.8,
+     "pens": 9
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 107.5,
+     "jismoniy": 59,
+     "gap": 48.5,
+     "koef": 1.18,
+     "pens": 38
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 55.2,
+     "jismoniy": 18,
+     "gap": 37.2,
+     "koef": 2.44,
+     "pens": 1
+    },
+    {
+     "name": "Врач жарроҳ",
+     "shtat": 89.0,
+     "jismoniy": 57,
+     "gap": 32.0,
+     "koef": 1.41,
+     "pens": 20
+    }
+   ]
+  },
+  "Тошкент шаҳри": {
+   "shtat": 46606.75,
+   "band": 39200.0,
+   "bosh": 7406.75,
+   "jismoniy": 35457,
+   "dekret": 4930,
+   "pens": 6394,
+   "yaqin": 4464,
+   "qabul": 4038,
+   "boshagan": 4038,
+   "ayol": 28684,
+   "erkak": 6773,
+   "fanD": 30,
+   "fanN": 54,
+   "vrach": {
+    "shtat": 11340.25,
+    "bosh": 2048.5,
+    "jismoniy": 7814,
+    "band": 9291.75,
+    "pens": 2150,
+    "yaqin": 1030
+   },
+   "yosh": [
+    4016,
+    9939,
+    9081,
+    8927,
+    3494
+   ],
+   "staj": [
+    13571,
+    7627,
+    7071,
+    7188
+   ],
+   "toifa": [
+    6337,
+    5763,
+    23357
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 11340.25,
+     "bosh": 2048.5,
+     "jismoniy": 7814,
+     "band": 9291.75,
+     "dekret": 571
+    },
+    {
+     "key": "orta",
+     "shtat": 21828.0,
+     "bosh": 3218.5,
+     "jismoniy": 17074,
+     "band": 18609.5,
+     "dekret": 3996
+    },
+    {
+     "key": "kichik",
+     "shtat": 7421.5,
+     "bosh": 1170.0,
+     "jismoniy": 5862,
+     "band": 6251.5,
+     "dekret": 192
+    },
+    {
+     "key": "boshqa",
+     "shtat": 5728.5,
+     "bosh": 932.5,
+     "jismoniy": 4476,
+     "band": 4796.0,
+     "dekret": 141
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 119.5,
+     "bosh": 9.25,
+     "jismoniy": 95,
+     "band": 110.25,
+     "dekret": 9
+    },
+    {
+     "key": "provfarm",
+     "shtat": 169.0,
+     "bosh": 28.0,
+     "jismoniy": 136,
+     "band": 141.0,
+     "dekret": 21
+    }
+   ],
+   "districts": [
+    {
+     "name": "Шаҳар муассасалари",
+     "shtat": 24155.0,
+     "bosh": 4519.0,
+     "jismoniy": 18438,
+     "pens": 2975,
+     "r5": 29.5,
+     "sof": -256,
+     "vrachTaminl": 65.1
+    },
+    {
+     "name": "Учтепа",
+     "shtat": 2206.0,
+     "bosh": 261.25,
+     "jismoniy": 1762,
+     "pens": 396,
+     "r5": 34.6,
+     "sof": 13,
+     "vrachTaminl": 70.1
+    },
+    {
+     "name": "Бектемир",
+     "shtat": 572.0,
+     "bosh": 137.0,
+     "jismoniy": 376,
+     "pens": 66,
+     "r5": 27.0,
+     "sof": 73,
+     "vrachTaminl": 58.1
+    },
+    {
+     "name": "Юнусобод",
+     "shtat": 2795.5,
+     "bosh": 348.75,
+     "jismoniy": 2063,
+     "pens": 436,
+     "r5": 33.4,
+     "sof": 62,
+     "vrachTaminl": 73.9
+    },
+    {
+     "name": "Мирзо Улуғбек",
+     "shtat": 2384.25,
+     "bosh": 347.25,
+     "jismoniy": 1753,
+     "pens": 370,
+     "r5": 33.9,
+     "sof": 31,
+     "vrachTaminl": 75.4
+    },
+    {
+     "name": "Миробод",
+     "shtat": 1222.75,
+     "bosh": 200.75,
+     "jismoniy": 860,
+     "pens": 193,
+     "r5": 35.9,
+     "sof": -6,
+     "vrachTaminl": 66.6
+    },
+    {
+     "name": "Шайхонтохур",
+     "shtat": 2326.0,
+     "bosh": 265.75,
+     "jismoniy": 1698,
+     "pens": 371,
+     "r5": 33.8,
+     "sof": -15,
+     "vrachTaminl": 69.6
+    },
+    {
+     "name": "Олмазор",
+     "shtat": 2969.5,
+     "bosh": 448.0,
+     "jismoniy": 2238,
+     "pens": 452,
+     "r5": 32.5,
+     "sof": -87,
+     "vrachTaminl": 65.9
+    },
+    {
+     "name": "Сирғали",
+     "shtat": 1626.75,
+     "bosh": 259.75,
+     "jismoniy": 1166,
+     "pens": 187,
+     "r5": 26.8,
+     "sof": 38,
+     "vrachTaminl": 62.7
+    },
+    {
+     "name": "Яккасарой",
+     "shtat": 1049.75,
+     "bosh": 116.5,
+     "jismoniy": 748,
+     "pens": 171,
+     "r5": 36.4,
+     "sof": -7,
+     "vrachTaminl": 71.5
+    },
+    {
+     "name": "Яшнобод",
+     "shtat": 2015.25,
+     "bosh": 98.25,
+     "jismoniy": 1821,
+     "pens": 335,
+     "r5": 28.9,
+     "sof": 46,
+     "vrachTaminl": 87.7
+    },
+    {
+     "name": "Янгихаёт",
+     "shtat": 1176.0,
+     "bosh": 225.0,
+     "jismoniy": 807,
+     "pens": 91,
+     "r5": 18.5,
+     "sof": 75,
+     "vrachTaminl": 66.6
+    },
+    {
+     "name": "Чилонзор",
+     "shtat": 2108.0,
+     "bosh": 179.5,
+     "jismoniy": 1727,
+     "pens": 351,
+     "r5": 32.5,
+     "sof": 33,
+     "vrachTaminl": 79.2
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 997.2,
+     "jismoniy": 554,
+     "gap": 443.2,
+     "koef": 1.39,
+     "pens": 58
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 1538.5,
+     "jismoniy": 1127,
+     "gap": 411.5,
+     "koef": 1.23,
+     "pens": 349
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 685.8,
+     "jismoniy": 371,
+     "gap": 314.8,
+     "koef": 1.32,
+     "pens": 122
+    },
+    {
+     "name": "Анестезиология — реанимация хамшираси",
+     "shtat": 857.5,
+     "jismoniy": 636,
+     "gap": 221.5,
+     "koef": 1.04,
+     "pens": 54
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 622.5,
+     "jismoniy": 417,
+     "gap": 205.5,
+     "koef": 1.19,
+     "pens": 0
+    },
+    {
+     "name": "Клиник лаборатория лаборанти",
+     "shtat": 1074.8,
+     "jismoniy": 878,
+     "gap": 196.8,
+     "koef": 1.02,
+     "pens": 123
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 351.5,
+     "jismoniy": 183,
+     "gap": 168.5,
+     "koef": 1.33,
+     "pens": 41
+    },
+    {
+     "name": "Бошқа мутахассислр",
+     "shtat": 533.5,
+     "jismoniy": 384,
+     "gap": 149.5,
+     "koef": 1.18,
+     "pens": 74
+    },
+    {
+     "name": "Акушерка",
+     "shtat": 1016.8,
+     "jismoniy": 880,
+     "gap": 136.8,
+     "koef": 1.0,
+     "pens": 94
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 714.8,
+     "jismoniy": 600,
+     "gap": 114.8,
+     "koef": 1.1,
+     "pens": 191
+    }
+   ]
+  },
+  "Тошкент вилояти": {
+   "shtat": 46308.5,
+   "band": 43723.5,
+   "bosh": 2585.0,
+   "jismoniy": 45077,
+   "dekret": 4825,
+   "pens": 4976,
+   "yaqin": 4527,
+   "qabul": 2872,
+   "boshagan": 2375,
+   "ayol": 36679,
+   "erkak": 8398,
+   "fanD": 15,
+   "fanN": 18,
+   "vrach": {
+    "shtat": 9959.0,
+    "bosh": 1043.5,
+    "jismoniy": 5627,
+    "band": 8915.5,
+    "pens": 1815,
+    "yaqin": 688
+   },
+   "yosh": [
+    4620,
+    14623,
+    12400,
+    9054,
+    4380
+   ],
+   "staj": [
+    17759,
+    8088,
+    9140,
+    10090
+   ],
+   "toifa": [
+    5383,
+    6036,
+    33658
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 9959.0,
+     "bosh": 1043.5,
+     "jismoniy": 5627,
+     "band": 8915.5,
+     "dekret": 157
+    },
+    {
+     "key": "orta",
+     "shtat": 21266.25,
+     "bosh": 701.5,
+     "jismoniy": 23942,
+     "band": 20564.75,
+     "dekret": 4043
+    },
+    {
+     "key": "kichik",
+     "shtat": 6903.25,
+     "bosh": 242.75,
+     "jismoniy": 7914,
+     "band": 6660.5,
+     "dekret": 454
+    },
+    {
+     "key": "boshqa",
+     "shtat": 7988.75,
+     "bosh": 578.0,
+     "jismoniy": 7433,
+     "band": 7410.75,
+     "dekret": 151
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 52.25,
+     "bosh": 4.0,
+     "jismoniy": 45,
+     "band": 48.25,
+     "dekret": 3
+    },
+    {
+     "key": "provfarm",
+     "shtat": 139.0,
+     "bosh": 15.25,
+     "jismoniy": 116,
+     "band": 123.75,
+     "dekret": 17
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 12295.5,
+     "bosh": 988.25,
+     "jismoniy": 10490,
+     "pens": 909,
+     "r5": 17.6,
+     "sof": 30,
+     "vrachTaminl": 45.8
+    },
+    {
+     "name": "Нурафшон ш.",
+     "shtat": 1082.0,
+     "bosh": 67.25,
+     "jismoniy": 1130,
+     "pens": 99,
+     "r5": 19.2,
+     "sof": 65,
+     "vrachTaminl": 53.0
+    },
+    {
+     "name": "Олмалиқ ш.",
+     "shtat": 1999.5,
+     "bosh": 89.75,
+     "jismoniy": 2266,
+     "pens": 215,
+     "r5": 20.3,
+     "sof": -53,
+     "vrachTaminl": 49.5
+    },
+    {
+     "name": "Ангрен ш.",
+     "shtat": 2192.25,
+     "bosh": 76.0,
+     "jismoniy": 2358,
+     "pens": 202,
+     "r5": 17.6,
+     "sof": -59,
+     "vrachTaminl": 57.1
+    },
+    {
+     "name": "Бекобод ш.",
+     "shtat": 1625.5,
+     "bosh": 19.5,
+     "jismoniy": 1760,
+     "pens": 170,
+     "r5": 19.9,
+     "sof": -67,
+     "vrachTaminl": 57.5
+    },
+    {
+     "name": "Оҳангарон ш.",
+     "shtat": 701.25,
+     "bosh": 66.25,
+     "jismoniy": 611,
+     "pens": 106,
+     "r5": 28.1,
+     "sof": 31,
+     "vrachTaminl": 64.9
+    },
+    {
+     "name": "Чирчиқ ш.",
+     "shtat": 1616.5,
+     "bosh": 100.25,
+     "jismoniy": 1435,
+     "pens": 189,
+     "r5": 23.9,
+     "sof": -16,
+     "vrachTaminl": 69.4
+    },
+    {
+     "name": "Янгиёъл ш.",
+     "shtat": 1424.5,
+     "bosh": 60.75,
+     "jismoniy": 1387,
+     "pens": 139,
+     "r5": 20.4,
+     "sof": 376,
+     "vrachTaminl": 68.6
+    },
+    {
+     "name": "Оққўрғон",
+     "shtat": 1167.0,
+     "bosh": 15.25,
+     "jismoniy": 1254,
+     "pens": 146,
+     "r5": 21.3,
+     "sof": 53,
+     "vrachTaminl": 57.5
+    },
+    {
+     "name": "Оҳангарон",
+     "shtat": 1202.5,
+     "bosh": 159.25,
+     "jismoniy": 1064,
+     "pens": 85,
+     "r5": 16.2,
+     "sof": 119,
+     "vrachTaminl": 45.0
+    },
+    {
+     "name": "Бекобод",
+     "shtat": 1830.75,
+     "bosh": 24.75,
+     "jismoniy": 2123,
+     "pens": 210,
+     "r5": 21.1,
+     "sof": 42,
+     "vrachTaminl": 53.9
+    },
+    {
+     "name": "Бўстонлиқ",
+     "shtat": 1840.5,
+     "bosh": 46.75,
+     "jismoniy": 1706,
+     "pens": 200,
+     "r5": 22.4,
+     "sof": -277,
+     "vrachTaminl": 55.5
+    },
+    {
+     "name": "Бўка",
+     "shtat": 1499.5,
+     "bosh": 55.25,
+     "jismoniy": 1800,
+     "pens": 169,
+     "r5": 19.1,
+     "sof": 11,
+     "vrachTaminl": 50.1
+    },
+    {
+     "name": "Қийичирчиқ",
+     "shtat": 1416.25,
+     "bosh": 96.5,
+     "jismoniy": 1441,
+     "pens": 138,
+     "r5": 18.8,
+     "sof": -20,
+     "vrachTaminl": 48.6
+    },
+    {
+     "name": "Зангиота",
+     "shtat": 1824.0,
+     "bosh": 42.75,
+     "jismoniy": 1880,
+     "pens": 274,
+     "r5": 25.6,
+     "sof": 77,
+     "vrachTaminl": 93.1
+    },
+    {
+     "name": "Юқоричирчиқ",
+     "shtat": 1418.25,
+     "bosh": 112.0,
+     "jismoniy": 1155,
+     "pens": 151,
+     "r5": 23.9,
+     "sof": 36,
+     "vrachTaminl": 53.6
+    },
+    {
+     "name": "Қибрай",
+     "shtat": 1836.25,
+     "bosh": 68.25,
+     "jismoniy": 1754,
+     "pens": 281,
+     "r5": 27.1,
+     "sof": -15,
+     "vrachTaminl": 79.9
+    },
+    {
+     "name": "Паркент",
+     "shtat": 1914.0,
+     "bosh": 49.5,
+     "jismoniy": 2077,
+     "pens": 229,
+     "r5": 22.8,
+     "sof": 102,
+     "vrachTaminl": 67.3
+    },
+    {
+     "name": "Пскент",
+     "shtat": 1222.75,
+     "bosh": 15.75,
+     "jismoniy": 1501,
+     "pens": 189,
+     "r5": 23.0,
+     "sof": -22,
+     "vrachTaminl": 55.2
+    },
+    {
+     "name": "Ўртачирчиқ",
+     "shtat": 927.0,
+     "bosh": 50.5,
+     "jismoniy": 796,
+     "pens": 134,
+     "r5": 27.6,
+     "sof": 23,
+     "vrachTaminl": 62.7
+    },
+    {
+     "name": "Чиноз",
+     "shtat": 1613.5,
+     "bosh": 20.0,
+     "jismoniy": 1891,
+     "pens": 268,
+     "r5": 25.3,
+     "sof": 7,
+     "vrachTaminl": 49.7
+    },
+    {
+     "name": "Янгиёъл",
+     "shtat": 1696.0,
+     "bosh": 275.25,
+     "jismoniy": 1368,
+     "pens": 165,
+     "r5": 20.9,
+     "sof": 8,
+     "vrachTaminl": 41.0
+    },
+    {
+     "name": "Тошкент",
+     "shtat": 1963.25,
+     "bosh": 85.25,
+     "jismoniy": 1830,
+     "pens": 308,
+     "r5": 27.0,
+     "sof": 46,
+     "vrachTaminl": 72.1
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 1045.2,
+     "jismoniy": 335,
+     "gap": 710.2,
+     "koef": 3.03,
+     "pens": 43
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 1095.0,
+     "jismoniy": 663,
+     "gap": 432.0,
+     "koef": 1.52,
+     "pens": 256
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 557.8,
+     "jismoniy": 261,
+     "gap": 296.8,
+     "koef": 1.98,
+     "pens": 56
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 562.8,
+     "jismoniy": 347,
+     "gap": 215.8,
+     "koef": 1.54,
+     "pens": 160
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 559.5,
+     "jismoniy": 349,
+     "gap": 210.5,
+     "koef": 1.12,
+     "pens": 0
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 441.8,
+     "jismoniy": 279,
+     "gap": 162.8,
+     "koef": 1.51,
+     "pens": 108
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 290.0,
+     "jismoniy": 160,
+     "gap": 130.0,
+     "koef": 1.72,
+     "pens": 75
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 247.8,
+     "jismoniy": 137,
+     "gap": 110.8,
+     "koef": 1.67,
+     "pens": 22
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 253.5,
+     "jismoniy": 143,
+     "gap": 110.5,
+     "koef": 1.7,
+     "pens": 55
+    },
+    {
+     "name": "Лаборант-гистолог",
+     "shtat": 190.0,
+     "jismoniy": 100,
+     "gap": 90.0,
+     "koef": 1.28,
+     "pens": 6
+    }
+   ]
+  },
+  "Фарғона вилояти": {
+   "shtat": 51955.0,
+   "band": 50774.75,
+   "bosh": 1180.25,
+   "jismoniy": 59811,
+   "dekret": 6641,
+   "pens": 4755,
+   "yaqin": 5758,
+   "qabul": 2664,
+   "boshagan": 2398,
+   "ayol": 47552,
+   "erkak": 12259,
+   "fanD": 25,
+   "fanN": 47,
+   "vrach": {
+    "shtat": 10569.5,
+    "bosh": 669.75,
+    "jismoniy": 8154,
+    "band": 9899.75,
+    "pens": 2014,
+    "yaqin": 929
+   },
+   "yosh": [
+    6674,
+    20634,
+    18563,
+    11515,
+    2425
+   ],
+   "staj": [
+    18983,
+    10670,
+    15688,
+    14470
+   ],
+   "toifa": [
+    12127,
+    10004,
+    37680
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 10569.5,
+     "bosh": 669.75,
+     "jismoniy": 8154,
+     "band": 9899.75,
+     "dekret": 260
+    },
+    {
+     "key": "orta",
+     "shtat": 26537.0,
+     "bosh": 265.75,
+     "jismoniy": 34381,
+     "band": 26271.25,
+     "dekret": 5392
+    },
+    {
+     "key": "kichik",
+     "shtat": 7722.25,
+     "bosh": 42.5,
+     "jismoniy": 10711,
+     "band": 7679.75,
+     "dekret": 788
+    },
+    {
+     "key": "boshqa",
+     "shtat": 6427.5,
+     "bosh": 199.0,
+     "jismoniy": 6000,
+     "band": 6228.5,
+     "dekret": 167
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 493.5,
+     "bosh": 0,
+     "jismoniy": 356,
+     "band": 493.5,
+     "dekret": 18
+    },
+    {
+     "key": "provfarm",
+     "shtat": 205.25,
+     "bosh": 3.25,
+     "jismoniy": 209,
+     "band": 202.0,
+     "dekret": 16
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 16814.25,
+     "bosh": 399.25,
+     "jismoniy": 17047,
+     "pens": 1418,
+     "r5": 18.5,
+     "sof": 98,
+     "vrachTaminl": 67.4
+    },
+    {
+     "name": "Фарғона ш.",
+     "shtat": 3301.75,
+     "bosh": 100.25,
+     "jismoniy": 3152,
+     "pens": 290,
+     "r5": 17.6,
+     "sof": -27,
+     "vrachTaminl": 73.8
+    },
+    {
+     "name": "Қўқон ш.",
+     "shtat": 3664.0,
+     "bosh": 124.75,
+     "jismoniy": 4779,
+     "pens": 427,
+     "r5": 17.0,
+     "sof": -74,
+     "vrachTaminl": 76.8
+    },
+    {
+     "name": "Қувасой ш.",
+     "shtat": 1115.0,
+     "bosh": 43.75,
+     "jismoniy": 1150,
+     "pens": 119,
+     "r5": 21.0,
+     "sof": -10,
+     "vrachTaminl": 59.6
+    },
+    {
+     "name": "Марғилон ш.",
+     "shtat": 2724.25,
+     "bosh": 55.0,
+     "jismoniy": 2918,
+     "pens": 272,
+     "r5": 18.9,
+     "sof": -75,
+     "vrachTaminl": 66.9
+    },
+    {
+     "name": "Олтиариқ",
+     "shtat": 1844.75,
+     "bosh": 18.0,
+     "jismoniy": 2427,
+     "pens": 195,
+     "r5": 19.0,
+     "sof": 42,
+     "vrachTaminl": 102.6
+    },
+    {
+     "name": "Қўштепа",
+     "shtat": 1713.75,
+     "bosh": 99.25,
+     "jismoniy": 2305,
+     "pens": 162,
+     "r5": 17.4,
+     "sof": 25,
+     "vrachTaminl": 66.6
+    },
+    {
+     "name": "Боғдод",
+     "shtat": 1307.5,
+     "bosh": 29.25,
+     "jismoniy": 1394,
+     "pens": 136,
+     "r5": 18.2,
+     "sof": 26,
+     "vrachTaminl": 108.4
+    },
+    {
+     "name": "Бувайда",
+     "shtat": 1721.25,
+     "bosh": 2.0,
+     "jismoniy": 2373,
+     "pens": 200,
+     "r5": 18.8,
+     "sof": 42,
+     "vrachTaminl": 108.2
+    },
+    {
+     "name": "Бешариқ",
+     "shtat": 1917.5,
+     "bosh": 23.25,
+     "jismoniy": 2590,
+     "pens": 169,
+     "r5": 16.5,
+     "sof": 23,
+     "vrachTaminl": 70.9
+    },
+    {
+     "name": "Қува",
+     "shtat": 2221.25,
+     "bosh": 116.5,
+     "jismoniy": 3473,
+     "pens": 215,
+     "r5": 14.7,
+     "sof": 38,
+     "vrachTaminl": 86.9
+    },
+    {
+     "name": "Учкўприк",
+     "shtat": 1850.5,
+     "bosh": 1.75,
+     "jismoniy": 1946,
+     "pens": 192,
+     "r5": 19.8,
+     "sof": 11,
+     "vrachTaminl": 94.8
+    },
+    {
+     "name": "Риштон",
+     "shtat": 2193.75,
+     "bosh": 14.75,
+     "jismoniy": 3263,
+     "pens": 261,
+     "r5": 18.8,
+     "sof": -33,
+     "vrachTaminl": 96.5
+    },
+    {
+     "name": "Сўх",
+     "shtat": 504.5,
+     "bosh": 12.75,
+     "jismoniy": 513,
+     "pens": 42,
+     "r5": 16.4,
+     "sof": 56,
+     "vrachTaminl": 90.2
+    },
+    {
+     "name": "Тошлоқ",
+     "shtat": 1146.25,
+     "bosh": 11.25,
+     "jismoniy": 1130,
+     "pens": 82,
+     "r5": 14.9,
+     "sof": 151,
+     "vrachTaminl": 73.2
+    },
+    {
+     "name": "Ўзбекистон",
+     "shtat": 1839.25,
+     "bosh": 51.5,
+     "jismoniy": 2275,
+     "pens": 160,
+     "r5": 15.5,
+     "sof": 36,
+     "vrachTaminl": 94.0
+    },
+    {
+     "name": "Фарғона",
+     "shtat": 1782.0,
+     "bosh": 0,
+     "jismoniy": 2102,
+     "pens": 101,
+     "r5": 13.3,
+     "sof": -56,
+     "vrachTaminl": 92.0
+    },
+    {
+     "name": "Данғара",
+     "shtat": 1699.75,
+     "bosh": 44.75,
+     "jismoniy": 2052,
+     "pens": 106,
+     "r5": 14.8,
+     "sof": 9,
+     "vrachTaminl": 68.5
+    },
+    {
+     "name": "Фурқат",
+     "shtat": 1303.0,
+     "bosh": 2.75,
+     "jismoniy": 1533,
+     "pens": 118,
+     "r5": 18.9,
+     "sof": -13,
+     "vrachTaminl": 72.9
+    },
+    {
+     "name": "Ёзёвон",
+     "shtat": 1290.75,
+     "bosh": 29.5,
+     "jismoniy": 1389,
+     "pens": 90,
+     "r5": 16.3,
+     "sof": -3,
+     "vrachTaminl": 70.2
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 1206.0,
+     "jismoniy": 590,
+     "gap": 616.0,
+     "koef": 1.86,
+     "pens": 146
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 527.5,
+     "jismoniy": 318,
+     "gap": 209.5,
+     "koef": 1.51,
+     "pens": 75
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 1354.0,
+     "jismoniy": 1173,
+     "gap": 181.0,
+     "koef": 1.09,
+     "pens": 285
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 589.5,
+     "jismoniy": 411,
+     "gap": 178.5,
+     "koef": 1.19,
+     "pens": 142
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 415.2,
+     "jismoniy": 275,
+     "gap": 140.2,
+     "koef": 1.29,
+     "pens": 123
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 701.2,
+     "jismoniy": 582,
+     "gap": 119.2,
+     "koef": 1.18,
+     "pens": 0
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 546.0,
+     "jismoniy": 457,
+     "gap": 89.0,
+     "koef": 1.17,
+     "pens": 97
+    },
+    {
+     "name": "Врач терапевт",
+     "shtat": 228.5,
+     "jismoniy": 167,
+     "gap": 61.5,
+     "koef": 1.32,
+     "pens": 69
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 200.8,
+     "jismoniy": 149,
+     "gap": 51.8,
+     "koef": 1.24,
+     "pens": 57
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 144.5,
+     "jismoniy": 104,
+     "gap": 40.5,
+     "koef": 1.35,
+     "pens": 8
+    }
+   ]
+  },
+  "Хоразм вилояти": {
+   "shtat": 28867.0,
+   "band": 27882.5,
+   "bosh": 984.5,
+   "jismoniy": 29798,
+   "dekret": 1426,
+   "pens": 3189,
+   "yaqin": 3231,
+   "qabul": 1789,
+   "boshagan": 959,
+   "ayol": 23340,
+   "erkak": 6458,
+   "fanD": 32,
+   "fanN": 170,
+   "vrach": {
+    "shtat": 5879.25,
+    "bosh": 562.75,
+    "jismoniy": 4919,
+    "band": 5316.5,
+    "pens": 1154,
+    "yaqin": 536
+   },
+   "yosh": [
+    3095,
+    8940,
+    9751,
+    6462,
+    1550
+   ],
+   "staj": [
+    10221,
+    5999,
+    6888,
+    6690
+   ],
+   "toifa": [
+    5170,
+    4636,
+    19992
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 5879.25,
+     "bosh": 562.75,
+     "jismoniy": 4919,
+     "band": 5316.5,
+     "dekret": 121
+    },
+    {
+     "key": "orta",
+     "shtat": 13997.25,
+     "bosh": 269.75,
+     "jismoniy": 15290,
+     "band": 13727.5,
+     "dekret": 1070
+    },
+    {
+     "key": "kichik",
+     "shtat": 4394.0,
+     "bosh": 66.75,
+     "jismoniy": 5065,
+     "band": 4327.25,
+     "dekret": 137
+    },
+    {
+     "key": "boshqa",
+     "shtat": 3183.0,
+     "bosh": 78.5,
+     "jismoniy": 3107,
+     "band": 3104.5,
+     "dekret": 66
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 1311.25,
+     "bosh": 1.5,
+     "jismoniy": 1322,
+     "band": 1309.75,
+     "dekret": 29
+    },
+    {
+     "key": "provfarm",
+     "shtat": 102.25,
+     "bosh": 5.25,
+     "jismoniy": 95,
+     "band": 97.0,
+     "dekret": 3
+    }
+   ],
+   "districts": [
+    {
+     "name": "Вилоят муассасалари",
+     "shtat": 10681.0,
+     "bosh": 325.5,
+     "jismoniy": 10640,
+     "pens": 1000,
+     "r5": 18.9,
+     "sof": 538,
+     "vrachTaminl": 87.0
+    },
+    {
+     "name": "Урганч ш.",
+     "shtat": 1348.0,
+     "bosh": 47.0,
+     "jismoniy": 1298,
+     "pens": 129,
+     "r5": 18.5,
+     "sof": 69,
+     "vrachTaminl": 78.1
+    },
+    {
+     "name": "Хива ш.",
+     "shtat": 606.0,
+     "bosh": 27.75,
+     "jismoniy": 586,
+     "pens": 97,
+     "r5": 32.5,
+     "sof": 18,
+     "vrachTaminl": 76.4
+    },
+    {
+     "name": "Боғот",
+     "shtat": 1622.0,
+     "bosh": 5.0,
+     "jismoniy": 1800,
+     "pens": 180,
+     "r5": 23.1,
+     "sof": 20,
+     "vrachTaminl": 106.7
+    },
+    {
+     "name": "Гурлан",
+     "shtat": 1627.25,
+     "bosh": 24.5,
+     "jismoniy": 1602,
+     "pens": 229,
+     "r5": 27.6,
+     "sof": -4,
+     "vrachTaminl": 93.2
+    },
+    {
+     "name": "Қўшкўпир",
+     "shtat": 1659.0,
+     "bosh": 21.75,
+     "jismoniy": 1946,
+     "pens": 169,
+     "r5": 18.3,
+     "sof": 12,
+     "vrachTaminl": 92.6
+    },
+    {
+     "name": "Урганч",
+     "shtat": 1707.25,
+     "bosh": 68.25,
+     "jismoniy": 1691,
+     "pens": 157,
+     "r5": 18.8,
+     "sof": 15,
+     "vrachTaminl": 82.7
+    },
+    {
+     "name": "Хазорасп",
+     "shtat": 1933.5,
+     "bosh": 278.5,
+     "jismoniy": 1770,
+     "pens": 233,
+     "r5": 24.0,
+     "sof": 0,
+     "vrachTaminl": 59.0
+    },
+    {
+     "name": "Тупроққалъа",
+     "shtat": 598.5,
+     "bosh": 5.25,
+     "jismoniy": 643,
+     "pens": 98,
+     "r5": 25.2,
+     "sof": 11,
+     "vrachTaminl": 83.0
+    },
+    {
+     "name": "Хонқа",
+     "shtat": 1533.25,
+     "bosh": 6.0,
+     "jismoniy": 1893,
+     "pens": 216,
+     "r5": 22.7,
+     "sof": 72,
+     "vrachTaminl": 96.4
+    },
+    {
+     "name": "Хива",
+     "shtat": 1579.5,
+     "bosh": 38.75,
+     "jismoniy": 1607,
+     "pens": 292,
+     "r5": 34.0,
+     "sof": 41,
+     "vrachTaminl": 81.6
+    },
+    {
+     "name": "Шовот",
+     "shtat": 1508.5,
+     "bosh": 78.75,
+     "jismoniy": 1686,
+     "pens": 175,
+     "r5": 23.8,
+     "sof": 50,
+     "vrachTaminl": 73.1
+    },
+    {
+     "name": "Янгиариқ",
+     "shtat": 1270.75,
+     "bosh": 35.75,
+     "jismoniy": 1291,
+     "pens": 141,
+     "r5": 22.8,
+     "sof": -9,
+     "vrachTaminl": 75.4
+    },
+    {
+     "name": "Янгибозор",
+     "shtat": 1192.5,
+     "bosh": 21.75,
+     "jismoniy": 1345,
+     "pens": 73,
+     "r5": 13.9,
+     "sof": -3,
+     "vrachTaminl": 69.6
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Оила врачи",
+     "shtat": 751.2,
+     "jismoniy": 618,
+     "gap": 133.2,
+     "koef": 1.07,
+     "pens": 205
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 366.5,
+     "jismoniy": 257,
+     "gap": 109.5,
+     "koef": 1.26,
+     "pens": 24
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 495.0,
+     "jismoniy": 394,
+     "gap": 101.0,
+     "koef": 1.12,
+     "pens": 0
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 335.5,
+     "jismoniy": 277,
+     "gap": 58.5,
+     "koef": 1.11,
+     "pens": 85
+    },
+    {
+     "name": "Врач болалар анестезиолог-реаниматологи",
+     "shtat": 90.0,
+     "jismoniy": 48,
+     "gap": 42.0,
+     "koef": 1.23,
+     "pens": 4
+    },
+    {
+     "name": "Суд тиббий экспертиза врачи",
+     "shtat": 52.2,
+     "jismoniy": 16,
+     "gap": 36.2,
+     "koef": 1.17,
+     "pens": 1
+    },
+    {
+     "name": "Врач эпидемиолог",
+     "shtat": 92.0,
+     "jismoniy": 59,
+     "gap": 33.0,
+     "koef": 1.27,
+     "pens": 16
+    },
+    {
+     "name": "Врач неонатолог",
+     "shtat": 159.5,
+     "jismoniy": 127,
+     "gap": 32.5,
+     "koef": 1.16,
+     "pens": 47
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 146.8,
+     "jismoniy": 117,
+     "gap": 29.8,
+     "koef": 1.1,
+     "pens": 22
+    },
+    {
+     "name": "Умумий гигиена бўйича санитар врач",
+     "shtat": 104.2,
+     "jismoniy": 76,
+     "gap": 28.2,
+     "koef": 1.21,
+     "pens": 23
+    }
+   ]
+  },
+  "Қорақалпоғистон Республикаси": {
+   "shtat": 30471.25,
+   "band": 29542.5,
+   "bosh": 928.75,
+   "jismoniy": 32230,
+   "dekret": 2975,
+   "pens": 3330,
+   "yaqin": 3454,
+   "qabul": 2525,
+   "boshagan": 1327,
+   "ayol": 25742,
+   "erkak": 6488,
+   "fanD": 12,
+   "fanN": 27,
+   "vrach": {
+    "shtat": 6256.0,
+    "bosh": 609.0,
+    "jismoniy": 5000,
+    "band": 5647.0,
+    "pens": 1161,
+    "yaqin": 614
+   },
+   "yosh": [
+    3636,
+    10743,
+    9493,
+    6908,
+    1450
+   ],
+   "staj": [
+    12033,
+    6007,
+    7258,
+    6932
+   ],
+   "toifa": [
+    4727,
+    4916,
+    22587
+   ],
+   "cats": [
+    {
+     "key": "vrach",
+     "shtat": 6256.0,
+     "bosh": 609.0,
+     "jismoniy": 5000,
+     "band": 5647.0,
+     "dekret": 290
+    },
+    {
+     "key": "orta",
+     "shtat": 14943.75,
+     "bosh": 151.25,
+     "jismoniy": 17162,
+     "band": 14792.5,
+     "dekret": 2266
+    },
+    {
+     "key": "kichik",
+     "shtat": 4831.5,
+     "bosh": 88.0,
+     "jismoniy": 5587,
+     "band": 4743.5,
+     "dekret": 311
+    },
+    {
+     "key": "boshqa",
+     "shtat": 4224.75,
+     "bosh": 80.0,
+     "jismoniy": 4262,
+     "band": 4144.75,
+     "dekret": 98
+    },
+    {
+     "key": "notibbiy",
+     "shtat": 111.75,
+     "bosh": 0,
+     "jismoniy": 111,
+     "band": 111.75,
+     "dekret": 2
+    },
+    {
+     "key": "provfarm",
+     "shtat": 103.5,
+     "bosh": 0.5,
+     "jismoniy": 108,
+     "band": 103.0,
+     "dekret": 8
+    }
+   ],
+   "districts": [
+    {
+     "name": "Республика муассасалари",
+     "shtat": 10569.5,
+     "bosh": 326.0,
+     "jismoniy": 10858,
+     "pens": 982,
+     "r5": 19.6,
+     "sof": 166,
+     "vrachTaminl": 75.7
+    },
+    {
+     "name": "Нукус ш.",
+     "shtat": 2217.5,
+     "bosh": 68.0,
+     "jismoniy": 2310,
+     "pens": 195,
+     "r5": 17.1,
+     "sof": 148,
+     "vrachTaminl": 88.7
+    },
+    {
+     "name": "Амударё",
+     "shtat": 1826.0,
+     "bosh": 1.5,
+     "jismoniy": 2217,
+     "pens": 269,
+     "r5": 24.4,
+     "sof": 85,
+     "vrachTaminl": 93.9
+    },
+    {
+     "name": "Беруний",
+     "shtat": 1785.5,
+     "bosh": 18.5,
+     "jismoniy": 2178,
+     "pens": 358,
+     "r5": 30.1,
+     "sof": 28,
+     "vrachTaminl": 112.2
+    },
+    {
+     "name": "Бўзатов",
+     "shtat": 433.0,
+     "bosh": 47.25,
+     "jismoniy": 389,
+     "pens": 16,
+     "r5": 13.0,
+     "sof": -6,
+     "vrachTaminl": 43.1
+    },
+    {
+     "name": "Қораўзак",
+     "shtat": 790.25,
+     "bosh": 6.0,
+     "jismoniy": 798,
+     "pens": 67,
+     "r5": 19.5,
+     "sof": 33,
+     "vrachTaminl": 86.3
+    },
+    {
+     "name": "Кегейли",
+     "shtat": 897.75,
+     "bosh": 9.5,
+     "jismoniy": 1028,
+     "pens": 118,
+     "r5": 23.2,
+     "sof": 50,
+     "vrachTaminl": 121.8
+    },
+    {
+     "name": "Қўнғирот",
+     "shtat": 1661.25,
+     "bosh": 75.0,
+     "jismoniy": 1858,
+     "pens": 116,
+     "r5": 15.4,
+     "sof": -26,
+     "vrachTaminl": 57.5
+    },
+    {
+     "name": "Қанликўл",
+     "shtat": 690.0,
+     "bosh": 7.75,
+     "jismoniy": 803,
+     "pens": 67,
+     "r5": 18.4,
+     "sof": 49,
+     "vrachTaminl": 72.5
+    },
+    {
+     "name": "Мўйноқ",
+     "shtat": 578.25,
+     "bosh": 3.0,
+     "jismoniy": 613,
+     "pens": 79,
+     "r5": 23.2,
+     "sof": 9,
+     "vrachTaminl": 73.6
+    },
+    {
+     "name": "Нукус",
+     "shtat": 788.25,
+     "bosh": 26.5,
+     "jismoniy": 788,
+     "pens": 29,
+     "r5": 12.8,
+     "sof": 11,
+     "vrachTaminl": 67.7
+    },
+    {
+     "name": "Тахиатош",
+     "shtat": 768.5,
+     "bosh": 1.5,
+     "jismoniy": 782,
+     "pens": 143,
+     "r5": 26.5,
+     "sof": 2,
+     "vrachTaminl": 102.8
+    },
+    {
+     "name": "Тахтакўпир",
+     "shtat": 687.5,
+     "bosh": 38.5,
+     "jismoniy": 718,
+     "pens": 30,
+     "r5": 12.2,
+     "sof": 54,
+     "vrachTaminl": 54.1
+    },
+    {
+     "name": "Тўрткўл",
+     "shtat": 1940.0,
+     "bosh": 72.25,
+     "jismoniy": 1912,
+     "pens": 292,
+     "r5": 27.1,
+     "sof": 72,
+     "vrachTaminl": 66.3
+    },
+    {
+     "name": "Хўжайли",
+     "shtat": 1418.75,
+     "bosh": 39.0,
+     "jismoniy": 1653,
+     "pens": 235,
+     "r5": 25.3,
+     "sof": 138,
+     "vrachTaminl": 111.2
+    },
+    {
+     "name": "Чимбой",
+     "shtat": 1145.0,
+     "bosh": 7.0,
+     "jismoniy": 1148,
+     "pens": 121,
+     "r5": 24.0,
+     "sof": 365,
+     "vrachTaminl": 96.5
+    },
+    {
+     "name": "Шуманай",
+     "shtat": 812.5,
+     "bosh": 105.0,
+     "jismoniy": 774,
+     "pens": 75,
+     "r5": 21.5,
+     "sof": -6,
+     "vrachTaminl": 52.7
+    },
+    {
+     "name": "Элликкала",
+     "shtat": 1461.75,
+     "bosh": 76.5,
+     "jismoniy": 1403,
+     "pens": 138,
+     "r5": 19.1,
+     "sof": 26,
+     "vrachTaminl": 63.4
+    }
+   ],
+   "gaps": [
+    {
+     "name": "Тез ёрдам врачи",
+     "shtat": 638.5,
+     "jismoniy": 321,
+     "gap": 317.5,
+     "koef": 1.99,
+     "pens": 47
+    },
+    {
+     "name": "Оила врачи",
+     "shtat": 748.8,
+     "jismoniy": 595,
+     "gap": 153.8,
+     "koef": 1.14,
+     "pens": 174
+    },
+    {
+     "name": "Анестезиолог-реаниматолог",
+     "shtat": 343.5,
+     "jismoniy": 233,
+     "gap": 110.5,
+     "koef": 1.38,
+     "pens": 45
+    },
+    {
+     "name": "СЭО, ЖСХ ва дезстанция врачлари",
+     "shtat": 501.2,
+     "jismoniy": 436,
+     "gap": 65.2,
+     "koef": 1.04,
+     "pens": 0
+    },
+    {
+     "name": "Ултразвук диагностика врачи",
+     "shtat": 159.8,
+     "jismoniy": 112,
+     "gap": 47.8,
+     "koef": 1.26,
+     "pens": 17
+    },
+    {
+     "name": "Умумий амалиёт врачи",
+     "shtat": 157.2,
+     "jismoniy": 111,
+     "gap": 46.2,
+     "koef": 1.13,
+     "pens": 36
+    },
+    {
+     "name": "Врач педиатр",
+     "shtat": 141.0,
+     "jismoniy": 108,
+     "gap": 33.0,
+     "koef": 1.13,
+     "pens": 39
+    },
+    {
+     "name": "Акушер-гинеколог",
+     "shtat": 301.8,
+     "jismoniy": 269,
+     "gap": 32.8,
+     "koef": 1.04,
+     "pens": 113
+    },
+    {
+     "name": "Врач травмпункт травматологи",
+     "shtat": 82.2,
+     "jismoniy": 51,
+     "gap": 31.2,
+     "koef": 1.4,
+     "pens": 4
+    },
+    {
+     "name": "Врач жарроҳ",
+     "shtat": 121.2,
+     "jismoniy": 92,
+     "gap": 29.2,
+     "koef": 1.07,
+     "pens": 20
+    }
+   ]
+  }
+ }
+}
