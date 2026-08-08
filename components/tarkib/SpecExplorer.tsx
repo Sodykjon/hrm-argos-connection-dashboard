@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   SPEC,
@@ -14,7 +14,7 @@ import {
   type SpecVals,
 } from "@/lib/spec";
 import { fmtInt, fmtPct, rampColor } from "@/lib/format";
-import { regionLabel } from "@/lib/regions";
+import { regionLabel, regionSlug } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
 type GroupKey = "all" | SpecCat["grp"];
@@ -33,6 +33,33 @@ function normQ(s: string): string {
     .replace(/[ʻʼ'`’‘]/g, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+type DistRow = [number, number, number, number, number, number | null, number | null];
+// [distIdx, shtat, band, jismoniy, bosh, pens, yaqin]
+
+interface SpecDistFile {
+  date: string;
+  region: string;
+  dists: string[];
+  cats: Record<string, DistRow[]>;
+}
+
+// One fetch per region per session; the files are static assets (~30–50KB).
+const distCache = new Map<string, Promise<SpecDistFile>>();
+
+function loadDist(regionName: string): Promise<SpecDistFile> {
+  const slug = regionSlug(regionName);
+  let p = distCache.get(slug);
+  if (!p) {
+    p = fetch(`/spec-dist/${slug}.json`).then((r) => {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json() as Promise<SpecDistFile>;
+    });
+    p.catch(() => distCache.delete(slug));
+    distCache.set(slug, p);
+  }
+  return p;
 }
 
 export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
@@ -172,6 +199,9 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
 function SpecDetail({ cat }: { cat: SpecCat }) {
   const S = useS();
   const lang = useLang();
+  // Which region's district breakdown is open. Survives specialty switches on
+  // purpose: comparing the same district across specialties is the workflow.
+  const [expanded, setExpanded] = useState<string | null>(null);
   const v = cat.nat;
   const taminl = specTaminl(v);
   const gap = specGap(v);
@@ -237,11 +267,11 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
       </section>
 
       <section className="card p-4 sm:p-5">
-        <div className="mb-2 flex items-baseline justify-between">
+        <div className="mb-2 flex items-baseline justify-between gap-2">
           <h3 className="text-[0.95rem] font-semibold">
             {S.tarkib.spec.regionsTitle}
           </h3>
-          <span className="eyebrow">{S.tarkib.rankingHint}</span>
+          <span className="eyebrow">{S.tarkib.spec.clickHint}</span>
         </div>
         <div className="flex flex-col gap-1">
           {rows.map((r) => {
@@ -250,32 +280,54 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
             // Bars top out at 120% so over-staffed regions stay readable
             // without flattening everyone else.
             const width = Math.min(100, (t / 1.2) * 100);
+            const open = expanded === r.name;
             return (
-              <div key={r.name} className="flex items-center gap-2">
-                <span className="w-[11rem] shrink-0 truncate text-[0.78rem]">
-                  {regionLabel(r.name, lang)}
-                </span>
-                <span className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line-soft">
-                  <span
-                    className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ width: `${width}%`, background: color }}
-                  />
-                  {/* 100% reference tick */}
-                  <span
-                    className="absolute inset-y-0 w-px bg-white/40"
-                    style={{ left: `${(1 / 1.2) * 100}%` }}
-                    aria-hidden
-                  />
-                </span>
-                <span
-                  className="tnum w-14 shrink-0 text-right text-[0.78rem] font-semibold"
-                  style={{ color }}
+              <div key={r.name}>
+                <button
+                  onClick={() => setExpanded(open ? null : r.name)}
+                  aria-expanded={open}
+                  className={`flex w-full items-center gap-2 rounded-lg px-1.5 py-1 text-left transition-colors ${
+                    open ? "bg-paper" : "hover:bg-paper"
+                  }`}
                 >
-                  {fmtPct(t, 0)}
-                </span>
-                <span className="tnum hidden w-24 shrink-0 text-right text-[0.7rem] text-ink-faint sm:block">
-                  {fmtInt(r.v[SV.jismoniy])} / {fmtInt(r.v[SV.shtat])}
-                </span>
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden
+                    className={`shrink-0 text-ink-faint transition-transform ${
+                      open ? "rotate-90" : ""
+                    }`}
+                  >
+                    <path d="m6 3 5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="w-[10.4rem] shrink-0 truncate text-[0.78rem]">
+                    {regionLabel(r.name, lang)}
+                  </span>
+                  <span className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line-soft">
+                    <span
+                      className="absolute inset-y-0 left-0 rounded-full"
+                      style={{ width: `${width}%`, background: color }}
+                    />
+                    {/* 100% reference tick */}
+                    <span
+                      className="absolute inset-y-0 w-px bg-white/40"
+                      style={{ left: `${(1 / 1.2) * 100}%` }}
+                      aria-hidden
+                    />
+                  </span>
+                  <span
+                    className="tnum w-14 shrink-0 text-right text-[0.78rem] font-semibold"
+                    style={{ color }}
+                  >
+                    {fmtPct(t, 0)}
+                  </span>
+                  <span className="tnum hidden w-24 shrink-0 text-right text-[0.7rem] text-ink-faint sm:block">
+                    {fmtInt(r.v[SV.jismoniy])} / {fmtInt(r.v[SV.shtat])}
+                  </span>
+                </button>
+                {open && <DistPanel regionName={r.name} catSlug={cat.slug} />}
               </div>
             );
           })}
@@ -355,6 +407,107 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
     </>
   );
 
+}
+
+// ------------------------------------------------------- district drilldown
+
+function DistPanel({
+  regionName,
+  catSlug,
+}: {
+  regionName: string;
+  catSlug: string;
+}) {
+  const S = useS();
+  const [data, setData] = useState<SpecDistFile | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    setFailed(false);
+    loadDist(regionName).then(
+      (d) => alive && setData(d),
+      () => alive && setFailed(true),
+    );
+    return () => {
+      alive = false;
+    };
+  }, [regionName]);
+
+  if (failed) {
+    return (
+      <p className="px-7 py-2 text-[0.74rem] text-ink-faint">
+        {S.tarkib.spec.distError}
+      </p>
+    );
+  }
+  if (!data) {
+    return (
+      <p className="px-7 py-2 text-[0.74rem] text-ink-faint">
+        {S.tarkib.spec.distLoading}
+      </p>
+    );
+  }
+
+  const rows = (data.cats[catSlug] ?? [])
+    .map((r) => ({
+      name: data.dists[r[0]] ?? "?",
+      shtat: r[1],
+      jismoniy: r[3],
+      bosh: r[4],
+      pens: r[5],
+      t: r[1] > 0 ? r[3] / r[1] : 0,
+    }))
+    .sort((a, b) => a.t - b.t);
+
+  if (rows.length === 0) {
+    return (
+      <p className="px-7 py-2 text-[0.74rem] text-ink-faint">
+        {S.tarkib.spec.distEmpty}
+      </p>
+    );
+  }
+
+  return (
+    <div className="mb-1 ml-5 rounded-lg border border-line-soft bg-band/40 px-3 py-2">
+      <div className="flex flex-col gap-[3px]">
+        {rows.map((r) => {
+          const color = covColor(r.t);
+          const width = Math.min(100, (r.t / 1.2) * 100);
+          return (
+            <div key={r.name} className="flex items-center gap-2">
+              <span className="w-[9.4rem] shrink-0 truncate text-[0.72rem] text-ink-soft">
+                {r.name}
+              </span>
+              <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-line-soft">
+                <span
+                  className="absolute inset-y-0 left-0 rounded-full"
+                  style={{ width: `${width}%`, background: color }}
+                />
+                <span
+                  className="absolute inset-y-0 w-px bg-white/40"
+                  style={{ left: `${(1 / 1.2) * 100}%` }}
+                  aria-hidden
+                />
+              </span>
+              <span
+                className="tnum w-12 shrink-0 text-right text-[0.72rem] font-semibold"
+                style={{ color }}
+              >
+                {fmtPct(r.t, 0)}
+              </span>
+              <span className="tnum w-[4.6rem] shrink-0 text-right text-[0.68rem] text-ink-faint">
+                {fmtInt(r.jismoniy)} / {fmtInt(r.shtat)}
+              </span>
+              <span className="tnum hidden w-14 shrink-0 text-right text-[0.68rem] text-ink-faint md:block">
+                {r.pens === null ? "" : `${S.tarkib.spec.pensShort} ${fmtInt(r.pens)}`}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function Kpi({
