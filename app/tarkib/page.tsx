@@ -4,7 +4,7 @@ import { GEO_REGIONS } from "@/lib/regions";
 import { TarkibHero } from "@/components/tarkib/TarkibHero";
 import { TarkibBoard } from "@/components/tarkib/TarkibBoard";
 import { TarkibTable } from "@/components/tarkib/TarkibTable";
-import { CompositionStack } from "@/components/tarkib/CompositionStack";
+import { CompositionPanel } from "@/components/tarkib/CompositionPanel";
 import { GapsTable } from "@/components/tarkib/GapsTable";
 import { StatTile } from "@/components/StatTile";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -93,7 +93,7 @@ export default async function TarkibPage() {
             <h2 className="text-[0.95rem] font-semibold">{S.tarkib.compTitle}</h2>
             <p className="text-[0.78rem] text-ink-soft">{S.tarkib.compHint}</p>
           </div>
-          <CompositionStack region={nat} />
+          <CompositionPanel region={nat} />
         </section>
         <section className="card p-4 sm:p-5">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
