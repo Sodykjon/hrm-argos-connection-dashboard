@@ -122,6 +122,9 @@ export default async function TarkibPage() {
       />
 
       <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+        {S.tarkib.terms}
+      </p>
+      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
         {S.tarkib.qualityNote}
       </p>
     </div>

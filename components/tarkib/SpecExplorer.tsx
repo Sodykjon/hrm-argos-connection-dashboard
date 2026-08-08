@@ -78,12 +78,12 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
 
   const groups: Array<{ key: GroupKey; label: string }> = [
     { key: "all", label: S.tarkib.spec.all },
-    { key: "vrach", label: S.tarkib.cat.vrach },
-    { key: "orta", label: S.tarkib.cat.orta },
-    { key: "kichik", label: S.tarkib.cat.kichik },
-    { key: "boshqa", label: S.tarkib.cat.boshqa },
-    { key: "notibbiy", label: S.tarkib.cat.notibbiy },
-    { key: "farm", label: S.tarkib.cat.provfarm },
+    { key: "vrach", label: S.tarkib.spec.grpShort.vrach },
+    { key: "orta", label: S.tarkib.spec.grpShort.orta },
+    { key: "kichik", label: S.tarkib.spec.grpShort.kichik },
+    { key: "boshqa", label: S.tarkib.spec.grpShort.boshqa },
+    { key: "notibbiy", label: S.tarkib.spec.grpShort.notibbiy },
+    { key: "farm", label: S.tarkib.spec.grpShort.farm },
   ];
 
   const list = useMemo(() => {
@@ -110,7 +110,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
   return (
     <div className="grid gap-4 lg:grid-cols-12">
       {/* ------------------------------------------------ list + search */}
-      <div className="card flex flex-col overflow-hidden lg:col-span-4">
+      <div className="card flex flex-col overflow-hidden lg:col-span-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-7rem)]">
         <div className="border-b border-line p-3">
           <input
             value={q}
@@ -118,7 +118,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
             placeholder={S.tarkib.spec.search}
             className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-[0.85rem] outline-none focus:border-sov focus:bg-surface"
           />
-          <div className="scroll-quiet mt-2 flex gap-1 overflow-x-auto pb-0.5">
+          <div className="mt-2 flex flex-wrap gap-1">
             {groups.map((g) => (
               <button
                 key={g.key}
@@ -138,7 +138,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
           <span className="tnum">{S.tarkib.spec.count(list.length)}</span>
           <span>{S.tarkib.spec.sortedByGap}</span>
         </div>
-        <ol className="scroll-quiet flex max-h-[520px] flex-col overflow-y-auto lg:max-h-[640px]">
+        <ol className="scroll-quiet flex max-h-[420px] min-h-0 flex-1 flex-col overflow-y-auto lg:max-h-none">
           {list.map(({ cat, gap, taminl }) => {
             const active = cat.slug === sel.slug;
             return (
@@ -158,7 +158,10 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
                       {cat.name}
                     </span>
                     <span className="tnum text-[0.68rem] text-ink-faint">
-                      {fmtInt(cat.nat[SV.jismoniy])} / {fmtInt(cat.nat[SV.shtat])}
+                      {S.tarkib.spec.listUnit(
+                        fmtInt(cat.nat[SV.jismoniy]),
+                        fmtInt(cat.nat[SV.shtat]),
+                      )}
                     </span>
                   </span>
                   <span className="shrink-0 text-right">
@@ -226,28 +229,41 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Kpi label={S.tarkib.col.shtat} value={fmtInt(v[SV.shtat])} />
-          <Kpi label={S.tarkib.col.jismoniy} value={fmtInt(v[SV.jismoniy])} />
           <Kpi
-            label={S.tarkib.col.taminl}
+            label={S.tarkib.spec.kpi.shtat}
+            value={fmtInt(v[SV.shtat])}
+            hint={S.tarkib.spec.kpi.shtatHint}
+          />
+          <Kpi
+            label={S.tarkib.spec.kpi.jismoniy}
+            value={fmtInt(v[SV.jismoniy])}
+            hint={S.tarkib.spec.kpi.jismoniyHint}
+          />
+          <Kpi
+            label={S.tarkib.spec.kpi.taminl}
             value={fmtPct(taminl, 1)}
             color={covColor(taminl)}
+            hint={S.tarkib.spec.kpi.taminlHint}
           />
           <Kpi
-            label={S.tarkib.gapCol.gap}
+            label={S.tarkib.spec.kpi.gap}
             value={gap > 0 ? `−${fmtInt(gap)}` : `+${fmtInt(-gap)}`}
             color={gap > 0 ? "var(--color-un)" : "var(--color-ul)"}
-            hint={S.tarkib.spec.gapHint}
+            hint={S.tarkib.spec.kpi.gapHint}
           />
-          <Kpi label={S.tarkib.catCol.bosh} value={fmtInt(v[SV.bosh])} />
           <Kpi
-            label={S.tarkib.catCol.koef}
+            label={S.tarkib.spec.kpi.bosh}
+            value={fmtInt(v[SV.bosh])}
+            hint={S.tarkib.spec.kpi.boshHint}
+          />
+          <Kpi
+            label={S.tarkib.spec.kpi.koef}
             value={specKoef(v).toFixed(2).replace(".", ",")}
             color={specKoef(v) >= 1.5 ? "var(--color-un)" : undefined}
-            hint={S.tarkib.spec.koefHint}
+            hint={S.tarkib.spec.kpi.koefHint}
           />
           <Kpi
-            label={S.tarkib.gapCol.pens}
+            label={S.tarkib.spec.kpi.pens}
             value={
               pensV === null
                 ? "—"
@@ -255,13 +271,13 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                     pensShare !== null ? ` · ${fmtPct(pensShare, 0)}` : ""
                   }`
             }
+            hint={S.tarkib.spec.kpi.pensHint}
           />
           <Kpi
-            label={S.tarkib.spec.r5}
+            label={S.tarkib.spec.kpi.r5}
             value={r5 === null ? "—" : fmtPct(r5, 1)}
-            color={
-              r5 !== null && r5 >= 0.4 ? "var(--color-un)" : undefined
-            }
+            color={r5 !== null && r5 >= 0.4 ? "var(--color-un)" : undefined}
+            hint={S.tarkib.spec.kpi.r5Hint}
           />
         </div>
       </section>
@@ -366,7 +382,7 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                   {S.tarkib.gapCol.pens}
                 </th>
                 <th className="tnum hidden px-2 py-2 text-right font-medium lg:table-cell">
-                  {S.tarkib.spec.r5}
+                  {S.tarkib.col.r5}
                 </th>
               </tr>
             </thead>

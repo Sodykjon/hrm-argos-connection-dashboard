@@ -40,16 +40,16 @@ export function Nav() {
   ];
 
   return (
-    <nav className="scroll-quiet -mx-1 flex items-center gap-3 overflow-x-auto px-1">
+    <nav className="scroll-quiet -mx-1 flex items-center gap-2 overflow-x-auto px-1">
       {groups.map((g, gi) => (
-        <div key={g.label} className="flex items-center gap-3">
+        <div key={g.label} className="flex items-center gap-2">
           {gi > 0 && (
             <span className="h-5 w-px shrink-0 bg-white/15" aria-hidden />
           )}
           {/* Caption inline-left of its pills: in the dedicated nav row the
               header pays for height, not width, so the two-line stack the
               caption-above layout needed is the wrong trade here. */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <span className="shrink-0 whitespace-nowrap text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-white/40">
               {g.label}
             </span>
@@ -71,7 +71,7 @@ export function Nav() {
                     href={l.href}
                     aria-current={active ? "page" : undefined}
                     className={[
-                      "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[0.82rem] font-medium transition-colors",
+                      "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-[0.8rem] font-medium transition-colors",
                       cls,
                     ].join(" ")}
                   >
