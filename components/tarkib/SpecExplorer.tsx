@@ -109,6 +109,22 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
     router.replace(`/tarkib/mutaxassislik?m=${next}`, { scroll: false });
   }
 
+  /** A group chip must move the KPI cards too, not only filter the list —
+   *  otherwise the right panel silently keeps showing a specialty from the
+   *  previous group. Prefer the group's aggregate row (Врачлар / Ўрта have
+   *  one); fall back to the group's worst deficit. */
+  function pickGroup(g: GroupKey) {
+    setGrp(g);
+    if (g === "all") return;
+    const cur = SPEC.cats.find((c) => c.slug === slug);
+    if (cur && cur.grp === g) return; // selection already in this group
+    const inGroup = SPEC.cats.filter((c) => c.grp === g);
+    const next =
+      inGroup.find((c) => c.agg) ??
+      [...inGroup].sort((a, b) => specGap(b.nat) - specGap(a.nat))[0];
+    if (next) select(next.slug);
+  }
+
   return (
     <div className="grid gap-4 lg:grid-cols-12">
       {/* ------------------------------------------------ list + search */}
@@ -124,7 +140,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
             {groups.map((g) => (
               <button
                 key={g.key}
-                onClick={() => setGrp(g.key)}
+                onClick={() => pickGroup(g.key)}
                 className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[0.7rem] font-medium transition-colors ${
                   grp === g.key
                     ? "bg-sov text-white"
