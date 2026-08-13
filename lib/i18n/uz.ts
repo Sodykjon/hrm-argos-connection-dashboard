@@ -667,6 +667,7 @@ export const UZ = {
     org: "ташкилот",
     orgs: "ташкилот",
     of: "дан",
+    ofTail: "таси",
     totalRow: "ЖАМИ",
   },
 

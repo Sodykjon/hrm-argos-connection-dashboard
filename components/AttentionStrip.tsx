@@ -37,12 +37,27 @@ export async function AttentionStrip({ regions }: { regions: RegionStat[] }) {
                 <span className="block truncate text-[0.9rem] font-semibold">
                   {regionLabel(r.name, lang)}
                 </span>
+                {/* Same language-order rule as the hero: Uzbek needs the
+                    total BEFORE «дан» («426 дан 290 таси»), Russian puts the
+                    count first («290 из 426») — «290 дан 426» read backwards. */}
                 <span className="mt-0.5 block text-[0.76rem] text-ink-soft">
                   {S.status.ulanmagan}:{" "}
-                  <span className="tnum font-semibold text-un">
-                    {fmtInt(r.ulanmagan)}
-                  </span>{" "}
-                  {S.units.of} {fmtInt(r.total)}
+                  {lang === "ru" ? (
+                    <>
+                      <span className="tnum font-semibold text-un">
+                        {fmtInt(r.ulanmagan)}
+                      </span>{" "}
+                      {S.units.of} {fmtInt(r.total)}
+                    </>
+                  ) : (
+                    <>
+                      {fmtInt(r.total)} {S.units.of}{" "}
+                      <span className="tnum font-semibold text-un">
+                        {fmtInt(r.ulanmagan)}
+                      </span>{" "}
+                      {S.units.ofTail}
+                    </>
+                  )}
                 </span>
               </span>
               <svg

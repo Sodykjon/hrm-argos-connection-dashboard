@@ -643,6 +643,7 @@ export const RU = {
     org: "организация",
     orgs: "организаций",
     of: "из",
+    ofTail: "",
     totalRow: "ИТОГО",
   },
 
