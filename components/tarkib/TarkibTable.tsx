@@ -9,7 +9,7 @@ import {
   vrachTaminlShare,
   risk5Share,
 } from "@/lib/tarkib";
-import { coverageRamp, coverageT, coverageColor, COVERAGE_FLAG } from "./TarkibMap";
+import { coverageRamp, coverageT, coverageColor } from "./TarkibMap";
 import { fmtInt, fmtPct, toPct } from "@/lib/format";
 import { regionSlug, regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
@@ -129,12 +129,7 @@ export function TarkibTable({
           </thead>
           <tbody>
             {sorted.map((r, i) => {
-              // Same rule as the ranking: below the flag threshold the value
-              // leaves the blue ramp and wears the alarm color.
-              const flagged = r.vrach < COVERAGE_FLAG;
-              const color = flagged
-                ? "var(--color-un)"
-                : coverageColor(coverageT(r.vrach, ramp));
+              const color = coverageColor(coverageT(r.vrach, ramp));
               const width =
                 ramp.max > 0 ? Math.min(100, (r.vrach / ramp.max) * 100) : 0;
               const sof = r.region.qabul - r.region.boshagan;

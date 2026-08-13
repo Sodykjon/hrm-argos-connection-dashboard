@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
 import type { TarkibRegion } from "@/lib/tarkib";
 import { vrachTaminlShare } from "@/lib/tarkib";
-import { toPct, fmtInt, fmtPct } from "@/lib/format";
+import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -20,23 +20,9 @@ interface TarkibMapProps {
   onSelect?: (name: string) => void;
 }
 
-// Single-hue blue ramp (dim → bright = low → high coverage). The old
-// red→green rainbow made a 54–91% RELATIVE spread read like a traffic-light
-// verdict and tied hue to rank; magnitude belongs to lightness of ONE hue.
-// Critical attention is carried by the explicit <70% flags in the ranking and
-// table, not by repainting the map.
-const RAMP = ["#14304e", "#1d5787", "#2b86c4", "#3fb6ff"];
-
-/** Piecewise-linear sample of RAMP at t ∈ [0,1]. */
-function sampleRamp(t: number): string {
-  const x = Math.min(1, Math.max(0, t)) * (RAMP.length - 1);
-  const i = Math.min(RAMP.length - 2, Math.floor(x));
-  const f = x - i;
-  const hex = (c: string) => [1, 3, 5].map((p) => parseInt(c.slice(p, p + 2), 16));
-  const [a, b] = [hex(RAMP[i]), hex(RAMP[i + 1])];
-  const mix = a.map((v, k) => Math.round(v + (b[k] - v) * f));
-  return `#${mix.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
-}
+// Doctor coverage is good-at-high, so the ramp runs red → green, the same
+// orientation as the connection map and the opposite of PensionMap's.
+const RAMP = ["#ff5a63", "#f7b23b", "#9ee34f", "#2fd07a"];
 
 const ENCLAVE_MARKERS: Record<string, [number, number]> = {
   "Тошкент шаҳри": [69.28, 41.31],
@@ -61,14 +47,10 @@ export function coverageT(share: number, ramp: CoverageRamp): number {
   return t < 0 ? 0 : t > 1 ? 1 : t;
 }
 
-/** Bars/values elsewhere sample the same blue ramp so a ranking row and its
- *  map region always wear the same tone. */
+/** rampColor is green-at-high already — coverage needs no inversion. */
 export function coverageColor(t: number): string {
-  return sampleRamp(t);
+  return rampColor(t);
 }
-
-/** Coverage below this share is flagged as critical in the ranking/table. */
-export const COVERAGE_FLAG = 0.7;
 
 export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapProps) {
   const S = useS();
@@ -177,7 +159,6 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
           bottom: 8,
           itemWidth: 10,
           itemHeight: 90,
-          // No drag handles: they print raw numbers that duplicate the % text.
           calculable: false,
           text: [fmtPct(ramp.max, 1), fmtPct(ramp.min, 1)],
           inRange: { color: RAMP },

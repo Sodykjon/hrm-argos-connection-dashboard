@@ -2,8 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { KadrlarStat } from "@/lib/types";
-import { riskRamp, riskT } from "@/lib/pension-metrics";
-import { vacancyColor } from "./VakansiyaMap";
+import { riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { fmtInt, fmtPct, toPct } from "@/lib/format";
 import { isGeographicRegion, regionLabel } from "@/lib/regions";
@@ -191,7 +190,7 @@ function Row({
   rank: number;
   ramp: { min: number; max: number };
 }) {
-  const color = vacancyColor(riskT(rate, ramp));
+  const color = riskColor(riskT(rate, ramp));
   // Clamped: the ramp spans the geographic rows only, so a non-geographic row
   // above that spread would compute past 100 % and clip without saying so.
   const width = ramp.max > 0 ? Math.min(100, (rate / ramp.max) * 100) : 0;

@@ -104,17 +104,9 @@ test("an empty region list yields a usable ramp", () => {
   assert.equal(riskT(0.5, ramp), 0.5);
 });
 
-test("risk wears one amber hue: worst is brightest, best is dimmest", () => {
-  // Single-hue sequential ramp (13.08.2026): lightness carries magnitude on a
-  // relative scale — the old red→green rainbow declared verdicts the narrow
-  // spread cannot support.
-  assert.equal(riskColor(1), "#f7b23b", "worst = full amber");
-  assert.equal(riskColor(0), "#4a3413", "best = dim amber");
-  // No hue swing in between: the midpoint stays in the amber family, its red
-  // channel between the endpoints'.
-  const mid = riskColor(0.5);
-  const r = parseInt(mid.slice(1, 3), 16);
-  assert.ok(r > 0x4a && r < 0xf7, `midpoint red channel in range, got ${mid}`);
+test("worst is red and best is green, the opposite of rampColor", () => {
+  assert.equal(riskColor(1), "rgb(228, 72, 61)", "worst = red");
+  assert.equal(riskColor(0), "rgb(16, 160, 109)", "best = green");
 });
 
 // --- pensionForecast ---------------------------------------------------------

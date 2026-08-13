@@ -15,10 +15,8 @@ interface PensionMapProps {
   onSelect?: (name: string) => void;
 }
 
-// Single-hue amber, dim → bright = low → high exposure. Must match
-// RISK_RAMP in lib/pension-metrics so a ranking row and its map region wear
-// the same tone. No rainbow: the spread is relative and narrow.
-const RAMP = ["#4a3413", "#8a6420", "#c78f2d", "#f7b23b"];
+// Reversed relative to CompletionMap's RAMP: here a high value is bad.
+const RAMP = ["#2fd07a", "#9ee34f", "#f7b23b", "#ff5a63"];
 
 const ENCLAVE_MARKERS: Record<string, [number, number]> = {
   "Тошкент шаҳри": [69.28, 41.31],

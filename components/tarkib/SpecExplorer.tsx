@@ -13,19 +13,20 @@ import {
   type SpecCat,
   type SpecVals,
 } from "@/lib/spec";
-import { fmtInt, fmtPct } from "@/lib/format";
-import { coverageColor, COVERAGE_FLAG } from "./TarkibMap";
+import { fmtInt, fmtPct, rampColor } from "@/lib/format";
 import { regionLabel, regionSlug } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
 type GroupKey = "all" | SpecCat["grp"];
 
-// Absolute anchors, same grammar as the map/ranking: below the 70% flag the
-// value wears the alarm color outright; above it the blue ramp brightens
-// toward 110%. One hue for magnitude, one rule for alarm — no rainbow.
+// Absolute anchors for coloring one specialty's coverage: 50% and below is
+// unambiguously red, 100%+ green — the same red→green family as the home
+// map, which is what the barNote below the list promises. A relative ramp
+// would repaint the same value a different color for every specialty, which
+// reads as noise when switching.
 function covColor(share: number): string {
-  if (share < COVERAGE_FLAG) return "var(--color-un)";
-  return coverageColor(Math.max(0, Math.min(1, (share - 0.7) / 0.4)));
+  const t = Math.max(0, Math.min(1, (share - 0.5) / 0.5));
+  return rampColor(t);
 }
 
 function normQ(s: string): string {
@@ -290,6 +291,12 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
           </h3>
           <span className="eyebrow">{S.tarkib.spec.clickHint}</span>
         </div>
+        {/* Column captions: the right-hand «335 / 1 045» pairs read as noise
+            without a header naming them. */}
+        <div className="mb-1 flex items-center justify-between px-1.5 text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">
+          <span>{S.tarkib.col.region}</span>
+          <span>{S.tarkib.spec.barColsHint}</span>
+        </div>
         <div className="flex flex-col gap-1">
           {rows.map((r) => {
             const t = specTaminl(r.v);
@@ -364,11 +371,11 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.shtat}
                 </th>
+                {/* Расман бўш and ўриндошлик coefficients confused more than
+                    they informed here (mostly-zero column + a bare «1,46») —
+                    both live on in the KPI cards above with their hints. */}
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.jismoniy}
-                </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">
-                  {S.tarkib.catCol.bosh}
                 </th>
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.taminl}
@@ -376,13 +383,10 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.gapCol.gap}
                 </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
-                  {S.tarkib.catCol.koef}
-                </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
+                <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">
                   {S.tarkib.gapCol.pens}
                 </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium lg:table-cell">
+                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
                   {S.tarkib.col.r5}
                 </th>
               </tr>
@@ -395,20 +399,14 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <td className="px-3 py-2">{S.tarkib.totalRow}</td>
                 <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.shtat])}</td>
                 <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.jismoniy])}</td>
-                <td className="tnum hidden px-2 py-2 text-right sm:table-cell">
-                  {fmtInt(v[SV.bosh])}
-                </td>
                 <td className="tnum px-2 py-2 text-right">{fmtPct(taminl, 1)}</td>
                 <td className="tnum px-2 py-2 text-right">
                   {gap > 0 ? `−${fmtInt(gap)}` : `+${fmtInt(-gap)}`}
                 </td>
-                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
-                  {specKoef(v).toFixed(2).replace(".", ",")}
-                </td>
-                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
+                <td className="tnum hidden px-2 py-2 text-right sm:table-cell">
                   {pensV === null ? "—" : fmtInt(pensV)}
                 </td>
-                <td className="tnum hidden px-2 py-2 text-right lg:table-cell">
+                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
                   {r5 === null ? "—" : fmtPct(r5, 1)}
                 </td>
               </tr>
@@ -563,9 +561,6 @@ function SpecRow({ name, v }: { name: string; v: SpecVals }) {
         {fmtInt(v[SV.shtat])}
       </td>
       <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.jismoniy])}</td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft sm:table-cell">
-        {fmtInt(v[SV.bosh])}
-      </td>
       <td
         className="tnum px-2 py-2 text-right font-semibold"
         style={{ color: covColor(t) }}
@@ -577,13 +572,10 @@ function SpecRow({ name, v }: { name: string; v: SpecVals }) {
       >
         {g > 0 ? `−${fmtInt(g)}` : `+${fmtInt(-g)}`}
       </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
-        {specKoef(v).toFixed(2).replace(".", ",")}
-      </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
+      <td className="tnum hidden px-2 py-2 text-right text-ink-soft sm:table-cell">
         {pensV === null ? "—" : fmtInt(pensV)}
       </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft lg:table-cell">
+      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
         {rr5 === null ? "—" : fmtPct(rr5, 0)}
       </td>
     </tr>

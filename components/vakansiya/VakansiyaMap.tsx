@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
 import type { KadrlarStat } from "@/lib/types";
-import { riskRamp, riskT } from "@/lib/pension-metrics";
+import { riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
-import { toPct, fmtInt, fmtPct, lerpRamp } from "@/lib/format";
+import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -16,17 +16,8 @@ interface VakansiyaMapProps {
   onSelect?: (name: string) => void;
 }
 
-// Single-hue coral, dim → bright = low → high vacancy rate. The old
-// green→red rainbow declared verdicts on a relative 0,6–11% spread and tied
-// hue to rank; one warm hue lets lightness carry magnitude, and the printed
-// endpoints say how narrow the scale really is.
-const RAMP = ["#4a1a20", "#8a3038", "#c74850", "#ff5a63"] as const;
-
-/** Bars/values elsewhere sample the same coral ramp so a ranking row and its
- *  map region always wear the same tone. */
-export function vacancyColor(t: number): string {
-  return lerpRamp(RAMP, t);
-}
+// Green -> red: a high vacancy rate is a staffing gap, so high is bad.
+const RAMP = ["#2fd07a", "#9ee34f", "#f7b23b", "#ff5a63"];
 
 const ENCLAVE_MARKERS: Record<string, [number, number]> = {
   "Тошкент шаҳри": [69.28, 41.31],
@@ -107,7 +98,7 @@ export function VakansiyaMap({
           vacant: stat.vacant,
           filled: stat.total,
           stavka: stat.stavka,
-          itemStyle: { color: vacancyColor(riskT(m.rate, ramp)) },
+          itemStyle: { color: riskColor(riskT(m.rate, ramp)) },
         };
       });
 

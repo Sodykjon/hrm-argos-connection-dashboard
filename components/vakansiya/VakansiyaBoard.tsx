@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 import type { KadrlarStat } from "@/lib/types";
 import { VakansiyaMap } from "./VakansiyaMap";
-import { riskRamp, riskT } from "@/lib/pension-metrics";
-import { vacancyColor } from "./VakansiyaMap";
+import { riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { isGeographicRegion, regionLabel } from "@/lib/regions";
 import { fmtInt, fmtPct } from "@/lib/format";
@@ -70,7 +69,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map(({ stat, m }, i) => {
               const isActive = active === stat.name;
-              const color = vacancyColor(riskT(m.rate, ramp));
+              const color = riskColor(riskT(m.rate, ramp));
               // Bars are scaled to the worst region, not to 100% -- at ~14%
               // every bar would otherwise be a stub.
               const width =

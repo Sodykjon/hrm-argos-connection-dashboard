@@ -10,7 +10,6 @@ import {
   coverageRamp,
   coverageT,
   coverageColor,
-  COVERAGE_FLAG,
 } from "./TarkibMap";
 import { regionSlug, regionLabel } from "@/lib/regions";
 import { fmtInt, fmtPct } from "@/lib/format";
@@ -72,13 +71,7 @@ export function TarkibBoard({
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map((r, i) => {
               const isActive = active === r.name;
-              // Below the flag threshold the % leaves the blue ramp and wears
-              // the alarm color: "attention" is an explicit rule, not a hue
-              // sliding along a relative scale.
-              const flagged = r.share < COVERAGE_FLAG;
-              const color = flagged
-                ? "var(--color-un)"
-                : coverageColor(coverageT(r.share, ramp));
+              const color = coverageColor(coverageT(r.share, ramp));
               // Scaled to the best region: at ~54–91% an absolute scale would
               // start every bar past the middle and flatten the ranking.
               const width = ramp.max > 0 ? (r.share / ramp.max) * 100 : 0;
@@ -126,10 +119,6 @@ export function TarkibBoard({
               );
             })}
           </ol>
-          <p className="mt-2 flex items-center gap-1.5 px-1 text-[0.7rem] text-ink-faint">
-            <i className="h-2 w-2 shrink-0 rounded-[2px] bg-un" aria-hidden />
-            {S.tarkib.flagBelow("70%")}
-          </p>
         </div>
       </div>
     </div>
