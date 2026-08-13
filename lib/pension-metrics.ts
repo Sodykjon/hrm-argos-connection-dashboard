@@ -3,7 +3,7 @@
 // front of the Minister, and each can be wrong in a way a screenshot hides.
 
 import type { KadrlarStat } from "./types";
-import { rampColor } from "./format.ts";
+import { lerpRamp } from "./format.ts";
 
 export interface PensionMetrics {
   /** Already past pension age, plus those reaching it this year. */
@@ -152,10 +152,14 @@ export function riskT(share: number, ramp: RiskRamp): number {
 }
 
 /**
- * rampColor() is green-at-high because connection and completion are
- * good-at-high. Pension exposure is bad-at-high, so the input is inverted —
- * without this the worst regions would be painted green.
+ * Single-hue amber ramp (dim → bright = low → high exposure). The old
+ * red→green rainbow turned a ~7pp RELATIVE spread into a traffic-light
+ * verdict — half the country looked "fine", half "critical", on a scale whose
+ * endpoints are 10,3% and 17,9%. One warm hue keeps the ranking honest:
+ * brighter = more exposed, and the printed scale endpoints say how much.
  */
+const RISK_RAMP = ["#4a3413", "#8a6420", "#c78f2d", "#f7b23b"] as const;
+
 export function riskColor(t: number): string {
-  return rampColor(1 - t);
+  return lerpRamp(RISK_RAMP, t);
 }

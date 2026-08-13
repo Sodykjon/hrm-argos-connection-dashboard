@@ -3,6 +3,7 @@ import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { VakansiyaHero } from "@/components/vakansiya/VakansiyaHero";
 import { VakansiyaBoard } from "@/components/vakansiya/VakansiyaBoard";
 import { VakansiyaTable } from "@/components/vakansiya/VakansiyaTable";
+import { VakansiyaAbsBars } from "@/components/vakansiya/VakansiyaAbsBars";
 import { StatTile } from "@/components/StatTile";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate } from "@/lib/format";
@@ -79,6 +80,14 @@ export default async function VakansiyaPage() {
       {regions.length > 0 && (
         <Reveal>
           <VakansiyaBoard regions={regions} />
+        </Reveal>
+      )}
+
+      {/* The % view above flatters small regions; this one shows where the
+          burden actually sits, in posts. */}
+      {regions.length > 0 && (
+        <Reveal>
+          <VakansiyaAbsBars regions={regions} />
         </Reveal>
       )}
 

@@ -8,8 +8,17 @@ import { fmtInt, fmtPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
 
-// Single series: the constructor supplies no gender split for age bands.
-const BAR = "#3fb6ff";
+// Single series, but the page's whole subject — the pension wave — must be
+// visible IN the chart, not only in the prose: 50–60 wears amber (reaches
+// pension within the decade), 60+ wears coral (already past it). Younger
+// bands stay a quiet blue so the risk zone owns the attention.
+const ZONE: Record<AgeBandKey, string> = {
+  u30: "#2b6ca3",
+  a3040: "#2b6ca3",
+  a4050: "#2b6ca3",
+  a5060: "#f7b23b",
+  a60p: "#ff5a63",
+};
 
 export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
   const S = useS();
@@ -21,7 +30,9 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
     const totalAll = bands.reduce((a, b) => a + b.total, 0);
 
     return {
-      grid: { left: 92, right: 24, top: 34, bottom: 24 },
+      // Right margin holds the outside value+share labels — 24px clipped the
+      // longest bar's label mid-digit.
+      grid: { left: 92, right: 96, top: 34, bottom: 24 },
       legend: { show: false },
       tooltip: {
         trigger: "axis",
@@ -61,13 +72,50 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
         {
           type: "bar",
           barMaxWidth: 26,
-          itemStyle: { color: BAR, borderRadius: [0, 3, 3, 0] },
-          data: bands.map((b) => b.total),
+          // Direct labels: count + share at the bar end, so nobody reads the
+          // axis to learn the one number each bar exists to say.
+          label: {
+            show: true,
+            position: "right",
+            distance: 6,
+            color: "#c6d4e8",
+            fontFamily: FONT_MONO,
+            fontSize: 10.5,
+            formatter: (p: { dataIndex: number }) => {
+              const b = bands[p.dataIndex];
+              const share = totalAll > 0 ? b.total / totalAll : 0;
+              return `${fmtInt(b.total)}  ${fmtPct(share, 1)}`;
+            },
+          },
+          data: bands.map((b) => ({
+            value: b.total,
+            itemStyle: {
+              color: ZONE[b.key as AgeBandKey],
+              borderRadius: [0, 3, 3, 0],
+            },
+          })),
         },
       ],
     };
     // `S` is a dependency: without it the chart keeps the old language.
   }, [bands, S]);
 
-  return <Chart option={option} className="h-[300px] w-full sm:h-[340px]" />;
+  const totalAll = bands.reduce((a, b) => a + b.total, 0);
+  const wave = bands
+    .filter((b) => b.key === "a5060" || b.key === "a60p")
+    .reduce((a, b) => a + b.total, 0);
+
+  return (
+    <div>
+      <Chart option={option} className="h-[300px] w-full sm:h-[340px]" />
+      <p className="mt-1 flex items-center gap-1.5 px-1 text-[0.72rem] text-ink-faint">
+        <i className="h-2 w-2 shrink-0 rounded-[2px] bg-warn" aria-hidden />
+        <i className="h-2 w-2 shrink-0 rounded-[2px] bg-un" aria-hidden />
+        {S.pension.waveZoneNote(
+          fmtInt(wave),
+          fmtPct(totalAll > 0 ? wave / totalAll : 0, 1),
+        )}
+      </p>
+    </div>
+  );
 }

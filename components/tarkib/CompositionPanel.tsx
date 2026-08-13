@@ -10,7 +10,10 @@ const SEGMENTS: Array<{
 }> = [
   { keys: ["vrach"], labelKey: "vrach", color: "var(--color-sov)" },
   { keys: ["orta"], labelKey: "orta", color: "var(--color-ul)" },
-  { keys: ["kichik"], labelKey: "kichik", color: "var(--color-goal)" },
+  // Violet, not gold: goal/warn are near-identical ambers, and the two sat
+  // adjacent in the stack — indistinguishable categories. #b78af7 clears the
+  // CVD gate against both neighbours on this surface.
+  { keys: ["kichik"], labelKey: "kichik", color: "#b78af7" },
   { keys: ["boshqa"], labelKey: "boshqa", color: "var(--color-warn)" },
   { keys: ["notibbiy", "provfarm"], labelKey: "rest", color: "var(--color-och)" },
 ];

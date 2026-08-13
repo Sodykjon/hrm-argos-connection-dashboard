@@ -13,18 +13,19 @@ import {
   type SpecCat,
   type SpecVals,
 } from "@/lib/spec";
-import { fmtInt, fmtPct, rampColor } from "@/lib/format";
+import { fmtInt, fmtPct } from "@/lib/format";
+import { coverageColor, COVERAGE_FLAG } from "./TarkibMap";
 import { regionLabel, regionSlug } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
 type GroupKey = "all" | SpecCat["grp"];
 
-// Absolute anchors for coloring one specialty's coverage: 50% and below is
-// unambiguously red, 100%+ green. A relative ramp would repaint the same value
-// a different color for every specialty, which reads as noise when switching.
+// Absolute anchors, same grammar as the map/ranking: below the 70% flag the
+// value wears the alarm color outright; above it the blue ramp brightens
+// toward 110%. One hue for magnitude, one rule for alarm — no rainbow.
 function covColor(share: number): string {
-  const t = Math.max(0, Math.min(1, (share - 0.5) / 0.5));
-  return rampColor(t);
+  if (share < COVERAGE_FLAG) return "var(--color-un)";
+  return coverageColor(Math.max(0, Math.min(1, (share - 0.7) / 0.4)));
 }
 
 function normQ(s: string): string {
