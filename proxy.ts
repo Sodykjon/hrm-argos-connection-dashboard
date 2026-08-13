@@ -42,6 +42,9 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|moh-logo.jpg|uzbekistan.geo.json|icon.jpg).*)",
+    // gerb-loading.gif is excluded because the boot overlay also renders on
+    // /login itself — behind the gate the animation would 302 into HTML and
+    // show a broken image to unauthenticated visitors.
+    "/((?!_next/static|_next/image|favicon.ico|moh-logo.jpg|uzbekistan.geo.json|icon.jpg|gerb-loading.gif).*)",
   ],
 };
