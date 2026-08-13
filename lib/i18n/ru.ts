@@ -550,6 +550,8 @@ export const RU = {
       distEmpty: "В этом регионе штат по данной должности не заведён.",
       distError: "Не удалось загрузить данные по районам.",
       pensShort: "на пенсии:",
+      distColPair: "работники / штат",
+      distColPens: "на пенсии",
       regionsTitle: "Обеспеченность по регионам",
       barColsHint: "обеспеченность % · работники / штат",
       barNote:

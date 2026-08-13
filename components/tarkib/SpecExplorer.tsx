@@ -484,14 +484,32 @@ function DistPanel({
   }
 
   return (
-    <div className="mb-1 ml-5 rounded-lg border border-line-soft bg-band/40 px-3 py-2">
+    // Nearly full-width: the old ml-5 indent + px-3 squeezed district names
+    // into a 9.4rem truncation box while the bar fought for leftovers.
+    <div className="mb-1.5 ml-2 mr-1 rounded-lg border border-line-soft bg-band/40 px-3 py-2">
+      {/* Column captions — the same grammar as the region list above, so the
+          right-hand numbers are named, not guessed. */}
+      <div className="mb-1.5 flex items-center gap-2 border-b border-line-soft pb-1 text-[0.6rem] uppercase tracking-[0.08em] text-ink-faint">
+        <span className="w-[11.5rem] shrink-0">{S.tarkib.distCol.name}</span>
+        <span className="flex-1" />
+        <span className="w-12 shrink-0 text-right">%</span>
+        <span className="tnum w-[5.2rem] shrink-0 text-right">
+          {S.tarkib.spec.distColPair}
+        </span>
+        <span className="w-16 shrink-0 text-right">
+          {S.tarkib.spec.distColPens}
+        </span>
+      </div>
       <div className="flex flex-col gap-[3px]">
         {rows.map((r) => {
           const color = covColor(r.t);
           const width = Math.min(100, (r.t / 1.2) * 100);
           return (
             <div key={r.name} className="flex items-center gap-2">
-              <span className="w-[9.4rem] shrink-0 truncate text-[0.72rem] text-ink-soft">
+              <span
+                className="w-[11.5rem] shrink-0 truncate text-[0.74rem] text-ink-soft"
+                title={r.name}
+              >
                 {r.name}
               </span>
               <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-line-soft">
@@ -506,16 +524,16 @@ function DistPanel({
                 />
               </span>
               <span
-                className="tnum w-12 shrink-0 text-right text-[0.72rem] font-semibold"
+                className="tnum w-12 shrink-0 text-right text-[0.74rem] font-semibold"
                 style={{ color }}
               >
                 {fmtPct(r.t, 0)}
               </span>
-              <span className="tnum w-[4.6rem] shrink-0 text-right text-[0.68rem] text-ink-faint">
+              <span className="tnum w-[5.2rem] shrink-0 text-right text-[0.7rem] text-ink-faint">
                 {fmtInt(r.jismoniy)} / {fmtInt(r.shtat)}
               </span>
-              <span className="tnum hidden w-14 shrink-0 text-right text-[0.68rem] text-ink-faint md:block">
-                {r.pens === null ? "" : `${S.tarkib.spec.pensShort} ${fmtInt(r.pens)}`}
+              <span className="tnum w-16 shrink-0 text-right text-[0.7rem] text-ink-faint">
+                {r.pens === null ? "—" : fmtInt(r.pens)}
               </span>
             </div>
           );

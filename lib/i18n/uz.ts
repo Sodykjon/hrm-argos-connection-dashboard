@@ -576,6 +576,8 @@ export const UZ = {
       distEmpty: "Бу ҳудудда ушбу лавозим бўйича штат киритилмаган.",
       distError: "Туманлар маълумотини юклаб бўлмади.",
       pensShort: "пенсияда:",
+      distColPair: "ходим / штат",
+      distColPens: "пенсияда",
       regionsTitle: "Ҳудудлар бўйича таъминланиш",
       barColsHint: "таъминланиш % · ходим / штат",
       barNote:
