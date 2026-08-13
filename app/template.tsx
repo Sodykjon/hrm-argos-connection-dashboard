@@ -5,21 +5,25 @@
 import { useEffect, useState } from "react";
 
 /**
- * Full-cycle boot animation. The user's requirement is explicit: the SSV
- * emblem animation must play TO THE END before the page is shown — so this
- * cannot be a Suspense `loading.tsx`, which unmounts the moment data
- * arrives. A template remounts on every route navigation, and the overlay
- * covers the (already rendered) page for exactly one GIF cycle, then fades.
+ * Boot animation. The user's requirement: on the FIRST entry the SSV emblem
+ * animation plays TO THE END before the page is shown; on later navigations
+ * only a short flash. A Suspense `loading.tsx` can't do this — it unmounts
+ * the moment data arrives — so a template remounts per navigation and the
+ * overlay covers the (already rendered) page, then fades.
  *
- * ANIM_MS = 3 250 ms — measured from the GIF's own frame delays (52 frames),
+ * FULL_MS = 3 250 ms — measured from the GIF's own frame delays (52 frames),
  * not guessed; a new <img> instance restarts the GIF from frame 0, so mount
- * time and animation start coincide.
+ * time and animation start coincide. First-entry state lives in
+ * sessionStorage: a new tab/session gets the full ceremony again, in-session
+ * navigation gets the SHORT_MS flash.
  *
  * Reduced motion: the hold is skipped entirely — a mandatory 3-second wait is
  * exactly the kind of motion that setting exists to refuse.
  */
-const ANIM_MS = 3250;
+const FULL_MS = 3250;
+const SHORT_MS = 700;
 const FADE_MS = 350;
+const SEEN_KEY = "gerb-boot-seen";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   // "hold" → "fade" → "done"
@@ -30,8 +34,17 @@ export default function Template({ children }: { children: React.ReactNode }) {
       setPhase("done");
       return;
     }
-    const t1 = setTimeout(() => setPhase("fade"), ANIM_MS);
-    const t2 = setTimeout(() => setPhase("done"), ANIM_MS + FADE_MS);
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(SEEN_KEY) === "1";
+      sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {
+      // storage blocked → treat every load as first: the ceremony repeats,
+      // which is the harmless direction.
+    }
+    const hold = seen ? SHORT_MS : FULL_MS;
+    const t1 = setTimeout(() => setPhase("fade"), hold);
+    const t2 = setTimeout(() => setPhase("done"), hold + FADE_MS);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
