@@ -20,8 +20,10 @@ import { useS, useLang } from "@/lib/i18n/client";
 type GroupKey = "all" | SpecCat["grp"];
 
 // Absolute anchors for coloring one specialty's coverage: 50% and below is
-// unambiguously red, 100%+ green. A relative ramp would repaint the same value
-// a different color for every specialty, which reads as noise when switching.
+// unambiguously red, 100%+ green — the same red→green family as the home
+// map, which is what the barNote below the list promises. A relative ramp
+// would repaint the same value a different color for every specialty, which
+// reads as noise when switching.
 function covColor(share: number): string {
   const t = Math.max(0, Math.min(1, (share - 0.5) / 0.5));
   return rampColor(t);
@@ -107,6 +109,22 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
     router.replace(`/tarkib/mutaxassislik?m=${next}`, { scroll: false });
   }
 
+  /** A group chip must move the KPI cards too, not only filter the list —
+   *  otherwise the right panel silently keeps showing a specialty from the
+   *  previous group. Prefer the group's aggregate row (Врачлар / Ўрта have
+   *  one); fall back to the group's worst deficit. */
+  function pickGroup(g: GroupKey) {
+    setGrp(g);
+    if (g === "all") return;
+    const cur = SPEC.cats.find((c) => c.slug === slug);
+    if (cur && cur.grp === g) return; // selection already in this group
+    const inGroup = SPEC.cats.filter((c) => c.grp === g);
+    const next =
+      inGroup.find((c) => c.agg) ??
+      [...inGroup].sort((a, b) => specGap(b.nat) - specGap(a.nat))[0];
+    if (next) select(next.slug);
+  }
+
   return (
     <div className="grid gap-4 lg:grid-cols-12">
       {/* ------------------------------------------------ list + search */}
@@ -122,7 +140,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
             {groups.map((g) => (
               <button
                 key={g.key}
-                onClick={() => setGrp(g.key)}
+                onClick={() => pickGroup(g.key)}
                 className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[0.7rem] font-medium transition-colors ${
                   grp === g.key
                     ? "bg-sov text-white"
@@ -289,6 +307,12 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
           </h3>
           <span className="eyebrow">{S.tarkib.spec.clickHint}</span>
         </div>
+        {/* Column captions: the right-hand «335 / 1 045» pairs read as noise
+            without a header naming them. */}
+        <div className="mb-1 flex items-center justify-between px-1.5 text-[0.62rem] uppercase tracking-[0.08em] text-ink-faint">
+          <span>{S.tarkib.col.region}</span>
+          <span>{S.tarkib.spec.barColsHint}</span>
+        </div>
         <div className="flex flex-col gap-1">
           {rows.map((r) => {
             const t = specTaminl(r.v);
@@ -363,11 +387,11 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.shtat}
                 </th>
+                {/* Расман бўш and ўриндошлик coefficients confused more than
+                    they informed here (mostly-zero column + a bare «1,46») —
+                    both live on in the KPI cards above with their hints. */}
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.jismoniy}
-                </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">
-                  {S.tarkib.catCol.bosh}
                 </th>
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.col.taminl}
@@ -375,13 +399,10 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <th className="tnum px-2 py-2 text-right font-medium">
                   {S.tarkib.gapCol.gap}
                 </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
-                  {S.tarkib.catCol.koef}
-                </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
+                <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">
                   {S.tarkib.gapCol.pens}
                 </th>
-                <th className="tnum hidden px-2 py-2 text-right font-medium lg:table-cell">
+                <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">
                   {S.tarkib.col.r5}
                 </th>
               </tr>
@@ -394,20 +415,14 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                 <td className="px-3 py-2">{S.tarkib.totalRow}</td>
                 <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.shtat])}</td>
                 <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.jismoniy])}</td>
-                <td className="tnum hidden px-2 py-2 text-right sm:table-cell">
-                  {fmtInt(v[SV.bosh])}
-                </td>
                 <td className="tnum px-2 py-2 text-right">{fmtPct(taminl, 1)}</td>
                 <td className="tnum px-2 py-2 text-right">
                   {gap > 0 ? `−${fmtInt(gap)}` : `+${fmtInt(-gap)}`}
                 </td>
-                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
-                  {specKoef(v).toFixed(2).replace(".", ",")}
-                </td>
-                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
+                <td className="tnum hidden px-2 py-2 text-right sm:table-cell">
                   {pensV === null ? "—" : fmtInt(pensV)}
                 </td>
-                <td className="tnum hidden px-2 py-2 text-right lg:table-cell">
+                <td className="tnum hidden px-2 py-2 text-right md:table-cell">
                   {r5 === null ? "—" : fmtPct(r5, 1)}
                 </td>
               </tr>
@@ -485,14 +500,32 @@ function DistPanel({
   }
 
   return (
-    <div className="mb-1 ml-5 rounded-lg border border-line-soft bg-band/40 px-3 py-2">
+    // Nearly full-width: the old ml-5 indent + px-3 squeezed district names
+    // into a 9.4rem truncation box while the bar fought for leftovers.
+    <div className="mb-1.5 ml-2 mr-1 rounded-lg border border-line-soft bg-band/40 px-3 py-2">
+      {/* Column captions — the same grammar as the region list above, so the
+          right-hand numbers are named, not guessed. */}
+      <div className="mb-1.5 flex items-center gap-2 border-b border-line-soft pb-1 text-[0.6rem] uppercase tracking-[0.08em] text-ink-faint">
+        <span className="w-[11.5rem] shrink-0">{S.tarkib.distCol.name}</span>
+        <span className="flex-1" />
+        <span className="w-12 shrink-0 text-right">%</span>
+        <span className="tnum w-[5.2rem] shrink-0 text-right">
+          {S.tarkib.spec.distColPair}
+        </span>
+        <span className="w-16 shrink-0 text-right">
+          {S.tarkib.spec.distColPens}
+        </span>
+      </div>
       <div className="flex flex-col gap-[3px]">
         {rows.map((r) => {
           const color = covColor(r.t);
           const width = Math.min(100, (r.t / 1.2) * 100);
           return (
             <div key={r.name} className="flex items-center gap-2">
-              <span className="w-[9.4rem] shrink-0 truncate text-[0.72rem] text-ink-soft">
+              <span
+                className="w-[11.5rem] shrink-0 truncate text-[0.74rem] text-ink-soft"
+                title={r.name}
+              >
                 {r.name}
               </span>
               <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-line-soft">
@@ -507,16 +540,16 @@ function DistPanel({
                 />
               </span>
               <span
-                className="tnum w-12 shrink-0 text-right text-[0.72rem] font-semibold"
+                className="tnum w-12 shrink-0 text-right text-[0.74rem] font-semibold"
                 style={{ color }}
               >
                 {fmtPct(r.t, 0)}
               </span>
-              <span className="tnum w-[4.6rem] shrink-0 text-right text-[0.68rem] text-ink-faint">
+              <span className="tnum w-[5.2rem] shrink-0 text-right text-[0.7rem] text-ink-faint">
                 {fmtInt(r.jismoniy)} / {fmtInt(r.shtat)}
               </span>
-              <span className="tnum hidden w-14 shrink-0 text-right text-[0.68rem] text-ink-faint md:block">
-                {r.pens === null ? "" : `${S.tarkib.spec.pensShort} ${fmtInt(r.pens)}`}
+              <span className="tnum w-16 shrink-0 text-right text-[0.7rem] text-ink-faint">
+                {r.pens === null ? "—" : fmtInt(r.pens)}
               </span>
             </div>
           );
@@ -562,9 +595,6 @@ function SpecRow({ name, v }: { name: string; v: SpecVals }) {
         {fmtInt(v[SV.shtat])}
       </td>
       <td className="tnum px-2 py-2 text-right">{fmtInt(v[SV.jismoniy])}</td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft sm:table-cell">
-        {fmtInt(v[SV.bosh])}
-      </td>
       <td
         className="tnum px-2 py-2 text-right font-semibold"
         style={{ color: covColor(t) }}
@@ -576,13 +606,10 @@ function SpecRow({ name, v }: { name: string; v: SpecVals }) {
       >
         {g > 0 ? `−${fmtInt(g)}` : `+${fmtInt(-g)}`}
       </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
-        {specKoef(v).toFixed(2).replace(".", ",")}
-      </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
+      <td className="tnum hidden px-2 py-2 text-right text-ink-soft sm:table-cell">
         {pensV === null ? "—" : fmtInt(pensV)}
       </td>
-      <td className="tnum hidden px-2 py-2 text-right text-ink-soft lg:table-cell">
+      <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
         {rr5 === null ? "—" : fmtPct(rr5, 0)}
       </td>
     </tr>

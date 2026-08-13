@@ -6,7 +6,9 @@ import { getS } from "@/lib/i18n/server";
 const SEGMENTS: Array<{ keys: string[]; labelKey: "vrach" | "orta" | "kichik" | "boshqa" | "rest"; color: string }> = [
   { keys: ["vrach"], labelKey: "vrach", color: "var(--color-sov)" },
   { keys: ["orta"], labelKey: "orta", color: "var(--color-ul)" },
-  { keys: ["kichik"], labelKey: "kichik", color: "var(--color-goal)" },
+  // Violet, not gold: goal/warn are near-identical ambers and sat adjacent in
+  // the stack — indistinguishable categories (CVD-checked on this surface).
+  { keys: ["kichik"], labelKey: "kichik", color: "#b78af7" },
   { keys: ["boshqa"], labelKey: "boshqa", color: "var(--color-warn)" },
   { keys: ["notibbiy", "provfarm"], labelKey: "rest", color: "var(--color-och)" },
 ];

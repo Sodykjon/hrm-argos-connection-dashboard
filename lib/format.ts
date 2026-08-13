@@ -86,6 +86,22 @@ export function rampColor(pct: number): string {
   return "rgb(16,160,109)";
 }
 
+/**
+ * Piecewise-linear sample of a hex-stop ramp at t ∈ [0,1]. Used by the
+ * single-hue sequential ramps on the analytics pages (pensiya amber,
+ * vakansiya coral, tarkib blue): one hue for magnitude, so lightness — not a
+ * rainbow — carries the value.
+ */
+export function lerpRamp(stops: readonly string[], t: number): string {
+  const x = Math.max(0, Math.min(1, t)) * (stops.length - 1);
+  const i = Math.min(stops.length - 2, Math.floor(x));
+  const f = x - i;
+  const hex = (c: string) => [1, 3, 5].map((p) => parseInt(c.slice(p, p + 2), 16));
+  const [a, b] = [hex(stops[i]), hex(stops[i + 1])];
+  const mix = a.map((v, k) => Math.round(v + (b[k] - v) * f));
+  return `#${mix.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}
+
 /** "2026-07-02" -> "02.07.2026" */
 export function fmtDate(iso: string): string {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);

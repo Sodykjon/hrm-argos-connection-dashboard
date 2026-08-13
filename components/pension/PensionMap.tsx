@@ -138,7 +138,7 @@ export function PensionMap({
           bottom: 8,
           itemWidth: 10,
           itemHeight: 90,
-          calculable: true,
+          calculable: false,
           text: [fmtPct(ramp.max, 1), fmtPct(ramp.min, 1)],
           inRange: { color: RAMP },
           textStyle: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 10 },

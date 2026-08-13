@@ -28,9 +28,25 @@ export async function GapsTable({ gaps }: { gaps: TarkibGap[] }) {
         </tr>
       </thead>
       <tbody>
-        {gaps.map((g) => (
+        {gaps.map((g) => {
+          // The double blow: a specialty that is already short AND has ≥25%
+          // of its working doctors at pension age will get worse on its own.
+          const waveShare = g.jismoniy > 0 ? g.pens / g.jismoniy : 0;
+          const wave = waveShare >= 0.25;
+          return (
           <tr key={g.name} className="border-b border-line-soft">
-            <td className="max-w-[26ch] px-2 py-2 leading-snug">{g.name}</td>
+            <td className="max-w-[26ch] px-2 py-2 leading-snug">
+              {g.name}
+              {wave && (
+                <span
+                  className="mt-0.5 flex w-fit items-center gap-1 rounded-full bg-goal-soft px-1.5 py-px text-[0.62rem] font-semibold text-warn"
+                  title={S.tarkib.waveFlagTitle(fmtPct(waveShare, 0))}
+                >
+                  <i className="h-1.5 w-1.5 rounded-full bg-warn" aria-hidden />
+                  {S.tarkib.waveFlag}
+                </span>
+              )}
+            </td>
             <td className="tnum hidden px-2 py-2 text-right text-ink-soft sm:table-cell">
               {fmtInt(g.shtat)}
             </td>
@@ -53,11 +69,16 @@ export async function GapsTable({ gaps }: { gaps: TarkibGap[] }) {
                 </span>
               </div>
             </td>
-            <td className="tnum hidden px-2 py-2 text-right text-ink-soft md:table-cell">
+            <td
+              className={`tnum hidden px-2 py-2 text-right md:table-cell ${
+                wave ? "font-semibold text-warn" : "text-ink-soft"
+              }`}
+            >
               {g.pens > 0 ? fmtInt(g.pens) : "—"}
             </td>
           </tr>
-        ))}
+          );
+        })}
       </tbody>
     </table>
   );

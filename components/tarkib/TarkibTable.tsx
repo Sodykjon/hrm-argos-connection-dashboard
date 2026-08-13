@@ -156,7 +156,14 @@ export function TarkibTable({
                   <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft sm:table-cell">
                     {fmtInt(r.region.jismoniy)}
                   </td>
-                  <td className="tnum hidden px-3 py-2.5 text-right text-ink-soft md:table-cell">
+                  {/* >100% is not abundance — it is ўриндошлик inflation;
+                      amber + a hover hint keep that readable at a glance. */}
+                  <td
+                    className={`tnum hidden px-3 py-2.5 text-right md:table-cell ${
+                      taminlShare(r.region) > 1 ? "text-warn" : "text-ink-soft"
+                    }`}
+                    title={taminlShare(r.region) > 1 ? S.tarkib.over100Hint : undefined}
+                  >
                     {fmtPct(taminlShare(r.region), 1)}
                   </td>
                   <td className="px-3 py-2.5">
