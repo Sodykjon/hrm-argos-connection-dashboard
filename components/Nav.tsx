@@ -21,6 +21,7 @@ export function Nav() {
       label: S.nav.groupRollout,
       links: [
         { href: "/", label: S.nav.overview, exact: true },
+        { href: "/argos-jonli", label: S.nav.argosLive },
         { href: "/ulanmaganlar", label: S.nav.unconnected },
         { href: "/trend", label: S.nav.trend },
         { href: "/toldirilish", label: S.nav.completion, highlight: true },
