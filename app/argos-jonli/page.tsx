@@ -12,7 +12,6 @@ import type { LiveOrg } from "@/lib/argos-live";
 import { fmtInt } from "@/lib/format";
 import { regionLabel, regionSlug } from "@/lib/regions";
 import { getLang, getS } from "@/lib/i18n/server";
-import { fmtPct, rampColor } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -88,11 +87,8 @@ export default async function ArgosLivePage() {
         <div className="card flex flex-col items-center p-5 text-center">
           <span className="eyebrow">{S.kpi.rate}</span>
           <div className="my-1">
-            <ReadinessRing percent={totals.percent} showLabel={false} />
+            <ReadinessRing percent={totals.percent} />
           </div>
-          <span className="tnum text-[2rem] font-semibold leading-none" style={{ color: rampColor(totals.percent) }}>
-            {fmtPct(totals.percent, 1)}
-          </span>
         </div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatTile label={S.kpi.total} value={totals.total} accent="sov" />
