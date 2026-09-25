@@ -2,7 +2,7 @@
 
 import { Chart } from "./Chart";
 import { rampColor, toPct, fmtPct } from "@/lib/format";
-import { FONT_MONO, type EChartsOption } from "@/lib/echarts";
+import { FONT_MONO, canvasFont, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
 
 export function ReadinessRing({
@@ -28,8 +28,9 @@ export function ReadinessRing({
             left: "center",
             top: "center",
             textStyle: {
-              fontFamily: FONT_MONO,
-              fontSize: 34,
+              fontFamily: canvasFont(FONT_MONO),
+              // Scale with the ring: 34px fits the 186px ring; the 92px card ring needs ~17px.
+              fontSize: Math.round(size * 0.18),
               fontWeight: 600,
               color: "#eaf1fb",
             },
