@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getHistory, getLatestSnapshot, getLatestCompletion, getLatestKadrlar } from "@/lib/data";
+import { getHistory, getLatestSnapshot, getLatestCompletion } from "@/lib/data";
 import { OverviewHero } from "@/components/OverviewHero";
 import { DeltaTile } from "@/components/DeltaTile";
 import { StatTile } from "@/components/StatTile";
@@ -7,7 +7,6 @@ import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { ConnectionRegionTable } from "@/components/ConnectionRegionTable";
 import { ReadinessRing } from "@/components/ReadinessRing";
-import { PensionOverviewCard } from "@/components/pension/PensionOverviewCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate, fmtInt, fmtPct } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
@@ -18,7 +17,6 @@ export default async function OverviewPage() {
   const S = await getS();
   const { snapshot, source } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
-  const { snapshot: pension } = await getLatestKadrlar();
   const { totals, regions } = snapshot;
 
   // Change since the previous live day. Live points only: an uploaded report
@@ -101,10 +99,7 @@ export default async function OverviewPage() {
         />
       </Reveal>
 
-      {/* pension exposure — above completion: the more consequential figure */}
-      <Reveal>
-        <PensionOverviewCard stat={pension.overall} />
-      </Reveal>
+      {/* «Кадрлар таҳлили» (pension card) hidden on the user's request 25.09.2026 — see Nav.tsx. */}
 
       {/* data-completion summary */}
       <Reveal>

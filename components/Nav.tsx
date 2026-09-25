@@ -27,17 +27,20 @@ export function Nav() {
         { href: "/toldirilish", label: S.nav.completion, highlight: true },
       ],
     },
-    {
-      label: S.nav.groupAnalytics,
-      links: [
-        { href: "/pensiya", label: S.nav.pension },
-        { href: "/vakansiya", label: S.nav.vakansiya },
-        { href: "/tarkib", label: S.nav.tarkib },
-        // /admin lives in the header's utility row now — it is an operator
-        // tool, and filing it under "Кадрлар таҳлили" put an upload form in an
-        // analytics menu.
-      ],
-    },
+    // «Кадрлар таҳлили» (/pensiya, /vakansiya, /tarkib) hidden on the user's
+    // request 25.09.2026 — «hozircha kerak emas». The pages still exist; to
+    // bring the group back, restore this entry:
+    // {
+    //   label: S.nav.groupAnalytics,
+    //   links: [
+    //     { href: "/pensiya", label: S.nav.pension },
+    //     { href: "/vakansiya", label: S.nav.vakansiya },
+    //     { href: "/tarkib", label: S.nav.tarkib },
+    //     // /admin lives in the header's utility row now — it is an operator
+    //     // tool, and filing it under "Кадрлар таҳлили" put an upload form in an
+    //     // analytics menu.
+    //   ],
+    // },
   ];
 
   return (
