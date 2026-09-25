@@ -5,7 +5,13 @@ import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { getLang, getS } from "@/lib/i18n/server";
 
-export async function OverviewHero({ totals }: { totals: Totals }) {
+export async function OverviewHero({
+  totals,
+  delta,
+}: {
+  totals: Totals;
+  delta?: { ulangan: number; since: string } | null;
+}) {
   const S = await getS();
   const lang = await getLang();
   const gap = 1 - totals.percent;
@@ -55,6 +61,12 @@ export async function OverviewHero({ totals }: { totals: Totals }) {
             )}
             <span>{S.overview.orgsConnected}</span>
           </p>
+          {delta && delta.ulangan > 0 && (
+            <p className="mt-2 flex items-center gap-1.5 text-[0.9rem] font-semibold text-ul">
+              <span aria-hidden>↑</span>
+              {S.overview.deltaHero(fmtInt(delta.ulangan), delta.since)}
+            </p>
+          )}
 
           <div className="mt-6 max-w-xl">
             <NationalBar totals={totals} />

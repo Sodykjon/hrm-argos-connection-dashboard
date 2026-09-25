@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { RegionStat } from "@/lib/types";
-import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
+import { toPct, fmtInt, fmtPct, rampColorIn } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -12,6 +12,8 @@ interface UzMapProps {
   activeRegion: string | null;
   onHover?: (name: string | null) => void;
   onSelect?: (name: string) => void;
+  /** Lower end of the colour scale (0..1); 0.5 when every region sits high. */
+  domainMin?: number;
 }
 
 const RAMP = ["#ff5a63", "#f7b23b", "#9ee34f", "#2fd07a"];
@@ -23,7 +25,7 @@ const ENCLAVE_MARKERS: Record<string, [number, number]> = {
 };
 const MAP_LAYOUT = { center: ["52%", "52%"] as [string, string], size: "118%" };
 
-export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) {
+export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 }: UzMapProps) {
   const S = useS();
   const lang = useLang();
   const elRef = useRef<HTMLDivElement>(null);
@@ -94,7 +96,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
           ulangan: r.ulangan,
           ulanmagan: r.ulanmagan,
           total: r.total,
-          itemStyle: { color: rampColor(r.percent) },
+          itemStyle: { color: rampColorIn(r.percent, domainMin) },
         };
       });
 
@@ -126,14 +128,14 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
         },
         visualMap: {
           seriesIndex: 0,
-          min: 0,
+          min: domainMin * 100,
           max: 100,
           left: "left",
           bottom: 8,
           itemWidth: 10,
           itemHeight: 90,
           calculable: true,
-          text: ["100%", "0%"],
+          text: ["100%", domainMin > 0 ? `≤${domainMin * 100}%` : "0%"],
           inRange: { color: RAMP },
           textStyle: { color: "#8ba0bd", fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
         },
@@ -218,7 +220,7 @@ export function UzMap({ regions, activeRegion, onHover, onSelect }: UzMapProps) 
     );
     // `lang` is a dependency: switching language must redraw the labels and
     // tooltip, not just the surrounding React tree.
-  }, [regions, ready, lang, S]);
+  }, [regions, ready, lang, S, domainMin]);
 
   // external hover linkage
   useEffect(() => {

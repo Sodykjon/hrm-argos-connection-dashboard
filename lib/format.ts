@@ -64,6 +64,15 @@ export function statusMeta(lang: Lang): Record<Status, StatusMeta> {
   };
 }
 
+/**
+ * rampColor over a narrowed domain [lo, 1]: values at or below `lo` are red.
+ * Used where every region sits in the top band (90–100%) and a 0–100 ramp
+ * paints them all the same green.
+ */
+export function rampColorIn(pct: number, lo: number): string {
+  return rampColor(lo >= 1 ? pct : (pct - lo) / (1 - lo));
+}
+
 /** color ramp for the map / ranking: red (low) -> amber -> green (high) */
 export function rampColor(pct: number): string {
   // pct in [0,1]
