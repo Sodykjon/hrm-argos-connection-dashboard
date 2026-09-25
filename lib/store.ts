@@ -28,6 +28,7 @@ import type {
   Registry,
   Snapshot,
 } from "./types";
+import type { TreeSnapshot } from "./argos-live";
 
 const KV_URL =
   process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -51,6 +52,9 @@ const K = {
   compSnapshot: "completion:snapshot:latest",
   kadrManifest: "kadrlar:manifest",
   kadrSnapshot: "kadrlar:snapshot:latest",
+  liveTree: "argoslive:tree:latest",
+  livePrev: "argoslive:tree:prev",
+  liveManifest: "argoslive:manifest",
 } as const;
 
 // ---------------------------------------------------------------- redis client
@@ -266,4 +270,64 @@ export async function publishKadrlar(
   await writeKey(K.kadrManifest, next);
 
   return { snapshots: snapshots.length };
+}
+
+// ------------------------------------------------------------ ARGOS жонли
+
+/**
+ * The ARGOS org-tree snapshots pushed from the user's browser (/argos-jonli).
+ * `latest` is the newest tree whose *content* changed; `prev` the one before it
+ * (for «what changed»). Re-pushing an identical tree only bumps `checkedAt`, so
+ * a bookmarklet polling every 10 minutes does not grow the history.
+ */
+export interface LiveSummary {
+  at: string;
+  fingerprint: string;
+  total: number;
+  ulangan: number;
+  ulanmagan: number;
+  ochirilgan: number;
+  regions: { name: string; total: number; ulangan: number }[];
+}
+
+export interface LiveManifest {
+  checkedAt: string; // last push, changed or not
+  fingerprint: string;
+  history: LiveSummary[]; // one entry per content change, oldest first
+}
+
+const LIVE_HISTORY_MAX = 500;
+
+export const getLiveManifest = cache(
+  async (): Promise<LiveManifest | null> => readKey<LiveManifest>(K.liveManifest),
+);
+
+export async function getLiveTree(): Promise<TreeSnapshot | null> {
+  return readKey<TreeSnapshot>(K.liveTree);
+}
+
+export async function getLivePrevTree(): Promise<TreeSnapshot | null> {
+  return readKey<TreeSnapshot>(K.livePrev);
+}
+
+export async function publishLiveTree(
+  tree: TreeSnapshot,
+  summary: LiveSummary,
+): Promise<{ changed: boolean; history: number }> {
+  const m = (await readKey<LiveManifest>(K.liveManifest)) ?? {
+    checkedAt: "",
+    fingerprint: "",
+    history: [],
+  };
+  const changed = summary.fingerprint !== m.fingerprint;
+  if (changed) {
+    const cur = await readKey<TreeSnapshot>(K.liveTree);
+    if (cur) await writeKey(K.livePrev, cur);
+    await writeKey(K.liveTree, tree);
+    m.history = [...m.history, summary].slice(-LIVE_HISTORY_MAX);
+    m.fingerprint = summary.fingerprint;
+  }
+  m.checkedAt = tree.at;
+  await writeKey(K.liveManifest, m);
+  return { changed, history: m.history.length };
 }
