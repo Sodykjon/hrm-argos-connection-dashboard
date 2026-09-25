@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { getLatestSnapshot, getLatestCompletion, getLatestKadrlar } from "@/lib/data";
+import { getHistory, getLatestSnapshot, getLatestCompletion, getLatestKadrlar } from "@/lib/data";
 import { OverviewHero } from "@/components/OverviewHero";
-import { LiveFeed } from "@/components/LiveFeed";
+import { DeltaTile } from "@/components/DeltaTile";
 import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
@@ -9,17 +9,34 @@ import { ConnectionRegionTable } from "@/components/ConnectionRegionTable";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { PensionOverviewCard } from "@/components/pension/PensionOverviewCard";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { fmtInt, fmtPct } from "@/lib/format";
+import { fmtDate, fmtInt, fmtPct } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function OverviewPage() {
   const S = await getS();
-  const { snapshot } = await getLatestSnapshot();
+  const { snapshot, source } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
   const { snapshot: pension } = await getLatestKadrlar();
   const { totals, regions } = snapshot;
+
+  // Change since the previous live day. Live points only: an uploaded report
+  // covers a different org list (3 886 vs the 3 878-row registry), so mixing
+  // the two would report a scope change as progress.
+  const live = source === "live" ? (await getHistory()).filter((h) => h.url === "live") : [];
+  const prev = [...live].reverse().find((h) => h.date < snapshot.date) ?? null;
+  const since = prev ? fmtDate(prev.date) : "";
+  const d = prev
+    ? {
+        ulangan: totals.ulangan - prev.totals.ulangan,
+        ulanmagan: totals.ulanmagan - prev.totals.ulanmagan,
+        ochirilgan: totals.ochirilgan - prev.totals.ochirilgan,
+        pts: (totals.percent - prev.totals.percent) * 100,
+      }
+    : null;
+  const ptsText = d ? `${d.pts > 0 ? "+" : d.pts < 0 ? "−" : ""}${Math.abs(d.pts).toFixed(1).replace(".", ",")}` : "";
+  const ptsUnit = S.trend.deltaPts("0").replace(/^\+0\s*/, "");
 
   return (
     <div className="mx-auto max-w-[1240px] space-y-5 px-4 py-6 sm:px-6">
@@ -27,13 +44,28 @@ export default async function OverviewPage() {
         {S.overview.mapTitle}
       </h1>
 
-      {/* live streaming ticker */}
-      <LiveFeed regions={regions} />
-
       {/* hero: commanding readiness figure */}
-      <OverviewHero totals={totals} />
+      <OverviewHero totals={totals} delta={d ? { ulangan: d.ulangan, since } : null} />
 
-      {/* KPI row */}
+      {/* KPI row — change since the previous live day; the totals themselves
+          are already in the hero, so the tiles no longer repeat them. Without
+          a previous day (uploaded report, first live day) the totals return. */}
+      {d ? (
+        <RevealGroup className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <RevealItem className="h-full">
+            <DeltaTile label={S.overview.deltaConnected} value={d.ulangan} good="up" hint={S.overview.deltaSince(since)} zeroText={S.overview.noChange} />
+          </RevealItem>
+          <RevealItem className="h-full">
+            <DeltaTile label={S.overview.deltaUnconnected} value={d.ulanmagan} good="down" hint={S.overview.deltaSince(since)} zeroText={S.overview.noChange} />
+          </RevealItem>
+          <RevealItem className="h-full">
+            <DeltaTile label={S.overview.deltaDeleted} value={d.ochirilgan} good="down" hint={S.overview.deltaSince(since)} zeroText={S.overview.noChange} />
+          </RevealItem>
+          <RevealItem className="h-full">
+            <DeltaTile label={S.overview.deltaRate} value={d.pts} good="up" display={ptsText} hint={`${ptsUnit} · ${S.overview.deltaSince(since)}`} zeroText={S.overview.noChange} />
+          </RevealItem>
+        </RevealGroup>
+      ) : (
       <RevealGroup className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <RevealItem className="h-full">
           <StatTile label={S.kpi.total} value={totals.total} accent="sov" hint={S.kpi.totalHint} />
@@ -48,13 +80,14 @@ export default async function OverviewPage() {
           <StatTile label={S.kpi.ochirilgan} value={totals.ochirilgan} accent="och" shareOfTotal={totals.ochirilgan / totals.total} />
         </RevealItem>
       </RevealGroup>
+      )}
 
       {/* map + ranking */}
       <Reveal>
         <NationalBoard regions={regions} />
       </Reveal>
 
-      {/* lowest 3 */}
+      {/* where the unconnected are */}
       <Reveal>
         <AttentionStrip regions={regions} />
       </Reveal>

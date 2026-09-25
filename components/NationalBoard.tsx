@@ -5,9 +5,14 @@ import { useMemo, useState } from "react";
 import type { RegionStat } from "@/lib/types";
 import { UzMap } from "./UzMap";
 import { isRepublic, regionSlug, regionLabel } from "@/lib/regions";
-import { rampColor, fmtInt, fmtPct } from "@/lib/format";
+import { rampColorIn, fmtInt, fmtPct } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 import { useRouter } from "next/navigation";
+
+// Almost every region sits at 90–100%: on a 0–100 ramp the map and the
+// ranking all read the same green. The colour scale starts at 50% (clearly
+// labelled); bar LENGTHS still start at zero so no difference is exaggerated.
+const SCALE_MIN = 0.5;
 
 export function NationalBoard({ regions }: { regions: RegionStat[] }) {
   const S = useS();
@@ -40,7 +45,9 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
             activeRegion={active}
             onHover={setActive}
             onSelect={(name) => router.push(`/hududlar/${regionSlug(name)}`)}
+            domainMin={SCALE_MIN}
           />
+          <p className="mt-1 px-1 text-[0.7rem] text-ink-faint">{S.overview.mapScale}</p>
         </div>
 
         {/* ranking */}
@@ -54,7 +61,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map((r, i) => {
               const isActive = active === r.name;
-              const color = rampColor(r.percent);
+              const color = rampColorIn(r.percent, SCALE_MIN);
               return (
                 <li key={r.name}>
                   <Link
