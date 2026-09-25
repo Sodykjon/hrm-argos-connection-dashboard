@@ -277,26 +277,28 @@ export async function publishKadrlar(
 /**
  * The ARGOS org-tree snapshots pushed from the user's browser (/argos-jonli).
  * `latest` is the newest tree whose *content* changed; `prev` the one before it
- * (for «what changed»). Re-pushing an identical tree only bumps `checkedAt`, so
- * a bookmarklet polling every 10 minutes does not grow the history.
+ * (for «what changed»). `history` keeps ONE summary per Tashkent calendar day —
+ * the day's last push — so a bookmarklet polling every 10 minutes neither grows
+ * it nor leaves a day's point stale.
  */
 export interface LiveSummary {
   at: string;
+  date: string; // YYYY-MM-DD, Tashkent
   fingerprint: string;
   total: number;
   ulangan: number;
   ulanmagan: number;
   ochirilgan: number;
-  regions: { name: string; total: number; ulangan: number }[];
+  regions: { name: string; total: number; ulangan: number; ulanmagan?: number; ochirilgan?: number }[];
 }
 
 export interface LiveManifest {
   checkedAt: string; // last push, changed or not
   fingerprint: string;
-  history: LiveSummary[]; // one entry per content change, oldest first
+  history: LiveSummary[]; // one entry per day, oldest first
 }
 
-const LIVE_HISTORY_MAX = 500;
+const LIVE_HISTORY_MAX = 800;
 
 export const getLiveManifest = cache(
   async (): Promise<LiveManifest | null> => readKey<LiveManifest>(K.liveManifest),
@@ -324,10 +326,19 @@ export async function publishLiveTree(
     const cur = await readKey<TreeSnapshot>(K.liveTree);
     if (cur) await writeKey(K.livePrev, cur);
     await writeKey(K.liveTree, tree);
-    m.history = [...m.history, summary].slice(-LIVE_HISTORY_MAX);
     m.fingerprint = summary.fingerprint;
   }
+  // Older entries (before per-day keeping) have no `date`: derive it.
+  const day = (x: LiveSummary) => x.date ?? tashkentDate(x.at);
+  m.history = [...m.history.filter((x) => day(x) !== summary.date), summary]
+    .sort((a, b) => day(a).localeCompare(day(b)))
+    .slice(-LIVE_HISTORY_MAX);
   m.checkedAt = tree.at;
   await writeKey(K.liveManifest, m);
   return { changed, history: m.history.length };
+}
+
+/** YYYY-MM-DD in Tashkent (UTC+5, no DST). */
+export function tashkentDate(iso: string): string {
+  return new Date(new Date(iso).getTime() + 5 * 3600 * 1000).toISOString().slice(0, 10);
 }

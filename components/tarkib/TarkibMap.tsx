@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { echarts, type EChartsType, FONT_SANS, FONT_MONO } from "@/lib/echarts";
+import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { TarkibRegion } from "@/lib/tarkib";
 import { vrachTaminlShare } from "@/lib/tarkib";
 import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
@@ -146,7 +146,7 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
           backgroundColor: "#0b3663",
           borderWidth: 0,
           padding: [10, 12],
-          textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
+          textStyle: { color: "#fff", fontFamily: canvasFont(FONT_SANS), fontSize: 12 },
           formatter: tooltipFormatter,
         },
         visualMap: {
@@ -162,7 +162,7 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
           calculable: false,
           text: [fmtPct(ramp.max, 1), fmtPct(ramp.min, 1)],
           inRange: { color: RAMP },
-          textStyle: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 10 },
+          textStyle: { color: "#8ba0bd", fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
         },
         geo: {
           map: "uzbekistan",
@@ -190,7 +190,7 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
               label: {
                 show: true,
                 color: "#eaf1fb",
-                fontFamily: FONT_SANS,
+                fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 11,
               },
@@ -226,7 +226,7 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
                 distance: 6,
                 formatter: (p: { name: string }) => regionLabelShort(p.name, lang),
                 color: "#eaf1fb",
-                fontFamily: FONT_SANS,
+                fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 10.5,
                 backgroundColor: "#0c1f3b",

@@ -15,6 +15,7 @@ export interface BaseOrg {
   stir: string | null;
   reestr: LiveStatus; // status in the 17.09 registry
   override: LiveStatus | null; // manual decision that wins over the tree
+  contract?: string | null; // «Shartnoma» from the workbook
 }
 
 export interface BaseFile {
