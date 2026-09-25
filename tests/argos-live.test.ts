@@ -16,7 +16,9 @@ const base = JSON.parse(
 ) as BaseFile;
 
 // 25.09.2026 ARGOS tree (tin:billing) and the workbook statuses that were
-// maintained by hand-run scripts against exactly that tree.
+// maintained by hand-run scripts against exactly that tree. One later manual
+// decision is folded into the fixture: on 25.09 the user confirmed Yangiqo'rg'on
+// (Namangan) is connected, so its 19 «ulanmagan» overrides were lifted.
 const rows: TreeRow[] = readFileSync(
   new URL("./fixtures/argos-tree-2026-09-25.txt", import.meta.url),
   "utf-8",
@@ -43,13 +45,13 @@ test("reproduces the 25.09 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals match the workbook (3 878 / 3 491 / 286 / 101)", () => {
+test("national totals match the workbook (3 878 / 3 510 / 267 / 101)", () => {
   const { totals } = compute(base.orgs, tree);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3878, 3491, 286, 101],
+    [3878, 3510, 267, 101],
   );
-  assert.equal((totals.percent * 100).toFixed(1), "90.0");
+  assert.equal((totals.percent * 100).toFixed(1), "90.5");
 });
 
 test("region and district sums reconcile with the national total", () => {
@@ -62,11 +64,11 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: 144 groups / 665 rows, only Yangiqo'rg'on is mixed", () => {
+test("same-STIR groups: 144 groups / 665 rows, none mixed", () => {
   const { stirGroups } = compute(base.orgs, tree);
   assert.equal(stirGroups.length, 144);
   assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 665);
-  assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), ["200118029"]);
+  assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
 });
 
 test("decide(): each branch of the rule", () => {
