@@ -1,6 +1,6 @@
 import { compute, treeFingerprint, validTree, type TreeSnapshot } from "@/lib/argos-live";
 import { BASE } from "@/lib/argos-live-data";
-import { getLiveManifest, hasStore, publishLiveTree } from "@/lib/store";
+import { getLiveManifest, hasStore, publishLiveTree, tashkentDate } from "@/lib/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,12 +31,19 @@ export async function POST(request: Request) {
   try {
     const out = await publishLiveTree(tree, {
       at: tree.at,
+      date: tashkentDate(tree.at),
       fingerprint: treeFingerprint(tree.rows),
       total: r.totals.total,
       ulangan: r.totals.ulangan,
       ulanmagan: r.totals.ulanmagan,
       ochirilgan: r.totals.ochirilgan,
-      regions: r.regions.map((x) => ({ name: x.name, total: x.total, ulangan: x.ulangan })),
+      regions: r.regions.map((x) => ({
+        name: x.name,
+        total: x.total,
+        ulangan: x.ulangan,
+        ulanmagan: x.ulanmagan,
+        ochirilgan: x.ochirilgan,
+      })),
     });
     return Response.json({
       ok: true,

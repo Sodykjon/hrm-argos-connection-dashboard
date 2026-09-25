@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { echarts, type EChartsOption, type EChartsType } from "@/lib/echarts";
+import { echarts, resolveFonts, type EChartsOption, type EChartsType } from "@/lib/echarts";
 
 interface ChartProps {
   option: EChartsOption;
@@ -37,7 +37,8 @@ export function Chart({ option, className, style, onReady, ariaLabel }: ChartPro
   }, []);
 
   useEffect(() => {
-    chartRef.current?.setOption(option, { notMerge: true });
+    // Canvas cannot resolve var(--font-…); without this every label falls back to 10px sans.
+    chartRef.current?.setOption(resolveFonts(option), { notMerge: true });
   }, [option]);
 
   return (

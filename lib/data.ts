@@ -23,6 +23,8 @@ import {
   getRegistryRef,
   getSnapshotByRef,
 } from "./store";
+import { getLiveManifest, tashkentDate } from "./store";
+import { getLive, type LiveData } from "./argos-live-data";
 
 const seedSnapshot = seedSnapshotJson as unknown as Snapshot;
 const seedRegistry = seedRegistryJson as unknown as Registry;
@@ -32,19 +34,55 @@ const seedKadrlar = seedKadrlarJson as unknown as KadrlarSnapshot;
 export interface DashboardData {
   snapshot: Snapshot;
   isSeed: boolean; // true when showing the built-in seed (no uploads yet)
+  source: "live" | "upload" | "seed";
+}
+
+/**
+ * The connection pages now follow the live ARGOS tree (/argos-jonli) whenever
+ * the user's browser has pushed one; the uploaded report is the fallback.
+ */
+function liveSnapshot(live: LiveData): Snapshot {
+  const at = live.manifest?.checkedAt ?? live.tree.at;
+  const { totals, regions, orgs } = live.result;
+  return {
+    date: tashkentDate(at),
+    uploadedAt: at,
+    totals: { ...totals },
+    regions: regions.map((r) => ({
+      name: r.name,
+      total: r.total,
+      ulangan: r.ulangan,
+      ulanmagan: r.ulanmagan,
+      ochirilgan: r.ochirilgan,
+      percent: r.percent,
+    })),
+    orgs: orgs.map((o) => ({
+      region: o.region,
+      name: o.name,
+      stir: o.stir ?? "",
+      status: o.status,
+      contract: o.contract ?? "",
+    })),
+  };
 }
 
 export async function getLatestSnapshot(): Promise<DashboardData> {
   try {
+    const live = await getLive();
+    if (live) return { snapshot: liveSnapshot(live), isSeed: false, source: "live" };
+  } catch {
+    /* fall through to the uploaded report */
+  }
+  try {
     const manifest = await getManifest();
     if (manifest?.latestUrl) {
       const snap = await getSnapshotByRef(manifest.latestUrl);
-      if (snap) return { snapshot: snap, isSeed: false };
+      if (snap) return { snapshot: snap, isSeed: false, source: "upload" };
     }
   } catch {
     /* fall through to seed */
   }
-  return { snapshot: seedSnapshot, isSeed: true };
+  return { snapshot: seedSnapshot, isSeed: true, source: "seed" };
 }
 
 export async function getRegistry(): Promise<Registry> {
@@ -60,7 +98,7 @@ export async function getRegistry(): Promise<Registry> {
   return seedRegistry;
 }
 
-export async function getHistory(): Promise<ManifestEntry[]> {
+async function uploadHistory(): Promise<ManifestEntry[]> {
   const seedEntry: ManifestEntry = {
     date: seedSnapshot.date,
     uploadedAt: seedSnapshot.uploadedAt,
@@ -89,6 +127,56 @@ export async function getHistory(): Promise<ManifestEntry[]> {
   }
   // No uploads yet — the seed alone so the trend page still renders.
   return [seedEntry];
+}
+
+/**
+ * Trend = uploaded reports + one live point per day (the day's last ARGOS push);
+ * a live point replaces an upload of the same date, and today's point is
+ * recomputed from the current tree + registry so manual corrections show at once.
+ */
+export async function getHistory(): Promise<ManifestEntry[]> {
+  const base = await uploadHistory();
+  let liveEntries: ManifestEntry[] = [];
+  try {
+    const m = await getLiveManifest();
+    liveEntries = (m?.history ?? []).map((h) => {
+      const pct = (u: number, t: number) => (t ? u / t : 0);
+      return {
+        date: h.date ?? tashkentDate(h.at),
+        uploadedAt: h.at,
+        url: "live",
+        totals: {
+          total: h.total,
+          ulangan: h.ulangan,
+          ulanmagan: h.ulanmagan,
+          ochirilgan: h.ochirilgan,
+          percent: pct(h.ulangan, h.total),
+        },
+        regions: h.regions.map((r) => ({
+          name: r.name,
+          total: r.total,
+          ulangan: r.ulangan,
+          ulanmagan: r.ulanmagan ?? 0,
+          ochirilgan: r.ochirilgan ?? 0,
+          percent: pct(r.ulangan, r.total),
+        })),
+      };
+    });
+    const live = await getLive();
+    if (live) {
+      const snap = liveSnapshot(live);
+      liveEntries = [
+        ...liveEntries.filter((e) => e.date !== snap.date),
+        { date: snap.date, uploadedAt: snap.uploadedAt, url: "live", totals: snap.totals, regions: snap.regions },
+      ];
+    }
+  } catch {
+    /* live history is optional */
+  }
+  const liveDates = new Set(liveEntries.map((e) => e.date));
+  return [...base.filter((e) => !liveDates.has(e.date)), ...liveEntries].sort((a, b) =>
+    a.date.localeCompare(b.date),
+  );
 }
 
 // --- completion ("Тўлдирилиш даражаси") -------------------------------------

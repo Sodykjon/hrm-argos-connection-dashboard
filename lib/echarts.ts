@@ -48,6 +48,21 @@ export const FONT_MONO =
  * `var(--…)` makes the whole `ctx.font` string invalid and ECharts silently
  * falls back to 10px sans-serif. Resolve the variables in the browser.
  */
+/** Deep-copy an option, resolving every `fontFamily` for canvas (see canvasFont). */
+export function resolveFonts<T>(option: T): T {
+  const walk = (v: unknown): unknown => {
+    if (Array.isArray(v)) return v.map(walk);
+    if (v && typeof v === "object" && Object.getPrototypeOf(v) === Object.prototype) {
+      const out: Record<string, unknown> = {};
+      for (const [k, x] of Object.entries(v as Record<string, unknown>))
+        out[k] = k === "fontFamily" && typeof x === "string" ? canvasFont(x) : walk(x);
+      return out;
+    }
+    return v;
+  };
+  return walk(option) as T;
+}
+
 export function canvasFont(stack: string): string {
   if (typeof window === "undefined") return stack.replace(/var\([^)]*\),\s*/g, "");
   const cs = getComputedStyle(document.body);

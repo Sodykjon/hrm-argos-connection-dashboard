@@ -89,7 +89,8 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
     const dotsData = points.map((p, i) => [i, toPct(p.percent)]);
 
     return {
-      grid: { left: 44, right: 18, top: 46, bottom: 34 },
+      // Top leaves room for the 22px climb badge + its caption above the 100% goal line.
+      grid: { left: 44, right: 18, top: grew ? 72 : 46, bottom: 34 },
       // The climb badge lives on the chart itself: the growth since the first
       // report is the page's whole message, and it should not depend on the
       // reader noticing a tile elsewhere. Values are real; the axis below is
@@ -117,7 +118,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
               {
                 type: "text",
                 left: 66,
-                top: 40,
+                top: 44,
                 silent: true,
                 style: {
                   text: S.trend.sinceFirst,

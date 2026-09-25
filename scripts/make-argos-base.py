@@ -29,6 +29,9 @@ ST = {"Ulangan (faol)": "ulangan", "Ulanmagan": "ulanmagan", "Tizimdan oʻchiril
 def cols(sn):  # nom, STIR, holat
     return (2, 3, 4) if sn == "Respublika markazlari" else (3, 4, 5)
 
+def contract_col(sn):  # «Shartnoma» ustuni
+    return 5 if sn == "Respublika markazlari" else 6
+
 def rows(ws):
     for r in range(10, ws.max_row + 1):
         a = ws.cell(r, 1).value
@@ -69,6 +72,7 @@ for sn in cur.sheetnames[1:]:
             "region": REGION[sn],
             "district": None if sn == "Respublika markazlari" else str(w.cell(r, 2).value or "").strip(),
             "name": k[1], "stir": k[2] or None, "reestr": rs, "override": o,
+            "contract": (str(w.cell(r, contract_col(sn)).value or "").strip() or None),
         })
         expected.append(ST[w.cell(r, cols(sn)[2]).value])
 
