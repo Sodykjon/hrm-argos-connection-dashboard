@@ -69,6 +69,11 @@
    "Qashqadaryo",
    "Qashqadaryo viloyat qon xizmati markazi",
    "201688364"
+  ],
+  [
+   "Qashqadaryo",
+   "Kukdala tumani koʻp tarmoqli markaziy poliklinikasi",
+   "31839515"
   ]
  ],
  "ulanmagan": [],
@@ -81,5 +86,98 @@
   "311172564",
   "203129939",
   "310993445"
+ ],
+ "_izoh": "remove: reestrdan olib tashlangan (hech qayerda hisoblanmaydi, ARGOS'dagisi ham e'tiborsiz); exclude: ro'yxatda qoladi, lekin statistikaga kiritilmaydi (sabab bilan); stirFix: [varaq, nom, eski STIR, yangi STIR]. Manba (foydalanuvchi, 29.09.2026): Qashqadaryo — HRM_ARGOS_29.09.2026_Qashqadaryo_viloyati_filiallar_bilan.xlsx; Namangan/Surxondaryo/Andijon 6 tasi — chatda STIR bilan",
+ "remove": [
+  [
+   "Qashqadaryo",
+   "Qashqadaryo viloyat sogʻliqni saqlash boshqarmasiga qarashli Maxsus ombori",
+   "200676926"
+  ],
+  [
+   "Qashqadaryo",
+   "Gʻuzor tuman 2-poliklinikasi",
+   "206838917"
+  ],
+  [
+   "Qashqadaryo",
+   "Qashqadaryo viloyat salomatlikni tiklash shifoxonasi",
+   "202139705"
+  ],
+  [
+   "Qashqadaryo",
+   "Tuman silga qarshi dispanseri",
+   "203387999"
+  ],
+  [
+   "Namangan",
+   "\"Oʻzbekiston hamshiralar assotsiatsiyasi\" Namangan viloyat boʻlinmasi",
+   "202611253"
+  ],
+  [
+   "Namangan",
+   "Namangan viloyat \"Shifokor va hayot\" gazetasi taxririyati",
+   "202611245"
+  ],
+  [
+   "Surxondaryo",
+   "Respublika ixtisoslashtirilgan koʻz mikroxirurgiyasi ilmiy-amaliy tibbiyot markazi Termiz filiali",
+   "201290315"
+  ],
+  [
+   "Andijon",
+   "Andijon viloyat tibbiy reabilitatsiya poliklinikasi",
+   "203317578"
+  ],
+  [
+   "Andijon",
+   "Andijon viloyat tibbiyot kutubxonasi",
+   "206949249"
+  ],
+  [
+   "Andijon",
+   "Andijon viloyat sogʻliqni saqlash boshqarmasi maxsus tibbiy baza",
+   "202636696"
+  ]
+ ],
+ "exclude": [
+  [
+   "Qashqadaryo",
+   "Gʻelon qishloq uchastka kasalxonasi",
+   "207200681",
+   "internet"
+  ],
+  [
+   "Qashqadaryo",
+   "Sarchashma qishloq uchastka kasalxonasi",
+   "207200698",
+   "internet"
+  ],
+  [
+   "Qashqadaryo",
+   "Hisarak qishloq uchastka kasalxonasi",
+   "207200674",
+   "internet"
+  ]
+ ],
+ "stirFix": [
+  [
+   "Qashqadaryo",
+   "\"Talimarjon\" shifoxonasi",
+   "201845785",
+   "311867039"
+  ],
+  [
+   "Qashqadaryo",
+   "Nuristan poliklinikasi",
+   "203237353",
+   "311865824"
+  ],
+  [
+   "Qashqadaryo",
+   "Kukdala tumani koʻp tarmoqli markaziy poliklinikasi",
+   "31839515",
+   "311839515"
+  ]
  ]
 }

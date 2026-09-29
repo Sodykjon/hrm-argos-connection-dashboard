@@ -18,9 +18,21 @@ export interface BaseOrg {
   contract?: string | null; // «Shartnoma» from the workbook
 }
 
+/** A registry row kept out of every count (e.g. no internet in a mountain village). */
+export interface ExcludedOrg {
+  region: string;
+  district: string | null;
+  name: string;
+  stir: string | null;
+  reason: string; // "internet"
+}
+
 export interface BaseFile {
   source: string;
   orgs: BaseOrg[];
+  excluded?: ExcludedOrg[];
+  /** STIRs of removed/excluded rows — never listed as «in ARGOS, not in the registry». */
+  ignoreStir?: string[];
 }
 
 /** [tin, billing (1 = active, 0 = inactive), label?] */
@@ -119,7 +131,7 @@ export interface LiveResult {
   extraInTree: { tin: string; billing: 0 | 1; label: string }[]; // in ARGOS, not in the registry
 }
 
-export function compute(base: BaseOrg[], tree: TreeSnapshot): LiveResult {
+export function compute(base: BaseOrg[], tree: TreeSnapshot, ignoreStir: readonly string[] = []): LiveResult {
   const idx = indexTree(tree.rows);
   const orgs: LiveOrg[] = base.map((o) => ({ ...o, ...decide(o, idx) }));
 
@@ -162,7 +174,7 @@ export function compute(base: BaseOrg[], tree: TreeSnapshot): LiveResult {
     }))
     .sort((a, b) => b.names.length - a.names.length || a.region.localeCompare(b.region));
 
-  const known = new Set(base.map((o) => o.stir).filter(Boolean));
+  const known = new Set([...base.map((o) => o.stir).filter(Boolean), ...ignoreStir]);
   const extraInTree = tree.rows
     .filter(([tin]) => !known.has(String(tin)))
     .map(([tin, billing, label]) => ({ tin: String(tin), billing, label: label ?? "" }));

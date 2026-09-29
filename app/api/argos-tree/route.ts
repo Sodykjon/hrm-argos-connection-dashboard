@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     at: body.tree.at,
     rows: body.tree.rows.map(([t, b, l]) => (l ? [t, b, l.slice(0, 300)] : [t, b])),
   };
-  const r = compute(BASE.orgs, tree);
+  const r = compute(BASE.orgs, tree, BASE.ignoreStir);
   try {
     const out = await publishLiveTree(tree, {
       at: tree.at,

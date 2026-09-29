@@ -4,7 +4,12 @@
 Kirish:
   --orig  HRM_ARGOS_17.09.2026_BARCHA_HUDUDLAR_1 (4).xlsx        (17.09 reestr holati)
   --cur   HRM_ARGOS_17.09.2026_BARCHA_HUDUDLAR_1 (4)_yangilangan.xlsx  (joriy ro'yxat: qaysi satrlar qolgan)
-  --overrides overrides.json   ({"faol": [[varaq, nom, stir], ...], "ulanmagan": [...], "faolStir": [stir, ...]})
+  --overrides overrides.json   ({"faol": [[varaq, nom, stir], ...], "ulanmagan": [...], "faolStir": [stir, ...],
+                                 "remove": [[varaq, nom, stir]], "exclude": [[varaq, nom, stir, sabab]],
+                                 "stirFix": [[varaq, nom, eski_stir, yangi_stir]]})
+    remove  — reestrdan chiqarilgan: bazaga tushmaydi, STIR «ignoreStir»ga (ARGOS'dagisi ham e'tiborsiz)
+    exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
+    stirFix — reestrdagi xato STIR; kalit eski STIR bilan qoladi, chiqishda yangisi
 Chiqish:
   data/argos-live-base.json
   (ixtiyoriy) --expected tests/fixtures/argos-live-expected.json — joriy Excel holatlari, test uchun
@@ -50,6 +55,9 @@ a = ap.parse_args()
 
 ov = json.load(open(a.overrides, encoding="utf-8"))
 OV_FA = {tuple(k) for k in ov["faol"]}; OV_UL = {tuple(k) for k in ov["ulanmagan"]}; OV_STIR = set(ov["faolStir"])
+REMOVE = {tuple(k) for k in ov.get("remove", [])}
+EXCLUDE = {tuple(k[:3]): k[3] for k in ov.get("exclude", [])}
+STIRFIX = {tuple(k[:3]): k[3] for k in ov.get("stirFix", [])}
 
 orig = openpyxl.load_workbook(a.orig)
 reestr = defaultdict(list)
@@ -60,6 +68,7 @@ for sn in orig.sheetnames[1:]:
 
 cur = openpyxl.load_workbook(a.cur)
 out, expected, used = [], [], defaultdict(int)
+excluded, ignore, seen = [], set(), set()
 for sn in cur.sheetnames[1:]:
     w = cur[sn]
     for r in rows(w):
@@ -67,16 +76,32 @@ for sn in cur.sheetnames[1:]:
         i = used[k]; used[k] += 1
         rs = reestr[k][min(i, len(reestr[k]) - 1)] if reestr[k] else None
         assert rs, f"reestrda topilmadi: {k}"
-        o = "ulanmagan" if k in OV_UL else "ulangan" if (k in OV_FA or k[2] in OV_STIR) else None
+        district = None if sn == "Respublika markazlari" else str(w.cell(r, 2).value or "").strip()
+        if k in REMOVE or k in EXCLUDE:
+            seen.add(k)
+            if k[2]: ignore.add(k[2])
+            if k in EXCLUDE:
+                excluded.append({"region": REGION[sn], "district": district, "name": k[1],
+                                 "stir": k[2] or None, "reason": EXCLUDE[k]})
+            continue
+        stir = STIRFIX.get(k, k[2])
+        if k in STIRFIX: seen.add(k)
+        o = "ulanmagan" if k in OV_UL else "ulangan" if (k in OV_FA or stir in OV_STIR) else None
         out.append({
-            "region": REGION[sn],
-            "district": None if sn == "Respublika markazlari" else str(w.cell(r, 2).value or "").strip(),
-            "name": k[1], "stir": k[2] or None, "reestr": rs, "override": o,
+            "region": REGION[sn], "district": district,
+            "name": k[1], "stir": stir or None, "reestr": rs, "override": o,
             "contract": (str(w.cell(r, contract_col(sn)).value or "").strip() or None),
         })
         expected.append(ST[w.cell(r, cols(sn)[2]).value])
 
-json.dump({"source": "HRM_ARGOS_17.09.2026 reestr", "orgs": out}, open(a.out, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-print("orgs", len(out), "overrides", sum(1 for x in out if x["override"]))
+missing = (REMOVE | set(EXCLUDE) | set(STIRFIX)) - seen
+assert not missing, f"overrides'dagi satr Excel'da topilmadi: {missing}"
+known = {o["stir"] for o in out if o["stir"]}
+ignore -= known  # boshqa (qolgan) satr bilan umumiy STIR — u satr hisoblanadi
+
+json.dump({"source": "HRM_ARGOS_17.09.2026 reestr", "orgs": out, "excluded": excluded,
+           "ignoreStir": sorted(ignore)}, open(a.out, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+print("orgs", len(out), "overrides", sum(1 for x in out if x["override"]),
+      "excluded", len(excluded), "ignoreStir", len(ignore))
 if a.expected:
     json.dump(expected, open(a.expected, "w", encoding="utf-8"), separators=(",", ":"))

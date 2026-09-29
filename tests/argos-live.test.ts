@@ -19,6 +19,18 @@ const base = JSON.parse(
 // maintained by hand-run scripts against exactly that tree. One later manual
 // decision is folded into the fixture: on 25.09 the user confirmed Yangiqo'rg'on
 // (Namangan) is connected, so its 19 «ulanmagan» overrides were lifted.
+// 29.09.2026 (user's Qashqadaryo workbook + 6 rows named in chat for Namangan,
+// Surxondaryo, Andijon): 10 rows removed from the registry,
+// 3 mountain-village hospitals without internet excluded from every count, and
+// 3 wrong STIRs corrected — two of those are in the 25.09 tree, so with the
+// right STIR they now read «ulangan»; the third (Kukdala, not in that tree) the
+// user confirmed as connected by hand → «faol» override. All three were
+// «ulanmagan» in the 25.09 workbook.
+const STIR_FIXED_CONNECTED = new Set([
+  '"Talimarjon" shifoxonasi',
+  "Nuristan poliklinikasi",
+  "Kukdala tumani koʻp tarmoqli markaziy poliklinikasi",
+]);
 const rows: TreeRow[] = readFileSync(
   new URL("./fixtures/argos-tree-2026-09-25.txt", import.meta.url),
   "utf-8",
@@ -39,19 +51,45 @@ test("reproduces the 25.09 workbook row by row", () => {
   const r = compute(base.orgs, tree);
   assert.equal(r.orgs.length, expected.length);
   const diff = r.orgs
-    .map((o, i) => [o, expected[i]] as const)
+    .map((o, i) => [o, STIR_FIXED_CONNECTED.has(o.name) ? "ulangan" : expected[i]] as const)
     .filter(([o, e]) => o.status !== e)
     .map(([o, e]) => `${o.region} | ${o.name} | ${o.stir} | ${o.status} ≠ ${e}`);
   assert.deepEqual(diff, []);
 });
 
-test("national totals match the workbook (3 878 / 3 510 / 267 / 101)", () => {
-  const { totals } = compute(base.orgs, tree);
+test("national totals: 25.09 workbook minus the 29.09 registry changes (3 865 / 3 513 / 255 / 97)", () => {
+  // 3 878 / 3 510 / 267 / 101 − 10 removed (9 ulanmagan, 1 ochirilgan) − 3 excluded (ochirilgan);
+  // Talimarjon, Nuristan, Kukdala ulanmagan → ulangan after the STIR fix.
+  const { totals } = compute(base.orgs, tree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3878, 3510, 267, 101],
+    [3865, 3513, 255, 97],
   );
-  assert.equal((totals.percent * 100).toFixed(1), "90.5");
+  assert.equal((totals.percent * 100).toFixed(1), "90.9");
+});
+
+test("removed and excluded rows count nowhere, not even as «in ARGOS, not in the registry»", () => {
+  const gone = [
+    ...["200676926", "206838917", "202139705", "203387999"], // Qashqadaryo, removed
+    ...["207200681", "207200698", "207200674"], // Qashqadaryo, no internet
+    ...["202611253", "202611245", "201290315", "203317578", "206949249", "202636696"], // Namangan, Surxondaryo, Andijon
+  ];
+  assert.deepEqual(base.ignoreStir, [...gone].sort());
+  assert.deepEqual(
+    (base.excluded ?? []).map((e) => [e.name, e.reason]),
+    [
+      ["Gʻelon qishloq uchastka kasalxonasi", "internet"],
+      ["Sarchashma qishloq uchastka kasalxonasi", "internet"],
+      ["Hisarak qishloq uchastka kasalxonasi", "internet"],
+    ],
+  );
+  assert.ok(!base.orgs.some((o) => o.stir && gone.includes(o.stir)));
+  const t = { at: tree.at, rows: [...rows, ...gone.map((g) => [g, 1] as TreeRow)] };
+  const extra = new Set(compute(base.orgs, t, base.ignoreStir).extraInTree.map((e) => e.tin));
+  assert.deepEqual(gone.filter((g) => extra.has(g)), []);
+  // without the ignore list they would surface there
+  const raw = new Set(compute(base.orgs, t).extraInTree.map((e) => e.tin));
+  assert.deepEqual(gone.filter((g) => raw.has(g)), gone);
 });
 
 test("region and district sums reconcile with the national total", () => {

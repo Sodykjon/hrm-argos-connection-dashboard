@@ -30,7 +30,7 @@ export async function getLive(): Promise<LiveData | null> {
   return {
     tree,
     manifest,
-    result: compute(BASE.orgs, tree),
+    result: compute(BASE.orgs, tree, BASE.ignoreStir),
     prevAt: prev?.at ?? null,
     changes: prev ? changedSince(BASE.orgs, prev, tree) : [],
   };
