@@ -179,7 +179,7 @@ export const UZ = {
     tableTitle: "Барча ўлчовлар",
     tableHint: "Ҳар бир нуқта — ўша кундаги ҳолат. «Ўзгариш» — олдинги ўлчовга нисбатан, фоиз бандида.",
     col: { date: "Сана", source: "Манба", delta: "Ўзгариш" },
-    source: { seed: "Илк ҳисобот", upload: "Юкланган ҳисобот", workbook: "Excel реестри", live: "ARGOS жонли" },
+    source: { seed: "Илк ҳисобот", corrected: "02.07 ҳисоботи, СТИР бўйича тузатилган", upload: "Юкланган ҳисобот", workbook: "Excel реестри", live: "ARGOS жонли" },
   },
 
   completion: {

@@ -7,9 +7,9 @@ import type { ManifestEntry } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-type Source = "seed" | "upload" | "workbook" | "live";
+type Source = "seed" | "corrected" | "upload" | "workbook" | "live";
 const sourceOf = (e: ManifestEntry): Source =>
-  e.url === "seed" || e.url === "live" || e.url === "workbook" ? e.url : "upload";
+  e.url === "seed" || e.url === "corrected" || e.url === "live" || e.url === "workbook" ? e.url : "upload";
 
 /** Percentage-point change with its sign: «+29,3», «−0,4», «0,0». */
 function fmtPts(d: number): string {

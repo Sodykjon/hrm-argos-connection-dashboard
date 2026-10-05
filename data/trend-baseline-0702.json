@@ -1,0 +1,137 @@
+{
+ "_source": "Documents/ARGOS_ulanish_reytingi_28.09/baza_02.07.json — 02.07.2026 ARGOS hisoboti STIR va TTB xatlari bo'yicha qayta hisoblangan (rasmiy 66,9% → 27,4%; 1 536 ta satr TTB STIR'i bilan yozilgani uchun ulangan hisoblanmaydi). O'chirilgan toifasi u paytda yo'q edi (0). Hudud kesimi o'sha paytdagi geografiya bo'yicha (filiallar viloyatlarda).",
+ "entry": {
+  "date": "2026-07-02",
+  "uploadedAt": "2026-07-02T12:00:00.000Z",
+  "url": "corrected",
+  "totals": {
+   "total": 3886,
+   "ulangan": 1063,
+   "ulanmagan": 2823,
+   "ochirilgan": 0,
+   "percent": 0.273546
+  },
+  "regions": [
+   {
+    "name": "Сирдарё вилояти",
+    "total": 166,
+    "ulangan": 42,
+    "ulanmagan": 124,
+    "ochirilgan": 0,
+    "percent": 0.253012
+   },
+   {
+    "name": "Бухоро вилояти",
+    "total": 262,
+    "ulangan": 67,
+    "ulanmagan": 195,
+    "ochirilgan": 0,
+    "percent": 0.255725
+   },
+   {
+    "name": "Навоий вилояти",
+    "total": 201,
+    "ulangan": 45,
+    "ulanmagan": 156,
+    "ochirilgan": 0,
+    "percent": 0.223881
+   },
+   {
+    "name": "Самарқанд вилояти",
+    "total": 484,
+    "ulangan": 99,
+    "ulanmagan": 385,
+    "ochirilgan": 0,
+    "percent": 0.204545
+   },
+   {
+    "name": "Қорақалпоғистон Республикаси",
+    "total": 259,
+    "ulangan": 67,
+    "ulanmagan": 192,
+    "ochirilgan": 0,
+    "percent": 0.258687
+   },
+   {
+    "name": "Хоразм вилояти",
+    "total": 186,
+    "ulangan": 54,
+    "ulanmagan": 132,
+    "ochirilgan": 0,
+    "percent": 0.290323
+   },
+   {
+    "name": "Тошкент вилояти",
+    "total": 295,
+    "ulangan": 86,
+    "ulanmagan": 209,
+    "ochirilgan": 0,
+    "percent": 0.291525
+   },
+   {
+    "name": "Жиззах вилояти",
+    "total": 201,
+    "ulangan": 47,
+    "ulanmagan": 154,
+    "ochirilgan": 0,
+    "percent": 0.233831
+   },
+   {
+    "name": "Андижон вилояти",
+    "total": 293,
+    "ulangan": 57,
+    "ulanmagan": 236,
+    "ochirilgan": 0,
+    "percent": 0.194539
+   },
+   {
+    "name": "Тошкент шаҳри",
+    "total": 169,
+    "ulangan": 167,
+    "ulanmagan": 2,
+    "ochirilgan": 0,
+    "percent": 0.988166
+   },
+   {
+    "name": "Қашқадарё вилояти",
+    "total": 331,
+    "ulangan": 68,
+    "ulanmagan": 263,
+    "ochirilgan": 0,
+    "percent": 0.205438
+   },
+   {
+    "name": "Фарғона вилояти",
+    "total": 426,
+    "ulangan": 97,
+    "ulanmagan": 329,
+    "ochirilgan": 0,
+    "percent": 0.2277
+   },
+   {
+    "name": "Республика муассасалари",
+    "total": 79,
+    "ulangan": 34,
+    "ulanmagan": 45,
+    "ochirilgan": 0,
+    "percent": 0.43038
+   },
+   {
+    "name": "Сурхондарё вилояти",
+    "total": 267,
+    "ulangan": 54,
+    "ulanmagan": 213,
+    "ochirilgan": 0,
+    "percent": 0.202247
+   },
+   {
+    "name": "Наманган вилояти",
+    "total": 267,
+    "ulangan": 79,
+    "ulanmagan": 188,
+    "ochirilgan": 0,
+    "percent": 0.29588
+   }
+  ]
+ }
+}

@@ -11,12 +11,9 @@ import { useChartTheme } from "@/lib/chart-theme";
 
 const TOTAL = "__total__";
 
-// The campaign-start marker at the knee: the user's own date and value
-// (07.08.2026 instruction, no source — same standing as the completion card's
-// 48% baseline). Not a report: the dot is silent, the tooltip never answers
-// for it, and it is drawn only on the national scope where the figure belongs.
-const KNEE_DATE_LABEL = "20.06";
-const KNEE_PCT = 43;
+// The «20.06 · 43%» campaign-start marker was removed on the user's call
+// (05.10.2026): with the trend starting at the STIR-corrected 27,4 % on 02.07,
+// an earlier date at a higher figure contradicted the first measurement.
 
 /** Days between two ISO dates. */
 function dayGap(a: string, b: string): number {
@@ -70,20 +67,11 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
     // interpolate somehow; the measured values themselves are carried by the
     // dot series below, which is the only thing the tooltip speaks for.
     const curveData: Array<[number, number]> = [];
-    let knee: [number, number] | null = null;
     for (let i = 0; i < n; i++) {
       const y = toPct(points[i].percent);
       if (i > 0 && dayGap(points[i - 1].date, points[i].date) > 60) {
         const prevY = toPct(points[i - 1].percent);
-        // The labelled 43% knee only on the national curve, and only while it
-        // sits between the surrounding measurements — a region's curve gets a
-        // plain eased bend with no invented figure attached.
-        if (scope === TOTAL && prevY < KNEE_PCT && KNEE_PCT < y) {
-          knee = [i - 0.45, KNEE_PCT];
-          curveData.push(knee);
-        } else {
-          curveData.push([i - 0.45, prevY + (y - prevY) * 0.04]);
-        }
+        curveData.push([i - 0.45, prevY + (y - prevY) * 0.04]);
       }
       curveData.push([i, y]);
     }
@@ -91,8 +79,9 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
     const dotsData = points.map((p, i) => [i, toPct(p.percent)]);
 
     return {
-      // Top leaves room for the 22px climb badge + its caption above the 100% goal line.
-      grid: { left: 44, right: 18, top: grew ? 72 : 46, bottom: 34 },
+      // Top leaves room for the 22px climb badge + its caption above the 100% goal line
+      // and its left-hand «Мақсад» label.
+      grid: { left: 44, right: 18, top: grew ? 86 : 46, bottom: 34 },
       // The climb badge lives on the chart itself: the growth since the first
       // report is the page's whole message, and it should not depend on the
       // reader noticing a tile elsewhere. Values are real; the axis below is
@@ -194,6 +183,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         // report, in ECharts' default grey — a stray vertical rule (barely seen
         // on navy, black on white). The gridlines carry the scale.
         axisLine: { show: false },
+        axisTick: { show: false },
         splitLine: { lineStyle: { color: ct.splitLine } },
         axisLabel: {
           color: ct.axisLabel,
@@ -224,7 +214,9 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                 lineStyle: { color: ct.goal, type: "dashed", width: 1.5 },
                 label: {
                   formatter: S.goal.target100,
-                  position: "insideEndTop",
+                  // Start, not end: at 96 % the last point's label sits right
+                  // under the line's end and the two collided.
+                  position: "insideStartTop",
                   color: ct.goal,
                   fontFamily: FONT_MONO,
                   fontSize: 10,
@@ -250,28 +242,6 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
             ],
           },
         },
-        // The knee as a plain dot on the curve, dated beneath — the user's
-        // campaign-start annotation. Silent: no value attaches, the tooltip
-        // never answers for it.
-        ...(knee
-          ? [
-              {
-                type: "scatter" as const,
-                silent: true,
-                symbolSize: 9,
-                data: [knee],
-                itemStyle: { color: ct.ul, borderColor: ct.surface, borderWidth: 2 },
-                label: {
-                  show: true,
-                  position: "bottom" as const,
-                  formatter: `${KNEE_DATE_LABEL} · ${KNEE_PCT}%`,
-                  fontFamily: FONT_MONO,
-                  fontSize: 11,
-                  color: ct.axisLabel,
-                },
-              },
-            ]
-          : []),
         {
           // The measured reports: dots, endpoint labels, and the only series
           // the tooltip answers for.

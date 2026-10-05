@@ -178,7 +178,7 @@ export const RU = {
     tableTitle: "Все измерения",
     tableHint: "Каждая точка — состояние на этот день. «Изменение» — к предыдущему измерению, в процентных пунктах.",
     col: { date: "Дата", source: "Источник", delta: "Изменение" },
-    source: { seed: "Первый отчёт", upload: "Загруженный отчёт", workbook: "Реестр Excel", live: "ARGOS онлайн" },
+    source: { seed: "Первый отчёт", corrected: "Отчёт 02.07, скорректирован по ИНН", upload: "Загруженный отчёт", workbook: "Реестр Excel", live: "ARGOS онлайн" },
   },
 
   completion: {

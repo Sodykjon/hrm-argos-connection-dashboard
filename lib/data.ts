@@ -26,6 +26,7 @@ import {
 import { getLiveManifest, tashkentDate } from "./store";
 import { getLive, type LiveData } from "./argos-live-data";
 import workbookTrend from "@/data/trend-workbook.json";
+import baseline0702 from "@/data/trend-baseline-0702.json";
 
 const seedSnapshot = seedSnapshotJson as unknown as Snapshot;
 const seedRegistry = seedRegistryJson as unknown as Registry;
@@ -179,9 +180,14 @@ export async function getHistory(): Promise<ManifestEntry[]> {
   // An upload or a live point for the same date always wins.
   const wb = (workbookTrend.points as ManifestEntry[]).filter((p) => !base.some((e) => e.date === p.date));
   const liveDates = new Set(liveEntries.map((e) => e.date));
-  return [...base, ...wb].filter((e) => !liveDates.has(e.date)).concat(liveEntries).sort((a, b) =>
-    a.date.localeCompare(b.date),
-  );
+  // The starting point is the STIR-corrected 02.07 figure (27,4 %), not the
+  // ARGOS report's own 66,9 % (user, 05.10.2026): it replaces the bundled seed
+  // AND any upload of that date. Later uploaded reports keep their figures.
+  const start = baseline0702.entry as ManifestEntry;
+  return [...base, ...wb]
+    .filter((e) => !liveDates.has(e.date) && e.date !== start.date)
+    .concat(liveDates.has(start.date) ? [] : [start], liveEntries)
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // --- completion ("Тўлдирилиш даражаси") -------------------------------------
