@@ -838,7 +838,44 @@
    "Gurlan tumani Yangiobod oilaviy shifokorlik punkti",
    "201137788",
    "311838793"
+  ],
+  [
+   "Jizzax",
+   "12-son Op",
+   "311949465",
+   "311949537"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Ellikqalʼa tumani Boʻston oilaviy shifokorlik punkti",
+   "200914296",
+   "311878285"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani Ketenler oilaviy shifokorlik punkti",
+   "200399621",
+   "311880070"
+  ],
+  [
+   "Surxondaryo",
+   "Muzrobod tumani koʻp tarmoqli markaziy poliklinikasi",
+   "312630293",
+   "312633044"
+  ],
+  [
+   "Xorazm",
+   "Xiva shahar 1-sonli oilaviy poliklinikasi",
+   "200206401",
+   "311861649"
+  ],
+  [
+   "Xorazm",
+   "Xiva shahar 2-sonli oilaviy poliklinikasi",
+   "200206401",
+   "311861695"
   ]
  ],
- "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx"
+ "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
+ "_izoh_stirFix_05_10_review": "05.10.2026: ko'rib chiqish ro'yxatidagi 6 juftlik (7 satr, Ketenler OShP reestrda ikki marta) — foydalanuvchi «ha» dedi."
 }

@@ -46,14 +46,15 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: workbook v2 (3 865 / 3 726 / 39 / 100)", () => {
+test("national totals: workbook v3 (3 910 / 3 758 / 39 / 113)", () => {
   // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
-  // mountain-village hospitals without internet = 3 718 / 50 / 97; then v2 (05.10 ARGOS tree):
-  // 110 rows got their own STIR, 11 of them read connected, 3 Gurlan OShPs billing-off.
+  // mountain-village hospitals without internet = 3 718 / 50 / 97; v2 (05.10 ARGOS tree): 110 rows
+  // got their own STIR → 3 726 / 39 / 100; v3 (user's review): 7 more STIRs (Xiva 1–2 OP read
+  // connected) and 45 tree orgs added (31 billing on, 14 off) → 3 910 / 3 758 / 39 / 113.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3865, 3726, 39, 100],
+    [3910, 3758, 39, 113],
   );
 });
 
@@ -69,13 +70,13 @@ test("workbook structure: sheet order, republican systems, merged district spell
     ],
   );
   const rep = regions[0];
-  assert.equal(rep.total, 496);
+  assert.equal(rep.total, 499); // 496 + 3 republican-centre branches added 05.10
   assert.equal(rep.districts.length, 20);
   assert.equal(rep.districts[0].name, "Sanitariya-epidemiologiya qoʻmitasi tizimi");
   assert.equal(rep.districts.at(-1)?.name, "Vazirlikka bevosita boʻysunuvchilar");
   const andijon = regions.find((r) => r.name === "Андижон вилояти")!;
   assert.equal(andijon.districts[0].name, "Viloyat darajasidagi muassasalar");
-  assert.equal(andijon.districts.find((d) => d.name === "Asaka tumani")?.total, 24); // 23 + «ASAKA tumani» 1
+  assert.equal(andijon.districts.find((d) => d.name === "Asaka tumani")?.total, 25); // 23 + «ASAKA tumani» 1 + district health dept added 05.10
   const all = new Set(regions.flatMap((r) => r.districts.map((d) => d.name)));
   for (const raw of ["ASAKA tumani", "Chipchiq shahri", "Yashnabod tumani", "Toylok tumani", "1-son shahri"])
     assert.ok(!all.has(raw), raw);
@@ -119,10 +120,10 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: the workbook's 145 / 667 less the 110 rows given their own STIR on 05.10 (127 / 550), none mixed", () => {
+test("same-STIR groups: the workbook's 145 / 667 less the 117 rows given their own STIR on 05.10 (124 / 542), none mixed", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 127);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 550);
+  assert.equal(stirGroups.length, 124);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 542); // incl. the doubled Ketenler OShP row
   assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
 });
 
@@ -135,13 +136,14 @@ const tree1005: TreeRow[] = readFileSync(new URL("./fixtures/argos-tree-2026-10-
     return [t, b === "1" ? 1 : 0];
   });
 
-test("05.10 ARGOS tree: 110 STIRs fixed from the tree (3 726 / 39 / 100), 85 tree orgs still outside the registry", () => {
+test("05.10 ARGOS tree: registry agrees with the workbook (3 910 / 3 758 / 39 / 113), 35 tree orgs left out on purpose", () => {
   // Before the fixes the same tree gave exactly the workbook's 3 718 / 50 / 97 and 195 outside.
   const r = compute(base.orgs, { at: "2026-10-05T12:00:00Z", rows: tree1005 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3865, 3726, 39, 100]);
-  assert.equal(r.extraInTree.length, 85); // 79 not in the registry + 6 left for manual review
-  // 3 331 distinct STIRs + 110 new − 11 old ones that only the fixed rows carried (typos, stale STIRs)
-  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3430);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3910, 3758, 39, 113]);
+  // the 34 the user marked «yo'q» (colleges, depots, project units…) + the Xiva college whose STIR
+  // the Xiva OPs had been filed under
+  assert.equal(r.extraInTree.length, 35);
+  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3480);
 });
 
 test("decide(): each branch of the rule", () => {
