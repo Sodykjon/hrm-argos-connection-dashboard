@@ -12,8 +12,9 @@ const SEGMENTS: Array<{
   { keys: ["orta"], labelKey: "orta", color: "var(--color-ul)" },
   // Violet, not gold: goal/warn are near-identical ambers, and the two sat
   // adjacent in the stack — indistinguishable categories. #b78af7 clears the
-  // CVD gate against both neighbours on this surface.
-  { keys: ["kichik"], labelKey: "kichik", color: "#b78af7" },
+  // CVD gate against both neighbours on this surface. No CSS token: light-dark()
+  // follows the root color-scheme; #7a64a8 = ChartTheme violet (light).
+  { keys: ["kichik"], labelKey: "kichik", color: "light-dark(#7a64a8, #b78af7)" },
   { keys: ["boshqa"], labelKey: "boshqa", color: "var(--color-warn)" },
   { keys: ["notibbiy", "provfarm"], labelKey: "rest", color: "var(--color-och)" },
 ];

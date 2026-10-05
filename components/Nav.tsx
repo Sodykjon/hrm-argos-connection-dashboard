@@ -22,7 +22,8 @@ export function Nav() {
       links: [
         { href: "/", label: S.nav.overview, exact: true },
         { href: "/argos-jonli", label: S.nav.argosLive },
-        { href: "/ulanmaganlar", label: S.nav.unconnected },
+        // «Уланмаганлар» removed from the nav on the user's request 05.10.2026;
+        // /ulanmaganlar still exists (linked from the home page's attention strip).
         { href: "/trend", label: S.nav.trend },
         { href: "/toldirilish", label: S.nav.completion, highlight: true },
       ],
@@ -48,15 +49,11 @@ export function Nav() {
       {groups.map((g, gi) => (
         <div key={g.label} className="flex items-center gap-2">
           {gi > 0 && (
-            <span className="h-5 w-px shrink-0 bg-white/15" aria-hidden />
+            <span className="h-5 w-px shrink-0 bg-chrome-line" aria-hidden />
           )}
-          {/* Caption inline-left of its pills: in the dedicated nav row the
-              header pays for height, not width, so the two-line stack the
-              caption-above layout needed is the wrong trade here. */}
-          <div className="flex items-center gap-2">
-            <span className="shrink-0 whitespace-nowrap text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-white/40">
-              {g.label}
-            </span>
+          {/* The group caption («АРГОС жорий этилиши») was removed on the
+              user's request 05.10.2026; the label stays as the group's name. */}
+          <div className="flex items-center gap-2" aria-label={g.label} role="group">
             <div className="flex items-center gap-1">
               {g.links.map((l) => {
                 const active = l.exact
@@ -64,11 +61,11 @@ export function Nav() {
                   : path.startsWith(l.href);
                 const cls = l.highlight
                   ? active
-                    ? "bg-goal text-band font-semibold shadow-[0_0_14px_rgba(247,193,75,0.5)]"
+                    ? "bg-goal text-band font-semibold shadow-[0_0_14px_color-mix(in_srgb,var(--color-goal)_var(--glow),transparent)]"
                     : "border border-goal/60 bg-goal-soft text-goal font-semibold hover:bg-goal/20"
                   : active
-                    ? "bg-white text-band"
-                    : "text-white/70 hover:bg-white/10 hover:text-white";
+                    ? "bg-chrome-active text-chrome-on-active"
+                    : "text-chrome-ink-soft hover:bg-chrome-hover hover:text-chrome-ink";
                 return (
                   <Link
                     key={l.href}
@@ -82,7 +79,7 @@ export function Nav() {
                     {l.highlight && (
                       <span
                         className="h-1.5 w-1.5 rounded-full bg-goal"
-                        style={{ boxShadow: "0 0 6px var(--color-goal)" }}
+                        style={{ boxShadow: "0 0 6px color-mix(in srgb, var(--color-goal) var(--glow), transparent)" }}
                         aria-hidden
                       />
                     )}

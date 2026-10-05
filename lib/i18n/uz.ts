@@ -172,6 +172,14 @@ export const UZ = {
     // card does, so "+16,5" cannot be read as "grew by 16.5 percent".
     deltaPts: (n: string) => `+${n} фоиз банди`,
     sinceFirst: "биринчи ҳисоботдан бери",
+    ptsShort: "ф.б.",
+    ofOrgs: (u: string, t: string) => `${t} дан ${u} та ташкилот`,
+    latest: (d: string) => `охирги ўлчов: ${d}`,
+    range: (a: string, b: string) => `${a} → ${b}`,
+    tableTitle: "Барча ўлчовлар",
+    tableHint: "Ҳар бир нуқта — ўша кундаги ҳолат. «Ўзгариш» — олдинги ўлчовга нисбатан, фоиз бандида.",
+    col: { date: "Сана", source: "Манба", delta: "Ўзгариш" },
+    source: { seed: "Илк ҳисобот", upload: "Юкланган ҳисобот", workbook: "Excel реестри", live: "ARGOS жонли" },
   },
 
   completion: {
@@ -676,6 +684,12 @@ export const UZ = {
   },
 
 
+  theme: {
+    label: "Мавзу",
+    light: "Ёруғ мавзу",
+    dark: "Қоронғи мавзу",
+    system: "Қурилма созламаси бўйича",
+  },
   argosLive: {
     title: "ARGOS'га уланиш — жонли ҳолат",
     subtitle:

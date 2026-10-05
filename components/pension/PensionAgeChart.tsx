@@ -7,21 +7,21 @@ import { ageBands, type AgeBandKey } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
+import { useChartTheme, type ChartTheme } from "@/lib/chart-theme";
 
 // Single series, but the page's whole subject — the pension wave — must be
 // visible IN the chart, not only in the prose: 50–60 wears amber (reaches
 // pension within the decade), 60+ wears coral (already past it). Younger
 // bands stay a quiet blue so the risk zone owns the attention.
-const ZONE: Record<AgeBandKey, string> = {
-  u30: "#2b6ca3",
-  a3040: "#2b6ca3",
-  a4050: "#2b6ca3",
-  a5060: "#f7b23b",
-  a60p: "#ff5a63",
-};
+function zoneColor(key: AgeBandKey, ct: ChartTheme): string {
+  if (key === "a5060") return ct.warn;
+  if (key === "a60p") return ct.un;
+  return ct.blue2;
+}
 
 export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
   const S = useS();
+  const ct = useChartTheme();
 
   const bands = useMemo(() => ageBands(stat), [stat]);
 
@@ -37,9 +37,10 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
       tooltip: {
         trigger: "axis",
         axisPointer: { type: "shadow" },
-        backgroundColor: "#0b3663",
-        borderWidth: 0,
-        textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
+        backgroundColor: ct.tooltipBg,
+        borderColor: ct.tooltipBorder,
+        borderWidth: ct.dark ? 0 : 1,
+        textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {
           const arr = params as Array<{ dataIndex: number }>;
           const b = bands[arr[0].dataIndex];
@@ -51,9 +52,9 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
       },
       xAxis: {
         type: "value",
-        splitLine: { lineStyle: { color: "#172a45" } },
+        splitLine: { lineStyle: { color: ct.splitLine } },
         axisLabel: {
-          color: "#8ba0bd",
+          color: ct.axisLabel,
           fontFamily: FONT_MONO,
           fontSize: 11,
           // Head-counts run to six digits; thousands keep the axis readable.
@@ -64,9 +65,9 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
         type: "category",
         data: labels,
         inverse: true, // youngest at the top, reading downward into old age
-        axisLine: { lineStyle: { color: "#22334f" } },
+        axisLine: { lineStyle: { color: ct.axisLine } },
         axisTick: { show: false },
-        axisLabel: { color: "#8ba0bd", fontFamily: FONT_SANS, fontSize: 11 },
+        axisLabel: { color: ct.axisLabel, fontFamily: FONT_SANS, fontSize: 11 },
       },
       series: [
         {
@@ -78,7 +79,7 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
             show: true,
             position: "right",
             distance: 6,
-            color: "#c6d4e8",
+            color: ct.inkSoft,
             fontFamily: FONT_MONO,
             fontSize: 10.5,
             formatter: (p: { dataIndex: number }) => {
@@ -90,7 +91,7 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
           data: bands.map((b) => ({
             value: b.total,
             itemStyle: {
-              color: ZONE[b.key as AgeBandKey],
+              color: zoneColor(b.key as AgeBandKey, ct),
               borderRadius: [0, 3, 3, 0],
             },
           })),
@@ -98,7 +99,7 @@ export function PensionAgeChart({ stat }: { stat: KadrlarStat }) {
       ],
     };
     // `S` is a dependency: without it the chart keeps the old language.
-  }, [bands, S]);
+  }, [bands, S, ct]);
 
   const totalAll = bands.reduce((a, b) => a + b.total, 0);
   const wave = bands

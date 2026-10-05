@@ -9,10 +9,9 @@ import {
   TarkibMap,
   coverageRamp,
   coverageT,
-  coverageColor,
 } from "./TarkibMap";
 import { regionSlug, regionLabel } from "@/lib/regions";
-import { fmtInt, fmtPct } from "@/lib/format";
+import { fmtInt, fmtPct, rampCss } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 
 export function TarkibBoard({
@@ -45,7 +44,7 @@ export function TarkibBoard({
         <div className="border-b border-line p-3 sm:p-4 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-1 flex items-baseline justify-between px-1">
             <h2 className="text-[0.95rem] font-semibold">{S.tarkib.mapTitle}</h2>
-            <span className="hidden text-[0.72rem] text-ink-faint sm:block">
+            <span className="hidden text-[0.75rem] text-ink-faint sm:block">
               {S.tarkib.mapHint}
             </span>
           </div>
@@ -56,7 +55,7 @@ export function TarkibBoard({
             onSelect={(name) => router.push(`/tarkib/${regionSlug(name)}`)}
           />
           {/* The scale is relative, so it states its own endpoints. */}
-          <p className="mt-1 px-1 text-[0.7rem] text-ink-faint">
+          <p className="mt-1 px-1 text-[0.75rem] text-ink-faint">
             {S.tarkib.mapKey(fmtPct(ramp.min, 1), fmtPct(ramp.max, 1))}
           </p>
         </div>
@@ -71,7 +70,8 @@ export function TarkibBoard({
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map((r, i) => {
               const isActive = active === r.name;
-              const color = coverageColor(coverageT(r.share, ramp));
+              // coverageColor resolved per theme so the text reads in both.
+              const color = rampCss(coverageT(r.share, ramp));
               // Scaled to the best region: at ~54–91% an absolute scale would
               // start every bar past the middle and flatten the ranking.
               const width = ramp.max > 0 ? (r.share / ramp.max) * 100 : 0;
@@ -87,7 +87,7 @@ export function TarkibBoard({
                       isActive ? "bg-paper" : "hover:bg-paper"
                     }`}
                   >
-                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.72rem] font-semibold text-ink-soft">
+                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.75rem] font-semibold text-ink-soft">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -109,7 +109,7 @@ export function TarkibBoard({
                             style={{ width: `${width}%`, background: color }}
                           />
                         </span>
-                        <span className="tnum shrink-0 text-[0.66rem] text-ink-faint">
+                        <span className="tnum shrink-0 text-[0.75rem] text-ink-faint">
                           {fmtInt(r.region.vrach.jismoniy)} {S.tarkib.vrachUnit}
                         </span>
                       </span>

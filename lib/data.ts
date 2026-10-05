@@ -25,6 +25,7 @@ import {
 } from "./store";
 import { getLiveManifest, tashkentDate } from "./store";
 import { getLive, type LiveData } from "./argos-live-data";
+import workbookTrend from "@/data/trend-workbook.json";
 
 const seedSnapshot = seedSnapshotJson as unknown as Snapshot;
 const seedRegistry = seedRegistryJson as unknown as Registry;
@@ -173,8 +174,12 @@ export async function getHistory(): Promise<ManifestEntry[]> {
   } catch {
     /* live history is optional */
   }
+  // Registry-workbook points (17.09 «baza» and 05.10 final, counted on today's
+  // registry) fill the gap between the last upload and the first live push.
+  // An upload or a live point for the same date always wins.
+  const wb = (workbookTrend.points as ManifestEntry[]).filter((p) => !base.some((e) => e.date === p.date));
   const liveDates = new Set(liveEntries.map((e) => e.date));
-  return [...base.filter((e) => !liveDates.has(e.date)), ...liveEntries].sort((a, b) =>
+  return [...base, ...wb].filter((e) => !liveDates.has(e.date)).concat(liveEntries).sort((a, b) =>
     a.date.localeCompare(b.date),
   );
 }

@@ -43,7 +43,7 @@ export default async function TarkibPage() {
         <TarkibHero region={nat} />
       </Reveal>
 
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.sourceNote(fmtDate(TARKIB.date))}
       </p>
 
@@ -103,7 +103,7 @@ export default async function TarkibPage() {
             </div>
             <Link
               href="/tarkib/mutaxassislik"
-              className="inline-flex items-center gap-1.5 rounded-full bg-sov px-3.5 py-1.5 text-[0.78rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+              className="inline-flex items-center gap-1.5 rounded-full bg-sov px-3.5 py-1.5 text-[0.78rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
             >
               {S.tarkib.spec.navBtn}
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -121,10 +121,10 @@ export default async function TarkibPage() {
         exportName={`tarkib_${TARKIB.date}`}
       />
 
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.terms}
       </p>
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.qualityNote}
       </p>
     </div>

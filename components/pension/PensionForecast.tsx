@@ -7,8 +7,7 @@ import { pensionForecast, type ForecastKey } from "@/lib/pension-metrics";
 import { fmtInt, fmtPct, toPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
-
-const AMBER = "#f7b23b";
+import { useChartTheme } from "@/lib/chart-theme";
 
 /**
  * Four horizons of the same share. The first two bars are measurements and are
@@ -19,6 +18,7 @@ const AMBER = "#f7b23b";
  */
 export function PensionForecast({ stat }: { stat: KadrlarStat }) {
   const S = useS();
+  const ct = useChartTheme();
 
   const points = useMemo(() => pensionForecast(stat), [stat]);
 
@@ -36,9 +36,10 @@ export function PensionForecast({ stat }: { stat: KadrlarStat }) {
         trigger: "axis",
         axisPointer: { type: "shadow" },
         confine: true,
-        backgroundColor: "#0b3663",
-        borderWidth: 0,
-        textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
+        backgroundColor: ct.tooltipBg,
+        borderColor: ct.tooltipBorder,
+        borderWidth: ct.dark ? 0 : 1,
+        textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {
           const arr = params as Array<{ dataIndex: number }>;
           const p = points[arr[0].dataIndex];
@@ -48,15 +49,15 @@ export function PensionForecast({ stat }: { stat: KadrlarStat }) {
       xAxis: {
         type: "category",
         data: points.map((p) => LABEL[p.key]),
-        axisLine: { lineStyle: { color: "#22334f" } },
+        axisLine: { lineStyle: { color: ct.axisLine } },
         axisTick: { show: false },
-        axisLabel: { color: "#8ba0bd", fontFamily: FONT_SANS, fontSize: 11 },
+        axisLabel: { color: ct.axisLabel, fontFamily: FONT_SANS, fontSize: 11 },
       },
       yAxis: {
         type: "value",
-        splitLine: { lineStyle: { color: "#172a45" } },
+        splitLine: { lineStyle: { color: ct.splitLine } },
         axisLabel: {
-          color: "#8ba0bd",
+          color: ct.axisLabel,
           fontFamily: FONT_MONO,
           fontSize: 11,
           formatter: (v: number) => `${v}%`,
@@ -71,7 +72,7 @@ export function PensionForecast({ stat }: { stat: KadrlarStat }) {
             position: "top",
             fontFamily: FONT_MONO,
             fontSize: 12,
-            color: "#eaf1fb",
+            color: ct.ink,
             formatter: (p: unknown) =>
               fmtPct(((p as { value: number }).value ?? 0) / 100, 1),
           },
@@ -79,19 +80,20 @@ export function PensionForecast({ stat }: { stat: KadrlarStat }) {
             value: toPct(p.share),
             itemStyle: p.estimate
               ? {
-                  color: "rgba(247,178,59,0.30)",
-                  borderColor: AMBER,
+                  // translucent warn; light = warn #a8773f at the same 30 %
+                  color: ct.dark ? "rgba(247,178,59,0.30)" : "rgba(168,119,63,0.30)",
+                  borderColor: ct.warn,
                   borderWidth: 1.5,
                   borderType: "dashed" as const,
                   borderRadius: [4, 4, 0, 0],
                 }
-              : { color: AMBER, borderRadius: [4, 4, 0, 0] },
+              : { color: ct.warn, borderRadius: [4, 4, 0, 0] },
           })),
         },
       ],
     };
     // `S` is a dependency: without it the chart keeps the old language.
-  }, [points, S]);
+  }, [points, S, ct]);
 
   return <Chart option={option} className="h-[260px] w-full sm:h-[300px]" />;
 }

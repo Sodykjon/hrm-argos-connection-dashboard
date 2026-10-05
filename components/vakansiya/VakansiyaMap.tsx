@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { KadrlarStat } from "@/lib/types";
-import { riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
+import { riskRamp, riskT } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
+import { useChartTheme } from "@/lib/chart-theme";
 
 interface VakansiyaMapProps {
   regions: KadrlarStat[]; // geographic regions only
@@ -15,9 +16,6 @@ interface VakansiyaMapProps {
   onHover?: (name: string | null) => void;
   onSelect?: (name: string) => void;
 }
-
-// Green -> red: a high vacancy rate is a staffing gap, so high is bad.
-const RAMP = ["#2fd07a", "#9ee34f", "#f7b23b", "#ff5a63"];
 
 const ENCLAVE_MARKERS: Record<string, [number, number]> = {
   "Тошкент шаҳри": [69.28, 41.31],
@@ -32,6 +30,7 @@ export function VakansiyaMap({
 }: VakansiyaMapProps) {
   const S = useS();
   const lang = useLang();
+  const ct = useChartTheme();
   const elRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<EChartsType | null>(null);
   const [ready, setReady] = useState(false);
@@ -76,6 +75,8 @@ export function VakansiyaMap({
     if (!chart || !ready) return;
 
     const rows = regions.map((r) => ({ stat: r, m: vacancyMetrics(r) }));
+    // Green -> red: a high vacancy rate is a staffing gap, so high is bad.
+    const RAMP = [...ct.ramp4].reverse();
     const ramp = riskRamp(rows.map((r) => r.m.rate));
 
     const mapData = rows.map(({ stat, m }) => ({
@@ -98,7 +99,8 @@ export function VakansiyaMap({
           vacant: stat.vacant,
           filled: stat.total,
           stavka: stat.stavka,
-          itemStyle: { color: riskColor(riskT(m.rate, ramp)) },
+          // riskColor(t) = rampColor(1 - t), themed
+          itemStyle: { color: ct.rampFill(1 - riskT(m.rate, ramp)) },
         };
       });
 
@@ -120,10 +122,13 @@ export function VakansiyaMap({
       {
         tooltip: {
           trigger: "item",
-          backgroundColor: "#0b3663",
-          borderWidth: 0,
+          backgroundColor: ct.tooltipBg,
+          // light: the white tooltip needs an edge on the white card
+          borderColor: ct.tooltipBorder,
+          borderWidth: ct.dark ? 0 : 1,
           padding: [10, 12],
-          textStyle: { color: "#fff", fontFamily: canvasFont(FONT_SANS), fontSize: 12 },
+          // dark keeps its original pure white (ct.tooltipText is #eaf1fb)
+          textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: canvasFont(FONT_SANS), fontSize: 12 },
           formatter: tooltipFormatter,
         },
         visualMap: {
@@ -139,7 +144,7 @@ export function VakansiyaMap({
           calculable: false,
           text: [fmtPct(ramp.max, 1), fmtPct(ramp.min, 1)],
           inRange: { color: RAMP },
-          textStyle: { color: "#8ba0bd", fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
+          textStyle: { color: ct.axisLabel, fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
         },
         geo: {
           map: "uzbekistan",
@@ -159,23 +164,23 @@ export function VakansiyaMap({
             layoutCenter: MAP_LAYOUT.center,
             layoutSize: MAP_LAYOUT.size,
             itemStyle: {
-              borderColor: "rgba(140,175,225,0.16)",
+              borderColor: ct.mapBorder,
               borderWidth: 1,
-              areaColor: "#152c4e",
+              areaColor: ct.mapArea,
             },
             emphasis: {
               label: {
                 show: true,
-                color: "#eaf1fb",
+                color: ct.ink,
                 fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 11,
               },
               itemStyle: {
-                borderColor: "#3fb6ff",
+                borderColor: ct.mapHoverBorder,
                 borderWidth: 1.5,
-                shadowBlur: 16,
-                shadowColor: "rgba(63,182,255,0.6)",
+                shadowBlur: 16 * ct.glow,
+                shadowColor: ct.mapHoverGlow,
               },
             },
             label: { show: false },
@@ -189,10 +194,11 @@ export function VakansiyaMap({
             symbolSize: 16,
             data: enclaveData,
             itemStyle: {
-              borderColor: "#ffffff",
+              // white ring in both themes (light region borders are white too)
+              borderColor: ct.dark ? "#ffffff" : ct.surface,
               borderWidth: 2,
-              shadowBlur: 5,
-              shadowColor: "rgba(11,27,43,0.35)",
+              shadowBlur: 5 * ct.glow,
+              shadowColor: ct.mapShadow,
             },
             label: { show: false },
             emphasis: {
@@ -202,14 +208,14 @@ export function VakansiyaMap({
                 position: "right",
                 distance: 6,
                 formatter: (p: { name: string }) => regionLabelShort(p.name, lang),
-                color: "#eaf1fb",
+                color: ct.labelText,
                 fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 10.5,
-                backgroundColor: "#0c1f3b",
+                backgroundColor: ct.labelBg,
                 padding: [3, 6],
                 borderRadius: 5,
-                borderColor: "#3fb6ff",
+                borderColor: ct.mapHoverBorder,
                 borderWidth: 1,
               },
             },
@@ -219,8 +225,9 @@ export function VakansiyaMap({
       { notMerge: true },
     );
     // `lang` and `S` are dependencies: a language switch must redraw the
-    // labels and the tooltip, not just the surrounding React tree.
-  }, [regions, ready, lang, S]);
+    // labels and the tooltip, not just the surrounding React tree. `ct`
+    // likewise for a theme switch.
+  }, [regions, ready, lang, S, ct]);
 
   useEffect(() => {
     const chart = chartRef.current;

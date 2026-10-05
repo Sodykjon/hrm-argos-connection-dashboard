@@ -36,7 +36,7 @@ export function DeltaTile({
       <div className={`tnum mt-3 text-[2rem] font-semibold leading-none tracking-tight sm:text-[2.35rem] ${tone}`}>
         {zero ? "0" : text}
       </div>
-      <div className="mt-1.5 text-[0.72rem] text-ink-faint">{zero ? `${zeroText} · ${hint}` : hint}</div>
+      <div className="mt-1.5 text-[0.75rem] text-ink-faint">{zero ? `${zeroText} · ${hint}` : hint}</div>
     </div>
   );
 }

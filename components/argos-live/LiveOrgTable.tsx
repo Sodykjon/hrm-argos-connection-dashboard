@@ -102,7 +102,7 @@ export function LiveOrgTable({
       <div className="scroll-quiet overflow-x-auto">
         <table className="w-full border-collapse text-left text-[0.8rem]">
           <thead>
-            <tr className="border-b border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               {showRegion && <th className="px-3 py-2 font-medium sm:pl-4">{L.col.region}</th>}
               <th className={`px-3 py-2 font-medium ${showRegion ? "" : "sm:pl-4"}`}>{L.col.district}</th>
               <th className="px-3 py-2 font-medium">{L.col.name}</th>

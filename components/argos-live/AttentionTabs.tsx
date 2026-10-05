@@ -52,11 +52,11 @@ export function AttentionTabs({
               aria-selected={tab === t.key}
               onClick={() => setTab(t.key)}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.78rem] font-medium transition-colors ${
-                tab === t.key ? "bg-sov text-white" : "border border-line text-ink-soft hover:bg-paper"
+                tab === t.key ? "bg-sov text-on-sov" : "border border-line text-ink-soft hover:bg-paper"
               }`}
             >
               {t.label}
-              <span className={`tnum rounded-full px-1.5 text-[0.7rem] ${tab === t.key ? "bg-white/20" : "bg-paper"}`}>
+              <span className={`tnum rounded-full px-1.5 text-[0.75rem] ${tab === t.key ? "bg-white/25" : "bg-paper"}`}>
                 {fmtInt(t.n)}
               </span>
             </button>
@@ -75,7 +75,7 @@ export function AttentionTabs({
           <p className="border-b border-line-soft px-3 py-2 text-[0.78rem] text-ink-soft sm:px-4">{A.stirHint}</p>
           <table className="w-full border-collapse text-left text-[0.8rem]">
             <thead>
-              <tr className="border-b border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+              <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
                 <th className="px-3 py-2 font-medium sm:pl-4">{S.argosLive.col.region}</th>
                 <th className="px-3 py-2 font-medium">{S.argosLive.col.district}</th>
                 <th className="tnum px-3 py-2 font-medium">{S.argosLive.col.stir}</th>
@@ -104,7 +104,7 @@ export function AttentionTabs({
         (extra.length ? (
           <table className="w-full border-collapse text-left text-[0.8rem]">
             <thead>
-              <tr className="border-b border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+              <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
                 <th className="tnum px-3 py-2 font-medium sm:pl-4">{S.argosLive.col.stir}</th>
                 <th className="px-3 py-2 font-medium">{S.argosLive.col.name}</th>
                 <th className="px-3 py-2 font-medium sm:pr-4">{S.argosLive.col.billing}</th>
@@ -139,7 +139,7 @@ function RemovedList({ rows }: { rows: RemovedOrg[] }) {
       <div className="scroll-quiet overflow-x-auto">
         <table className="w-full border-collapse text-left text-[0.8rem]">
           <thead>
-            <tr className="border-b border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="px-3 py-2 font-medium sm:pl-4">{L.col.region}</th>
               <th className="px-3 py-2 font-medium">{L.col.district}</th>
               <th className="px-3 py-2 font-medium">{L.col.name}</th>
@@ -195,8 +195,8 @@ function FragmentRow({
         <td className="px-3 py-1.5">
           <span className="mr-1 text-ink-faint">{open ? "▾" : "▸"}</span>
           {g.names[0]}
-          {g.mixed && <span className="ml-2 rounded-full bg-un-soft px-2 py-0.5 text-[0.7rem] text-un">{mixedLabel}</span>}
-          {!g.inTree && <span className="ml-2 rounded-full bg-och-soft px-2 py-0.5 text-[0.7rem] text-ink-soft">{notInTree}</span>}
+          {g.mixed && <span className="ml-2 rounded-full bg-un-soft px-2 py-0.5 text-[0.75rem] text-un">{mixedLabel}</span>}
+          {!g.inTree && <span className="ml-2 rounded-full bg-och-soft px-2 py-0.5 text-[0.75rem] text-ink-soft">{notInTree}</span>}
         </td>
         <td className="tnum px-3 py-1.5 text-right font-semibold sm:pr-4">{g.names.length}</td>
       </tr>

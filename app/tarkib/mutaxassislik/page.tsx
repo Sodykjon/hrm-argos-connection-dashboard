@@ -43,10 +43,10 @@ export default async function SpecPage({
 
       <SpecExplorer initialSlug={m} />
 
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.terms}
       </p>
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.sourceNote(fmtDate(SPEC.date))}
       </p>
     </div>

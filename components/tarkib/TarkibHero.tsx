@@ -59,13 +59,13 @@ export async function TarkibHero({ region }: { region: TarkibRegion }) {
             <i className={`${s.cls} h-2 w-2 shrink-0 rounded-[2px]`} aria-hidden />
             {s.label}{" "}
             <span className={`tnum font-semibold ${s.txt}`}>{fmtInt(s.value)}</span>
-            <span className="tnum text-[0.7rem] text-ink-faint">
+            <span className="tnum text-[0.75rem] text-ink-faint">
               {fmtPct(s.value / total, 1)}
             </span>
           </span>
         ))}
       </div>
-      <p className="mt-2 text-[0.74rem] leading-snug text-ink-faint">
+      <p className="mt-2 text-[0.75rem] leading-snug text-ink-faint">
         {S.tarkib.heroDecompNote}
       </p>
     </section>

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import type { RegionStat } from "@/lib/types";
 import { UzMap } from "./UzMap";
 import { isRepublic, regionSlug, regionLabel } from "@/lib/regions";
-import { rampColorIn, fmtInt, fmtPct } from "@/lib/format";
+import { rampCssIn, fmtInt, fmtPct } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 import { useRouter } from "next/navigation";
 
@@ -36,7 +36,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
         <div className="border-b border-line p-3 sm:p-4 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-1 flex items-baseline justify-between px-1">
             <h2 className="text-[0.95rem] font-semibold">{S.overview.mapTitle}</h2>
-            <span className="hidden text-[0.72rem] text-ink-faint sm:block">
+            <span className="hidden text-[0.75rem] text-ink-faint sm:block">
               {S.overview.mapHint}
             </span>
           </div>
@@ -47,7 +47,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
             onSelect={(name) => router.push(`/hududlar/${regionSlug(name)}`)}
             domainMin={SCALE_MIN}
           />
-          <p className="mt-1 px-1 text-[0.7rem] text-ink-faint">{S.overview.mapScale}</p>
+          <p className="mt-1 px-1 text-[0.75rem] text-ink-faint">{S.overview.mapScale}</p>
         </div>
 
         {/* ranking */}
@@ -61,7 +61,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map((r, i) => {
               const isActive = active === r.name;
-              const color = rampColorIn(r.percent, SCALE_MIN);
+              const color = rampCssIn(r.percent, SCALE_MIN);
               return (
                 <li key={r.name}>
                   <Link
@@ -74,7 +74,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
                       isActive ? "bg-paper" : "hover:bg-paper"
                     }`}
                   >
-                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.72rem] font-semibold text-ink-soft">
+                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.75rem] font-semibold text-ink-soft">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -96,7 +96,7 @@ export function NationalBoard({ regions }: { regions: RegionStat[] }) {
                             style={{ width: `${r.percent * 100}%`, background: color }}
                           />
                         </span>
-                        <span className="tnum shrink-0 text-[0.66rem] text-ink-faint">
+                        <span className="tnum shrink-0 text-[0.75rem] text-ink-faint">
                           {fmtInt(r.ulangan)}/{fmtInt(r.total)}
                         </span>
                       </span>

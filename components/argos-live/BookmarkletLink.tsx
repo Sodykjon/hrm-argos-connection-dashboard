@@ -18,7 +18,7 @@ export function BookmarkletLink({ label, copyLabel }: { label: string; copyLabel
       <a
         ref={a}
         onClick={(e) => e.preventDefault()}
-        className="inline-flex cursor-grab items-center gap-2 rounded-lg bg-sov px-5 py-2.5 text-[0.95rem] font-semibold text-white shadow hover:bg-sov-deep"
+        className="inline-flex cursor-grab items-center gap-2 rounded-lg bg-sov px-5 py-2.5 text-[0.95rem] font-semibold text-on-sov shadow hover:bg-sov-deep"
       >
         ★ {label}
       </a>
@@ -28,7 +28,7 @@ export function BookmarkletLink({ label, copyLabel }: { label: string; copyLabel
           ref={t}
           readOnly
           onFocus={(e) => e.currentTarget.select()}
-          className="h-24 w-full rounded-lg border border-line bg-paper p-2 font-mono text-[0.7rem] text-ink-soft"
+          className="h-24 w-full rounded-lg border border-line bg-paper p-2 font-mono text-[0.75rem] text-ink-soft"
         />
       </div>
     </div>

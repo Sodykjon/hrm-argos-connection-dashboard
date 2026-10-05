@@ -27,7 +27,7 @@ export function BandBars({
           const v = values[i] ?? 0;
           return (
             <div key={label} className="flex items-center gap-2">
-              <span className="w-[7.5rem] shrink-0 truncate text-[0.74rem] text-ink-soft">
+              <span className="w-[7.5rem] shrink-0 truncate text-[0.75rem] text-ink-soft">
                 {label}
               </span>
               <span className="h-2 flex-1 overflow-hidden rounded-full bg-line-soft">
@@ -36,7 +36,7 @@ export function BandBars({
                   style={{ width: `${(v / max) * 100}%`, background: color }}
                 />
               </span>
-              <span className="tnum w-[7rem] shrink-0 text-right text-[0.74rem] text-ink">
+              <span className="tnum w-[7rem] shrink-0 text-right text-[0.75rem] text-ink">
                 {fmtInt(v)}{" "}
                 <span className="text-ink-faint">
                   · {fmtPct(total > 0 ? v / total : 0, 1)}

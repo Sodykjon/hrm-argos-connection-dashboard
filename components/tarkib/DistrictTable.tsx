@@ -15,7 +15,7 @@ export async function DistrictTable({ districts }: { districts: TarkibDistrict[]
     <div className="scroll-quiet overflow-x-auto">
       <table className="w-full border-collapse text-left text-[0.78rem]">
         <thead>
-          <tr className="border-y border-line text-[0.66rem] uppercase tracking-wide text-ink-faint">
+          <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
             <th className="px-2 py-2 font-medium">{S.tarkib.distCol.name}</th>
             <th className="tnum px-2 py-2 text-right font-medium">{S.tarkib.distCol.shtat}</th>
             <th className="tnum hidden px-2 py-2 text-right font-medium md:table-cell">

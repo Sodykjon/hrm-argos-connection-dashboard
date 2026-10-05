@@ -1,7 +1,8 @@
 "use client";
 
 import { Chart } from "./Chart";
-import { rampColor, toPct, fmtPct } from "@/lib/format";
+import { rampColorFor, toPct, fmtPct } from "@/lib/format";
+import { cssVar, useTheme } from "@/lib/theme/client";
 import { FONT_MONO, canvasFont, type EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
 
@@ -15,8 +16,10 @@ export function ReadinessRing({
   showLabel?: boolean;
 }) {
   const S = useS();
+  const theme = useTheme();
   const pct = toPct(percent);
-  const color = rampColor(percent);
+  const color = rampColorFor(percent, theme);
+  const dark = theme === "dark";
 
   const option: EChartsOption = {
     animationDuration: 1500,
@@ -32,7 +35,7 @@ export function ReadinessRing({
               // Scale with the ring: 34px fits the 186px ring; the 92px card ring needs ~17px.
               fontSize: Math.round(size * 0.18),
               fontWeight: 600,
-              color: "#eaf1fb",
+              color: cssVar("--color-ink", dark ? "#eaf1fb" : "#0c1a30"),
             },
           },
         }
@@ -52,11 +55,11 @@ export function ReadinessRing({
             itemStyle: {
               color,
               borderRadius: 12,
-              shadowBlur: 22,
+              shadowBlur: dark ? 22 : 0,
               shadowColor: color,
             },
           },
-          { value: 100 - pct, itemStyle: { color: "#1b3157" } },
+          { value: 100 - pct, itemStyle: { color: cssVar("--ring-track", dark ? "#1b3157" : "#e3e9f2") } },
         ],
       },
     ],

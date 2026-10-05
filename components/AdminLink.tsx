@@ -22,8 +22,8 @@ export function AdminLink() {
       className={[
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[0.8rem] font-medium transition-colors",
         active
-          ? "border-white bg-white text-band"
-          : "border-white/20 bg-white/5 text-white/80 hover:bg-white/15 hover:text-white",
+          ? "border-chrome-active bg-chrome-active text-chrome-on-active"
+          : "border-chrome-line bg-chrome-fill text-chrome-ink-soft hover:bg-chrome-hover hover:text-chrome-ink",
       ].join(" ")}
     >
       <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden>

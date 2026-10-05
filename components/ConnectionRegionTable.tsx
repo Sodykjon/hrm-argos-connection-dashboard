@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import type { RegionStat, Totals } from "@/lib/types";
-import { fmtInt, fmtPct, toPct, rampColor } from "@/lib/format";
+import { fmtInt, fmtPct, toPct, rampCss } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -60,7 +60,7 @@ export function ConnectionRegionTable({
         </div>
         <button
           onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -72,7 +72,7 @@ export function ConnectionRegionTable({
       <div className="scroll-quiet overflow-x-auto">
         <table className="w-full border-collapse text-left text-[0.82rem]">
           <thead>
-            <tr className="border-b border-line text-[0.7rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="px-3 py-2.5 font-medium sm:px-4">{S.overview.col.region}</th>
               <th className="tnum px-3 py-2.5 text-right font-medium">{S.overview.col.total}</th>
               <th className="tnum px-3 py-2.5 text-right font-medium">{S.status.ulangan}</th>
@@ -93,7 +93,7 @@ export function ConnectionRegionTable({
                 <td className="tnum px-3 py-2 text-right text-ul">{fmtInt(r.ulangan)}</td>
                 <td
                   className="tnum px-3 py-2 text-right font-semibold"
-                  style={{ color: rampColor(r.percent) }}
+                  style={{ color: rampCss(r.percent) }}
                 >
                   {fmtPct(r.percent, 1)}
                 </td>
@@ -111,7 +111,7 @@ export function ConnectionRegionTable({
               <td className="tnum px-3 py-2.5 text-right text-ul">{fmtInt(totals.ulangan)}</td>
               <td
                 className="tnum px-3 py-2.5 text-right"
-                style={{ color: rampColor(totals.percent) }}
+                style={{ color: rampCss(totals.percent) }}
               >
                 {fmtPct(totals.percent, 1)}
               </td>

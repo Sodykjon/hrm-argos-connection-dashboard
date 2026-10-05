@@ -49,7 +49,7 @@ export async function StatTile({ label, value, accent, hint, shareOfTotal }: Sta
           className={`tnum text-[2rem] font-semibold leading-none tracking-tight sm:text-[2.35rem] ${ACCENT_TEXT[accent]}`}
         />
       </div>
-      <div className="mt-1.5 flex items-baseline gap-2 text-[0.72rem] text-ink-faint">
+      <div className="mt-1.5 flex items-baseline gap-2 text-[0.75rem] text-ink-faint">
         {hint && <span>{hint}</span>}
         {shareOfTotal !== undefined && (
           <span className="tnum">

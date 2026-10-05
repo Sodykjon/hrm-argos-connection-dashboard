@@ -5,13 +5,7 @@ import { AnimatedNumber } from "../motion/AnimatedNumber";
 import { fmtInt } from "@/lib/format";
 import type { EChartsOption } from "@/lib/echarts";
 import { useS } from "@/lib/i18n/client";
-
-const WORKING = "#ff5a63"; // un — already at pension age
-const REACHING = "#f7b23b"; // warn — reaches it this year
-// och, the design system's "neutral/other" token. The first cut used the ring
-// track colour #1b3157, which against the card background read as an empty
-// track rather than as the workforce the two hot segments are part of.
-const REST = "#7488a6";
+import { useChartTheme } from "@/lib/chart-theme";
 
 /**
  * The hero's composition ring: pension-age and reaching-this-year as slices of
@@ -35,6 +29,15 @@ export function PensionDonut({
   sharePct: number;
 }) {
   const S = useS();
+  const ct = useChartTheme();
+  const WORKING = ct.un; // un — already at pension age
+  const REACHING = ct.warn; // warn — reaches it this year
+  // och, the design system's "neutral/other" token. The first cut used the ring
+  // track colour #1b3157, which against the card background read as an empty
+  // track rather than as the workforce the two hot segments are part of.
+  const REST = ct.och;
+  // Separator = the hero card colour (no ChartTheme field; white card in light).
+  const SEP = ct.dark ? "#0d1d36" : ct.surface;
 
   const option: EChartsOption = {
     animationDuration: 1500,
@@ -53,15 +56,15 @@ export function PensionDonut({
         data: [
           {
             value: working,
-            itemStyle: { color: WORKING, borderColor: "#0d1d36", borderWidth: 2, borderRadius: 3 },
+            itemStyle: { color: WORKING, borderColor: SEP, borderWidth: 2, borderRadius: 3 },
           },
           {
             value: reaching,
-            itemStyle: { color: REACHING, borderColor: "#0d1d36", borderWidth: 2, borderRadius: 3 },
+            itemStyle: { color: REACHING, borderColor: SEP, borderWidth: 2, borderRadius: 3 },
           },
           {
             value: rest,
-            itemStyle: { color: REST, borderColor: "#0d1d36", borderWidth: 2 },
+            itemStyle: { color: REST, borderColor: SEP, borderWidth: 2 },
           },
         ],
       },

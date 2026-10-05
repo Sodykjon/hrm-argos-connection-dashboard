@@ -23,12 +23,12 @@ export function LiveStatus() {
   }, []);
 
   return (
-    <div className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5">
+    <div className="flex items-center gap-2.5 rounded-full border border-chrome-line bg-chrome-fill px-3 py-1.5">
       <span className="relative flex h-2 w-2">
         <span className="live-dot absolute inline-flex h-2 w-2 rounded-full bg-ul" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-ul" />
       </span>
-      <span className="tnum text-[0.8rem] font-semibold tabular-nums text-white/90">
+      <span className="tnum text-[0.8rem] font-semibold tabular-nums text-chrome-ink">
         {clock}
       </span>
     </div>

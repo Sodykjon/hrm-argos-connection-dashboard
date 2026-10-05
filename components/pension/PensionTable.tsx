@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import type { KadrlarStat } from "@/lib/types";
-import { pensionMetrics, riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
-import { fmtInt, fmtPct, toPct } from "@/lib/format";
+import { pensionMetrics, riskRamp, riskT } from "@/lib/pension-metrics";
+import { fmtInt, fmtPct, toPct, rampCss } from "@/lib/format";
 import { isGeographicRegion, regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -96,7 +96,7 @@ export function PensionTable({
         />
         <button
           onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -114,7 +114,7 @@ export function PensionTable({
       <div className="scroll-quiet max-h-[70vh] overflow-auto">
         <table className="w-full border-collapse text-left text-[0.82rem]">
           <thead className="sticky top-0 z-10 bg-surface">
-            <tr className="border-y border-line text-[0.7rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="w-10 px-3 py-2.5 font-medium">{S.pension.col.n}</th>
               <th className="px-3 py-2.5 font-medium">{S.pension.col.region}</th>
               <th className="tnum hidden px-3 py-2.5 text-right font-medium sm:table-cell">
@@ -164,7 +164,7 @@ export function PensionTable({
       </div>
 
       {hasNonGeographic && (
-        <p className="border-t border-line px-4 py-3 text-[0.72rem] leading-relaxed text-ink-faint">
+        <p className="border-t border-line px-4 py-3 text-[0.75rem] leading-relaxed text-ink-faint">
           {S.kadrlar.republicNote}
         </p>
       )}
@@ -185,7 +185,8 @@ function Row({
   rank: number;
   ramp: { min: number; max: number };
 }) {
-  const color = riskColor(riskT(share, ramp));
+  // riskColor (inverted ramp) resolved per theme so the text reads in both.
+  const color = rampCss(1 - riskT(share, ramp));
   // Clamped: the ramp spans the geographic rows only, so a non-geographic row
   // above that spread would compute past 100 % and clip without saying so.
   const width = ramp.max > 0 ? Math.min(100, (share / ramp.max) * 100) : 0;

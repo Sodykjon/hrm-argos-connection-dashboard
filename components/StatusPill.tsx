@@ -13,7 +13,7 @@ export function StatusPill({ status }: { status: Status }) {
   };
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.72rem] font-medium ${soft[status]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.75rem] font-medium ${soft[status]}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${m.dot}`} />
       {m.label}

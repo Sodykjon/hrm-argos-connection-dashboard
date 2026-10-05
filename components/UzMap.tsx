@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { RegionStat } from "@/lib/types";
-import { toPct, fmtInt, fmtPct, rampColorIn } from "@/lib/format";
+import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
+import { useChartTheme } from "@/lib/chart-theme";
 
 interface UzMapProps {
   regions: RegionStat[]; // geographic regions only
@@ -15,8 +16,6 @@ interface UzMapProps {
   /** Lower end of the colour scale (0..1); 0.5 when every region sits high. */
   domainMin?: number;
 }
-
-const RAMP = ["#ff5a63", "#f7b23b", "#9ee34f", "#2fd07a"];
 
 // Tiny enclave city-regions that are hard to click on the choropleth — shown as
 // clickable labeled markers layered on top. [lng, lat] of the city center.
@@ -28,6 +27,7 @@ const MAP_LAYOUT = { center: ["52%", "52%"] as [string, string], size: "118%" };
 export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 }: UzMapProps) {
   const S = useS();
   const lang = useLang();
+  const ct = useChartTheme();
   const elRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<EChartsType | null>(null);
   const [ready, setReady] = useState(false);
@@ -96,7 +96,10 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
           ulangan: r.ulangan,
           ulanmagan: r.ulanmagan,
           total: r.total,
-          itemStyle: { color: rampColorIn(r.percent, domainMin) },
+          // rampColorIn(percent, domainMin), themed
+          itemStyle: {
+            color: ct.rampFill(domainMin >= 1 ? r.percent : (r.percent - domainMin) / (1 - domainMin)),
+          },
         };
       });
 
@@ -120,10 +123,13 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
       {
         tooltip: {
           trigger: "item",
-          backgroundColor: "#0b3663",
-          borderWidth: 0,
+          backgroundColor: ct.tooltipBg,
+          // light: the white tooltip needs an edge on the white card
+          borderColor: ct.tooltipBorder,
+          borderWidth: ct.dark ? 0 : 1,
           padding: [10, 12],
-          textStyle: { color: "#fff", fontFamily: canvasFont(FONT_SANS), fontSize: 12 },
+          // dark keeps its original pure white (ct.tooltipText is #eaf1fb)
+          textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: canvasFont(FONT_SANS), fontSize: 12 },
           formatter: tooltipFormatter,
         },
         visualMap: {
@@ -136,8 +142,8 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
           itemHeight: 90,
           calculable: true,
           text: ["100%", domainMin > 0 ? `≤${domainMin * 100}%` : "0%"],
-          inRange: { color: RAMP },
-          textStyle: { color: "#8ba0bd", fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
+          inRange: { color: ct.ramp4 },
+          textStyle: { color: ct.axisLabel, fontFamily: canvasFont(FONT_MONO), fontSize: 10 },
         },
         // invisible geo, aligned to the map series, as the coordinate system for markers
         geo: {
@@ -158,23 +164,23 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
             layoutCenter: MAP_LAYOUT.center,
             layoutSize: MAP_LAYOUT.size,
             itemStyle: {
-              borderColor: "rgba(140,175,225,0.16)",
+              borderColor: ct.mapBorder,
               borderWidth: 1,
-              areaColor: "#152c4e",
+              areaColor: ct.mapArea,
             },
             emphasis: {
               label: {
                 show: true,
-                color: "#eaf1fb",
+                color: ct.ink,
                 fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 11,
               },
               itemStyle: {
-                borderColor: "#3fb6ff",
+                borderColor: ct.mapHoverBorder,
                 borderWidth: 1.5,
-                shadowBlur: 16,
-                shadowColor: "rgba(63,182,255,0.6)",
+                shadowBlur: 16 * ct.glow,
+                shadowColor: ct.mapHoverGlow,
               },
             },
             label: { show: false },
@@ -188,10 +194,11 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
             symbolSize: 16,
             data: enclaveData,
             itemStyle: {
-              borderColor: "#ffffff",
+              // white ring in both themes (light region borders are white too)
+              borderColor: ct.dark ? "#ffffff" : ct.surface,
               borderWidth: 2,
-              shadowBlur: 5,
-              shadowColor: "rgba(11,27,43,0.35)",
+              shadowBlur: 5 * ct.glow,
+              shadowColor: ct.mapShadow,
             },
             // label hidden by default — shown only on hover (emphasis)
             label: { show: false },
@@ -202,14 +209,14 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
                 position: "right",
                 distance: 6,
                 formatter: (p: { name: string }) => regionLabelShort(p.name, lang),
-                color: "#eaf1fb",
+                color: ct.labelText,
                 fontFamily: canvasFont(FONT_SANS),
                 fontWeight: 600,
                 fontSize: 10.5,
-                backgroundColor: "#0c1f3b",
+                backgroundColor: ct.labelBg,
                 padding: [3, 6],
                 borderRadius: 5,
-                borderColor: "#3fb6ff",
+                borderColor: ct.mapHoverBorder,
                 borderWidth: 1,
               },
             },
@@ -219,8 +226,8 @@ export function UzMap({ regions, activeRegion, onHover, onSelect, domainMin = 0 
       { notMerge: true },
     );
     // `lang` is a dependency: switching language must redraw the labels and
-    // tooltip, not just the surrounding React tree.
-  }, [regions, ready, lang, S, domainMin]);
+    // tooltip, not just the surrounding React tree. `ct` likewise for a theme switch.
+  }, [regions, ready, lang, S, domainMin, ct]);
 
   // external hover linkage
   useEffect(() => {

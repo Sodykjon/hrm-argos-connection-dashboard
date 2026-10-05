@@ -67,7 +67,7 @@ export default async function TarkibRegionPage({
 
       <TarkibHero region={region} />
 
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.sourceNote(fmtDate(TARKIB.date))}
       </p>
 
@@ -172,10 +172,10 @@ export default async function TarkibRegionPage({
         </section>
       </div>
 
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.terms}
       </p>
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.tarkib.qualityNote}
       </p>
     </div>

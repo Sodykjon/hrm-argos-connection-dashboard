@@ -68,7 +68,7 @@ export default async function RegionPage({
           <div className="my-1">
             <ReadinessRing percent={stat.percent} />
           </div>
-          <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-goal-soft px-2.5 py-0.5 text-[0.7rem] font-semibold text-goal">
+          <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-goal-soft px-2.5 py-0.5 text-[0.75rem] font-semibold text-goal">
             <span className="h-1.5 w-1.5 rounded-full bg-goal" />
             {S.goal.target100}
           </span>

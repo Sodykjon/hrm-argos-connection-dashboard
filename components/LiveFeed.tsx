@@ -1,4 +1,4 @@
-import { rampColor, fmtPct } from "@/lib/format";
+import { rampColor, rampCss, fmtPct } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { getLang } from "@/lib/i18n/server";
 
@@ -29,6 +29,9 @@ export async function LiveFeed({
         {loop.map((r, i) => {
           const up = r.percent >= 0.75;
           const c = rampColor(r.percent);
+          // Text (and the light-theme dot) use the contrast-lifted ramp; the
+          // dark dot keeps the raw ramp and its glow, which light drops.
+          const ink = rampCss(r.percent);
           return (
             <span
               key={i}
@@ -37,10 +40,13 @@ export async function LiveFeed({
             >
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: c, boxShadow: `0 0 8px ${c}` }}
+                style={{
+                  background: `light-dark(${ink}, ${c})`,
+                  boxShadow: `0 0 8px light-dark(transparent, ${c})`,
+                }}
               />
               <span className="text-ink-soft">{regionLabel(r.name, lang)}</span>
-              <span className="tnum font-semibold" style={{ color: c }}>
+              <span className="tnum font-semibold" style={{ color: ink }}>
                 {fmtPct(r.percent, 1)}
               </span>
               <span

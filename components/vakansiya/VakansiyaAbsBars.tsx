@@ -46,14 +46,14 @@ export async function VakansiyaAbsBars({ regions }: { regions: KadrlarStat[] }) 
               <span className="tnum w-14 shrink-0 text-right text-[0.8rem] font-semibold">
                 {fmtInt(r.vacant)}
               </span>
-              <span className="tnum w-12 shrink-0 text-right text-[0.72rem] text-ink-faint">
+              <span className="tnum w-12 shrink-0 text-right text-[0.75rem] text-ink-faint">
                 {fmtPct(share, 1)}
               </span>
             </li>
           );
         })}
       </ol>
-      <p className="mt-3 px-1 text-[0.74rem] leading-snug text-ink-faint">
+      <p className="mt-3 px-1 text-[0.75rem] leading-snug text-ink-faint">
         {S.vakansiya.absShareNote(
           regionLabel(top.name, lang),
           fmtPct(top.vacant / total, 1),

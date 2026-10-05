@@ -24,7 +24,7 @@ export function LogoutButton() {
     <button
       onClick={logout}
       disabled={busy}
-      className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-[0.8rem] font-medium text-white/80 transition-colors hover:bg-white/15 hover:text-white disabled:opacity-50"
+      className="inline-flex items-center gap-1.5 rounded-full border border-chrome-line bg-chrome-fill px-3 py-1.5 text-[0.8rem] font-medium text-chrome-ink-soft transition-colors hover:bg-chrome-hover hover:text-chrome-ink disabled:opacity-50"
       aria-label={S.login.logout}
     >
       <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden>

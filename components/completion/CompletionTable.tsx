@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { CompletionOrg } from "@/lib/types";
-import { fmtPct, rampColor, toPct } from "@/lib/format";
+import { fmtPct, rampCss, toPct } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -89,7 +89,7 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
         )}
         <button
           onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -109,7 +109,7 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
       <div className="scroll-quiet max-h-[70vh] overflow-auto">
         <table className="w-full border-collapse text-left text-[0.82rem]">
           <thead className="sticky top-0 z-10 bg-surface">
-            <tr className="border-y border-line text-[0.7rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="w-10 px-3 py-2.5 font-medium">{S.completion.col.n}</th>
               <th className="px-3 py-2.5 font-medium">{S.completion.col.name}</th>
               {regions && (
@@ -133,7 +133,7 @@ export function CompletionTable({ rows, regions, exportName }: CompletionTablePr
           </thead>
           <tbody>
             {filtered.map((o, i) => {
-              const color = rampColor(o.completion);
+              const color = rampCss(o.completion);
               return (
                 <tr
                   key={`${o.id}-${i}`}

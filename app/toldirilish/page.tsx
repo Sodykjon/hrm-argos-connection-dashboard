@@ -10,7 +10,7 @@ import { CompletionDistribution } from "@/components/completion/CompletionDistri
 import { CompletionTrend } from "@/components/completion/CompletionTrend";
 import { CompletionTable } from "@/components/completion/CompletionTable";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { fmtDate, fmtPct, toPct, rampColor } from "@/lib/format";
+import { fmtDate, fmtPct, toPct, rampCss } from "@/lib/format";
 import { CENTRAL } from "@/lib/regions";
 import { getS } from "@/lib/i18n/server";
 
@@ -39,7 +39,8 @@ export default async function CompletionPage() {
     regions.find((r) => r.name === CENTRAL)?.avg ??
     orgs.find((o) => o.id === "1052")?.completion ??
     0;
-  const centralColor = rampColor(central);
+  // Theme-resolved ramp colour (text, icon stroke and bar read in both themes).
+  const centralColor = rampCss(central);
 
   // The campaign-start baseline for the central apparatus. NOT from stored
   // data: every CSV we hold (24.07 onwards) already shows ~90%, so the climb
@@ -74,12 +75,13 @@ export default async function CompletionPage() {
           <span className="eyebrow">{S.completion.avg}</span>
           <div className="relative my-1 grid place-items-center">
             <ReadinessRing percent={overall.avg} size={176} showLabel={false} />
-            <span className="pointer-events-none absolute inset-0 grid place-items-center">
-              <AnimatedNumber
-                value={toPct(overall.avg)}
-                kind="pct"
-                className="text-grad-ul tnum text-[2.1rem] font-bold leading-none"
-              />
+            {/* Coloured on the same ramp as the ring: a fixed green made a 48,9 %
+                average read as «good». */}
+            <span
+              className="pointer-events-none absolute inset-0 grid place-items-center"
+              style={{ color: rampCss(overall.avg) }}
+            >
+              <AnimatedNumber value={toPct(overall.avg)} kind="pct" className="tnum text-[2.1rem] font-bold leading-none" />
             </span>
           </div>
           <span className="text-[0.75rem] text-ink-faint">{S.completion.avgHint}</span>
@@ -118,7 +120,7 @@ export default async function CompletionPage() {
               /* Before/after pair: two lengths side by side say "climbed" at a
                  glance, where a tick on one bar had to be hunted for. */
               <span className="mt-2.5 grid w-full max-w-[360px] grid-cols-[auto_1fr_auto] items-center gap-x-2.5 gap-y-1.5">
-                <span className="text-[0.68rem] uppercase tracking-wide text-ink-faint">
+                <span className="text-[0.75rem] uppercase tracking-wide text-ink-faint">
                   {S.completion.centralBefore}
                 </span>
                 <span className="block h-1.5 overflow-hidden rounded-full bg-line-soft">
@@ -131,7 +133,7 @@ export default async function CompletionPage() {
                   {fmtPct(CENTRAL_BASELINE, 0)}
                 </span>
 
-                <span className="text-[0.68rem] uppercase tracking-wide text-ink-faint">
+                <span className="text-[0.75rem] uppercase tracking-wide text-ink-faint">
                   {S.completion.centralNow}
                 </span>
                 <span className="block h-2 overflow-hidden rounded-full bg-line-soft">
@@ -162,7 +164,7 @@ export default async function CompletionPage() {
           </div>
           <div className="shrink-0 text-right">
             {centralGrew && (
-              <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-ul/30 bg-ul-soft px-2 py-0.5 text-[0.72rem] font-bold text-ul">
+              <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-ul/30 bg-ul-soft px-2 py-0.5 text-[0.75rem] font-bold text-ul">
                 <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
                   <path d="M6 10V2m0 0L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

@@ -13,7 +13,7 @@ import {
   type SpecCat,
   type SpecVals,
 } from "@/lib/spec";
-import { fmtInt, fmtPct, rampColor } from "@/lib/format";
+import { fmtInt, fmtPct, rampColor, rampCss } from "@/lib/format";
 import { regionLabel, regionSlug } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -24,9 +24,20 @@ type GroupKey = "all" | SpecCat["grp"];
 // map, which is what the barNote below the list promises. A relative ramp
 // would repaint the same value a different color for every specialty, which
 // reads as noise when switching.
+function covT(share: number): number {
+  return Math.max(0, Math.min(1, (share - 0.5) / 0.5));
+}
+
+/** Coverage colour for TEXT: the contrast-lifted ramp (≥4.5:1 in both themes). */
 function covColor(share: number): string {
-  const t = Math.max(0, Math.min(1, (share - 0.5) / 0.5));
-  return rampColor(t);
+  return rampCss(covT(share));
+}
+
+/** Coverage colour for bar FILLS: the raw ramp in dark; in light the ramp
+ *  pulled 25 % toward slate, the same mix as ChartTheme.rampFill. */
+function covFill(share: number): string {
+  const c = rampColor(covT(share));
+  return `light-dark(color-mix(in oklab, #2f3d55 35%, ${c}), ${c})`;
 }
 
 function normQ(s: string): string {
@@ -143,7 +154,7 @@ export function SpecExplorer({ initialSlug }: { initialSlug?: string }) {
                 onClick={() => pickGroup(g.key)}
                 className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[0.7rem] font-medium transition-colors ${
                   grp === g.key
-                    ? "bg-sov text-white"
+                    ? "bg-sov text-on-sov"
                     : "bg-paper text-ink-soft hover:bg-line-soft"
                 }`}
               >
@@ -317,6 +328,7 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
           {rows.map((r) => {
             const t = specTaminl(r.v);
             const color = covColor(t);
+            const fill = covFill(t);
             // Bars top out at 120% so over-staffed regions stay readable
             // without flattening everyone else.
             const width = Math.min(100, (t / 1.2) * 100);
@@ -348,11 +360,11 @@ function SpecDetail({ cat }: { cat: SpecCat }) {
                   <span className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-line-soft">
                     <span
                       className="absolute inset-y-0 left-0 rounded-full"
-                      style={{ width: `${width}%`, background: color }}
+                      style={{ width: `${width}%`, background: fill }}
                     />
                     {/* 100% reference tick */}
                     <span
-                      className="absolute inset-y-0 w-px bg-white/40"
+                      className="absolute inset-y-0 w-px bg-ink/40"
                       style={{ left: `${(1 / 1.2) * 100}%` }}
                       aria-hidden
                     />
@@ -519,6 +531,7 @@ function DistPanel({
       <div className="flex flex-col gap-[3px]">
         {rows.map((r) => {
           const color = covColor(r.t);
+          const fill = covFill(r.t);
           const width = Math.min(100, (r.t / 1.2) * 100);
           return (
             <div key={r.name} className="flex items-center gap-2">
@@ -531,10 +544,10 @@ function DistPanel({
               <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-line-soft">
                 <span
                   className="absolute inset-y-0 left-0 rounded-full"
-                  style={{ width: `${width}%`, background: color }}
+                  style={{ width: `${width}%`, background: fill }}
                 />
                 <span
-                  className="absolute inset-y-0 w-px bg-white/40"
+                  className="absolute inset-y-0 w-px bg-ink/40"
                   style={{ left: `${(1 / 1.2) * 100}%` }}
                   aria-hidden
                 />

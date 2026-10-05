@@ -74,7 +74,10 @@ export default function LoginPage() {
     hidden: { opacity: 0, y: 12 },
     show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
   };
-  const mi = reduce ? {} : { variants: item };
+  // data-reveal: with «reduce motion» the server-rendered hidden state would
+  // otherwise stay inline after hydration (blank login card); globals.css forces
+  // [data-reveal] visible under prefers-reduced-motion.
+  const mi = { "data-reveal": "", ...(reduce ? {} : { variants: item }) };
 
   return (
     <div className="relative flex min-h-[100dvh] w-full items-center justify-center overflow-hidden px-4 py-10">
@@ -82,12 +85,14 @@ export default function LoginPage() {
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[540px] w-[540px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-70"
         style={{
+          // brand halo: #3fb6ff @13% on dark, the muted light-theme blue on light
           background:
-            "radial-gradient(circle, rgba(63,182,255,0.13), transparent 62%)",
+            "radial-gradient(circle, color-mix(in srgb, var(--color-sov) 13%, transparent), transparent 62%)",
         }}
       />
 
       <motion.div
+        data-reveal=""
         initial={reduce ? false : { opacity: 0, y: 24, scale: 0.98 }}
         animate={
           reduce
@@ -100,6 +105,7 @@ export default function LoginPage() {
         className="border-live card relative w-full max-w-[400px] p-7 sm:p-8"
       >
         <motion.div
+          data-reveal=""
           {...(reduce
             ? {}
             : { variants: container, initial: "hidden", animate: "show" })}
@@ -112,7 +118,7 @@ export default function LoginPage() {
           {/* live status strip */}
           <motion.div
             {...mi}
-            className="mb-6 flex items-center justify-between gap-2 font-mono text-[0.66rem] tracking-wide text-ink-faint"
+            className="mb-6 flex items-center justify-between gap-2 font-mono text-[0.75rem] tracking-wide text-ink-faint"
           >
             <span className="inline-flex items-center gap-1.5">
               <span className="relative flex h-1.5 w-1.5">
@@ -124,12 +130,12 @@ export default function LoginPage() {
             <span className="tnum text-ink-soft" suppressHydrationWarning>
               {clock}
             </span>
-            <span className="text-ink-faint/70">{S.argosDomain}</span>
+            <span className="text-ink-faint">{S.argosDomain}</span>
           </motion.div>
 
           {/* emblem */}
           <motion.div {...mi} className="flex justify-center">
-            <span className="relative grid h-20 w-20 place-items-center rounded-full bg-white p-1.5 shadow-[0_6px_30px_rgba(63,182,255,0.45)]">
+            <span className="relative grid h-20 w-20 place-items-center rounded-full bg-white p-1.5 shadow-[0_6px_30px_color-mix(in_srgb,var(--color-sov)_max(18%,calc(var(--glow)*0.9)),transparent)]">
               <Image
                 src="/moh-logo.jpg"
                 alt={S.login.ministry}
@@ -150,7 +156,7 @@ export default function LoginPage() {
           </motion.h1>
           <motion.p
             {...mi}
-            className="mt-1.5 text-center font-mono text-[0.66rem] uppercase leading-relaxed tracking-[0.14em] text-ink-faint"
+            className="mt-1.5 text-center font-mono text-[0.75rem] uppercase leading-relaxed tracking-[0.14em] text-ink-faint"
           >
             {S.login.ministry}
           </motion.p>
@@ -227,7 +233,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={status === "loading" || status === "success" || !password}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-sov px-5 py-3 text-[0.95rem] font-semibold text-white shadow-[0_6px_20px_rgba(63,182,255,0.3)] transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-sov px-5 py-3 text-[0.95rem] font-semibold text-on-sov shadow-[0_6px_20px_color-mix(in_srgb,var(--color-sov)_max(14%,calc(var(--glow)*0.6)),transparent)] transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-60"
             >
               {status === "loading" && (
                 <svg className="animate-spin" width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden>
@@ -257,7 +263,7 @@ export default function LoginPage() {
 
           <motion.p
             {...mi}
-            className="mt-6 text-center font-mono text-[0.64rem] leading-relaxed tracking-wide text-ink-faint/70"
+            className="mt-6 text-center font-mono text-[0.75rem] leading-relaxed tracking-wide text-ink-faint"
           >
             {S.login.protected}
           </motion.p>

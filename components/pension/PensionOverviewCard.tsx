@@ -23,7 +23,7 @@ export async function PensionOverviewCard({ stat }: { stat: KadrlarStat }) {
         </span>
         {/* The completion card never shows a bare percentage either. An
             unlabelled figure this size reads as whatever the heading implies. */}
-        <span className="text-center text-[0.58rem] leading-tight text-un/70">
+        <span className="text-center text-[0.75rem] leading-tight text-un">
           {S.pension.col.share}
         </span>
       </span>

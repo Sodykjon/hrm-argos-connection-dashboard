@@ -96,6 +96,63 @@ export function rampColor(pct: number): string {
 }
 
 /**
+ * rampColor for TEXT and marks in either theme: the ramp lifted toward
+ * --ramp-ink by --ramp-mix (white 16 % on dark; slate #2f3d55 52 % on light, which also mutes it), so every
+ * point of the ramp reads at least 4.5:1 on a card — measured, not guessed.
+ * CSS only; canvas charts use rampColorFor().
+ */
+export function rampCss(pct: number): string {
+  return `color-mix(in oklab, var(--ramp-ink) var(--ramp-mix), ${rampColor(pct)})`;
+}
+
+/** rampCss over a narrowed domain [lo, 1] (see rampColorIn). */
+export function rampCssIn(pct: number, lo: number): string {
+  return rampCss(lo >= 1 ? pct : (pct - lo) / (1 - lo));
+}
+
+/** The same lift as rampCss, computed in OKLab for canvas (which cannot read var()). */
+export function rampColorFor(pct: number, theme: "light" | "dark"): string {
+  const m = /rgb\((\d+), ?(\d+), ?(\d+)\)/.exec(rampColor(pct));
+  const c = m ? [Number(m[1]), Number(m[2]), Number(m[3])] : [16, 160, 109];
+  return mixOklab(theme === "light" ? [0x2f, 0x3d, 0x55] : [255, 255, 255], c, theme === "light" ? 0.52 : 0.16);
+}
+
+/** Mix two sRGB colours (0–255 triples) in OKLab; `wa` is the weight of `a`. */
+export function mixOklab(a: number[], b: number[], wa: number): string {
+  const lin = (v: number) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  const toLab = (rgb: number[]) => {
+    const [r, g, bl] = rgb.map(lin);
+    const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * bl);
+    const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * bl);
+    const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * bl);
+    return [
+      0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
+      1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+      0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
+    ];
+  };
+  const A = toLab(a);
+  const B = toLab(b);
+  const [L, aa, bb] = A.map((x, i) => x * wa + B[i] * (1 - wa));
+  const l = (L + 0.3963377774 * aa + 0.2158037573 * bb) ** 3;
+  const m = (L - 0.1055613458 * aa - 0.0638541728 * bb) ** 3;
+  const s = (L - 0.0894841775 * aa - 1.291485548 * bb) ** 3;
+  const enc = (v: number) => {
+    const c = Math.max(0, Math.min(1, v));
+    return Math.round((c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055) * 255);
+  };
+  const rgb = [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+  ].map(enc);
+  return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+}
+
+/**
  * Piecewise-linear sample of a hex-stop ramp at t ∈ [0,1]. Used by the
  * single-hue sequential ramps on the analytics pages (pensiya amber,
  * vakansiya coral, tarkib blue): one hue for magnitude, so lightness — not a

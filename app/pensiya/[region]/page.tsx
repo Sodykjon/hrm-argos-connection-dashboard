@@ -60,7 +60,7 @@ export default async function PensionRegionPage({
       <PensionHero stat={stat} />
 
       {/* Region pages get clicked into during a presentation too. */}
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.pension.sourceNote(fmtDate(snapshot.date))}
       </p>
 

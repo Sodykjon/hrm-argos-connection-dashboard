@@ -255,7 +255,7 @@ export default function AdminPage() {
             <p className="mt-1 text-[0.83rem] text-ink-soft">{S.admin.successHint}</p>
           </div>
           <div className="flex justify-center gap-3">
-            <Link href="/" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-sov-deep">
+            <Link href="/" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-on-sov hover:bg-sov-deep">
               {S.admin.goDashboard}
             </Link>
             <button
@@ -299,12 +299,12 @@ export default function AdminPage() {
               <div className="mb-3 flex items-center justify-between">
                 <span className="eyebrow">{S.admin.preview}</span>
                 {parsed?.check.ok ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-ul-soft px-2.5 py-1 text-[0.72rem] font-medium text-ul">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-ul-soft px-2.5 py-1 text-[0.75rem] font-medium text-ul">
                     <span className="h-1.5 w-1.5 rounded-full bg-ul" />
                     {S.admin.validated}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-un-soft px-2.5 py-1 text-[0.72rem] font-medium text-un">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-un-soft px-2.5 py-1 text-[0.75rem] font-medium text-un">
                     <span className="h-1.5 w-1.5 rounded-full bg-un" />
                     {S.admin.mismatch}
                   </span>
@@ -343,7 +343,7 @@ export default function AdminPage() {
             <button
               onClick={publish}
               disabled={!parsed || !password || publishing}
-              className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
+              className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
             >
               {publishing ? S.admin.publishing : S.admin.publish}
             </button>
@@ -362,7 +362,7 @@ export default function AdminPage() {
                 <span className="tnum text-ink-soft">
                   {fmtPct(h.totals.percent, 1)} · {fmtInt(h.totals.ulangan)}/{fmtInt(h.totals.total)}
                 </span>
-                <span className="tnum text-[0.72rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
+                <span className="tnum text-[0.75rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
               </li>
             ))}
           </ul>
@@ -388,7 +388,7 @@ export default function AdminPage() {
               <p className="mt-1 text-[0.83rem] text-ink-soft">{S.admin.successHint}</p>
             </div>
             <div className="flex justify-center gap-3">
-              <Link href="/toldirilish" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-sov-deep">
+              <Link href="/toldirilish" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-on-sov hover:bg-sov-deep">
                 {S.admin.goDashboard}
               </Link>
               <button
@@ -452,7 +452,7 @@ export default function AdminPage() {
               <button
                 onClick={publishCompletion}
                 disabled={!compParsed || !password || compPublishing}
-                className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {compPublishing ? S.admin.publishing : S.admin.compPublish}
               </button>
@@ -470,7 +470,7 @@ export default function AdminPage() {
                   <span className="tnum text-ink-soft">
                     {fmtPct(h.overall.avg, 1)} · {fmtInt(h.overall.orgCount)} {S.units.org}
                   </span>
-                  <span className="tnum text-[0.72rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
+                  <span className="tnum text-[0.75rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
                 </li>
               ))}
             </ul>
@@ -497,7 +497,7 @@ export default function AdminPage() {
               <p className="mt-1 text-[0.83rem] text-ink-soft">{S.admin.successHint}</p>
             </div>
             <div className="flex justify-center gap-3">
-              <Link href="/pensiya" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-sov-deep">
+              <Link href="/pensiya" className="rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-on-sov hover:bg-sov-deep">
                 {S.admin.goDashboard}
               </Link>
               <button
@@ -569,7 +569,7 @@ export default function AdminPage() {
               <button
                 onClick={publishKadrlarSnapshot}
                 disabled={!penParsed || !password || penPublishing}
-                className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
+                className="w-full rounded-lg bg-sov px-5 py-3 text-[0.9rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {penPublishing ? S.admin.publishing : S.admin.penPublish}
               </button>
@@ -587,7 +587,7 @@ export default function AdminPage() {
                   <span className="tnum text-ink-soft">
                     {fmtInt(h.overall.pensionWorking)} / {fmtInt(h.overall.total)}
                   </span>
-                  <span className="tnum text-[0.72rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
+                  <span className="tnum text-[0.75rem] text-ink-faint">{fmtDateTime(h.uploadedAt)}</span>
                 </li>
               ))}
             </ul>
@@ -625,14 +625,14 @@ function FileCard({
           <path d="M10 3v9m0-9L6.5 6.5M10 3l3.5 3.5M3.5 14v1.5A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
-      <span className="text-[0.74rem] text-ink-faint">{hint}</span>
+      <span className="text-[0.75rem] text-ink-faint">{hint}</span>
       <input
         type="file"
         accept={accept}
         className="hidden"
         onChange={(e) => onPick(e.target.files?.[0])}
       />
-      <span className={`mt-1 truncate text-[0.78rem] font-medium ${picked ? "text-sov" : "text-ink-faint/70"}`}>
+      <span className={`mt-1 truncate text-[0.78rem] font-medium ${picked ? "text-sov" : "text-ink-faint"}`}>
         {picked ?? S.admin.pickFile}
       </span>
     </label>
@@ -651,7 +651,7 @@ function PreviewStat({
   const color = tone === "ul" ? "text-ul" : tone === "un" ? "text-un" : "text-ink";
   return (
     <div>
-      <div className="text-[0.72rem] text-ink-faint">{label}</div>
+      <div className="text-[0.75rem] text-ink-faint">{label}</div>
       <div className={`tnum mt-1 text-[1.4rem] font-semibold ${color}`}>{value}</div>
     </div>
   );

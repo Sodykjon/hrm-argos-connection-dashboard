@@ -9,27 +9,38 @@
   /* text */
   --color-ink: #eaf1fb;
   --color-ink-soft: #a7bad6;
-  --color-ink-faint: #7086a4;
+  --color-ink-faint: #8a9fbe; /* >=4.5:1 on cards (was #7086a4, 4.39:1) */
 
   /* surfaces */
   --color-paper: #081222;
   --color-surface: #0f2038;
   --color-line: #223b5e;
   --color-line-soft: #172c49;
+  --color-line-strong: #5f82b0; /* control borders, >=3:1 */
 
   /* brand — Ministry-of-Health blue, glowing on dark */
   --color-sov: #3fb6ff;
   --color-sov-deep: #1f9bee;
   --color-sov-soft: #12335099;
+  --color-on-sov: #04172b; /* text on a filled brand surface (white on #3fb6ff was 2.25:1) */
   --color-band: #071020;
   --color-band-2: #0d2140;
+
+  /* header chrome: navy band in dark, white bar in light */
+  --color-chrome-ink: #ffffff;
+  --color-chrome-ink-soft: #b6c4da;
+  --color-chrome-line: #ffffff26;
+  --color-chrome-hover: #ffffff1a;
+  --color-chrome-fill: #ffffff0d;
+  --color-chrome-active: #ffffff;
+  --color-chrome-on-active: #071020;
 
   /* status signals */
   --color-ul: #2fd07a;
   --color-ul-soft: #10321f;
-  --color-un: #ff5a63;
+  --color-un: #ff6f77;
   --color-un-soft: #3a151b;
-  --color-och: #7488a6;
+  --color-och: #8fa1bc;
   --color-och-soft: #1b2942;
   --color-warn: #f7b23b;
 
@@ -48,8 +59,84 @@
   --font-mono: var(--font-plex-mono), ui-monospace, "Cascadia Code", monospace;
 }
 
+/* Theme-only variables (read through var(), so kept out of @theme where unused
+   utilities would be tree-shaken). Dark is the default; light overrides below. */
+:root {
+  --ramp-ink: #ffffff;   /* the percent ramp is lifted toward this ... */
+  --ramp-mix: 16%;       /* ... by this much, so every ramp colour reads >=4.5:1 */
+  --glow: 50%;           /* text-glow strength; 0 in light */
+  --ring-track: #1b3157;
+  --card-bg: linear-gradient(180deg, rgba(21,42,74,0.70), rgba(13,29,54,0.72));
+  --card-blur: blur(10px);
+  --scroll-thumb: #26405f;
+  --scroll-thumb-hover: #33547a;
+  --grid-line: rgba(63,182,255,0.045);
+  --grad-from: #eaf1fb;
+  --grad-to: #8fd6ff;
+  --grad-glow: rgba(63,182,255,0.35);
+  --grad-ul-from: #d8ffe9;
+  --grad-ul-to: #2fd07a;
+  --grad-ul-glow: rgba(47,208,122,0.35);
+}
+
+/* Light theme: cool paper, white cards, MoH blue. Every text pair is >=4.5:1
+   (AA) and control boundaries >=3:1, measured by the contrast gate. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-ink: #0c1a30;
+  --color-ink-soft: #3a4d6b;
+  --color-ink-faint: #56688a;
+  --color-paper: #f2f5fa;
+  --color-surface: #ffffff;
+  --color-line: #d6dfeb;
+  --color-line-soft: #e8edf4;
+  --color-line-strong: #8395b0;
+  --color-sov: #3a6a9f;
+  --color-sov-deep: #335f8f;
+  --color-sov-soft: #e8eef6;
+  --color-on-sov: #ffffff;
+  --color-band: #ffffff;
+  --color-band-2: #f8fafd;
+  --color-chrome-ink: #0c1a30;
+  --color-chrome-ink-soft: #46597a;
+  --color-chrome-line: #d6dfeb;
+  --color-chrome-hover: #3a6a9f14;
+  --color-chrome-fill: #f2f5fa;
+  --color-chrome-active: #e8eef6;
+  --color-chrome-on-active: #335f8f;
+  --color-ul: #3d724d;
+  --color-ul-soft: #e8f1eb;
+  --color-un: #b04a4a;
+  --color-un-soft: #f8e9e8;
+  --color-och: #5a6980;
+  --color-och-soft: #edf0f5;
+  --color-warn: #95663a;
+  --color-goal: #7d5d2c;
+  --color-goal-soft: #f6efe2;
+  --shadow-card: 0 1px 2px rgba(16,40,80,0.06), 0 6px 20px rgba(16,40,80,0.06);
+  --shadow-lift: 0 14px 34px rgba(16,40,80,0.12), 0 0 0 1px color-mix(in srgb, var(--color-sov) 35%, transparent);
+  --shadow-band: 0 1px 0 #d6dfeb, 0 2px 8px rgba(16,40,80,0.04);
+
+  --ramp-ink: #2f3d55;
+  --ramp-mix: 52%;
+  --glow: 0%;
+  --ring-track: #e3e9f2;
+  --card-bg: #ffffff;
+  --card-blur: none;
+  --scroll-thumb: #c3cedd;
+  --scroll-thumb-hover: #a6b5ca;
+  --grid-line: rgba(58,106,159,0.045);
+  --grad-from: #0c1a30;
+  --grad-to: #3a6a9f;
+  --grad-glow: transparent;
+  --grad-ul-from: #4a8a5d; /* display-size text needs 3:1 */
+  --grad-ul-to: #3d724d;
+  --grad-ul-glow: transparent;
+}
+
 @layer base {
   :root { color-scheme: dark; }
+  :root[data-theme="light"] { color-scheme: light; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     color: var(--color-ink);
@@ -64,6 +151,14 @@
     background-attachment: fixed;
     min-height: 100dvh;
   }
+  :root[data-theme="light"] body {
+    background:
+      radial-gradient(1100px 560px at 12% -8%, rgba(58,106,159,0.06), transparent 60%),
+      radial-gradient(1000px 520px at 108% -6%, rgba(61,114,77,0.035), transparent 55%),
+      linear-gradient(180deg, #f6f8fc 0%, #f2f5fa 60%, #eef2f8 100%);
+    background-attachment: fixed;
+  }
+  :root[data-theme="light"] body::before { opacity: 0.5; }
   body::before {
     content: "";
     position: fixed;
@@ -82,20 +177,20 @@
   :focus-visible { outline: 2px solid var(--color-sov); outline-offset: 2px; border-radius: 4px; }
   a, button { -webkit-tap-highlight-color: transparent; }
   input::placeholder, textarea::placeholder { color: var(--color-ink-faint); }
-  select option { background: #0f2038; color: var(--color-ink); }
-  .scroll-quiet { scrollbar-width: thin; scrollbar-color: #2a4265 transparent; }
+  select option { background: var(--color-surface); color: var(--color-ink); }
+  .scroll-quiet { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) transparent; }
   .scroll-quiet::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scroll-quiet::-webkit-scrollbar-thumb { background: #26405f; border-radius: 8px; }
-  .scroll-quiet::-webkit-scrollbar-thumb:hover { background: #33547a; }
+  .scroll-quiet::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 8px; }
+  .scroll-quiet::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
 }
 
 @layer components {
   .card {
-    background: linear-gradient(180deg, rgba(21,42,74,0.70), rgba(13,29,54,0.72));
+    background: var(--card-bg);
     border: 1px solid var(--color-line);
     border-radius: 16px;
     box-shadow: var(--shadow-card);
-    backdrop-filter: blur(10px);
+    backdrop-filter: var(--card-blur);
   }
   .card-link { transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
   .card-link:hover {
@@ -105,8 +200,8 @@
   }
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.18em;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-ink-faint);
   }
@@ -116,10 +211,10 @@
     font-feature-settings: "tnum" 1;
     letter-spacing: -0.01em;
   }
-  .glow-ul { text-shadow: 0 0 24px color-mix(in srgb, var(--color-ul) 55%, transparent); }
-  .glow-un { text-shadow: 0 0 24px color-mix(in srgb, var(--color-un) 50%, transparent); }
-  .glow-sov { text-shadow: 0 0 24px color-mix(in srgb, var(--color-sov) 50%, transparent); }
-  .glow-goal { text-shadow: 0 0 20px color-mix(in srgb, var(--color-goal) 45%, transparent); }
+  .glow-ul { text-shadow: 0 0 24px color-mix(in srgb, var(--color-ul) var(--glow), transparent); }
+  .glow-un { text-shadow: 0 0 24px color-mix(in srgb, var(--color-un) var(--glow), transparent); }
+  .glow-sov { text-shadow: 0 0 24px color-mix(in srgb, var(--color-sov) var(--glow), transparent); }
+  .glow-goal { text-shadow: 0 0 20px color-mix(in srgb, var(--color-goal) var(--glow), transparent); }
 }
 
 /* ---- live / real-time motion ---- */
@@ -150,14 +245,14 @@
 
 /* gradient glow text (hero figures) */
 .text-grad {
-  background: linear-gradient(180deg, #eaf1fb, #8fd6ff);
+  background: linear-gradient(180deg, var(--grad-from), var(--grad-to));
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 26px rgba(63,182,255,0.35));
+  filter: drop-shadow(0 0 26px var(--grad-glow));
 }
 .text-grad-ul {
-  background: linear-gradient(180deg, #d8ffe9, #2fd07a);
+  background: linear-gradient(180deg, var(--grad-ul-from), var(--grad-ul-to));
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  filter: drop-shadow(0 0 26px rgba(47,208,122,0.35));
+  filter: drop-shadow(0 0 26px var(--grad-ul-glow));
 }
 
 /* animated "breathing" gradient border */
@@ -187,14 +282,16 @@
 body::after {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image:
-    linear-gradient(rgba(63,182,255,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(63,182,255,0.045) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 46px 46px;
   -webkit-mask-image: radial-gradient(120% 80% at 50% -10%, #000 18%, transparent 72%);
   mask-image: radial-gradient(120% 80% at 50% -10%, #000 18%, transparent 72%);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Reveal wrappers render in their final state (see components/motion/Reveal.tsx). */
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
   .marquee-track { animation: none !important; }
   .border-live::before { animation: none !important; }
 

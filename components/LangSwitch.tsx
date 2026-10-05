@@ -18,7 +18,7 @@ export function LangSwitch() {
 
   return (
     <div
-      className="inline-flex items-center rounded-full border border-white/20 bg-white/5 p-0.5"
+      className="inline-flex items-center rounded-full border border-chrome-line bg-chrome-fill p-0.5"
       role="group"
       aria-label="Til / Язык"
     >
@@ -40,8 +40,8 @@ export function LangSwitch() {
             className={[
               "rounded-full px-2.5 py-1 text-[0.72rem] font-semibold transition-colors",
               active
-                ? "bg-white text-band"
-                : "text-white/70 hover:bg-white/10 hover:text-white",
+                ? "bg-chrome-active text-chrome-on-active"
+                : "text-chrome-ink-soft hover:bg-chrome-hover hover:text-chrome-ink",
             ].join(" ")}
           >
             {o.label}

@@ -2,8 +2,10 @@ import type { KadrlarStat } from "@/lib/types";
 import { fmtInt, fmtPct } from "@/lib/format";
 import { getS } from "@/lib/i18n/server";
 
-const MEN = "#3fb6ff"; // sov blue
-const WOMEN = "#ff7eb6"; // pink
+const MEN = "var(--color-sov)"; // sov blue
+// Pink has no token: light-dark() follows the root color-scheme (set per
+// data-theme in globals.css); light is the same hue muted for the white card.
+const WOMEN = "light-dark(#b86b8f, #ff7eb6)"; // pink
 
 /**
  * Overall gender composition, NOT per age band — checked 07.08.2026 against

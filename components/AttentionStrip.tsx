@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { RegionStat } from "@/lib/types";
 import { regionSlug, regionLabel } from "@/lib/regions";
-import { rampColor, fmtInt, fmtPct } from "@/lib/format";
+import { rampCss, fmtInt, fmtPct } from "@/lib/format";
 import { getLang, getS } from "@/lib/i18n/server";
 
 /**
@@ -40,13 +40,13 @@ export async function AttentionStrip({ regions }: { regions: RegionStat[] }) {
             href={`/hududlar/${regionSlug(r.name)}`}
             className="card card-link group flex items-center gap-4 p-4"
           >
-            <span className="tnum grid h-11 min-w-11 shrink-0 place-items-center rounded-xl bg-un px-2 text-[1.05rem] font-semibold text-white">
+            <span className="tnum grid h-11 min-w-11 shrink-0 place-items-center rounded-xl bg-un px-2 text-[1.05rem] font-semibold text-on-sov">
               {fmtInt(r.ulanmagan)}
             </span>
             <span className="min-w-0 flex-1">
               <span className="flex items-baseline justify-between gap-2">
                 <span className="truncate text-[0.9rem] font-semibold">{regionLabel(r.name, lang)}</span>
-                <span className="tnum shrink-0 text-[0.8rem] font-semibold" style={{ color: rampColor(r.percent) }} title={S.kpi.rate}>
+                <span className="tnum shrink-0 text-[0.8rem] font-semibold" style={{ color: rampCss(r.percent) }} title={S.kpi.rate}>
                   {fmtPct(r.percent, 1)}
                 </span>
               </span>

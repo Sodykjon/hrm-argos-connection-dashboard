@@ -8,7 +8,7 @@ export async function SiteFooter() {
         <span>{S.ministry}</span>
         <span className="flex flex-wrap gap-x-4 gap-y-1">
           <span>{S.footer.source}</span>
-          <span className="text-ink-faint/70">{S.footer.map}</span>
+          <span className="text-ink-faint">{S.footer.map}</span>
         </span>
       </div>
     </footer>

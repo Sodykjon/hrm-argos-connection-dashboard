@@ -32,7 +32,7 @@ export default async function VakansiyaPage() {
 
       {/* ARGOS publishes several staff totals; the note names which one the
           denominator came from, and how the rate is computed. */}
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.vakansiya.sourceNote(fmtDate(snapshot.date))}
       </p>
 

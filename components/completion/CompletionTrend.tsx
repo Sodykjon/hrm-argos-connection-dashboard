@@ -7,6 +7,7 @@ import { fmtDate, fmtPct, fmtInt, toPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
+import { useChartTheme } from "@/lib/chart-theme";
 
 const TOTAL = "__total__";
 
@@ -17,6 +18,7 @@ export function CompletionTrend({
 }) {
   const S = useS();
   const lang = useLang();
+  const ct = useChartTheme();
   const [scope, setScope] = useState(TOTAL);
 
   // Union of region names across ALL snapshots (a region can appear/disappear
@@ -55,9 +57,10 @@ export function CompletionTrend({
       grid: { left: 44, right: 18, top: 20, bottom: 34 },
       tooltip: {
         trigger: "axis",
-        backgroundColor: "#0b3663",
-        borderWidth: 0,
-        textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
+        backgroundColor: ct.tooltipBg,
+        borderColor: ct.tooltipBorder,
+        borderWidth: ct.dark ? 0 : 1,
+        textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {
           const arr = params as Array<{ dataIndex: number }>;
           const p = points[arr[0].dataIndex];
@@ -70,17 +73,17 @@ export function CompletionTrend({
       xAxis: {
         type: "category",
         data: points.map((p) => fmtDate(p.date)),
-        axisLine: { lineStyle: { color: "#22334f" } },
+        axisLine: { lineStyle: { color: ct.axisLine } },
         axisTick: { show: false },
-        axisLabel: { color: "#8ba0bd", fontFamily: FONT_MONO, fontSize: 11 },
+        axisLabel: { color: ct.axisLabel, fontFamily: FONT_MONO, fontSize: 11 },
       },
       yAxis: {
         type: "value",
         min: 0,
         max: 100,
-        splitLine: { lineStyle: { color: "#172a45" } },
+        splitLine: { lineStyle: { color: ct.splitLine } },
         axisLabel: {
-          color: "#8ba0bd",
+          color: ct.axisLabel,
           fontFamily: FONT_MONO,
           fontSize: 11,
           formatter: "{value}%",
@@ -94,21 +97,21 @@ export function CompletionTrend({
           symbolSize: 9,
           data: points.map((p) => (p.avg == null ? null : toPct(p.avg))),
           lineStyle: {
-            color: "#3fb6ff",
+            color: ct.sov,
             width: 3,
-            shadowBlur: 12,
-            shadowColor: "rgba(63,182,255,0.55)",
+            shadowBlur: 12 * ct.glow,
+            shadowColor: ct.sovGlow,
           },
-          itemStyle: { color: "#3fb6ff", borderColor: "#081222", borderWidth: 2 },
-          areaStyle: { color: "rgba(63,182,255,0.14)" },
+          itemStyle: { color: ct.sov, borderColor: ct.surface, borderWidth: 2 },
+          areaStyle: { color: ct.sovArea },
           markLine: {
             silent: true,
             symbol: "none",
-            lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
+            lineStyle: { color: ct.goal, type: "dashed", width: 1.5 },
             label: {
               formatter: S.goal.target100,
               position: "insideEndTop",
-              color: "#f7c14b",
+              color: ct.goal,
               fontFamily: FONT_MONO,
               fontSize: 10,
             },
@@ -117,7 +120,7 @@ export function CompletionTrend({
         },
       ],
     };
-  }, [points, S]);
+  }, [points, S, ct]);
 
   return (
     <div>

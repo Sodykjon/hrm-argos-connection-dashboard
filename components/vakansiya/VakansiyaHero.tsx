@@ -62,7 +62,7 @@ export async function VakansiyaHero({ stat }: { stat: KadrlarStat }) {
                     kind="pct"
                     className="tnum block text-[1.9rem] font-bold leading-none text-ink"
                   />
-                  <span className="mx-auto mt-1 block max-w-[16ch] text-[0.62rem] uppercase leading-snug tracking-[0.14em] text-ink-faint">
+                  <span className="mx-auto mt-1 block max-w-[16ch] text-[0.75rem] uppercase leading-snug tracking-[0.14em] text-ink-faint">
                     {S.vakansiya.ringCaption}
                   </span>
                 </div>
@@ -99,7 +99,7 @@ function Part({
       <div className="tnum mt-1.5 text-[1.75rem] font-semibold leading-none">
         {fmtInt(value)}
       </div>
-      <div className="mt-1 text-[0.72rem] text-ink-faint">{hint}</div>
+      <div className="mt-1 text-[0.75rem] text-ink-faint">{hint}</div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Fragment, useMemo, useState, type ReactNode } from "react";
 import type { Counts, LiveStatus } from "@/lib/argos-live";
 import type { TreeOrg, TreeRegion } from "@/lib/argos-live-view";
-import { fmtInt, fmtPct, rampColor } from "@/lib/format";
+import { fmtInt, fmtPct, rampCss } from "@/lib/format";
 import { isRepublic, regionLabel, regionSlug } from "@/lib/regions";
 import { StatusPill } from "@/components/StatusPill";
 import { useLang, useS } from "@/lib/i18n/client";
@@ -111,7 +111,7 @@ export function LiveTree({
           {exportHref && (
             <a
               href={exportHref}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
             >
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -164,19 +164,18 @@ export function LiveTree({
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5" role="radiogroup">
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={L.col.status}>
           {chips.map((c) => (
             <button
               key={c.key}
-              role="radio"
-              aria-checked={filter === c.key}
+              aria-pressed={filter === c.key}
               onClick={() => setFilter(c.key)}
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.78rem] font-medium transition-colors ${
-                filter === c.key ? "bg-sov text-white" : "border border-line text-ink-soft hover:bg-paper"
+                filter === c.key ? "bg-sov text-on-sov" : "border border-line text-ink-soft hover:bg-paper"
               }`}
             >
               {c.label}
-              <span className={`tnum rounded-full px-1.5 text-[0.7rem] ${filter === c.key ? "bg-white/20" : `bg-paper ${c.tone}`}`}>
+              <span className={`tnum rounded-full px-1.5 text-[0.75rem] ${filter === c.key ? "bg-white/25" : `bg-paper ${c.tone}`}`}>
                 {fmtInt(c.n)}
               </span>
             </button>
@@ -188,7 +187,7 @@ export function LiveTree({
       <div className="scroll-quiet overflow-x-auto">
         <table className="w-full min-w-[640px] border-collapse text-left text-[0.82rem]">
           <thead>
-            <tr className="border-b border-line text-[0.7rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-b border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="px-3 py-2.5 font-medium sm:px-4">{firstCol}</th>
               <th className="tnum px-3 py-2.5 text-right font-medium">{S.overview.col.total}</th>
               <th className="tnum px-3 py-2.5 text-right font-medium">{S.status.ulangan}</th>
@@ -242,7 +241,7 @@ export function LiveTree({
                     label={
                       <span className="flex flex-wrap items-baseline gap-x-2">
                         <span className="font-semibold">{regionLabel(r.name, lang)}</span>
-                        {isRepublic(r.name) && <span className="text-[0.72rem] font-normal text-ink-faint">{T.republicSub}</span>}
+                        {isRepublic(r.name) && <span className="text-[0.75rem] font-normal text-ink-faint">{T.republicSub}</span>}
                       </span>
                     }
                     href={`/argos-jonli/${regionSlug(r.name)}`}
@@ -280,7 +279,7 @@ function sumCounts(regions: TreeRegion[]): Counts {
 }
 
 function CountCells({ c }: { c: Counts }) {
-  const color = rampColor(c.percent);
+  const color = rampCss(c.percent);
   return (
     <>
       <td className="tnum px-3 py-2 text-right text-ink-soft">{fmtInt(c.total)}</td>
@@ -343,7 +342,7 @@ function SummaryRow({
               e.stopPropagation();
               onToggle?.();
             }}
-            className="grid h-5 w-5 shrink-0 place-items-center rounded text-ink-faint hover:bg-line-soft hover:text-ink disabled:opacity-40"
+            className="grid h-6 w-6 shrink-0 place-items-center rounded text-ink-faint hover:bg-line-soft hover:text-ink disabled:opacity-40"
           >
             <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden className={`transition-transform ${open ? "rotate-90" : ""}`}>
               <path d="M4 2.5 7.5 6 4 9.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -351,7 +350,7 @@ function SummaryRow({
           </button>
           <div className="min-w-0">{label}</div>
           {matches !== undefined && (
-            <span className="tnum shrink-0 rounded-full bg-sov-soft px-2 py-0.5 text-[0.68rem] text-sov">{matchLabel(fmtInt(matches))}</span>
+            <span className="tnum shrink-0 rounded-full bg-sov-soft px-2 py-0.5 text-[0.75rem] text-sov">{matchLabel(fmtInt(matches))}</span>
           )}
           {href && (
             <Link
@@ -359,7 +358,7 @@ function SummaryRow({
               onClick={(e) => e.stopPropagation()}
               title={hrefLabel}
               aria-label={hrefLabel}
-              className="ml-auto shrink-0 rounded px-1.5 py-0.5 text-[0.72rem] font-medium text-ink-faint hover:bg-sov-soft hover:text-sov"
+              className="ml-auto shrink-0 rounded px-1.5 py-0.5 text-[0.75rem] font-medium text-ink-faint hover:bg-sov-soft hover:text-sov"
             >
               {hrefLabel} →
             </Link>
@@ -398,7 +397,7 @@ function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boole
           <col className="w-[150px]" />
         </colgroup>
         <thead>
-          <tr className="border-b border-line-soft text-[0.66rem] uppercase tracking-wide text-ink-faint">
+          <tr className="border-b border-line-soft text-[0.75rem] uppercase tracking-wide text-ink-faint">
             <th className="tnum w-10 px-3 py-1.5 text-right font-medium">{T.col.no}</th>
             <th className="px-3 py-1.5 font-medium">{T.col.org}</th>
             <th className="tnum px-3 py-1.5 font-medium">{L.col.stir}</th>
@@ -415,17 +414,18 @@ function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boole
               <td className="tnum px-3 py-1.5 text-right text-ink-faint">{o.n}</td>
               <td className="px-3 py-1.5">
                 <div className="text-ink">{o.name}</div>
-                {republic && o.hudud && <div className="text-[0.7rem] text-ink-faint">{o.hudud}</div>}
-                {o.note && <div className="mt-0.5 text-[0.7rem] text-warn">{o.note}</div>}
+                {republic && o.hudud && <div className="text-[0.75rem] text-ink-faint">{o.hudud}</div>}
+                {o.note && <div className="mt-0.5 text-[0.75rem] text-warn">{o.note}</div>}
               </td>
               <td className="tnum whitespace-nowrap px-3 py-1.5 text-ink-soft">
                 {o.stir ?? "—"}
                 {o.dup > 1 && (
                   <span
                     title={T.dup(fmtInt(o.dup))}
-                    className="ml-1.5 rounded-full bg-warn/15 px-1.5 py-0.5 text-[0.66rem] font-medium text-warn"
+                    className="ml-1.5 rounded-full bg-warn/15 px-1.5 py-0.5 text-[0.75rem] font-medium text-warn"
                   >
-                    ×{o.dup}
+                    <span aria-hidden>×{o.dup}</span>
+                    <span className="sr-only">{T.dup(fmtInt(o.dup))}</span>
                   </span>
                 )}
               </td>
@@ -434,16 +434,17 @@ function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boole
                 {o.ch !== 0 && (
                   <span
                     title={`${o.ch > 0 ? T.up : T.down} · ${T.was(statusName(o.was))}`}
-                    className={`ml-1.5 text-[0.72rem] font-semibold ${o.ch > 0 ? "text-ul" : "text-un"}`}
+                    className={`ml-1.5 text-[0.75rem] font-semibold ${o.ch > 0 ? "text-ul" : "text-un"}`}
                   >
-                    {o.ch > 0 ? "▲" : "▼"}
+                    <span aria-hidden>{o.ch > 0 ? "▲" : "▼"}</span>
+                    <span className="sr-only">{`${o.ch > 0 ? T.up : T.down}, ${T.was(statusName(o.was))}`}</span>
                   </span>
                 )}
               </td>
               <td className="whitespace-nowrap px-3 py-1.5 text-ink-soft">{o.contract ?? <span className="text-ink-faint">—</span>}</td>
               <td className={`tnum px-3 py-1.5 text-right ${payTone(o.pay)}`}>{o.pay === null ? "—" : `${fmtNum(o.pay)}%`}</td>
               <td className="px-3 py-1.5 text-ink-soft">{o.sub ?? "—"}</td>
-              <td className="px-3 py-1.5 text-[0.72rem] text-ink-faint sm:pr-4">
+              <td className="px-3 py-1.5 text-[0.75rem] text-ink-faint sm:pr-4">
                 {o.reason === "billing" ? "" : L.reasons[o.reason]}
               </td>
             </tr>

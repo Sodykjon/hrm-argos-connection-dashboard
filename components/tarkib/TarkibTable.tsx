@@ -9,8 +9,8 @@ import {
   vrachTaminlShare,
   risk5Share,
 } from "@/lib/tarkib";
-import { coverageRamp, coverageT, coverageColor } from "./TarkibMap";
-import { fmtInt, fmtPct, toPct } from "@/lib/format";
+import { coverageRamp, coverageT } from "./TarkibMap";
+import { fmtInt, fmtPct, toPct, rampCss } from "@/lib/format";
 import { regionSlug, regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
 
@@ -83,7 +83,7 @@ export function TarkibTable({
         <h2 className="text-[0.95rem] font-semibold">{S.tarkib.tableTitle}</h2>
         <button
           onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-white transition-colors hover:bg-sov-deep"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
         >
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -95,7 +95,7 @@ export function TarkibTable({
       <div className="scroll-quiet overflow-auto">
         <table className="w-full border-collapse text-left text-[0.82rem]">
           <thead className="sticky top-0 z-10 bg-surface">
-            <tr className="border-y border-line text-[0.7rem] uppercase tracking-wide text-ink-faint">
+            <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
               <th className="w-10 px-3 py-2.5 font-medium">{S.tarkib.col.n}</th>
               <th className="px-3 py-2.5 font-medium">{S.tarkib.col.region}</th>
               <th className="tnum hidden px-3 py-2.5 text-right font-medium sm:table-cell">
@@ -129,7 +129,8 @@ export function TarkibTable({
           </thead>
           <tbody>
             {sorted.map((r, i) => {
-              const color = coverageColor(coverageT(r.vrach, ramp));
+              // coverageColor resolved per theme so the text reads in both.
+              const color = rampCss(coverageT(r.vrach, ramp));
               const width =
                 ramp.max > 0 ? Math.min(100, (r.vrach / ramp.max) * 100) : 0;
               const sof = r.region.qabul - r.region.boshagan;

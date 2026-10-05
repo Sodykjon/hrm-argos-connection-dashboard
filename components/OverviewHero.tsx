@@ -28,11 +28,11 @@ export async function OverviewHero({
               className="text-grad-ul tnum text-[4rem] font-bold leading-[0.85] sm:text-[5.5rem]"
             />
             <div className="mb-2 space-y-1.5">
-              <span className="flex w-fit items-center gap-1.5 rounded-full border border-goal/30 bg-goal-soft px-2.5 py-1 text-[0.72rem] font-semibold text-goal">
+              <span className="flex w-fit items-center gap-1.5 rounded-full border border-goal/30 bg-goal-soft px-2.5 py-1 text-[0.75rem] font-semibold text-goal">
                 <span className="h-1.5 w-1.5 rounded-full bg-goal" />
                 {S.goal.target100}
               </span>
-              <div className="text-[0.72rem] text-ink-faint">
+              <div className="text-[0.75rem] text-ink-faint">
                 {S.goal.gapLabel}{" "}
                 <span className="tnum font-semibold text-goal">{fmtPct(gap, 1)}</span>
               </div>

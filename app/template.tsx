@@ -61,7 +61,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           style={{ opacity: phase === "fade" ? 0 : 1 }}
         >
           <div className="flex flex-col items-center gap-4">
-            <span className="block overflow-hidden rounded-full border border-line shadow-card">
+            <span className="block overflow-hidden rounded-full border border-line shadow-[var(--shadow-card)]">
               {/* Plain <img>: the loader must not wait for image optimization. */}
               <img
                 src="/gerb-loading.gif"

@@ -111,7 +111,7 @@ export default function ReceiverPage() {
             className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[0.9rem] outline-none focus:border-sov"
           />
           <p className="text-[0.75rem] text-ink-faint">{R.passwordHint}</p>
-          <button className="rounded-lg bg-sov px-4 py-2 text-[0.85rem] font-semibold text-white hover:bg-sov-deep">
+          <button className="rounded-lg bg-sov px-4 py-2 text-[0.85rem] font-semibold text-on-sov hover:bg-sov-deep">
             {R.save}
           </button>
         </form>

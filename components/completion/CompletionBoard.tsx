@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { CompletionRegionStat } from "@/lib/types";
 import { CompletionMap } from "./CompletionMap";
 import { isGeographicRegion, regionSlug, regionLabel } from "@/lib/regions";
-import { rampColor, fmtInt, fmtPct } from "@/lib/format";
+import { rampCss, fmtInt, fmtPct } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 
 export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }) {
@@ -31,7 +31,7 @@ export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }
         <div className="border-b border-line p-3 sm:p-4 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-1 flex items-baseline justify-between px-1">
             <h2 className="text-[0.95rem] font-semibold">{S.completion.mapTitle}</h2>
-            <span className="hidden text-[0.72rem] text-ink-faint sm:block">
+            <span className="hidden text-[0.75rem] text-ink-faint sm:block">
               {S.completion.mapHint}
             </span>
           </div>
@@ -54,7 +54,7 @@ export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map((r, i) => {
               const isActive = active === r.name;
-              const color = rampColor(r.avg);
+              const color = rampCss(r.avg);
               return (
                 <li key={r.name}>
                   <Link
@@ -67,7 +67,7 @@ export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }
                       isActive ? "bg-paper" : "hover:bg-paper"
                     }`}
                   >
-                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.72rem] font-semibold text-ink-soft">
+                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.75rem] font-semibold text-ink-soft">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -89,7 +89,7 @@ export function CompletionBoard({ regions }: { regions: CompletionRegionStat[] }
                             style={{ width: `${r.avg * 100}%`, background: color }}
                           />
                         </span>
-                        <span className="tnum shrink-0 text-[0.66rem] text-ink-faint">
+                        <span className="tnum shrink-0 text-[0.75rem] text-ink-faint">
                           {fmtInt(r.orgCount)} {S.completion.orgsUnit}
                         </span>
                       </span>

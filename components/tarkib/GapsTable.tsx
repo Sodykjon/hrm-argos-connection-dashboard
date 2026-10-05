@@ -13,7 +13,7 @@ export async function GapsTable({ gaps }: { gaps: TarkibGap[] }) {
   return (
     <table className="w-full border-collapse text-left text-[0.8rem]">
       <thead>
-        <tr className="border-y border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+        <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
           <th className="px-2 py-2 font-medium">{S.tarkib.gapCol.name}</th>
           <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">
             {S.tarkib.gapCol.shtat}
@@ -39,7 +39,7 @@ export async function GapsTable({ gaps }: { gaps: TarkibGap[] }) {
               {g.name}
               {wave && (
                 <span
-                  className="mt-0.5 flex w-fit items-center gap-1 rounded-full bg-goal-soft px-1.5 py-px text-[0.62rem] font-semibold text-warn"
+                  className="mt-0.5 flex w-fit items-center gap-1 rounded-full bg-goal-soft px-1.5 py-px text-[0.75rem] font-semibold text-goal"
                   title={S.tarkib.waveFlagTitle(fmtPct(waveShare, 0))}
                 >
                   <i className="h-1.5 w-1.5 rounded-full bg-warn" aria-hidden />
@@ -64,7 +64,7 @@ export async function GapsTable({ gaps }: { gaps: TarkibGap[] }) {
                 <span className="tnum shrink-0 font-semibold text-un">
                   −{fmtInt(g.gap)}
                 </span>
-                <span className="tnum shrink-0 text-[0.72rem] text-ink-faint">
+                <span className="tnum shrink-0 text-[0.75rem] text-ink-faint">
                   {fmtPct(g.shtat > 0 ? g.gap / g.shtat : 0, 1)}
                 </span>
               </div>

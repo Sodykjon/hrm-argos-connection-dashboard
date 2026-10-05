@@ -8,7 +8,8 @@ const SEGMENTS: Array<{ keys: string[]; labelKey: "vrach" | "orta" | "kichik" | 
   { keys: ["orta"], labelKey: "orta", color: "var(--color-ul)" },
   // Violet, not gold: goal/warn are near-identical ambers and sat adjacent in
   // the stack — indistinguishable categories (CVD-checked on this surface).
-  { keys: ["kichik"], labelKey: "kichik", color: "#b78af7" },
+  // light-dark() follows the root color-scheme; #7a64a8 = ChartTheme violet (light).
+  { keys: ["kichik"], labelKey: "kichik", color: "light-dark(#7a64a8, #b78af7)" },
   { keys: ["boshqa"], labelKey: "boshqa", color: "var(--color-warn)" },
   { keys: ["notibbiy", "provfarm"], labelKey: "rest", color: "var(--color-och)" },
 ];

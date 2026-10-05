@@ -11,7 +11,7 @@ export default async function NotFound() {
         <p className="mt-1 text-[0.85rem] text-ink-soft">{S.notFound.hint}</p>
         <Link
           href="/"
-          className="mt-5 inline-block rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-white hover:bg-sov-deep"
+          className="mt-5 inline-block rounded-lg bg-sov px-5 py-2.5 text-[0.85rem] font-semibold text-on-sov hover:bg-sov-deep"
         >
           {S.notFound.home}
         </Link>

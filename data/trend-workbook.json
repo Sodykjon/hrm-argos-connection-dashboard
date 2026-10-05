@@ -1,0 +1,273 @@
+{
+ "_source": "HRM_ARGOS_05.10.2026_BARCHA_HUDUDLAR_FINAL_tozalangan.xlsx, Dashboard_data: 17.09 = «baza» ustunlari (R/S/T), 05.10 = joriy (C–F). Bugungi reestr tarkibida (3 865).",
+ "points": [
+  {
+   "date": "2026-09-17",
+   "uploadedAt": "2026-09-17T12:00:00.000Z",
+   "url": "workbook",
+   "totals": {
+    "total": 3865,
+    "ulangan": 3491,
+    "ulanmagan": 277,
+    "ochirilgan": 97,
+    "percent": 0.903234
+   },
+   "regions": [
+    {
+     "name": "Республика муассасалари",
+     "total": 496,
+     "ulangan": 440,
+     "ulanmagan": 19,
+     "ochirilgan": 37,
+     "percent": 0.887097
+    },
+    {
+     "name": "Қорақалпоғистон Республикаси",
+     "total": 219,
+     "ulangan": 217,
+     "ulanmagan": 0,
+     "ochirilgan": 2,
+     "percent": 0.990868
+    },
+    {
+     "name": "Андижон вилояти",
+     "total": 260,
+     "ulangan": 250,
+     "ulanmagan": 3,
+     "ochirilgan": 7,
+     "percent": 0.961538
+    },
+    {
+     "name": "Бухоро вилояти",
+     "total": 231,
+     "ulangan": 229,
+     "ulanmagan": 1,
+     "ochirilgan": 1,
+     "percent": 0.991342
+    },
+    {
+     "name": "Жиззах вилояти",
+     "total": 172,
+     "ulangan": 162,
+     "ulanmagan": 5,
+     "ochirilgan": 5,
+     "percent": 0.94186
+    },
+    {
+     "name": "Қашқадарё вилояти",
+     "total": 291,
+     "ulangan": 280,
+     "ulanmagan": 6,
+     "ochirilgan": 5,
+     "percent": 0.962199
+    },
+    {
+     "name": "Навоий вилояти",
+     "total": 173,
+     "ulangan": 173,
+     "ulanmagan": 0,
+     "ochirilgan": 0,
+     "percent": 1.0
+    },
+    {
+     "name": "Наманган вилояти",
+     "total": 233,
+     "ulangan": 55,
+     "ulanmagan": 178,
+     "ochirilgan": 0,
+     "percent": 0.236052
+    },
+    {
+     "name": "Самарқанд вилояти",
+     "total": 447,
+     "ulangan": 442,
+     "ulanmagan": 0,
+     "ochirilgan": 5,
+     "percent": 0.988814
+    },
+    {
+     "name": "Сурхондарё вилояти",
+     "total": 239,
+     "ulangan": 190,
+     "ulanmagan": 46,
+     "ochirilgan": 3,
+     "percent": 0.794979
+    },
+    {
+     "name": "Сирдарё вилояти",
+     "total": 141,
+     "ulangan": 141,
+     "ulanmagan": 0,
+     "ochirilgan": 0,
+     "percent": 1.0
+    },
+    {
+     "name": "Тошкент вилояти",
+     "total": 258,
+     "ulangan": 248,
+     "ulanmagan": 6,
+     "ochirilgan": 4,
+     "percent": 0.96124
+    },
+    {
+     "name": "Фарғона вилояти",
+     "total": 387,
+     "ulangan": 363,
+     "ulanmagan": 13,
+     "ochirilgan": 11,
+     "percent": 0.937984
+    },
+    {
+     "name": "Хоразм вилояти",
+     "total": 158,
+     "ulangan": 154,
+     "ulanmagan": 0,
+     "ochirilgan": 4,
+     "percent": 0.974684
+    },
+    {
+     "name": "Тошкент шаҳри",
+     "total": 160,
+     "ulangan": 147,
+     "ulanmagan": 0,
+     "ochirilgan": 13,
+     "percent": 0.91875
+    }
+   ]
+  },
+  {
+   "date": "2026-10-05",
+   "uploadedAt": "2026-10-05T12:00:00.000Z",
+   "url": "workbook",
+   "totals": {
+    "total": 3865,
+    "ulangan": 3718,
+    "ulanmagan": 50,
+    "ochirilgan": 97,
+    "percent": 0.961966
+   },
+   "regions": [
+    {
+     "name": "Республика муассасалари",
+     "total": 496,
+     "ulangan": 441,
+     "ulanmagan": 18,
+     "ochirilgan": 37,
+     "percent": 0.889113
+    },
+    {
+     "name": "Қорақалпоғистон Республикаси",
+     "total": 219,
+     "ulangan": 217,
+     "ulanmagan": 0,
+     "ochirilgan": 2,
+     "percent": 0.990868
+    },
+    {
+     "name": "Андижон вилояти",
+     "total": 260,
+     "ulangan": 250,
+     "ulanmagan": 3,
+     "ochirilgan": 7,
+     "percent": 0.961538
+    },
+    {
+     "name": "Бухоро вилояти",
+     "total": 231,
+     "ulangan": 229,
+     "ulanmagan": 1,
+     "ochirilgan": 1,
+     "percent": 0.991342
+    },
+    {
+     "name": "Жиззах вилояти",
+     "total": 172,
+     "ulangan": 162,
+     "ulanmagan": 5,
+     "ochirilgan": 5,
+     "percent": 0.94186
+    },
+    {
+     "name": "Қашқадарё вилояти",
+     "total": 291,
+     "ulangan": 284,
+     "ulanmagan": 2,
+     "ochirilgan": 5,
+     "percent": 0.975945
+    },
+    {
+     "name": "Навоий вилояти",
+     "total": 173,
+     "ulangan": 173,
+     "ulanmagan": 0,
+     "ochirilgan": 0,
+     "percent": 1.0
+    },
+    {
+     "name": "Наманган вилояти",
+     "total": 233,
+     "ulangan": 230,
+     "ulanmagan": 3,
+     "ochirilgan": 0,
+     "percent": 0.987124
+    },
+    {
+     "name": "Самарқанд вилояти",
+     "total": 447,
+     "ulangan": 442,
+     "ulanmagan": 0,
+     "ochirilgan": 5,
+     "percent": 0.988814
+    },
+    {
+     "name": "Сурхондарё вилояти",
+     "total": 239,
+     "ulangan": 235,
+     "ulanmagan": 2,
+     "ochirilgan": 2,
+     "percent": 0.983264
+    },
+    {
+     "name": "Сирдарё вилояти",
+     "total": 141,
+     "ulangan": 141,
+     "ulanmagan": 0,
+     "ochirilgan": 0,
+     "percent": 1.0
+    },
+    {
+     "name": "Тошкент вилояти",
+     "total": 258,
+     "ulangan": 248,
+     "ulanmagan": 6,
+     "ochirilgan": 4,
+     "percent": 0.96124
+    },
+    {
+     "name": "Фарғона вилояти",
+     "total": 387,
+     "ulangan": 365,
+     "ulanmagan": 10,
+     "ochirilgan": 12,
+     "percent": 0.943152
+    },
+    {
+     "name": "Хоразм вилояти",
+     "total": 158,
+     "ulangan": 154,
+     "ulanmagan": 0,
+     "ochirilgan": 4,
+     "percent": 0.974684
+    },
+    {
+     "name": "Тошкент шаҳри",
+     "total": 160,
+     "ulangan": 147,
+     "ulanmagan": 0,
+     "ochirilgan": 13,
+     "percent": 0.91875
+    }
+   ]
+  }
+ ]
+}

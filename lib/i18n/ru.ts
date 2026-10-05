@@ -171,6 +171,14 @@ export const RU = {
     change: "Изменение (с первого отчёта)",
     deltaPts: (n: string) => `+${n} проц. пункта`,
     sinceFirst: "с первого отчёта",
+    ptsShort: "п.п.",
+    ofOrgs: (u: string, t: string) => `${u} из ${t} организаций`,
+    latest: (d: string) => `последнее измерение: ${d}`,
+    range: (a: string, b: string) => `${a} → ${b}`,
+    tableTitle: "Все измерения",
+    tableHint: "Каждая точка — состояние на этот день. «Изменение» — к предыдущему измерению, в процентных пунктах.",
+    col: { date: "Дата", source: "Источник", delta: "Изменение" },
+    source: { seed: "Первый отчёт", upload: "Загруженный отчёт", workbook: "Реестр Excel", live: "ARGOS онлайн" },
   },
 
   completion: {
@@ -652,6 +660,12 @@ export const RU = {
   },
 
 
+  theme: {
+    label: "Тема",
+    light: "Светлая тема",
+    dark: "Тёмная тема",
+    system: "Как в системе",
+  },
   argosLive: {
     title: "Подключение к ARGOS — онлайн",
     subtitle:

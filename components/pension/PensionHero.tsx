@@ -95,7 +95,7 @@ function Component({
       <div className="tnum mt-1.5 text-[1.75rem] font-semibold leading-none">
         {fmtInt(value)}
       </div>
-      <div className="mt-1 text-[0.72rem] text-ink-faint">{hint}</div>
+      <div className="mt-1 text-[0.75rem] text-ink-faint">{hint}</div>
     </div>
   );
 }

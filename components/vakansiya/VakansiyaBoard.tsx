@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import type { KadrlarStat } from "@/lib/types";
 import { VakansiyaMap } from "./VakansiyaMap";
-import { riskRamp, riskT, riskColor } from "@/lib/pension-metrics";
+import { riskRamp, riskT } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
 import { isGeographicRegion, regionLabel } from "@/lib/regions";
-import { fmtInt, fmtPct } from "@/lib/format";
+import { fmtInt, fmtPct, rampCss } from "@/lib/format";
 import { useS, useLang } from "@/lib/i18n/client";
 
 export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
@@ -43,7 +43,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
         <div className="border-b border-line p-3 sm:p-4 lg:col-span-7 lg:border-b-0 lg:border-r">
           <div className="mb-1 flex items-baseline justify-between px-1">
             <h2 className="text-[0.95rem] font-semibold">{S.vakansiya.mapTitle}</h2>
-            <span className="hidden text-[0.72rem] text-ink-faint sm:block">
+            <span className="hidden text-[0.75rem] text-ink-faint sm:block">
               {S.vakansiya.mapHint}
             </span>
           </div>
@@ -54,7 +54,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
             />
           {/* The scale is relative, so it states its own endpoints. Removing
               this line would let a 2pp spread read as a national crisis. */}
-          <p className="mt-1 px-1 text-[0.7rem] text-ink-faint">
+          <p className="mt-1 px-1 text-[0.75rem] text-ink-faint">
             {S.vakansiya.mapKey(fmtPct(ramp.min, 1), fmtPct(ramp.max, 1))}
           </p>
         </div>
@@ -69,7 +69,8 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
           <ol className="scroll-quiet flex max-h-[420px] flex-col gap-0.5 overflow-y-auto pr-1">
             {ranked.map(({ stat, m }, i) => {
               const isActive = active === stat.name;
-              const color = riskColor(riskT(m.rate, ramp));
+              // riskColor (inverted ramp) resolved per theme so the text reads in both.
+              const color = rampCss(1 - riskT(m.rate, ramp));
               // Bars are scaled to the worst region, not to 100% -- at ~14%
               // every bar would otherwise be a stub.
               const width =
@@ -85,7 +86,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
                       isActive ? "bg-paper" : ""
                     }`}
                   >
-                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.72rem] font-semibold text-ink-soft">
+                    <span className="tnum grid h-6 w-6 shrink-0 place-items-center rounded-md bg-line-soft text-[0.75rem] font-semibold text-ink-soft">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -107,7 +108,7 @@ export function VakansiyaBoard({ regions }: { regions: KadrlarStat[] }) {
                             style={{ width: `${width}%`, background: color }}
                           />
                         </span>
-                        <span className="tnum shrink-0 text-[0.66rem] text-ink-faint">
+                        <span className="tnum shrink-0 text-[0.75rem] text-ink-faint">
                           {fmtInt(m.vacant)}
                         </span>
                       </span>

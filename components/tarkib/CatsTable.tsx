@@ -12,7 +12,7 @@ export async function CatsTable({ region }: { region: TarkibRegion }) {
     <div className="scroll-quiet overflow-x-auto">
       <table className="w-full border-collapse text-left text-[0.8rem]">
         <thead>
-          <tr className="border-y border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+          <tr className="border-y border-line text-[0.75rem] uppercase tracking-wide text-ink-faint">
             <th className="px-2 py-2 font-medium">{S.tarkib.catCol.cat}</th>
             <th className="tnum px-2 py-2 text-right font-medium">{S.tarkib.catCol.shtat}</th>
             <th className="tnum hidden px-2 py-2 text-right font-medium sm:table-cell">

@@ -33,7 +33,7 @@ export default async function PensionPage() {
       {/* Names the report the headline came from. ARGOS publishes several staff
           totals differing by 100 000+; without this the first question in the
           room is "whose number is that?" and there is no answer on screen. */}
-      <p className="px-1 text-[0.72rem] leading-relaxed text-ink-faint">
+      <p className="px-1 text-[0.75rem] leading-relaxed text-ink-faint">
         {S.pension.sourceNote(fmtDate(snapshot.date))}
       </p>
 
@@ -111,7 +111,7 @@ export default async function PensionPage() {
               </p>
             </div>
             <PensionForecast stat={overall} />
-            <p className="mt-2 text-[0.72rem] leading-relaxed text-ink-faint">
+            <p className="mt-2 text-[0.75rem] leading-relaxed text-ink-faint">
               {S.pension.forecastFootnote}
             </p>
           </div>

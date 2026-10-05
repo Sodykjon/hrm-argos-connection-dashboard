@@ -7,6 +7,7 @@ import { fmtDate, fmtPct, fmtInt, toPct } from "@/lib/format";
 import { FONT_MONO, FONT_SANS, type EChartsOption } from "@/lib/echarts";
 import { regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
+import { useChartTheme } from "@/lib/chart-theme";
 
 const TOTAL = "__total__";
 
@@ -25,6 +26,7 @@ function dayGap(a: string, b: string): number {
 export function TrendChart({ history }: { history: ManifestEntry[] }) {
   const S = useS();
   const lang = useLang();
+  const ct = useChartTheme();
   const [scope, setScope] = useState(TOTAL);
 
   const regionNames = useMemo(
@@ -107,12 +109,13 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                   text: `↑ ${S.trend.deltaPts(
                     deltaPts.toFixed(1).replace(".", ","),
                   )}`,
-                  fill: "#2fd07a",
+                  fill: ct.ul,
                   fontFamily: FONT_MONO,
                   fontSize: 22,
                   fontWeight: "bold",
-                  shadowBlur: 14,
-                  shadowColor: "rgba(47,208,122,0.5)",
+                  shadowBlur: 14 * ct.glow,
+                  // 0.5 (not ulGlow's 0.55) is the hand-tuned dark badge glow
+                  shadowColor: ct.dark ? "rgba(47,208,122,0.5)" : ct.ulGlow,
                 },
               },
               {
@@ -122,7 +125,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                 silent: true,
                 style: {
                   text: S.trend.sinceFirst,
-                  fill: "#7086a4",
+                  fill: ct.faint,
                   fontFamily: FONT_SANS,
                   fontSize: 11,
                 },
@@ -134,9 +137,10 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         // Item trigger on the dot series only: the shaping curve must never
         // answer a hover with an interpolated value.
         trigger: "item",
-        backgroundColor: "#0b3663",
-        borderWidth: 0,
-        textStyle: { color: "#fff", fontFamily: FONT_SANS, fontSize: 12 },
+        backgroundColor: ct.tooltipBg,
+        borderColor: ct.tooltipBorder,
+        borderWidth: ct.dark ? 0 : 1,
+        textStyle: { color: ct.dark ? "#fff" : ct.tooltipText, fontFamily: FONT_SANS, fontSize: 12 },
         formatter: (params: unknown) => {
           const { dataIndex } = params as { dataIndex: number };
           const p = points[dataIndex];
@@ -156,10 +160,10 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         max: n - 1 + 0.2,
         interval: 1,
         splitLine: { show: false },
-        axisLine: { lineStyle: { color: "#22334f" } },
+        axisLine: { lineStyle: { color: ct.axisLine } },
         axisTick: { show: false },
         axisLabel: {
-          color: "#8ba0bd",
+          color: ct.axisLabel,
           fontFamily: FONT_MONO,
           fontSize: 11,
           // Labels pinned to the integer slots explicitly. Interval ticks on a
@@ -186,9 +190,13 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         min: ({ min }: { min: number }) =>
           Math.max(0, Math.floor((min - 3) / 5) * 5),
         max: 100,
-        splitLine: { lineStyle: { color: "#172a45" } },
+        // With a value x-axis the y-axis line sits at x = 0, i.e. on the first
+        // report, in ECharts' default grey — a stray vertical rule (barely seen
+        // on navy, black on white). The gridlines carry the scale.
+        axisLine: { show: false },
+        splitLine: { lineStyle: { color: ct.splitLine } },
         axisLabel: {
-          color: "#8ba0bd",
+          color: ct.axisLabel,
           fontFamily: FONT_MONO,
           fontSize: 11,
           formatter: "{value}%",
@@ -205,19 +213,19 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           smoothMonotone: "x",
           symbol: "none",
           data: curveData,
-          lineStyle: { color: "#2fd07a", width: 3, shadowBlur: 12, shadowColor: "rgba(47,208,122,0.55)" },
-          areaStyle: { color: "rgba(47,208,122,0.14)" },
+          lineStyle: { color: ct.ul, width: 3, shadowBlur: 12 * ct.glow, shadowColor: ct.ulGlow },
+          areaStyle: { color: ct.ulArea },
           markLine: {
             silent: true,
             symbol: "none",
             data: [
               {
                 yAxis: 100,
-                lineStyle: { color: "#f7c14b", type: "dashed", width: 1.5 },
+                lineStyle: { color: ct.goal, type: "dashed", width: 1.5 },
                 label: {
                   formatter: S.goal.target100,
                   position: "insideEndTop",
-                  color: "#f7c14b",
+                  color: ct.goal,
                   fontFamily: FONT_MONO,
                   fontSize: 10,
                 },
@@ -228,11 +236,11 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                 ? [
                     {
                       yAxis: toPct(first.percent),
-                      lineStyle: { color: "#7086a4", type: "dashed" as const, width: 1 },
+                      lineStyle: { color: ct.faint, type: "dashed" as const, width: 1 },
                       label: {
                         formatter: `${fmtDate(first.date)} · ${fmtPct(first.percent, 1)}`,
                         position: "insideStartBottom" as const,
-                        color: "#7086a4",
+                        color: ct.faint,
                         fontFamily: FONT_MONO,
                         fontSize: 10,
                       },
@@ -252,14 +260,14 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
                 silent: true,
                 symbolSize: 9,
                 data: [knee],
-                itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
+                itemStyle: { color: ct.ul, borderColor: ct.surface, borderWidth: 2 },
                 label: {
                   show: true,
                   position: "bottom" as const,
                   formatter: `${KNEE_DATE_LABEL} · ${KNEE_PCT}%`,
                   fontFamily: FONT_MONO,
                   fontSize: 11,
-                  color: "#8ba0bd",
+                  color: ct.axisLabel,
                 },
               },
             ]
@@ -270,14 +278,14 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
           type: "scatter",
           symbolSize: 9,
           data: dotsData,
-          itemStyle: { color: "#2fd07a", borderColor: "#081222", borderWidth: 2 },
+          itemStyle: { color: ct.ul, borderColor: ct.surface, borderWidth: 2 },
           label: {
             show: true,
             position: "top",
             fontFamily: FONT_MONO,
             fontSize: 11,
             fontWeight: "bold",
-            color: "#eaf1fb",
+            color: ct.ink,
             formatter: (p: unknown) => {
               const { dataIndex, value } = p as {
                 dataIndex: number;
@@ -291,7 +299,7 @@ export function TrendChart({ history }: { history: ManifestEntry[] }) {
         },
       ],
     };
-  }, [points, scope, S]);
+  }, [points, scope, S, ct]);
 
   return (
     <div>

@@ -1,9 +1,14 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
+
+// Reduced motion is handled in CSS ([data-reveal] in globals.css), not with
+// useReducedMotion(): the server always renders the hidden initial state, and a
+// client-only plain <div> branch left that inline opacity:0 in place after
+// hydration — users with «reduce motion» saw half the home page blank.
 
 /** Single fade + rise on scroll-into-view. */
 export function Reveal({
@@ -17,10 +22,9 @@ export function Reveal({
   delay?: number;
   y?: number;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
   return (
     <motion.div
+      data-reveal=""
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -42,14 +46,13 @@ export function RevealGroup({
   className?: string;
   stagger?: number;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
   const variants: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: stagger } },
   };
   return (
     <motion.div
+      data-reveal=""
       className={className}
       variants={variants}
       initial="hidden"
@@ -75,7 +78,7 @@ export function RevealItem({
     show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
   };
   return (
-    <motion.div className={className} variants={variants}>
+    <motion.div data-reveal="" className={className} variants={variants}>
       {children}
     </motion.div>
   );

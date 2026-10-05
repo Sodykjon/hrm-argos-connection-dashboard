@@ -32,7 +32,7 @@ export async function NationalBar({ totals }: { totals: Totals }) {
             <span className="tnum text-[0.8rem] font-semibold text-ink">
               {fmtInt(s.value)}
             </span>
-            <span className="tnum text-[0.72rem] text-ink-faint">
+            <span className="tnum text-[0.75rem] text-ink-faint">
               {fmtPct(s.value / total, 0)}
             </span>
           </div>
