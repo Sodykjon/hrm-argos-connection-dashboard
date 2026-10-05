@@ -46,15 +46,16 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: workbook v3 (3 910 / 3 758 / 39 / 113)", () => {
+test("national totals: workbook v3 (3 909 / 3 757 / 39 / 113)", () => {
   // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
   // mountain-village hospitals without internet = 3 718 / 50 / 97; v2 (05.10 ARGOS tree): 110 rows
   // got their own STIR → 3 726 / 39 / 100; v3 (user's review): 7 more STIRs (Xiva 1–2 OP read
-  // connected) and 45 tree orgs added (31 billing on, 14 off) → 3 910 / 3 758 / 39 / 113.
+  // connected) and 45 tree orgs added (31 billing on, 14 off) → 3 910 / 3 758 / 39 / 113; the
+  // doubled Ketenler OShP row deleted (user) → 3 909 / 3 757 / 39 / 113.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3910, 3758, 39, 113],
+    [3909, 3757, 39, 113],
   );
 });
 
@@ -120,10 +121,10 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: the workbook's 145 / 667 less the 117 rows given their own STIR on 05.10 (124 / 542), none mixed", () => {
+test("same-STIR groups: the workbook's 145 / 667 less the rows given their own STIR on 05.10 (123 / 540), none mixed", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 124);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 542); // incl. the doubled Ketenler OShP row
+  assert.equal(stirGroups.length, 123);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 540);
   assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
 });
 
@@ -136,10 +137,10 @@ const tree1005: TreeRow[] = readFileSync(new URL("./fixtures/argos-tree-2026-10-
     return [t, b === "1" ? 1 : 0];
   });
 
-test("05.10 ARGOS tree: registry agrees with the workbook (3 910 / 3 758 / 39 / 113), 35 tree orgs left out on purpose", () => {
+test("05.10 ARGOS tree: registry agrees with the workbook (3 909 / 3 757 / 39 / 113), 35 tree orgs left out on purpose", () => {
   // Before the fixes the same tree gave exactly the workbook's 3 718 / 50 / 97 and 195 outside.
   const r = compute(base.orgs, { at: "2026-10-05T12:00:00Z", rows: tree1005 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3910, 3758, 39, 113]);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3909, 3757, 39, 113]);
   // the 34 the user marked «yo'q» (colleges, depots, project units…) + the Xiva college whose STIR
   // the Xiva OPs had been filed under
   assert.equal(r.extraInTree.length, 35);
