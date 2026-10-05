@@ -184,9 +184,12 @@ export async function getHistory(): Promise<ManifestEntry[]> {
   // ARGOS report's own 66,9 % (user, 05.10.2026): it replaces the bundled seed
   // AND any upload of that date. Later uploaded reports keep their figures.
   const start = baseline0702.entry as ManifestEntry;
+  // Nothing before the corrected start either: a backfilled 30.01 report (37 %, ARGOS's own
+  // count) put a point ahead of 02.07 and the user had it removed (05.10.2026). The upload
+  // stays in the store; it is only kept off the trend.
   return [...base, ...wb]
-    .filter((e) => !liveDates.has(e.date) && e.date !== start.date)
-    .concat(liveDates.has(start.date) ? [] : [start], liveEntries)
+    .filter((e) => !liveDates.has(e.date) && e.date > start.date)
+    .concat(liveDates.has(start.date) ? [] : [start], liveEntries.filter((e) => e.date >= start.date))
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
