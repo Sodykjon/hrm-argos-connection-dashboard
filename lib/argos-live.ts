@@ -7,15 +7,23 @@
 
 export type LiveStatus = "ulangan" | "ulanmagan" | "ochirilgan";
 
-/** One row of the 17.09.2026 registry workbook (data/argos-live-base.json). */
+/**
+ * One row of the registry workbook (data/argos-live-base.json, built from the
+ * 05.10.2026 «BARCHA_HUDUDLAR_FINAL» workbook), in the workbook's order:
+ * sheet → group → row.
+ */
 export interface BaseOrg {
-  region: string; // canonical Uzbek-Cyrillic region name (lib/regions.ts)
-  district: string | null; // as written in the workbook (Latin); null for republican centres
+  region: string; // canonical Uzbek-Cyrillic region name (lib/regions.ts) — the workbook sheet
+  district: string | null; // the sheet's group (Latin): a district/city, or a republican system
+  hudud?: string | null; // republican sheet only: where the branch sits («Respublika (bosh muassasa)», a region)
   name: string;
   stir: string | null;
   reestr: LiveStatus; // status in the 17.09 registry
   override: LiveStatus | null; // manual decision that wins over the tree
-  contract?: string | null; // «Shartnoma» from the workbook
+  contract?: string | null; // «Shartnoma (17.09)»
+  pay?: number | null; // «Toʻlov, % (17.09)»
+  sub?: string | null; // «Boʻysunuvi»
+  note?: string | null; // workbook remark that is not a restatement of the live status
 }
 
 /** A registry row kept out of every count (e.g. no internet in a mountain village). */
@@ -27,10 +35,21 @@ export interface ExcludedOrg {
   reason: string; // "internet"
 }
 
+/** A row taken off the registry altogether (liquidated, left the system, …). */
+export interface RemovedOrg {
+  region: string;
+  district: string | null;
+  name: string;
+  stir: string | null;
+  reason: string | null;
+  date: string | null;
+}
+
 export interface BaseFile {
   source: string;
   orgs: BaseOrg[];
   excluded?: ExcludedOrg[];
+  removed?: RemovedOrg[];
   /** STIRs of removed/excluded rows — never listed as «in ARGOS, not in the registry». */
   ignoreStir?: string[];
 }

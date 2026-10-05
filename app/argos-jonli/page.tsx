@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { getLive } from "@/lib/argos-live-data";
+import { BASE, getLive } from "@/lib/argos-live-data";
+import { buildTree } from "@/lib/argos-live-view";
 import { StatTile } from "@/components/StatTile";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { StatusPill } from "@/components/StatusPill";
 import { AutoRefresh } from "@/components/argos-live/AutoRefresh";
 import { AttentionTabs } from "@/components/argos-live/AttentionTabs";
-import { LiveRegionTable } from "@/components/argos-live/LiveRegionTable";
+import { LiveTree } from "@/components/argos-live/LiveTree";
 import type { LiveOrgRow } from "@/components/argos-live/LiveOrgTable";
 import { fmtTashkent, isStale } from "@/components/argos-live/time";
 import type { LiveOrg } from "@/lib/argos-live";
 import { fmtInt } from "@/lib/format";
-import { regionLabel, regionSlug } from "@/lib/regions";
+import { regionLabel } from "@/lib/regions";
 import { getLang, getS } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
@@ -108,13 +109,7 @@ export default async function ArgosLivePage() {
         </div>
       </section>
 
-      <LiveRegionTable
-        title={L.regionTableTitle}
-        hint={L.regionTableHint}
-        rows={result.regions.map((r) => ({ ...r, href: `/argos-jonli/${regionSlug(r.name)}` }))}
-        totals={totals}
-        exportHref="/api/argos-tree/xlsx"
-      />
+      <LiveTree regions={buildTree(result)} exportHref="/api/argos-tree/xlsx" />
 
       {prevAt && (
         <section className="card overflow-hidden">
@@ -154,6 +149,10 @@ export default async function ArgosLivePage() {
         missing={missing}
         stirGroups={result.stirGroups}
         extra={result.extraInTree}
+        removed={[
+          ...(BASE.excluded ?? []).map((e) => ({ ...e, reason: L.attention.reasonInternet, date: null })),
+          ...(BASE.removed ?? []),
+        ]}
       />
     </div>
   );

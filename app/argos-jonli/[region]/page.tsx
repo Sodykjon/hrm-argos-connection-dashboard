@@ -4,8 +4,8 @@ import { getLive } from "@/lib/argos-live-data";
 import { StatTile } from "@/components/StatTile";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { AutoRefresh } from "@/components/argos-live/AutoRefresh";
-import { LiveRegionTable } from "@/components/argos-live/LiveRegionTable";
-import { LiveOrgTable } from "@/components/argos-live/LiveOrgTable";
+import { LiveTree } from "@/components/argos-live/LiveTree";
+import { buildTree } from "@/lib/argos-live-view";
 import { fmtTashkent } from "@/components/argos-live/time";
 import { regionFromSlug, regionLabel } from "@/lib/regions";
 import { getLang, getS } from "@/lib/i18n/server";
@@ -24,17 +24,6 @@ export default async function ArgosLiveRegionPage({ params }: { params: Promise<
   const region = live.result.regions.find((r) => r.name === name);
   if (!name || !region) notFound();
 
-  const orgs = live.result.orgs
-    .filter((o) => o.region === name)
-    .map((o) => ({
-      region: o.region,
-      district: o.district,
-      name: o.name,
-      stir: o.stir,
-      status: o.status,
-      billing: o.billing,
-      reason: o.reason,
-    }));
   const checkedAt = live.manifest?.checkedAt ?? live.tree.at;
 
   return (
@@ -73,16 +62,7 @@ export default async function ArgosLiveRegionPage({ params }: { params: Promise<
         </div>
       </section>
 
-      {region.districts.length > 0 && (
-        <LiveRegionTable title={L.districts} rows={region.districts} totals={region} isDistrict />
-      )}
-
-      <section className="card overflow-hidden">
-        <div className="border-b border-line p-3 sm:px-4">
-          <h2 className="text-[0.95rem] font-semibold">{L.orgs}</h2>
-        </div>
-        <LiveOrgTable rows={orgs} />
-      </section>
+      <LiveTree regions={buildTree(live.result, name)} single />
     </div>
   );
 }

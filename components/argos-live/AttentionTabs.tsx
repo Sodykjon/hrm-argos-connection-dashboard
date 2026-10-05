@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import type { StirGroup } from "@/lib/argos-live";
+import type { RemovedOrg, StirGroup } from "@/lib/argos-live";
 import { fmtInt } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { StatusPill } from "@/components/StatusPill";
 import { useS, useLang } from "@/lib/i18n/client";
 import { LiveOrgTable, type LiveOrgRow } from "./LiveOrgTable";
 
-type Tab = "newConn" | "billingOff" | "missing" | "stir" | "extra";
+type Tab = "newConn" | "billingOff" | "missing" | "stir" | "extra" | "removed";
 
 export function AttentionTabs({
   newConn,
@@ -16,12 +16,14 @@ export function AttentionTabs({
   missing,
   stirGroups,
   extra,
+  removed,
 }: {
   newConn: LiveOrgRow[];
   billingOff: LiveOrgRow[];
   missing: LiveOrgRow[];
   stirGroups: StirGroup[];
   extra: { tin: string; billing: 0 | 1; label: string }[];
+  removed: RemovedOrg[];
 }) {
   const S = useS();
   const A = S.argosLive.attention;
@@ -35,6 +37,7 @@ export function AttentionTabs({
     { key: "missing", label: A.missing, n: missing.length },
     { key: "stir", label: A.stir, n: stirGroups.length },
     { key: "extra", label: A.extra, n: extra.length },
+    { key: "removed", label: A.removed, n: removed.length },
   ];
 
   return (
@@ -64,6 +67,8 @@ export function AttentionTabs({
       {tab === "newConn" && <List rows={newConn} none={A.none} />}
       {tab === "billingOff" && <List rows={billingOff} none={A.none} />}
       {tab === "missing" && <List rows={missing} none={A.none} />}
+
+      {tab === "removed" && <RemovedList rows={removed} />}
 
       {tab === "stir" && (
         <div>
@@ -120,6 +125,43 @@ export function AttentionTabs({
         ) : (
           <p className="p-4 text-[0.82rem] text-ink-faint">{A.none}</p>
         ))}
+    </div>
+  );
+}
+
+function RemovedList({ rows }: { rows: RemovedOrg[] }) {
+  const S = useS();
+  const L = S.argosLive;
+  const lang = useLang();
+  return (
+    <div>
+      <p className="border-b border-line-soft px-3 py-2 text-[0.78rem] text-ink-soft sm:px-4">{L.attention.removedHint}</p>
+      <div className="scroll-quiet overflow-x-auto">
+        <table className="w-full border-collapse text-left text-[0.8rem]">
+          <thead>
+            <tr className="border-b border-line text-[0.68rem] uppercase tracking-wide text-ink-faint">
+              <th className="px-3 py-2 font-medium sm:pl-4">{L.col.region}</th>
+              <th className="px-3 py-2 font-medium">{L.col.district}</th>
+              <th className="px-3 py-2 font-medium">{L.col.name}</th>
+              <th className="tnum px-3 py-2 font-medium">{L.col.stir}</th>
+              <th className="px-3 py-2 font-medium">{L.col.reason}</th>
+              <th className="tnum px-3 py-2 font-medium sm:pr-4">{L.attention.date}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={`${r.stir}-${i}`} className="border-b border-line-soft hover:bg-paper">
+                <td className="px-3 py-1.5 text-ink-soft sm:pl-4">{regionLabel(r.region, lang)}</td>
+                <td className="px-3 py-1.5 text-ink-soft">{r.district ?? "—"}</td>
+                <td className="px-3 py-1.5">{r.name}</td>
+                <td className="tnum px-3 py-1.5 text-ink-soft">{r.stir ?? "—"}</td>
+                <td className="px-3 py-1.5 text-[0.75rem] text-ink-soft">{r.reason ?? L.attention.reasonNone}</td>
+                <td className="tnum px-3 py-1.5 text-ink-faint sm:pr-4">{r.date ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

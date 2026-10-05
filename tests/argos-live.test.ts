@@ -15,22 +15,7 @@ const base = JSON.parse(
   readFileSync(new URL("../data/argos-live-base.json", import.meta.url), "utf-8"),
 ) as BaseFile;
 
-// 25.09.2026 ARGOS tree (tin:billing) and the workbook statuses that were
-// maintained by hand-run scripts against exactly that tree. One later manual
-// decision is folded into the fixture: on 25.09 the user confirmed Yangiqo'rg'on
-// (Namangan) is connected, so its 19 «ulanmagan» overrides were lifted.
-// 29.09.2026 (user's Qashqadaryo workbook + 6 rows named in chat for Namangan,
-// Surxondaryo, Andijon): 10 rows removed from the registry,
-// 3 mountain-village hospitals without internet excluded from every count, and
-// 3 wrong STIRs corrected — two of those are in the 25.09 tree, so with the
-// right STIR they now read «ulangan»; the third (Kukdala, not in that tree) the
-// user confirmed as connected by hand → «faol» override. All three were
-// «ulanmagan» in the 25.09 workbook.
-const STIR_FIXED_CONNECTED = new Set([
-  '"Talimarjon" shifoxonasi',
-  "Nuristan poliklinikasi",
-  "Kukdala tumani koʻp tarmoqli markaziy poliklinikasi",
-]);
+// 25.09.2026 ARGOS tree (tin:billing) — a real tree, for the invariants below.
 const rows: TreeRow[] = readFileSync(
   new URL("./fixtures/argos-tree-2026-09-25.txt", import.meta.url),
   "utf-8",
@@ -41,31 +26,61 @@ const rows: TreeRow[] = readFileSync(
     const [t, b] = x.split(":");
     return [t, b === "1" ? 1 : 0];
   });
-const expected = JSON.parse(
-  readFileSync(new URL("./fixtures/argos-live-expected.json", import.meta.url), "utf-8"),
-) as string[];
-
 const tree = { at: "2026-09-25T11:50:00Z", rows };
 
-test("reproduces the 25.09 workbook row by row", () => {
-  const r = compute(base.orgs, tree);
-  assert.equal(r.orgs.length, expected.length);
+// The 05.10.2026 «BARCHA_HUDUDLAR_FINAL» workbook: its status column, and the
+// tree those statuses imply (in the tree with billing on unless the row says
+// «daraxtda yoʻq» / «billing nofaol» / manual) — written by make-argos-base.py.
+const excel = JSON.parse(
+  readFileSync(new URL("./fixtures/argos-excel-expected.json", import.meta.url), "utf-8"),
+) as { status: string[]; tree: TreeRow[] };
+const excelTree = { at: "2026-10-05T06:00:00Z", rows: excel.tree };
+
+test("reproduces the 05.10 workbook row by row", () => {
+  const r = compute(base.orgs, excelTree, base.ignoreStir);
+  assert.equal(r.orgs.length, excel.status.length);
   const diff = r.orgs
-    .map((o, i) => [o, STIR_FIXED_CONNECTED.has(o.name) ? "ulangan" : expected[i]] as const)
+    .map((o, i) => [o, excel.status[i]] as const)
     .filter(([o, e]) => o.status !== e)
-    .map(([o, e]) => `${o.region} | ${o.name} | ${o.stir} | ${o.status} ≠ ${e}`);
+    .map(([o, e]) => `${o.region} | ${o.district} | ${o.name} | ${o.stir} | ${o.status} ≠ ${e}`);
   assert.deepEqual(diff, []);
 });
 
-test("national totals: 25.09 workbook minus the 29.09 registry changes (3 865 / 3 513 / 255 / 97)", () => {
-  // 3 878 / 3 510 / 267 / 101 − 10 removed (9 ulanmagan, 1 ochirilgan) − 3 excluded (ochirilgan);
-  // Talimarjon, Nuristan, Kukdala ulanmagan → ulangan after the STIR fix.
-  const { totals } = compute(base.orgs, tree, base.ignoreStir);
+test("national totals: 05.10 workbook minus the 29.09 removals (3 865 / 3 718 / 50 / 97)", () => {
+  // workbook 3 874 / 3 718 / 55 / 101 − 6 rows the dashboard had removed on 29.09
+  // (5 ulanmagan, 1 ochirilgan) − 3 mountain-village hospitals without internet (ochirilgan).
+  const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3865, 3513, 255, 97],
+    [3865, 3718, 50, 97],
   );
-  assert.equal((totals.percent * 100).toFixed(1), "90.9");
+});
+
+test("workbook structure: sheet order, republican systems, merged district spellings", () => {
+  const { regions } = compute(base.orgs, excelTree);
+  assert.deepEqual(
+    regions.map((r) => r.name),
+    [
+      "Республика муассасалари", "Қорақалпоғистон Республикаси", "Андижон вилояти", "Бухоро вилояти",
+      "Жиззах вилояти", "Қашқадарё вилояти", "Навоий вилояти", "Наманган вилояти", "Самарқанд вилояти",
+      "Сурхондарё вилояти", "Сирдарё вилояти", "Тошкент вилояти", "Фарғона вилояти", "Хоразм вилояти",
+      "Тошкент шаҳри",
+    ],
+  );
+  const rep = regions[0];
+  assert.equal(rep.total, 496);
+  assert.equal(rep.districts.length, 20);
+  assert.equal(rep.districts[0].name, "Sanitariya-epidemiologiya qoʻmitasi tizimi");
+  assert.equal(rep.districts.at(-1)?.name, "Vazirlikka bevosita boʻysunuvchilar");
+  const andijon = regions.find((r) => r.name === "Андижон вилояти")!;
+  assert.equal(andijon.districts[0].name, "Viloyat darajasidagi muassasalar");
+  assert.equal(andijon.districts.find((d) => d.name === "Asaka tumani")?.total, 24); // 23 + «ASAKA tumani» 1
+  const all = new Set(regions.flatMap((r) => r.districts.map((d) => d.name)));
+  for (const raw of ["ASAKA tumani", "Chipchiq shahri", "Yashnabod tumani", "Toylok tumani", "1-son shahri"])
+    assert.ok(!all.has(raw), raw);
+  const tash = regions.find((r) => r.name === "Тошкент шаҳри")!;
+  assert.equal(tash.districts.find((d) => d.name === "Shahar darajasidagi muassasalar")?.total, 46);
+  assert.ok(base.orgs.filter((o) => o.region === "Республика муассасалари").every((o) => o.hudud));
 });
 
 test("removed and excluded rows count nowhere, not even as «in ARGOS, not in the registry»", () => {
@@ -75,6 +90,7 @@ test("removed and excluded rows count nowhere, not even as «in ARGOS, not in th
     ...["202611253", "202611245", "201290315", "203317578", "206949249", "202636696"], // Namangan, Surxondaryo, Andijon
   ];
   assert.deepEqual(base.ignoreStir, [...gone].sort());
+  assert.equal(base.removed?.length, 10);
   assert.deepEqual(
     (base.excluded ?? []).map((e) => [e.name, e.reason]),
     [
@@ -102,10 +118,10 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: 144 groups / 665 rows, none mixed", () => {
-  const { stirGroups } = compute(base.orgs, tree);
-  assert.equal(stirGroups.length, 144);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 665);
+test("same-STIR groups match the workbook's «Takroriy STIR» sheet: 145 STIRs / 667 rows, none mixed", () => {
+  const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
+  assert.equal(stirGroups.length, 145);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 667);
   assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
 });
 
