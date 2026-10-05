@@ -46,13 +46,14 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: 05.10 workbook minus the 29.09 removals (3 865 / 3 718 / 50 / 97)", () => {
-  // workbook 3 874 / 3 718 / 55 / 101 − 6 rows the dashboard had removed on 29.09
-  // (5 ulanmagan, 1 ochirilgan) − 3 mountain-village hospitals without internet (ochirilgan).
+test("national totals: workbook v2 (3 865 / 3 726 / 39 / 100)", () => {
+  // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
+  // mountain-village hospitals without internet = 3 718 / 50 / 97; then v2 (05.10 ARGOS tree):
+  // 110 rows got their own STIR, 11 of them read connected, 3 Gurlan OShPs billing-off.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3865, 3718, 50, 97],
+    [3865, 3726, 39, 100],
   );
 });
 
@@ -118,11 +119,29 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups match the workbook's «Takroriy STIR» sheet: 145 STIRs / 667 rows, none mixed", () => {
+test("same-STIR groups: the workbook's 145 / 667 less the 110 rows given their own STIR on 05.10 (127 / 550), none mixed", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 145);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 667);
+  assert.equal(stirGroups.length, 127);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 550);
   assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
+});
+
+// The real hrm.argos.uz tree of 05.10.2026 (tin:billing), read for the registry check.
+const tree1005: TreeRow[] = readFileSync(new URL("./fixtures/argos-tree-2026-10-05.txt", import.meta.url), "utf-8")
+  .trim()
+  .split(",")
+  .map((x) => {
+    const [t, b] = x.split(":");
+    return [t, b === "1" ? 1 : 0];
+  });
+
+test("05.10 ARGOS tree: 110 STIRs fixed from the tree (3 726 / 39 / 100), 85 tree orgs still outside the registry", () => {
+  // Before the fixes the same tree gave exactly the workbook's 3 718 / 50 / 97 and 195 outside.
+  const r = compute(base.orgs, { at: "2026-10-05T12:00:00Z", rows: tree1005 }, base.ignoreStir);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3865, 3726, 39, 100]);
+  assert.equal(r.extraInTree.length, 85); // 79 not in the registry + 6 left for manual review
+  // 3 331 distinct STIRs + 110 new − 11 old ones that only the fixed rows carried (typos, stale STIRs)
+  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3430);
 });
 
 test("decide(): each branch of the rule", () => {

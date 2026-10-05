@@ -123,14 +123,20 @@ for sn in REGION:
                 ignore.add(stir)
             excluded.append({**place, "reason": EXCLUDE[k]})
             continue
+        fixed_from = None
         if k in STIRFIX:
             seen.add(k)
-            stir = STIRFIX[k]
+            fixed_from, stir = stir, STIRFIX[k]
         m = re.search(r"edi: (\S+)\)", chg)
         reestr = EDI[m.group(1)] if m else status
         o = "ulanmagan" if k in OV_UL else "ulangan" if (k in OV_FA or (stir and stir in OV_STIR)) else None
         pay = w.cell(r, C_PAY).value
         keep = [p.strip() for p in note.split("·") if p.strip() and not LIVE_NOTE.match(p.strip())]
+        if fixed_from is not None:
+            # the workbook's «alohida STIR bor …» hint is what the fix resolved
+            keep = [p for p in keep if not p.startswith("ARGOS daraxtida alohida STIR bor")]
+            if fixed_from != stir:
+                keep.append(f"STIR ARGOS daraxti bo'yicha tuzatildi (eski: {fixed_from or 'yo‘q'})")
         out.append({
             "region": REGION[sn], "district": district, "hudud": hudud,
             "name": name, "stir": stir or None, "reestr": reestr, "override": o,

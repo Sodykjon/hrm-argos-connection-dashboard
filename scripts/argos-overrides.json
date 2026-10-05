@@ -178,6 +178,667 @@
    "Kukdala tumani koʻp tarmoqli markaziy poliklinikasi",
    "31839515",
    "311839515"
+  ],
+  [
+   "Respublika markazlari",
+   "Rishton tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+   "311838144",
+   "200181886"
+  ],
+  [
+   "Respublika markazlari",
+   "Qashqadaryo viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+   "306927898",
+   "200671996"
+  ],
+  [
+   "Respublika markazlari",
+   "Sardoba tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+   "200316874",
+   "200316898"
+  ],
+  [
+   "Respublika markazlari",
+   "Sirgʻali tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+   "200648026",
+   "306814058"
+  ],
+  [
+   "Andijon",
+   "Izboskan tumani 29-sonli oilaviy poliklinikasi",
+   "200271386",
+   "311865319"
+  ],
+  [
+   "Buxoro",
+   "Buxoro shahar koʻp tarmoqli markaziy poliklinikasi",
+   "201504354",
+   "311875417"
+  ],
+  [
+   "Buxoro",
+   "Buxoro tumani 1-Arabxona oilaviy poliklinikasi",
+   "311056310",
+   "311884571"
+  ],
+  [
+   "Buxoro",
+   "Jondop tumani Ogʻar 1- oilaviy shifokorlik punkti",
+   "311879134",
+   "311878974"
+  ],
+  [
+   "Jizzax",
+   "Forish tumani Egizbuloq oilaviy shifokorlik punkti",
+   "311606978",
+   "311906978"
+  ],
+  [
+   "Jizzax",
+   "Forish tumani Qizilqum oilaviy shifokorlik punkti",
+   "311605124",
+   "311905124"
+  ],
+  [
+   "Jizzax",
+   "Forish tumani Nurak oilaviy shifokorlik punkti",
+   "311606660",
+   "311906660"
+  ],
+  [
+   "Namangan",
+   "Norin tumani Choʻja oilaviy shifokorlik punkti",
+   "200084563",
+   "312339392"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 56- Navkent oilaviy poliklinikasi",
+   "200118029",
+   "312154514"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 57- Birlashgan oilaviy poliklinikasi",
+   "200118029",
+   "312148654"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 58- Sharq Yulduzi oilaviy poliklinikasi",
+   "200118029",
+   "312150654"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 59- Iskovot oilaviy poliklinikasi",
+   "200118029",
+   "312156993"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 60- Bekobod oilaviy poliklinikasi",
+   "200118029",
+   "312150052"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 61- Zarkent oilaviy poliklinikasi",
+   "200118029",
+   "312150203"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani 62- Nanay oilaviy poliklinikasi",
+   "200118029",
+   "312159958"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Bekabad oilaviy shifokorlik punkti",
+   "200118029",
+   "312155615"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Gʻovazon oilaviy shifokorlik punkti",
+   "200118029",
+   "312147545"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200118029",
+   "312158223"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Mamay oilaviy shifokorlik punkti",
+   "200118029",
+   "312156384"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Oʻzak oilaviy shifokorlik punkti",
+   "200118029",
+   "312290132"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Poromon oilaviy shifokorlik punkti",
+   "200118029",
+   "312156313"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Qayroqi oilaviy shifokorlik punkti",
+   "200118029",
+   "312152342"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Qizilqiyoq oilaviy shifokorlik punkti",
+   "200118029",
+   "312157034"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Qorapolvon oilaviy shifokorlik punkti",
+   "200118029",
+   "312157343"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Rovut oilaviy shifokorlik punkti",
+   "200118029",
+   "312151050"
+  ],
+  [
+   "Namangan",
+   "Yangiqoʻrgʻon tumani Xadikent oilaviy shifokorlik punkti",
+   "200118029",
+   "312159127"
+  ],
+  [
+   "Navoiy",
+   "Navoiy shahar koʻp tarmoqli markaziy poliklinikasi",
+   "202459520",
+   "311839174"
+  ],
+  [
+   "Qashqadaryo",
+   "Mirishkor tumani 26-sonli oilaviy poliklinikasi",
+   "311864894",
+   "311864984"
+  ],
+  [
+   "Qashqadaryo",
+   "Mirishkor tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200701284",
+   "311867061"
+  ],
+  [
+   "Qashqadaryo",
+   "Qarshi shahar 7-sonli oilaviy poliklinikasi",
+   "201885333",
+   "311840089"
+  ],
+  [
+   "Qashqadaryo",
+   "Qarshi shahar koʻp tarmoqli markaziy poliklinikasi",
+   "201885333",
+   "311840001"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Boʻzatov tumani Satliq oilaviy shifokorlik punkti",
+   "207306454",
+   "311894084"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani 27-sonli oilaviy poliklinikasi",
+   "200382461",
+   "311891224"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani 29-sonli oilaviy poliklinikasi",
+   "200382461",
+   "311891611"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani 30-sonli oilaviy poliklinikasi",
+   "200382461",
+   "311891065"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani 69-sonli oilaviy poliklinikasi",
+   "200382461",
+   "311891034"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Aktuba oilaviy shifokorlik punkti",
+   "200382461",
+   "311892325"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Bozjap oilaviy shifokorlik punkti",
+   "200382461",
+   "311892475"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Yangi Oʻzbekistoni oilaviy shifokorlik punkti",
+   "200382461",
+   "311897072"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Juzim-bag oilaviy shifokorlik punkti",
+   "200382461",
+   "311890992"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Kegayli oilaviy shifokorlik punkti",
+   "200382461",
+   "311891707"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200382461",
+   "311891857"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Quoʻanishjarma oilaviy shifokorlik punkti",
+   "200382461",
+   "311891310"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Shinni oilaviy shifokorlik punkti",
+   "200382461",
+   "311891477"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Kegeyli tumani Shoktorangil oilaviy shifokorlik punkti",
+   "200382461",
+   "311894844"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani 34-sonli oilaviy poliklinikasi",
+   "200388184",
+   "311878333"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani 35-sonli oilaviy poliklinikasi",
+   "200388184",
+   "311878293"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani Kerder oilaviy shifokorlik punkti",
+   "200388184",
+   "311878404"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200388184",
+   "311877975"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani Ornek oilaviy shifokorlik punkti",
+   "200388184",
+   "311878167"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Nukus tumani Qutankoʻl oilaviy shifokorlik punkti",
+   "200388184",
+   "311878769"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani 15-sonli oilaviy poliklinikasi",
+   "200386227",
+   "311887623"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani 16-sonli oilaviy poliklinikasi",
+   "200386227",
+   "311887702"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani 17-sonli oilaviy poliklinikasi",
+   "200386227",
+   "311887758"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani 18-sonli oilaviy poliklinikasi",
+   "200386227",
+   "311887837"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani Beskopir oilaviy shifokorlik punkti",
+   "200386227",
+   "311887931"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani Jayxun oilaviy shifokorlik punkti",
+   "200386227",
+   "311887924"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200386227",
+   "311887551"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani Qonlikoʻl oilaviy shifokorlik punkti",
+   "200386227",
+   "311887987"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Qonlikoʻl tumani Kulamet jirau oilaviy shifokorlik punkti",
+   "200386227",
+   "311887876"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani 57-sonli oilaviy poliklinikasi",
+   "200399621",
+   "311877611"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani 58-sonli oilaviy poliklinikasi",
+   "200399621",
+   "311878554"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani 59-sonli oilaviy poliklinikasi",
+   "200399621",
+   "311877872"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani Abdullayev oilaviy shifokorlik punkti",
+   "200399621",
+   "311884635"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200399621",
+   "311884833"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani Kokkozov oilaviy shifokorlik punkti",
+   "200399621",
+   "311877951"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani Qarabayli oilaviy shifokorlik punkti",
+   "200399621",
+   "311877754"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Shumanay tumani Shumanay oilaviy shifokorlik punkti",
+   "200399621",
+   "311878088"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 39-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311875124"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 40-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311877588"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 41-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311872784"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 42-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311876748"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 43-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311871826"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 44-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311873790"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 45-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311872452"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 46-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311872714"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani 47-sonli oilaviy poliklinikasi",
+   "200392480",
+   "311875582"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Kaltaminar oilaviy shifokorlik punkti",
+   "200392480",
+   "311875456"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani koʻp tarmoqli markaziy poliklinikasi",
+   "200392480",
+   "311877833"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Miskin oilaviy shifokorlik punkti",
+   "200392480",
+   "311882812"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Namuna oilaviy shifokorlik punkti",
+   "200392480",
+   "311876906"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Navruz oilaviy shifokorlik punkti",
+   "200392480",
+   "311883408"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Paxtaobod oilaviy shifokorlik punkti",
+   "200392480",
+   "311883082"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Qizil-qum oilaviy shifokorlik punkti",
+   "200392480",
+   "311874157"
+  ],
+  [
+   "Qoraqalpogʻiston",
+   "Toʻrtkoʻl tumani Shoʻraxon oilaviy shifokorlik punkti",
+   "200392480",
+   "311873744"
+  ],
+  [
+   "Sirdaryo",
+   "10-son oilaviy poliklinika",
+   "312216070",
+   "312255174"
+  ],
+  [
+   "Toshkent shahri",
+   "Olmazor tumani 18-sonli oilaviy poliklinikasi",
+   "203206914",
+   "203694482"
+  ],
+  [
+   "Toshkent shahri",
+   "Yashnobod tumani 67-sonli oilaviy poliklinikasi",
+   "203286389",
+   "309592373"
+  ],
+  [
+   "Toshkent viloyati",
+   "Angren shahar 2-sonli oilaviy poliklinikasi",
+   "207218786",
+   "207218706"
+  ],
+  [
+   "Toshkent viloyati",
+   "Angren shahar 3-sonli oilaviy poliklinikasi",
+   "207218704",
+   "207218714"
+  ],
+  [
+   "Toshkent viloyati",
+   "Angren shahar koʻp tarmoqli markaziy poliklinikasi",
+   "200598785",
+   "312676727"
+  ],
+  [
+   "Toshkent viloyati",
+   "Nurafshon shahar koʻp tarmoqli markaziy poliklinikasi",
+   "207331449",
+   "312664472"
+  ],
+  [
+   "Toshkent viloyati",
+   "Ohangapon shahar koʻp tarmoqli markaziy poliklinikasi",
+   "308038396",
+   "312665684"
+  ],
+  [
+   "Toshkent viloyati",
+   "Olmaliq shahar Bolalar stomatologiya poliklinikasi",
+   "200603367",
+   "206971509"
+  ],
+  [
+   "Toshkent viloyati",
+   "Quyichirchiq tumani 31-sonli oilaviy poliklinikasi",
+   "213662475",
+   "312662475"
+  ],
+  [
+   "Toshkent viloyati",
+   "Quyichirchiq tumani Xamza oilaviy shifokorlik punkti",
+   "213662429",
+   "312662429"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 10-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311838224"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 11-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311837953"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 12-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311838019"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 13-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311838034"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 14-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311839340"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani 9-sonli oilaviy poliklinikasi",
+   "201137788",
+   "311839049"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani Boʻzqalʼa oilaviy shifokorlik punkti",
+   "201137788",
+   "311840999"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani koʻp tarmoqli markaziy poliklinikasi",
+   "201137788",
+   "311839333"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani Oqqum oilaviy shifokorlik punkti",
+   "201137788",
+   "311840183"
+  ],
+  [
+   "Xorazm",
+   "Gurlan tumani Yangiobod oilaviy shifokorlik punkti",
+   "201137788",
+   "311838793"
   ]
- ]
+ ],
+ "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx"
 }
