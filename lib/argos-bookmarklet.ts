@@ -1,8 +1,7 @@
 // Source of the «ARGOS жонли» bookmarklet (see docs/bookmarklets/argos-jonli.md).
 // Runs inside the user's logged-in hrm.argos.uz tab: reads the org tree with the
-// page's own Bearer token (same-origin), keeps only [tin, billing, label] for
-// every node — several under one STIR too, since the shared-STIR rule needs to
-// know which of them ARGOS holds — and hands it to the dashboard's /argos-jonli/qabul window via postMessage — the
+// page's own Bearer token (same-origin), keeps only [tin, billing, label], and
+// hands it to the dashboard's /argos-jonli/qabul window via postMessage — the
 // only channel out of hrm.argos.uz that needs no CORS and no stored password.
 // Repeats every 10 minutes while the tab stays open; click the status box to stop.
 // Token refresh mirrors Documents/HRM_pasport_yangilash/extension/content.js.
@@ -33,7 +32,7 @@ var r=await fetch("/api/Staff/Institution/GetSpInstitutionTreeV2",{headers:H()})
 if(r.status===401&&!retry){await refresh();return tree(true);}
 if(!r.ok)throw new Error("HTTP "+r.status);
 var j=await r.json(),arr=Array.isArray(j)?j:(j.data||j.result||j.items||[j]),out=[],seen={};
-(function w(ns){for(var i=0;i<ns.length;i++){var n=ns[i];if(String(n.type)==="2"&&n.tin!=null){var t=String(n.tin).trim();var lb=String(n.label||"").trim(),k=t+"|"+lb;if(/^\d{6,12}$/.test(t)&&!seen[k]){seen[k]=1;out.push([t,n.activeBillingStatus?1:0,lb]);}}if(n.children&&n.children.length)w(n.children);}})(arr);
+(function w(ns){for(var i=0;i<ns.length;i++){var n=ns[i];if(String(n.type)==="2"&&n.tin!=null){var t=String(n.tin).trim();if(/^\d{6,12}$/.test(t)&&!seen[t]){seen[t]=1;out.push([t,n.activeBillingStatus?1:0,String(n.label||"").trim()]);}}if(n.children&&n.children.length)w(n.children);}})(arr);
 return out;}
 function send(){if(!queue||!W||W.closed||!ready)return;W.postMessage({type:"argos-jonli-tree",tree:queue},D);queue=null;say("юборилди, сақланмоқда…");}
 function openW(){if(!W||W.closed){ready=false;W=window.open(D+"/argos-jonli/qabul","argos_jonli");}}

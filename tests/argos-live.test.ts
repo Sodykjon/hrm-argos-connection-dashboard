@@ -5,12 +5,9 @@ import {
   compute,
   decide,
   indexTree,
-  matchKey,
   treeFingerprint,
   validTree,
   type BaseFile,
-  type LiveOrg,
-  type StirMatch,
   type TreeRow,
 } from "../lib/argos-live.ts";
 
@@ -187,65 +184,4 @@ test("bookmarklet source is valid JS and targets the given origin", async () => 
   assert.ok(src.includes('D="https://example.vercel.app"'));
   assert.ok(!src.includes("__ORIGIN__"));
   assert.ok(bookmarkletHref("https://x.y").startsWith("javascript:"));
-});
-
-// Shared STIRs (07.10.2026 rule): of the rows written against one STIR, the one
-// in the ARGOS tree counts by billing, the others are not connected. The pairing
-// row ↔ tree node is data/argos-stir-match.json (scripts/match-dup-stir.py + review).
-const matches = JSON.parse(
-  readFileSync(new URL("../data/argos-stir-match.json", import.meta.url), "utf-8"),
-) as { matches: StirMatch[] };
-const sharedLabels = JSON.parse(
-  readFileSync(new URL("./fixtures/argos-tree-2026-10-05-shared-labels.json", import.meta.url), "utf-8"),
-) as Record<string, string>;
-const tree1005labelled: TreeRow[] = tree1005.map(([t, b]) => (sharedLabels[t] ? [t, b, sharedLabels[t]] : [t, b]));
-
-test("every STIR pairing names one registry row and one tree node", () => {
-  const keys = new Map<string, number>();
-  for (const o of base.orgs) keys.set(matchKey(o), (keys.get(matchKey(o)) ?? 0) + 1);
-  for (const m of matches.matches) {
-    assert.equal(keys.get(matchKey(m)), 1, `${m.stir} ${m.name}`);
-    assert.equal(sharedLabels[m.stir], m.label, m.stir);
-  }
-  assert.equal(new Set(matches.matches.map((m) => m.stir)).size, matches.matches.length);
-});
-
-test("05.10 tree with the shared-STIR rule: 3 897 / 3 348 / 452 / 97", () => {
-  const r = compute(base.orgs, { at: "2026-10-05T12:00:00Z", rows: tree1005labelled }, base.ignoreStir, matches.matches);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3897, 3348, 452, 97]);
-  // per shared STIR in the tree: exactly the paired row escapes «notInTree»
-  const by = new Map<string, LiveOrg[]>();
-  for (const o of r.orgs) if (o.stir) by.set(o.stir, [...(by.get(o.stir) ?? []), o]);
-  for (const g of r.stirGroups) {
-    if (!g.inTree) continue;
-    const l = by.get(g.stir)!;
-    assert.equal(l.filter((o) => o.reason !== "notInTree").length, 1, g.stir);
-    assert.ok(g.nodes.every((n) => n.paired), g.stir);
-  }
-  // without labels (an old tree push) the plain STIR rule still applies
-  const plain = compute(base.orgs, { at: "2026-10-05T12:00:00Z", rows: tree1005 }, base.ignoreStir, matches.matches);
-  assert.deepEqual([plain.totals.ulangan, plain.totals.ulanmagan, plain.totals.ochirilgan], [3757, 39, 101]);
-});
-
-test("decide() with a shared STIR: paired row by billing, others not connected, unknown node falls back", () => {
-  const org = (name: string, reestr: "ulangan" | "ulanmagan" = "ulangan") => ({
-    region: "r",
-    district: "d",
-    name,
-    stir: "333333333",
-    reestr,
-    override: null,
-  });
-  const base2 = [org("TTB"), org("OP 1"), org("OSHP", "ulanmagan")];
-  const m: StirMatch[] = [{ stir: "333333333", region: "r", name: "TTB", label: "Районное медобъединение" }];
-  const run = (rows: TreeRow[]) => compute(base2, { at: "x", rows }, [], m).orgs.map((o) => `${o.status}/${o.reason}`);
-  assert.deepEqual(run([["333333333", 1, "Районное  медобъединение "]]), ["ulangan/billing", "ulanmagan/notInTree", "ulanmagan/notInTree"]);
-  assert.deepEqual(run([["333333333", 0, "Районное медобъединение"]]), ["ochirilgan/billingOff", "ulanmagan/notInTree", "ulanmagan/notInTree"]);
-  // a second, unpaired node under the STIR does not change the paired row's status
-  const r = compute(base2, { at: "x", rows: [["333333333", 1, "Районное медобъединение"], ["333333333", 1, "СП №1"]] }, [], m);
-  assert.deepEqual(r.orgs.map((o) => o.status), ["ulangan", "ulanmagan", "ulanmagan"]);
-  assert.deepEqual(r.stirGroups[0].nodes.map((n) => n.paired), [true, false]);
-  // renamed in ARGOS (no paired node left) → plain STIR rule, flagged for review
-  assert.deepEqual(run([["333333333", 1, "Новое имя"]]), ["ulangan/billing", "ulangan/billing", "ulangan/billing"]);
-  assert.deepEqual(run([]), ["ochirilgan/missing", "ochirilgan/missing", "ulanmagan/missing"]);
 });

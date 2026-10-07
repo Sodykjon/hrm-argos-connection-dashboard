@@ -1,5 +1,5 @@
 import { compute, treeFingerprint, validTree, type TreeSnapshot } from "@/lib/argos-live";
-import { BASE, STIR_MATCHES } from "@/lib/argos-live-data";
+import { BASE } from "@/lib/argos-live-data";
 import { getLiveManifest, hasStore, publishLiveTree, tashkentDate } from "@/lib/store";
 
 export const runtime = "nodejs";
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     at: body.tree.at,
     rows: body.tree.rows.map(([t, b, l]) => (l ? [t, b, l.slice(0, 300)] : [t, b])),
   };
-  const r = compute(BASE.orgs, tree, BASE.ignoreStir, STIR_MATCHES);
+  const r = compute(BASE.orgs, tree, BASE.ignoreStir);
   try {
     const out = await publishLiveTree(tree, {
       at: tree.at,

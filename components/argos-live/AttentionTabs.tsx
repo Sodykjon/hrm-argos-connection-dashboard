@@ -93,8 +93,6 @@ export function AttentionTabs({
                   regionName={regionLabel(g.region, lang)}
                   mixedLabel={A.mixed}
                   notInTree={S.argosLive.notInTree}
-                  argosNode={A.argosNode}
-                  unpaired={A.unpaired}
                 />
               ))}
             </tbody>
@@ -180,8 +178,6 @@ function FragmentRow({
   regionName,
   mixedLabel,
   notInTree,
-  argosNode,
-  unpaired,
 }: {
   g: StirGroup;
   open: boolean;
@@ -189,10 +185,7 @@ function FragmentRow({
   regionName: string;
   mixedLabel: string;
   notInTree: string;
-  argosNode: string;
-  unpaired: string;
 }) {
-  const loose = g.nodes.some((n) => !n.paired);
   return (
     <>
       <tr className="cursor-pointer border-b border-line-soft hover:bg-paper" onClick={toggle}>
@@ -204,7 +197,6 @@ function FragmentRow({
           {g.names[0]}
           {g.mixed && <span className="ml-2 rounded-full bg-un-soft px-2 py-0.5 text-[0.75rem] text-un">{mixedLabel}</span>}
           {!g.inTree && <span className="ml-2 rounded-full bg-och-soft px-2 py-0.5 text-[0.75rem] text-ink-soft">{notInTree}</span>}
-          {loose && <span className="ml-2 rounded-full bg-warn/15 px-2 py-0.5 text-[0.75rem] text-warn">{unpaired}</span>}
         </td>
         <td className="tnum px-3 py-1.5 text-right font-semibold sm:pr-4">{g.names.length}</td>
       </tr>
@@ -216,17 +208,6 @@ function FragmentRow({
             <td className="px-3 py-1 text-right sm:pr-4">
               <StatusPill status={g.statuses[i]} />
             </td>
-          </tr>
-        ))}
-      {open &&
-        g.nodes.map((n, i) => (
-          <tr key={`n${i}`} className="border-b border-line-soft bg-paper/60 text-[0.75rem] text-ink-faint">
-            <td colSpan={3} className="px-3 py-1 text-right">{i === 0 ? argosNode : ""}</td>
-            <td className="px-3 py-1">
-              {n.label || "—"}
-              {!n.paired && <span className="ml-2 text-warn">· {unpaired}</span>}
-            </td>
-            <td />
           </tr>
         ))}
     </>
