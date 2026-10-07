@@ -14,6 +14,7 @@ type Sort = "excel" | "pct";
 
 const SEP = "\u0000";
 const COLS = 6;
+const EMPTY: ReadonlySet<string> = new Set();
 
 /**
  * The registry workbook as an expandable table: region (or the republican
@@ -38,6 +39,14 @@ export function LiveTree({
   const [sort, setSort] = useState<Sort>("excel");
   const [openR, setOpenR] = useState<Set<string>>(() => new Set());
   const [openG, setOpenG] = useState<Set<string>>(() => new Set());
+  // While searching/filtering every matching row starts open; these hold the
+  // rows the user folded since, tagged with the query they belong to so a new
+  // query opens everything again.
+  const [shut, setShut] = useState<{ sig: string; r: ReadonlySet<string>; g: ReadonlySet<string> }>(() => ({
+    sig: "",
+    r: EMPTY,
+    g: EMPTY,
+  }));
 
   const all = useMemo(() => regions.flatMap((r) => r.groups.flatMap((g) => g.orgs)), [regions]);
   const totals = useMemo(() => sumCounts(regions), [regions]);
@@ -70,19 +79,35 @@ export function LiveTree({
     );
   }, [regions, needle, filter, sort, active]);
 
+  const sig = needle + SEP + filter;
+  const shutR = shut.sig === sig ? shut.r : EMPTY;
+  const shutG = shut.sig === sig ? shut.g : EMPTY;
+  const isOpenR = (k: string) => (active ? !shutR.has(k) : openR.has(k));
+  const isOpenG = (k: string) => (active ? !shutG.has(k) : openG.has(k));
+
   const nShown = view.reduce((s, r) => s + r.groups.reduce((t, g) => t + g.shown.length, 0), 0);
 
-  const toggle = (set: Set<string>, key: string, put: (s: Set<string>) => void) => {
-    const next = new Set(set);
-    if (next.has(key)) next.delete(key);
-    else next.add(key);
-    put(next);
-  };
+  const toggleR = (k: string) =>
+    active ? setShut({ sig, r: flip(shutR, k), g: shutG }) : setOpenR(flip(openR, k));
+  const toggleG = (k: string) =>
+    active ? setShut({ sig, r: shutR, g: flip(shutG, k) }) : setOpenG(flip(openG, k));
   const expandAll = () => {
+    if (active) {
+      setShut({ sig, r: EMPTY, g: EMPTY });
+      return;
+    }
     setOpenR(new Set(regions.map((r) => r.name)));
     setOpenG(new Set(regions.flatMap((r) => r.groups.map((g) => r.name + SEP + g.name))));
   };
   const collapseAll = () => {
+    if (active) {
+      setShut({
+        sig,
+        r: new Set(view.map((r) => r.name)),
+        g: new Set(view.flatMap((r) => r.groups.map((g) => r.name + SEP + g.name))),
+      });
+      return;
+    }
     setOpenR(new Set());
     setOpenG(new Set());
   };
@@ -152,16 +177,14 @@ export function LiveTree({
             <option value="excel">{T.sortExcel}</option>
             <option value="pct">{T.sortPct}</option>
           </select>
-          {!active && (
-            <div className="flex gap-1">
-              <button onClick={expandAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
-                {T.expandAll}
-              </button>
-              <button onClick={collapseAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
-                {T.collapseAll}
-              </button>
-            </div>
-          )}
+          <div className="flex gap-1">
+            <button onClick={expandAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
+              {T.expandAll}
+            </button>
+            <button onClick={collapseAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
+              {T.collapseAll}
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={L.col.status}>
@@ -207,14 +230,14 @@ export function LiveTree({
             {view.map((r) => {
               const groups = r.groups.map((g) => {
                 const key = r.name + SEP + g.name;
-                const open = active || openG.has(key);
+                const open = isOpenG(key);
                 return (
                   <Fragment key={key}>
                     <SummaryRow
                       c={g}
                       depth={single ? 0 : 1}
                       open={open}
-                      onToggle={active ? undefined : () => toggle(openG, key, setOpenG)}
+                      onToggle={() => toggleG(key)}
                       label={<span>{g.name}</span>}
                       matches={active ? g.shown.length : undefined}
                       matchLabel={T.matches}
@@ -230,14 +253,14 @@ export function LiveTree({
                 );
               });
               if (single) return <Fragment key={r.name}>{groups}</Fragment>;
-              const open = active || openR.has(r.name);
+              const open = isOpenR(r.name);
               return (
                 <Fragment key={r.name}>
                   <SummaryRow
                     c={r}
                     depth={0}
                     open={open}
-                    onToggle={active ? undefined : () => toggle(openR, r.name, setOpenR)}
+                    onToggle={() => toggleR(r.name)}
                     label={
                       <span className="flex flex-wrap items-baseline gap-x-2">
                         <span className="font-semibold">{regionLabel(r.name, lang)}</span>
@@ -264,6 +287,13 @@ export function LiveTree({
       </div>
     </section>
   );
+}
+
+function flip(set: ReadonlySet<string>, key: string) {
+  const next = new Set(set);
+  if (next.has(key)) next.delete(key);
+  else next.add(key);
+  return next;
 }
 
 function sumCounts(regions: TreeRegion[]): Counts {
