@@ -96,6 +96,7 @@ export default async function OverviewPage() {
           regions={regions}
           totals={totals}
           exportName={`HRM_ulanish_hududlar_${snapshot.date}`}
+          exportHref={source === "live" ? "/api/argos-tree/xlsx" : undefined}
         />
       </Reveal>
 

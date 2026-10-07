@@ -20,7 +20,7 @@ export default async function RegionPage({
   const S = await getS();
   const lang = await getLang();
   const { region: slug } = await params;
-  const { snapshot } = await getLatestSnapshot();
+  const { snapshot, source } = await getLatestSnapshot();
   const registry = await getRegistry();
 
   const known = snapshot.regions.map((r) => r.name);
@@ -93,6 +93,7 @@ export default async function RegionPage({
           statuses={statuses}
           showStatus
           exportName={`HRM_ARGOS_${slug}_${snapshot.date}`}
+          exportHref={source === "live" ? `/api/argos-tree/xlsx?region=${slug}` : undefined}
         />
       </section>
     </div>

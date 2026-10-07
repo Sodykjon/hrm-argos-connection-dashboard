@@ -5,6 +5,7 @@ import type { Org, Registry, Status } from "@/lib/types";
 import { statusMeta } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { StatusPill } from "./StatusPill";
+import { ExportButton } from "./ExportButton";
 import { useS, useLang } from "@/lib/i18n/client";
 
 interface OrgTableProps {
@@ -14,6 +15,8 @@ interface OrgTableProps {
   statuses?: Status[]; // enables status filter
   showStatus?: boolean;
   exportName: string;
+  /** Server workbook in the registry layout (live data); replaces the plain client export. */
+  exportHref?: string;
 }
 
 const ALL = "__all__";
@@ -25,6 +28,7 @@ export function OrgTable({
   statuses,
   showStatus,
   exportName,
+  exportHref,
 }: OrgTableProps) {
   const S = useS();
   const lang = useLang();
@@ -111,15 +115,7 @@ export function OrgTable({
             ))}
           </select>
         )}
-        <button
-          onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
-        >
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {S.unconnected.export}
-        </button>
+        <ExportButton href={exportHref} onClick={exportXlsx} label={S.unconnected.export} />
       </div>
 
       {/* count */}

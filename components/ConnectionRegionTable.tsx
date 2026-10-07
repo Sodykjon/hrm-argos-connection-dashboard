@@ -5,6 +5,7 @@ import type { RegionStat, Totals } from "@/lib/types";
 import { fmtInt, fmtPct, toPct, rampCss } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { useS, useLang } from "@/lib/i18n/client";
+import { ExportButton } from "@/components/ExportButton";
 
 /**
  * The regional connection summary in the format the leadership reference PDF
@@ -17,10 +18,13 @@ export function ConnectionRegionTable({
   regions,
   totals,
   exportName,
+  exportHref,
 }: {
   regions: RegionStat[];
   totals: Totals;
   exportName: string;
+  /** Server workbook in the registry layout (live data); replaces the plain client export. */
+  exportHref?: string;
 }) {
   const S = useS();
   const lang = useLang();
@@ -58,15 +62,7 @@ export function ConnectionRegionTable({
           <h2 className="text-[0.95rem] font-semibold">{S.overview.regionTableTitle}</h2>
           <p className="text-[0.75rem] text-ink-faint">{S.overview.regionTableHint}</p>
         </div>
-        <button
-          onClick={exportXlsx}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-sov px-4 py-2 text-[0.82rem] font-semibold text-on-sov transition-colors hover:bg-sov-deep"
-        >
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M8 1.5v8m0 0 3-3m-3 3-3-3M2.5 12v1.5A1 1 0 0 0 3.5 14.5h9a1 1 0 0 0 1-1V12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          {S.pension.export}
-        </button>
+        <ExportButton href={exportHref} onClick={exportXlsx} label={S.pension.export} />
       </div>
 
       <div className="scroll-quiet overflow-x-auto">
