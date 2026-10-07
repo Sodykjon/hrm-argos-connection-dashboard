@@ -1,0 +1,1577 @@
+{
+ "source": "argos_tree_2026-10-05.json",
+ "at": "2026-10-05T11:37:28.709Z",
+ "rule": "bir STIR ostida: daraxtdagi tugunga mos satr — billing bo'yicha, qolganlari — ulanmagan",
+ "matches": [
+  {
+   "stir": "200970134",
+   "region": "Республика муассасалари",
+   "district": "Sanitariya-epidemiologiya qoʻmitasi tizimi",
+   "name": "Xovos tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+   "label": "Отдел санитарно-эпидемиологического спокойствия и общественного здоровья Хавосского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "200236934",
+   "region": "Республика муассасалари",
+   "district": "Ruhiy salomatlik",
+   "name": "Respublika ixtisoslashtirilgan ruhiy salomatlik ilmiy-amaliy tibbiyot markazining psixiatriya xizmati boʻyicha Andijon viloyat filiali",
+   "label": "Андижанский областной психоневрологический диспансер",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "200460104",
+   "region": "Тошкент вилояти",
+   "district": "Bekobod shahri",
+   "name": "Bekobod shahri tibbiyot birlashmasi",
+   "label": "Бекобадское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "311893799",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Chimboy tumani",
+   "name": "Chimboy tumani 1-son oilaviy poliklinikasi",
+   "label": "Чимбойская районная семейная поликлиника № 1",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "312232868",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Chimboy tumani",
+   "name": "Chimboy tumani 2-son oilaviy poliklinikasi",
+   "label": "Чимбойская районная семейная поликлиника № 2",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200975094",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Amudaryo tumani",
+   "name": "Amudaryo tumani tibbiyot birlashmasi",
+   "label": "Амударьинское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200914296",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Ellikqalʼa tumani",
+   "name": "Ellikqalʼa tumani tibbiyot birlashmasi",
+   "label": "Элликкалинское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200384317",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Qoʻngʻirot tumani",
+   "name": "Qoʻngʻirot tumani tibbiyot birlashmasi",
+   "label": "Кунгиротское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "204060084",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Nukus shahri",
+   "name": "Nukus shahri tibbiyot birlashmasi",
+   "label": "Медицинское объединение города Нукуса",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200937347",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Beruniy tumani",
+   "name": "Beruniy tumani tibbiyot birlashmasi",
+   "label": "Берунийское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200402790",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Qoraoʻzak tumani",
+   "name": "Qoraoʻzak tumani tibbiyot birlashmasi",
+   "label": "Караозакское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200395026",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Xoʻjayli tumani",
+   "name": "Xoʻjayli tumani tibbiyot birlashmasi",
+   "label": "Ходжалинское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "207306454",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Boʻzatov tumani",
+   "name": "Boʻzatov tumani tibbiyot birlashmasi",
+   "label": "Бузатавское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200938091",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Moʻynoq tumani",
+   "name": "Moʻynoq tumani tibbiyot birlashmasi",
+   "label": "Мойнокское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200390548",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Taxtakoʻpir tumani",
+   "name": "Taxtakoʻpir tumani tibbiyot birlashmasi",
+   "label": "Тахтакопирское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200388184",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Nukus tumani",
+   "name": "Nukus tumani tibbiyot birlashmasi",
+   "label": "Нукусское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200366891",
+   "region": "Қорақалпоғистон Республикаси",
+   "district": "Taxiatosh tumani",
+   "name": "Taxiatosh tumani tibbiyot birlashmasi",
+   "label": "Тахиаташское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200292581",
+   "region": "Андижон вилояти",
+   "district": "Shahrihon tumani",
+   "name": "Shahrihon tumani tibbiyot birlashmasi",
+   "label": "Шахриханское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200254651",
+   "region": "Андижон вилояти",
+   "district": "Oltinkoʻl tumani",
+   "name": "Oltinkoʻl tumani tibbiyot birlashmasi",
+   "label": "Олтынкольское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "312199164",
+   "region": "Андижон вилояти",
+   "district": "Asaka tumani",
+   "name": "2- oilaviy poliklinika",
+   "label": "Асакинская районная семейная поликлиника № 2",
+   "how": "manual",
+   "why": [
+    "type",
+    "district?",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311911102",
+   "region": "Андижон вилояти",
+   "district": "Asaka tumani",
+   "name": "8- oilaviy poliklinika",
+   "label": "Асакинская районная семейная поликлиника № 8",
+   "how": "manual",
+   "why": [
+    "type",
+    "district?",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311911008",
+   "region": "Андижон вилояти",
+   "district": "Asaka tumani",
+   "name": "12-sonli oilaviy poliklinikasi",
+   "label": "Асакинская районная семейная поликлиника № 12",
+   "how": "manual",
+   "why": [
+    "type",
+    "district?",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "200271386",
+   "region": "Андижон вилояти",
+   "district": "Izboskan tumani",
+   "name": "Izboskan tumani tibbiyot birlashmasi",
+   "label": "Избосканское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200257814",
+   "region": "Андижон вилояти",
+   "district": "Andijon tumani",
+   "name": "Andijon tumani tibbiyot birlashmasi",
+   "label": "Андижанское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200298114",
+   "region": "Андижон вилояти",
+   "district": "Xoʻjaobod tumani",
+   "name": "Xoʻjaobod tumani tibbiyot birlashmasi",
+   "label": "Ходжаабадское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200266763",
+   "region": "Андижон вилояти",
+   "district": "Buloqboshi tumani",
+   "name": "Buloqboshi tumani tibbiyot birlashmasi",
+   "label": "Булагбошинское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201432896",
+   "region": "Жиззах вилояти",
+   "district": "Jizzax shahri",
+   "name": "Jizzax shahri tibbiyot birlashmasi",
+   "label": "Джизакское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201030653",
+   "region": "Жиззах вилояти",
+   "district": "Gʻallaorol tumani",
+   "name": "Gʻallaorol tumani tibbiyot birlashmasi",
+   "label": "Галляаральское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "312237346",
+   "region": "Жиззах вилояти",
+   "district": "Gʻallaorol tumani",
+   "name": "1-son Op",
+   "label": "Семейная поликлиника № 1 Галлаорольского района",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311949419",
+   "region": "Жиззах вилояти",
+   "district": "Gʻallaorol tumani",
+   "name": "4-son Op",
+   "label": "Семейная поликлиника № 4 Галлаорольского района",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "200336311",
+   "region": "Жиззах вилояти",
+   "district": "Zomin tumani",
+   "name": "Zomin tumani (\"M.Mirziyoyev\" nomli) tibbiyot birlashmasi",
+   "label": "Зааминское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200673494",
+   "region": "Қашқадарё вилояти",
+   "district": "Shahrisabz tumani",
+   "name": "Shahrisabz tumani tibbiyot birlashmasi",
+   "label": "Шахрисабзское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "207267234",
+   "region": "Қашқадарё вилояти",
+   "district": "Shahrisabz shahri",
+   "name": "Shahrisabz shahri tibbiyot birlashmasi",
+   "label": "Шахрисабзское городское отделение здравоохранения",
+   "how": "manual",
+   "why": [
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 0
+  },
+  {
+   "stir": "311860056",
+   "region": "Қашқадарё вилояти",
+   "district": "Kitob tumani",
+   "name": "6- OILAVIY POLIKLINIKASI",
+   "label": "Семейная поликлиника № 6 Китабского района",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311858230",
+   "region": "Қашқадарё вилояти",
+   "district": "Kitob tumani",
+   "name": "7- OILAVIY POLIKLINIKASI",
+   "label": "Китабская районная семейная поликлиника №7",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "312233050",
+   "region": "Қашқадарё вилояти",
+   "district": "Kitob tumani",
+   "name": "9- OILAVIY POLIKLINIKASI",
+   "label": "Китабская районная семейная поликлиника №9",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200075811",
+   "region": "Наманган вилояти",
+   "district": "Kosonsoy tumani",
+   "name": "Kosonsoy tumani tibbiyot birlashmasi",
+   "label": "Косонсойское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "308817559",
+   "region": "Наманган вилояти",
+   "district": "Namangan tumani",
+   "name": "Yangi Namangan tumani tibbiyot birlashmasi",
+   "label": "Янги-Наманганский районный Центр (Объединение) здравоохранения",
+   "how": "manual",
+   "why": [
+    "place",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 2
+  },
+  {
+   "stir": "200081852",
+   "region": "Наманган вилояти",
+   "district": "Namangan tumani",
+   "name": "Namangan tumani tibbiyot birlashmasi",
+   "label": "Наманганское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200478000",
+   "region": "Сурхондарё вилояти",
+   "district": "Termiz shahri",
+   "name": "Termiz shahri tibbiyot birlashmasi",
+   "label": "Термезское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "312246081",
+   "region": "Сурхондарё вилояти",
+   "district": "Denov tumani",
+   "name": "2-son Oilaviy poliklinika",
+   "label": "Семейная поликлиника № 2 Деновского района",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "312245391",
+   "region": "Сурхондарё вилояти",
+   "district": "Denov tumani",
+   "name": "3-son Oilaviy poliklinika",
+   "label": "Семейная поликлиника № 3 Деновского района",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "312245914",
+   "region": "Сурхондарё вилояти",
+   "district": "Denov tumani",
+   "name": "7-son Oilaviy poliklinika",
+   "label": "Семейная поликлиника № 7 Деновского района",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200303749",
+   "region": "Сирдарё вилояти",
+   "district": "Boyovut tumani",
+   "name": "Boyovut tumani tibbiyot birlashmasi",
+   "label": "Баяутское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "312221454",
+   "region": "Сирдарё вилояти",
+   "district": "Sirdaryo tumani",
+   "name": "1-son oilaviy poliklinika",
+   "label": "Сырдарьинская районная семейная поликлиника № 1",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "312216253",
+   "region": "Сирдарё вилояти",
+   "district": "Sirdaryo tumani",
+   "name": "2-son oilaviy poliklinika",
+   "label": "Сырдарьинская районная семейная поликлиника № 2",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200970165",
+   "region": "Сирдарё вилояти",
+   "district": "Xovos tumani",
+   "name": "Xovos tumani tibbiyot birlashmasi",
+   "label": "Хавосское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201167079",
+   "region": "Сирдарё вилояти",
+   "district": "Mirzaobod tumani",
+   "name": "Mirzaobod tumani tibbiyot birlashmasi",
+   "label": "Мирзаабадское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200310653",
+   "region": "Сирдарё вилояти",
+   "district": "Sayxunobod tumani",
+   "name": "Sayxunobod tumani tibbiyot birlashmasi",
+   "label": "Сайхунабадское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200307687",
+   "region": "Сирдарё вилояти",
+   "district": "Guliston tumani",
+   "name": "Guliston tumani tibbiyot birlashmasi",
+   "label": "Гулистанское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "204308169",
+   "region": "Сирдарё вилояти",
+   "district": "Guliston tumani",
+   "name": "Guliston tumani U.Nosir oilaviy shifokorlik punkti",
+   "label": "Сельский врачебный пункт «У.Носир» Гулистанского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "place"
+   ],
+   "pts": 6
+  },
+  {
+   "stir": "200316874",
+   "region": "Сирдарё вилояти",
+   "district": "Sardoba tumani",
+   "name": "Sardoba tumani tibbiyot birlashmasi",
+   "label": "Сардобское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200300049",
+   "region": "Сирдарё вилояти",
+   "district": "Oqoltin tumani",
+   "name": "Oqoltin tumani tibbiyot birlashmasi",
+   "label": "Акалтынское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "202010494",
+   "region": "Сирдарё вилояти",
+   "district": "Guliston shahri",
+   "name": "Guliston shahri tibbiyot birlashmasi",
+   "label": "Гулистанское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201169280",
+   "region": "Сирдарё вилояти",
+   "district": "Shirin shahri",
+   "name": "Shipin shahri tibbiyot birlashmasi",
+   "label": "Ширинское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200328581",
+   "region": "Сирдарё вилояти",
+   "district": "Yangiyer shahri",
+   "name": "Yangiyep shahri tibbiyot birlashmasi",
+   "label": "Янгиерское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "207314452",
+   "region": "Тошкент вилояти",
+   "district": "Yangiyoʻl shahri",
+   "name": "Yangiyoʻl shahri sogʻliqni saqlash boʻlimi markaziy shifoxonasi",
+   "label": "Янгиюльская городская центральная больница",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "207265965",
+   "region": "Тошкент вилояти",
+   "district": "Toshkent tumani",
+   "name": "Toshkent tumani tibbiyot birlashmasi",
+   "label": "Ташкентское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200570742",
+   "region": "Тошкент вилояти",
+   "district": "Parkent tumani",
+   "name": "Parkent tumani tibbiyot birlashmasi",
+   "label": "Паркентское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201679059",
+   "region": "Тошкент вилояти",
+   "district": "Qibray tumani",
+   "name": "Qibray tumani tibbiyot birlashmasi",
+   "label": "Кибрайское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200568514",
+   "region": "Тошкент вилояти",
+   "district": "Oqqoʻrgʻon tumani",
+   "name": "Oqqoʻrgʻon tumani tibbiyot birlashmasi",
+   "label": "Аккурганское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "311838144",
+   "region": "Фарғона вилояти",
+   "district": "Rishton tumani",
+   "name": "Rishton tumani 44-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 44 Риштанского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838120",
+   "region": "Фарғона вилояти",
+   "district": "Rishton tumani",
+   "name": "Rishton tumani 46-sonli oilaviy poliklinikasi",
+   "label": "Районная семейная поликлиника № 46 Риштанского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838105",
+   "region": "Фарғона вилояти",
+   "district": "Rishton tumani",
+   "name": "Rishton tumani 48-sonli oilaviy poliklinikasi",
+   "label": "Риштанский районный семейный поликлинический центр № 48",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838294",
+   "region": "Фарғона вилояти",
+   "district": "Rishton tumani",
+   "name": "Rishton tumani Yangi yoʻl shifo oilaviy shifokorlik punkti",
+   "label": "Пункт семейного врача «Янги йол» Риштанского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "place"
+   ],
+   "pts": 6
+  },
+  {
+   "stir": "311837914",
+   "region": "Фарғона вилояти",
+   "district": "Bogʻdod tumani",
+   "name": "Bogʻdod tumani 4-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 4 Багдадского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837881",
+   "region": "Фарғона вилояти",
+   "district": "Bogʻdod tumani",
+   "name": "Bogʻdod tumani 8-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №8 района Багдад",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837859",
+   "region": "Фарғона вилояти",
+   "district": "Bogʻdod tumani",
+   "name": "Bogʻdod tumani 9-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 9 Багдадского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838628",
+   "region": "Фарғона вилояти",
+   "district": "Bogʻdod tumani",
+   "name": "Bogʻdod tumani 10-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 10 Багдадского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311839064",
+   "region": "Фарғона вилояти",
+   "district": "Buvayda tumani",
+   "name": "Buvayda tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Многопрофильная центральная поликлиника Бувайдинского района",
+   "how": "manual",
+   "why": [
+    "type",
+    "district?",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 1
+  },
+  {
+   "stir": "311839167",
+   "region": "Фарғона вилояти",
+   "district": "Buvayda tumani",
+   "name": "Buvayda tumani 19-sonli oilaviy poliklinikasi",
+   "label": "Бувайдинский районный 19-й семейный медицинский центр",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311839111",
+   "region": "Фарғона вилояти",
+   "district": "Buvayda tumani",
+   "name": "Buvayda tumani 20-sonli oilaviy poliklinikasi",
+   "label": "Бувайдинский районный семейный медицинский центр № 20",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311839214",
+   "region": "Фарғона вилояти",
+   "district": "Buvayda tumani",
+   "name": "Buvayda tumani 23-sonli oilaviy poliklinikasi",
+   "label": "Бувайдинский районный семейный медицинский центр № 23",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311839261",
+   "region": "Фарғона вилояти",
+   "district": "Buvayda tumani",
+   "name": "Buvayda tumani 25-sonli oilaviy poliklinikasi",
+   "label": "Бувайдинская районная семейная поликлиника № 25",
+   "how": "auto",
+   "why": [
+    "type",
+    "district?",
+    "number"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311847410",
+   "region": "Фарғона вилояти",
+   "district": "Uchkoʻprik tumani",
+   "name": "Uchkoʻprik tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Многопрофильная центральная поликлиника Учкуприкского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311848844",
+   "region": "Фарғона вилояти",
+   "district": "Uchkoʻprik tumani",
+   "name": "Uchkoʻprik tumani 58-sonli oilaviy poliklinikasi",
+   "label": "Учкуприкский районный 58-й семейный медицинский центр",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311848955",
+   "region": "Фарғона вилояти",
+   "district": "Uchkoʻprik tumani",
+   "name": "Uchkoʻprik tumani 60-sonli oilaviy poliklinikasi",
+   "label": "Учкуприкский районный семейный врачебный пункт № 60",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  },
+  {
+   "stir": "311849051",
+   "region": "Фарғона вилояти",
+   "district": "Uchkoʻprik tumani",
+   "name": "Uchkoʻprik tumani 61-sonli oilaviy poliklinikasi",
+   "label": "Учкоприкский район 61 семейная поликлиника",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311843345",
+   "region": "Фарғона вилояти",
+   "district": "Dangʻara tumani",
+   "name": "Dangʻara tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Многопрофильная центральная поликлиника Дангаринского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311840721",
+   "region": "Фарғона вилояти",
+   "district": "Dangʻara tumani",
+   "name": "Dangʻara tumani 26-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 26 Дангаринского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311840587",
+   "region": "Фарғона вилояти",
+   "district": "Dangʻara tumani",
+   "name": "Dangʻara tumani 27-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 27 Дангаринского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311841317",
+   "region": "Фарғона вилояти",
+   "district": "Dangʻara tumani",
+   "name": "Dangʻara tumani 31-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 31 Дангаринского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311841277",
+   "region": "Фарғона вилояти",
+   "district": "Dangʻara tumani",
+   "name": "Dangʻara tumani 32-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 32 Дангаринского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311842480",
+   "region": "Фарғона вилояти",
+   "district": "Oltiariq tumani",
+   "name": "Oltiariq tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Многопрофильная центральная поликлиника Олтиарикского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311841292",
+   "region": "Фарғона вилояти",
+   "district": "Oltiariq tumani",
+   "name": "Oltiariq tumani 39-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 39 Олтыарыкского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311842402",
+   "region": "Фарғона вилояти",
+   "district": "Oltiariq tumani",
+   "name": "Oltiariq tumani 40-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 40 Олтыарыкского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311841260",
+   "region": "Фарғона вилояти",
+   "district": "Oʻzbekiston tumani",
+   "name": "Oʻzbekiston tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Узбекистанская районная многопрофильная центральная поликлиника",
+   "how": "manual",
+   "why": [
+    "type",
+    "district?",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 1
+  },
+  {
+   "stir": "311841016",
+   "region": "Фарғона вилояти",
+   "district": "Oʻzbekiston tumani",
+   "name": "Oʻzbekiston tumani 75-sonli oilaviy poliklinikasi",
+   "label": "Узбекская районная поликлиника на 75 семей",
+   "how": "manual",
+   "why": [
+    "district?",
+    "number",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 1
+  },
+  {
+   "stir": "311840982",
+   "region": "Фарғона вилояти",
+   "district": "Oʻzbekiston tumani",
+   "name": "Oʻzbekiston tumani 76-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника 76 Узбекского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district?",
+    "number"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311838825",
+   "region": "Фарғона вилояти",
+   "district": "Qoʻshtepa tumani",
+   "name": "Qoʻshtepa tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Многопрофильная центральная поликлиника Коштепинского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311837240",
+   "region": "Фарғона вилояти",
+   "district": "Qoʻshtepa tumani",
+   "name": "Qoʻshtepa tumani 88-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 88 Куштепинского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837709",
+   "region": "Фарғона вилояти",
+   "district": "Furqat tumani",
+   "name": "Furqat tumani 66-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №66 Фуркатского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837716",
+   "region": "Фарғона вилояти",
+   "district": "Furqat tumani",
+   "name": "Furqat tumani 67-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №67 Фуркатского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837724",
+   "region": "Фарғона вилояти",
+   "district": "Furqat tumani",
+   "name": "Furqat tumani 68-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №68 Фуркатского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311837748",
+   "region": "Фарғона вилояти",
+   "district": "Furqat tumani",
+   "name": "Furqat tumani 70-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №70 Фуркатского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311836804",
+   "region": "Фарғона вилояти",
+   "district": "Yozyovon tumani",
+   "name": "Yozyovon tumani 33-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 33 «Сойбойи» в районе Ёзёвон",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311836661",
+   "region": "Фарғона вилояти",
+   "district": "Yozyovon tumani",
+   "name": "Yozyovon tumani 34-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 34 Ханабад, Язъяванский район",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200196882",
+   "region": "Фарғона вилояти",
+   "district": "Fargʻona tumani",
+   "name": "Fargʻona tumani tibbiyot birlashmasi",
+   "label": "Ферганское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200123134",
+   "region": "Фарғона вилояти",
+   "district": "Quvasoy shahri",
+   "name": "Quvasoy shahri tibbiyot birlashmasi",
+   "label": "Кувасойское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "311843471",
+   "region": "Фарғона вилояти",
+   "district": "Quvasoy shahri",
+   "name": "Quvasoy shahar Shahar oilaviy poliklinikasi",
+   "label": "Городская семейная поликлиника города Кувасой",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311843504",
+   "region": "Фарғона вилояти",
+   "district": "Quvasoy shahri",
+   "name": "Quvasoy shahar 3-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника № 3 города Кувасой",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "200155126",
+   "region": "Фарғона вилояти",
+   "district": "Beshariq tumani",
+   "name": "Beshariq tumani tibbiyot birlashmasi",
+   "label": "Медицинское объединение Бешарикского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311839285",
+   "region": "Фарғона вилояти",
+   "district": "Toshloq tumani",
+   "name": "Toshloq tumani koʻp tarmoqli markaziy poliklinikasi",
+   "label": "Тошлокская районная многопрофильная центральная поликлиника",
+   "how": "auto",
+   "why": [
+    "type",
+    "district"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "311911244",
+   "region": "Фарғона вилояти",
+   "district": "Toshloq tumani",
+   "name": "Toshloq tumani 52-sonli oilaviy poliklinikasi",
+   "label": "52-я семейная поликлиника Тошлокского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838739",
+   "region": "Фарғона вилояти",
+   "district": "Toshloq tumani",
+   "name": "Toshloq tumani 54-sonli oilaviy poliklinikasi",
+   "label": "54-я семейная поликлиника Тошлокского района",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "311838818",
+   "region": "Фарғона вилояти",
+   "district": "Toshloq tumani",
+   "name": "Toshloq tumani 57-sonli oilaviy poliklinikasi",
+   "label": "57-я семейная поликлиника, г. Тошлок",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "206969628",
+   "region": "Фарғона вилояти",
+   "district": "Qoʻqon shahri",
+   "name": "Qoʻqon shahar 8-sonli oilaviy poliklinikasi",
+   "label": "Кокандская городская семейная поликлиника № 8",
+   "how": "auto",
+   "why": [
+    "type",
+    "district",
+    "number"
+   ],
+   "pts": 7
+  },
+  {
+   "stir": "305111980",
+   "region": "Хоразм вилояти",
+   "district": "Xiva shahri",
+   "name": "Xiva shahri tibbiyot birlashmasi",
+   "label": "Хивинское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200426871",
+   "region": "Хоразм вилояти",
+   "district": "Bogʻot tumani",
+   "name": "Bogʻot tumani tibbiyot birlashmasi",
+   "label": "Медицинская ассоциация Боготского района",
+   "how": "manual",
+   "why": [
+    "district",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 1
+  },
+  {
+   "stir": "200905687",
+   "region": "Хоразм вилояти",
+   "district": "Qoʻshkoʻpir tumani",
+   "name": "Qoʻshkoʻpir tumani tibbiyot birlashmasi",
+   "label": "Кошкупырское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200419760",
+   "region": "Хоразм вилояти",
+   "district": "Xazorasp tumani",
+   "name": "Xazorasp tumani tibbiyot birlashmasi",
+   "label": "Хазараспское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201989259",
+   "region": "Хоразм вилояти",
+   "district": "Urganch tumani",
+   "name": "Urganch tumani tibbiyot birlashmasi",
+   "label": "Ургенчское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "202232488",
+   "region": "Хоразм вилояти",
+   "district": "Xiva tumani",
+   "name": "Xiva tumani tibbiyot birlashmasi",
+   "label": "Хивинское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200429599",
+   "region": "Хоразм вилояти",
+   "district": "Xonqa tumani",
+   "name": "Xonqa tumani tibbiyot birlashmasi",
+   "label": "Ханкайское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200212348",
+   "region": "Хоразм вилояти",
+   "district": "Yangiariq tumani",
+   "name": "Yangiariq tumani tibbiyot birlashmasi",
+   "label": "Янгиарыкское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "201018832",
+   "region": "Хоразм вилояти",
+   "district": "Yangibozor tumani",
+   "name": "Yangibozor tumani tibbiyot birlashmasi",
+   "label": "Хорезмская область Янгибазорское районное медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "203475905",
+   "region": "Хоразм вилояти",
+   "district": "Urganch shahri",
+   "name": "Urganch shahri tibbiyot birlashmasi",
+   "label": "Ургенчское городское медицинское объединение",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "200209040",
+   "region": "Хоразм вилояти",
+   "district": "Tuproqqala tumani",
+   "name": "Tuproqqala tumani tibbiyot birlashmasi",
+   "label": "Тупроккалинское районное медицинское объединение Хорезмской области",
+   "how": "auto",
+   "why": [
+    "type"
+   ],
+   "pts": 3
+  },
+  {
+   "stir": "203409225",
+   "region": "Тошкент шаҳри",
+   "district": "Ulugʻbek tumani",
+   "name": "Mirzo Ulugʻbek tumani 7-sonli oilaviy poliklinikasi",
+   "label": "Семейная поликлиника №7 Мирзо Улугбекского районного медицинского объединения",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "number",
+    "place",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 9
+  },
+  {
+   "stir": "205664264",
+   "region": "Тошкент шаҳри",
+   "district": "Yakkasaroy tumani",
+   "name": "Yakkasaroy tuman tibbiyot birlashmasi koʻp tarmoqli markaziy poliklinika statsionar qismi bilan",
+   "label": "Медицинское объединение Яккасарайского района — Многопрофильная центральная поликлиника",
+   "how": "manual",
+   "why": [
+    "type",
+    "district",
+    "qoʻlda tasdiqlandi, 07.10"
+   ],
+   "pts": 4
+  },
+  {
+   "stir": "204591516",
+   "label": "Сельский врачебный пункт «Андижан» Аколтинского района",
+   "region": "Сирдарё вилояти",
+   "district": "Oqoltin tumani",
+   "name": "Oqoltin tumani Andijon oilaviy shifokorlik punkti",
+   "how": "manual",
+   "why": [
+    "qoʻlda, 07.10"
+   ],
+   "pts": null
+  }
+ ]
+}

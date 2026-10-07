@@ -4,16 +4,20 @@
 // page renders an empty state.
 
 import raw from "@/data/argos-live-base.json";
+import stirMatch from "@/data/argos-stir-match.json";
 import {
   changedSince,
   compute,
   type BaseFile,
   type LiveResult,
+  type StirMatch,
   type TreeSnapshot,
 } from "./argos-live";
 import { getLiveManifest, getLivePrevTree, getLiveTree, type LiveManifest } from "./store";
 
 export const BASE = raw as unknown as BaseFile;
+/** Which row under a shared STIR is the ARGOS tree node (scripts/match-dup-stir.py). */
+export const STIR_MATCHES = (stirMatch as { matches: StirMatch[] }).matches;
 
 export interface LiveData {
   tree: TreeSnapshot;
@@ -30,8 +34,8 @@ export async function getLive(): Promise<LiveData | null> {
   return {
     tree,
     manifest,
-    result: compute(BASE.orgs, tree, BASE.ignoreStir),
+    result: compute(BASE.orgs, tree, BASE.ignoreStir, STIR_MATCHES),
     prevAt: prev?.at ?? null,
-    changes: prev ? changedSince(BASE.orgs, prev, tree) : [],
+    changes: prev ? changedSince(BASE.orgs, prev, tree, STIR_MATCHES) : [],
   };
 }
