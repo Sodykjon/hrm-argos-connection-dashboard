@@ -83,7 +83,6 @@ const REASON: Record<Reason, string> = {
   billing: "",
   newBilling0: "Yangi ulangan, billing hali yoqilmagan",
   billingOff: "Daraxtda bor, billing nofaol",
-  notInTree: "Shu STIR ostida ARGOS daraxtida bu muassasa yoʻq",
 };
 
 const LEGEND =
@@ -480,10 +479,8 @@ function duplicateSheet(wb: ExcelJS.Workbook, orgs: LiveOrg[], onlyRegion?: stri
   const nRows = groups.reduce((s, [, l]) => s + l.length, 0);
   ws.mergeCells("A2:H2");
   ws.getCell("A2").value =
-    `${groups.length} ta STIR ${nRows} ta muassasada takrorlanadi. Har bir muassasaning STIRi alohida boʻlishi kerak. ` +
-    "Bir STIR ostidagi muassasalardan qaysi biri HRM ARGOS tashkilotlar daraxtida boʻlsa — oʻsha ulangan hisoblanadi, daraxtda yoʻqlari — ulanmagan.";
-  style(ws.getCell("A2"), { size: 9, color: C.dim, wrap: true });
-  ws.getRow(2).height = 27;
+    `${groups.length} ta STIR ${nRows} ta muassasada takrorlanadi. Har bir muassasaning STIRi alohida boʻlishi kerak.`;
+  style(ws.getCell("A2"), { size: 9, color: C.dim });
   const hr = ws.getRow(4);
   ["№", "STIR", "Takror soni", "Hudud", "Tuman / shahar", "Muassasa nomi", "Holat", "Boʻysunuvi"].forEach((x, i) => {
     hr.getCell(i + 1).value = x;
