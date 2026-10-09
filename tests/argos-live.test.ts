@@ -46,7 +46,7 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: workbook v5 (3 897 / 3 506 / 293 / 98)", () => {
+test("national totals: workbook v6 (3 896 / 3 506 / 292 / 98)", () => {
   // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
   // mountain-village hospitals without internet = 3 718 / 50 / 97; v2 (05.10 ARGOS tree): 110 rows
   // got their own STIR → 3 726 / 39 / 100; v3 (user's review): 7 more STIRs (Xiva 1–2 OP read
@@ -55,11 +55,15 @@ test("national totals: workbook v5 (3 897 / 3 506 / 293 / 98)", () => {
   // no STIR) under Yashnobod deleted (user) → 3 897 / 3 757 / 39 / 101; v4 (09.10 tree): 72 rows got
   // their own STIR, statuses unchanged; v5 (user, 09.10): the 254 units of 49 district associations
   // still filed under the association's STIR must connect under their own → «ulanmagan», STIR
-  // cleared (251 were ulangan, 3 ochirilgan) → 3 897 / 3 506 / 293 / 98.
+  // cleared (251 were ulangan, 3 ochirilgan) → 3 897 / 3 506 / 293 / 98; v6 (09.10): STIRs shifted by
+  // a row put back by the ARGOS tree (Oqqo'rg'on, Shahrisabz, Bandixon, Bo'ka, Yangiyo'l, So'x) — two
+  // cleared KTMPs and two rows whose STIR was missing come out connected, three rows whose STIR was
+  // another unit's (no own STIR in ARGOS) go «ulanmagan», a doubled Oqqo'rg'on OShP row is deleted
+  // → 3 896 / 3 506 / 292 / 98.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3897, 3506, 293, 98],
+    [3896, 3506, 292, 98],
   );
 });
 
@@ -150,20 +154,26 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 units carry their own STIR, 254 still on an association's STIR wait for theirs (3 897 / 3 471 / 292 / 134)", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 255 wait for their own (3 896 / 3 471 / 291 / 134)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
   // Mo'ynoq's association switched billing off, its 8 units stay connected on their own STIRs.
   // Then the units still filed under their association's STIR were cleared to «ulanmagan» (user,
-  // 09.10): 3 722 / 38 / 137 → 3 471 / 292 / 134.
+  // 09.10): 3 722 / 38 / 137 → 3 471 / 292 / 134; shifted STIRs put back (v6) → 3 896 / 3 471 / 291 / 134.
   const r = compute(base.orgs, { at: "2026-10-09T05:28:51Z", rows: tree1009 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3897, 3471, 292, 134]);
-  // every registry row is a named organisation; only those 254 units have no STIR, all «ulanmagan»
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3896, 3471, 291, 134]);
+  // every registry row is a named organisation; rows without a STIR are the 252 association units
+  // and the 3 whose STIR was another unit's, all «ulanmagan» with the reason in the note
   assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
   const cleared = base.orgs.filter((o) => !o.stir);
-  assert.equal(cleared.length, 254);
-  assert.deepEqual(cleared.filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi/.test(o.note ?? "")).map((o) => o.name), []);
+  assert.equal(cleared.length, 255);
+  assert.deepEqual(
+    cleared
+      .filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi|STIR boshqa muassasaniki edi/.test(o.note ?? ""))
+      .map((o) => o.name),
+    [],
+  );
   const seen = new Map<string, number>();
   for (const o of base.orgs) {
     const k = `${o.region}|${o.district}|${o.name.trim().toLowerCase().replace(/\s+/g, " ")}`;
@@ -173,7 +183,7 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, 254 still on an associati
   // the 34 the user marked «yo'q» (colleges, depots, project units…) + the Xiva college whose STIR
   // the Xiva OPs had been filed under + Guliston district's 10 new STIRs, billing off (not applied, 09.10)
   assert.equal(r.extraInTree.length, 45);
-  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3552);
+  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3550);
   // every 05.10 tree org is still in the 09.10 tree
   const t9 = new Set(tree1009.map(([t]) => t));
   assert.deepEqual(tree1005.map(([t]) => t).filter((t) => !t9.has(t)), []);
