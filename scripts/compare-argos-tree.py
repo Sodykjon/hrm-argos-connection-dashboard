@@ -35,6 +35,8 @@ def lat(s):
 
 def skel(word):
     w = re.sub(r"[^a-z]", "", lat(word))
+    # rus↔o'zbek yozuvi: «Кызыл-джар» ↔ «Kizil-jar», «Казак» ↔ «Kazax», «Макпал» ↔ «Maxpal»
+    w = w.replace("dj", "j").replace("h", "k")
     w = re.sub(r"[aeiouy]", "", w)
     return re.sub(r"(.)\1+", r"\1", w)
 
@@ -82,7 +84,7 @@ def kind(name):
     n = lat(name)
     if "sanitar" in n:
         return "ses"
-    if (("semeyn" in n and "punkt" in n) or "punkt semeyn" in n or "shifokorlik punkt" in n
+    if (("semeyn" in n and "punkt" in n) or "punkt semeyn" in n or "shifokorlik punkt" in n or "kabinet semeyn" in n
             or re.search(r"oshp", n) or "vrachebn" in n or ("semeyn" in n and "medisinsk" in n and "sentr" in n)):
         return "oshp"
     if "mnogoprofil" in n or "kop tarmokli" in n or "kotarmokli" in n or "sentralnaya poliklin" in n:
@@ -100,7 +102,8 @@ GENERIC = ("rayon", "gorod", "medisin", "obedin", "otdel", "zdravooh", "semeyn",
            "sentr", "oblast", "upravlen", "sanitar", "epidem", "spokoy", "obshestv", "zdorov", "tuman", "shahar",
            "shahri", "oilaviy", "shifokor", "sonli", "kop", "tarmok", "markaz", "davlat", "muassasa", "filial",
            "bolim", "imeni", "nomidagi", "son", "op", "oshp", "glavn", "komitet", "uchastk", "bolnis", "kasalhona")
-RU_END = re.compile(r"(ского|ской|ский|ская|ское|ском|ских|ские|ского|ого|ий|ая|ое)$")
+# «Амударьинское» → «Амударь», «Ходжалинское» → «Ходжал» (o'zbekchada «-in-» yo'q: Amudaryo, Xo'jayli)
+RU_END = re.compile(r"(инского|инское|инский|инская|инском|ского|ской|ский|ская|ское|ском|ских|ские|ского|ого|ий|ая|ое)$")
 
 
 def ru_stem(word):
