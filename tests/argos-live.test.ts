@@ -46,17 +46,20 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: workbook v3 (3 897 / 3 757 / 39 / 101)", () => {
+test("national totals: workbook v5 (3 897 / 3 506 / 293 / 98)", () => {
   // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
   // mountain-village hospitals without internet = 3 718 / 50 / 97; v2 (05.10 ARGOS tree): 110 rows
   // got their own STIR → 3 726 / 39 / 100; v3 (user's review): 7 more STIRs (Xiva 1–2 OP read
   // connected) and 45 tree orgs added (31 billing on, 14 off) → 3 910 / 3 758 / 39 / 113; the
   // doubled Ketenler OShP row deleted (user) → 3 909 / 3 757 / 39 / 113; 12 blank rows (no name,
-  // no STIR) under Yashnobod deleted (user) → 3 897 / 3 757 / 39 / 101.
+  // no STIR) under Yashnobod deleted (user) → 3 897 / 3 757 / 39 / 101; v4 (09.10 tree): 72 rows got
+  // their own STIR, statuses unchanged; v5 (user, 09.10): the 254 units of 49 district associations
+  // still filed under the association's STIR must connect under their own → «ulanmagan», STIR
+  // cleared (251 were ulangan, 3 ochirilgan) → 3 897 / 3 506 / 293 / 98.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3897, 3757, 39, 101],
+    [3897, 3506, 293, 98],
   );
 });
 
@@ -122,10 +125,17 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: the workbook's 145 / 667 less the rows given their own STIR on 05.10 and 09.10 (116 / 461), none mixed", () => {
+test("same-STIR groups: 145 / 667 less the rows given their own STIR (05.10, 09.10) and the association groups cleared (09.10) → 67 / 158, none mixed, no association left in one", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 116);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 461);
+  assert.equal(stirGroups.length, 67);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 158);
+  // a district association never shares its STIR with a unit any more (Yakkasaroy: two association
+  // rows of one org, left as is)
+  const assoc = (n: string) => /tibbiyot birlashmasi/i.test(n);
+  assert.deepEqual(
+    stirGroups.filter((g) => g.names.filter(assoc).length === 1).map((g) => g.stir),
+    [],
+  );
   assert.deepEqual(stirGroups.filter((g) => g.mixed).map((g) => g.stir), []);
 });
 
@@ -140,15 +150,20 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 district-association rows now carry their own STIR (3 897 / 3 722 / 38 / 137), 45 tree orgs left out", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, 254 still on an association's STIR wait for theirs (3 897 / 3 471 / 292 / 134)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
   // Mo'ynoq's association switched billing off, its 8 units stay connected on their own STIRs.
+  // Then the units still filed under their association's STIR were cleared to «ulanmagan» (user,
+  // 09.10): 3 722 / 38 / 137 → 3 471 / 292 / 134.
   const r = compute(base.orgs, { at: "2026-10-09T05:28:51Z", rows: tree1009 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3897, 3722, 38, 137]);
-  // every registry row is a named organisation with a STIR, and no group lists one name twice
-  assert.deepEqual(base.orgs.filter((o) => !o.name.trim() || !o.stir).map((o) => o.region), []);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3897, 3471, 292, 134]);
+  // every registry row is a named organisation; only those 254 units have no STIR, all «ulanmagan»
+  assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
+  const cleared = base.orgs.filter((o) => !o.stir);
+  assert.equal(cleared.length, 254);
+  assert.deepEqual(cleared.filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi/.test(o.note ?? "")).map((o) => o.name), []);
   const seen = new Map<string, number>();
   for (const o of base.orgs) {
     const k = `${o.region}|${o.district}|${o.name.trim().toLowerCase().replace(/\s+/g, " ")}`;
