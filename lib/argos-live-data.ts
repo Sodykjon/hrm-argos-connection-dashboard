@@ -11,7 +11,8 @@ import {
   type LiveResult,
   type TreeSnapshot,
 } from "./argos-live";
-import { getLiveManifest, getLivePrevTree, getLiveTree, type LiveManifest } from "./store";
+import { resolveOwnStir, type OwnStirApplied, type OwnStirPending } from "./argos-match";
+import { getLiveManifest, getLivePrevTree, getLiveTree, getStirAssign, type LiveManifest } from "./store";
 
 export const BASE = raw as unknown as BaseFile;
 
@@ -21,17 +22,23 @@ export interface LiveData {
   manifest: LiveManifest | null;
   prevAt: string | null;
   changes: ReturnType<typeof changedSince>;
+  /** STIRs found in the tree for STIR-less registry rows: applied, and waiting for a person. */
+  own: { applied: OwnStirApplied[]; pending: OwnStirPending[] };
 }
 
 export async function getLive(): Promise<LiveData | null> {
   const [tree, manifest] = await Promise.all([getLiveTree(), getLiveManifest()]);
   if (!tree) return null;
-  const prev = await getLivePrevTree();
+  const [prev, stored] = await Promise.all([getLivePrevTree(), getStirAssign()]);
+  // Strong matches are applied here too, so a page never waits for the next tree to show them;
+  // POST /api/argos-tree stores them.
+  const own = resolveOwnStir(BASE.orgs, BASE.ignoreStir ?? [], tree.rows, stored, tree.at);
   return {
     tree,
     manifest,
-    result: compute(BASE.orgs, tree, BASE.ignoreStir),
+    result: compute(own.orgs, tree, BASE.ignoreStir),
     prevAt: prev?.at ?? null,
-    changes: prev ? changedSince(BASE.orgs, prev, tree) : [],
+    changes: prev ? changedSince(own.orgs, prev, tree) : [],
+    own: { applied: own.applied, pending: own.pending },
   };
 }

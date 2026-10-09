@@ -1,0 +1,792 @@
+{
+"blank": [
+"Amudaryo tumani 1-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 2-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 3-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 4-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 6-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 7-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 71-sonli oilaviy poliklinikasi",
+"Amudaryo tumani 72-sonli oilaviy poliklinikasi",
+"Amudaryo tumani Berdax oilaviy shifokorlik punkti",
+"Amudaryo tumani Qangli oilaviy shifokorlik punkti",
+"Amudaryo tumani Qizil choli oilaviy shifokorlik punkti",
+"Amudaryo tumani Toʻlqin oilaviy shifokorlik punkti",
+"Amudaryo tumani koʻp tarmoqli markaziy poliklinikasi",
+"Beruniy tumani 10-sonli oilaviy poliklinikasi",
+"Beruniy tumani 11-sonli oilaviy poliklinikasi",
+"Beruniy tumani 12-sonli oilaviy poliklinikasi",
+"Beruniy tumani 13-sonli oilaviy poliklinikasi",
+"Beruniy tumani 14-sonli oilaviy poliklinikasi",
+"Beruniy tumani 8-sonli oilaviy poliklinikasi",
+"Beruniy tumani 9-sonli oilaviy poliklinikasi",
+"Beruniy tumani Bibozor oilaviy shifokorlik punkti",
+"Beruniy tumani Jumaniyazov oilaviy shifokorlik punkti",
+"Beruniy tumani Oltinsoy oilaviy shifokorlik punkti",
+"Beruniy tumani Qizilqala oilaviy shifokorlik punkti",
+"Beruniy tumani koʻp tarmoqli markaziy poliklinikasi",
+"Boʻzatov tumani 28-sonli oilaviy poliklinikasi",
+"Boʻzatov tumani Ak yeden oilaviy shifokorlik punkti",
+"Boʻzatov tumani Aspantay oilaviy shifokorlik punkti",
+"Boʻzatov tumani Karakalpak oilaviy shifokorlik punkti",
+"Boʻzatov tumani Kokshiyel oilaviy shifokorlik punkti",
+"Boʻzatov tumani Porlitau oilaviy shifokorlik punkti",
+"Boʻzatov tumani koʻp tarmoqli markaziy poliklinikasi",
+"Guliston shahar 1-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"Guliston shahar 3-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"Guliston shahar 4-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"Guliston shahar koʻp tarmoqli markaziy poliklinikasi",
+"Moʻynoq tumani 31-sonli oilaviy poliklinikasi",
+"Moʻynoq tumani 32-sonli oilaviy poliklinikasi",
+"Moʻynoq tumani 33-sonli oilaviy poliklinikasi",
+"Moʻynoq tumani Aq-qala oilaviy shifokorlik punkti",
+"Moʻynoq tumani Kazaxdarya oilaviy shifokorlik punkti",
+"Moʻynoq tumani Kizil-jar oilaviy shifokorlik punkti",
+"Moʻynoq tumani Uch-say oilaviy shifokorlik punkti",
+"Moʻynoq tumani koʻp tarmoqli markaziy poliklinikasi",
+"Qoraoʻzak tumani 19-sonli oilaviy poliklinikasi",
+"Qoraoʻzak tumani 20-sonli oilaviy poliklinikasi",
+"Qoraoʻzak tumani 21-sonli oilaviy poliklinikasi",
+"Qoraoʻzak tumani Buzatov oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani Karshigali oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani Koybak oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani Qarakol oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani Quralpa oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani Yesimuzak oilaviy shifokorlik punkti",
+"Qoraoʻzak tumani koʻp tarmoqli markaziy poliklinikasi",
+"Taxtakoʻpir tumani 36-sonli oilaviy poliklinikasi",
+"Taxtakoʻpir tumani 37-sonli oilaviy poliklinikasi",
+"Taxtakoʻpir tumani 38-sonli oilaviy poliklinikasi",
+"Taxtakoʻpir tumani A.Adilov oilaviy shifokorlik punkti",
+"Taxtakoʻpir tumani Borshitau oilaviy shifokorlik punkti",
+"Taxtakoʻpir tumani Koniratkoʻl oilaviy shifokorlik punkti",
+"Taxtakoʻpir tumani Maxpalkoʻl oilaviy shifokorlik punkti",
+"Taxtakoʻpir tumani koʻp tarmoqli markaziy poliklinikasi",
+"Xoʻjayli tumani 48-sonli oilaviy poliklinikasi",
+"Xoʻjayli tumani 49-sonli oilaviy poliklinikasi",
+"Xoʻjayli tumani 51-sonli oilaviy poliklinikasi",
+"Xoʻjayli tumani Axunbabayev oilaviy shifokorlik punkti",
+"Xoʻjayli tumani Oybek oilaviy shifokorlik punkti",
+"Xoʻjayli tumani P.Xalmuratov oilaviy shifokorlik punkti",
+"Xoʻjayli tumani Qoraqalpogʻiston oilaviy shifokorlik punkti",
+"Xoʻjayli tumani Taza baza oilaviy shifokorlik punkti",
+"Xoʻjayli tumani Xatep oilaviy shifokorlik punkti",
+"Xoʻjayli tumani koʻp tarmoqli markaziy poliklinikasi"
+],
+"matches": [
+{
+"key": "Сирдарё вилояти|Guliston shahri|Guliston shahar 1-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"tin": "206058219",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number",
+"place"
+]
+},
+{
+"key": "Сирдарё вилояти|Guliston shahri|Guliston shahar 3-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"tin": "206058882",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number",
+"place"
+]
+},
+{
+"key": "Сирдарё вилояти|Guliston shahri|Guliston shahar 4-sonli shaxar oilaviy eksperemental birlamchi tibbiy sanitariy yordamchi poliklinika oilaviy poliklinikasi",
+"tin": "206066034",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number",
+"place"
+]
+},
+{
+"key": "Сирдарё вилояти|Guliston shahri|Guliston shahar koʻp tarmoqli markaziy poliklinikasi",
+"tin": "312684353",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Сирдарё вилояти|Guliston tumani|Guliston tumani Chortoq oilaviy shifokorlik punkti",
+"tin": "312685368",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Сирдарё вилояти|Guliston tumani|Guliston tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "312685264",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 1-sonli oilaviy poliklinikasi",
+"tin": "311889708",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 2-sonli oilaviy poliklinikasi",
+"tin": "311898593",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 3-sonli oilaviy poliklinikasi",
+"tin": "311890859",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 4-sonli oilaviy poliklinikasi",
+"tin": "311888598",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 6-sonli oilaviy poliklinikasi",
+"tin": "311901004",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 7-sonli oilaviy poliklinikasi",
+"tin": "311898253",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 71-sonli oilaviy poliklinikasi",
+"tin": "311898292",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani 72-sonli oilaviy poliklinikasi",
+"tin": "311898997",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani Berdax oilaviy shifokorlik punkti",
+"tin": "311891785",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani Qangli oilaviy shifokorlik punkti",
+"tin": "311900314",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani Qizil choli oilaviy shifokorlik punkti",
+"tin": "311900020",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani Toʻlqin oilaviy shifokorlik punkti",
+"tin": "311888677",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Amudaryo tumani|Amudaryo tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311899624",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 10-sonli oilaviy poliklinikasi",
+"tin": "311891414",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 11-sonli oilaviy poliklinikasi",
+"tin": "311891406",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 12-sonli oilaviy poliklinikasi",
+"tin": "311891359",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 13-sonli oilaviy poliklinikasi",
+"tin": "311891366",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 14-sonli oilaviy poliklinikasi",
+"tin": "311891453",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 8-sonli oilaviy poliklinikasi",
+"tin": "311891421",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani 9-sonli oilaviy poliklinikasi",
+"tin": "311891374",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani Bibozor oilaviy shifokorlik punkti",
+"tin": "311891460",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani Jumaniyazov oilaviy shifokorlik punkti",
+"tin": "311891381",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani Oltinsoy oilaviy shifokorlik punkti",
+"tin": "311891445",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani Qizilqala oilaviy shifokorlik punkti",
+"tin": "311891398",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Beruniy tumani|Beruniy tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311891438",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani 28-sonli oilaviy poliklinikasi",
+"tin": "311894100",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani Aspantay oilaviy shifokorlik punkti",
+"tin": "311894077",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani Karakalpak oilaviy shifokorlik punkti",
+"tin": "311894132",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani Kokshiyel oilaviy shifokorlik punkti",
+"tin": "311894060",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani Porlitau oilaviy shifokorlik punkti",
+"tin": "311894149",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Boʻzatov tumani|Boʻzatov tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311894092",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani 31-sonli oilaviy poliklinikasi",
+"tin": "311906352",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani 32-sonli oilaviy poliklinikasi",
+"tin": "311902793",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani 33-sonli oilaviy poliklinikasi",
+"tin": "311902453",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani Aq-qala oilaviy shifokorlik punkti",
+"tin": "311907328",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani Kazaxdarya oilaviy shifokorlik punkti",
+"tin": "311905970",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani Kizil-jar oilaviy shifokorlik punkti",
+"tin": "311902445",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani Uch-say oilaviy shifokorlik punkti",
+"tin": "311906162",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Moʻynoq tumani|Moʻynoq tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311903143",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani 19-sonli oilaviy poliklinikasi",
+"tin": "311878776",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani 20-sonli oilaviy poliklinikasi",
+"tin": "311879119",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani 21-sonli oilaviy poliklinikasi",
+"tin": "311879387",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Buzatov oilaviy shifokorlik punkti",
+"tin": "311879126",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Karshigali oilaviy shifokorlik punkti",
+"tin": "311879316",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Koybak oilaviy shifokorlik punkti",
+"tin": "311880941",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Qarakol oilaviy shifokorlik punkti",
+"tin": "311879008",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Quralpa oilaviy shifokorlik punkti",
+"tin": "311878634",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani Yesimuzak oilaviy shifokorlik punkti",
+"tin": "311879331",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Qoraoʻzak tumani|Qoraoʻzak tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311878594",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani 36-sonli oilaviy poliklinikasi",
+"tin": "311880823",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani 37-sonli oilaviy poliklinikasi",
+"tin": "311881734",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani 38-sonli oilaviy poliklinikasi",
+"tin": "311881814",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani A.Adilov oilaviy shifokorlik punkti",
+"tin": "311879743",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani Borshitau oilaviy shifokorlik punkti",
+"tin": "311880926",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani Koniratkoʻl oilaviy shifokorlik punkti",
+"tin": "311881727",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani Maxpalkoʻl oilaviy shifokorlik punkti",
+"tin": "311879846",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Taxtakoʻpir tumani|Taxtakoʻpir tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311879403",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani 48-sonli oilaviy poliklinikasi",
+"tin": "311881039",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani 49-sonli oilaviy poliklinikasi",
+"tin": "311882076",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani 51-sonli oilaviy poliklinikasi",
+"tin": "311879782",
+"strength": "strong",
+"why": [
+"type",
+"district",
+"number"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani Axunbabayev oilaviy shifokorlik punkti",
+"tin": "311877477",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani Oybek oilaviy shifokorlik punkti",
+"tin": "311888068",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani P.Xalmuratov oilaviy shifokorlik punkti",
+"tin": "311879972",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani Taza baza oilaviy shifokorlik punkti",
+"tin": "311877191",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani Xatep oilaviy shifokorlik punkti",
+"tin": "311877176",
+"strength": "weak",
+"why": [
+"type",
+"district",
+"place"
+]
+},
+{
+"key": "Қорақалпоғистон Республикаси|Xoʻjayli tumani|Xoʻjayli tumani koʻp tarmoqli markaziy poliklinikasi",
+"tin": "311876898",
+"strength": "strong",
+"why": [
+"type",
+"district"
+]
+}
+]
+}

@@ -28,7 +28,7 @@ import type {
   Registry,
   Snapshot,
 } from "./types";
-import type { TreeSnapshot } from "./argos-live";
+import type { StirAssign, TreeSnapshot } from "./argos-live";
 
 const KV_URL =
   process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -55,6 +55,7 @@ const K = {
   liveTree: "argoslive:tree:latest",
   livePrev: "argoslive:tree:prev",
   liveManifest: "argoslive:manifest",
+  liveAssign: "argoslive:stirassign",
 } as const;
 
 // ---------------------------------------------------------------- redis client
@@ -336,6 +337,16 @@ export async function publishLiveTree(
   m.checkedAt = tree.at;
   await writeKey(K.liveManifest, m);
   return { changed, history: m.history.length };
+}
+
+/** STIRs found in the tree for STIR-less registry rows, and the pairings a person turned down. */
+export async function getStirAssign(): Promise<StirAssign> {
+  const a = await readKey<StirAssign>(K.liveAssign);
+  return { items: a?.items ?? {}, rejected: a?.rejected ?? {} };
+}
+
+export async function putStirAssign(a: StirAssign): Promise<void> {
+  await writeKey(K.liveAssign, a);
 }
 
 /** YYYY-MM-DD in Tashkent (UTC+5, no DST). */

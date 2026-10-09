@@ -1,6 +1,7 @@
 import { compute, treeFingerprint, validTree, type TreeSnapshot } from "@/lib/argos-live";
 import { BASE } from "@/lib/argos-live-data";
-import { getLiveManifest, hasStore, publishLiveTree, tashkentDate } from "@/lib/store";
+import { resolveOwnStir } from "@/lib/argos-match";
+import { getLiveManifest, getStirAssign, hasStore, publishLiveTree, putStirAssign, tashkentDate } from "@/lib/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,10 +26,14 @@ export async function POST(request: Request) {
 
   const tree: TreeSnapshot = {
     at: body.tree.at,
-    rows: body.tree.rows.map(([t, b, l]) => (l ? [t, b, l.slice(0, 300)] : [t, b])),
+    rows: body.tree.rows.map(([t, b, l, p]) => (p ? [t, b, (l ?? "").slice(0, 300), p] : l ? [t, b, l.slice(0, 300)] : [t, b])),
   };
-  const r = compute(BASE.orgs, tree, BASE.ignoreStir);
   try {
+    // STIR-less registry rows found in the tree under a STIR of their own: strong matches with
+    // billing on are kept from now on (lib/argos-match.ts); weak ones wait on /argos-jonli.
+    const own = resolveOwnStir(BASE.orgs, BASE.ignoreStir ?? [], tree.rows, await getStirAssign(), tree.at);
+    if (own.grew) await putStirAssign(own.assign);
+    const r = compute(own.orgs, tree, BASE.ignoreStir);
     const out = await publishLiveTree(tree, {
       at: tree.at,
       date: tashkentDate(tree.at),
@@ -50,6 +55,7 @@ export async function POST(request: Request) {
       ...out,
       treeSize: tree.rows.length,
       totals: r.totals,
+      ownStir: { applied: own.applied.length, pending: own.pending.length },
     });
   } catch (e) {
     return Response.json({ error: "server", detail: String(e) }, { status: 500 });

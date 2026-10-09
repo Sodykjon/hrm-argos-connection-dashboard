@@ -24,6 +24,7 @@ export interface BaseOrg {
   pay?: number | null; // «Toʻlov, % (17.09)»
   sub?: string | null; // «Boʻysunuvi»
   note?: string | null; // workbook remark that is not a restatement of the live status
+  assigned?: "auto" | "approved"; // STIR taken from the ARGOS tree (applyAssign), not from the workbook
 }
 
 /** A registry row kept out of every count (e.g. no internet in a mountain village). */
@@ -54,8 +55,11 @@ export interface BaseFile {
   ignoreStir?: string[];
 }
 
-/** [tin, billing (1 = active, 0 = inactive), label?] */
-export type TreeRow = [string, 0 | 1, string?];
+/**
+ * [tin, billing (1 = active, 0 = inactive), label?, parent org's tin?] — the parent (sent by the
+ * bookmarklet since 09.10.2026) lets lib/argos-match.ts place an org in its region and district.
+ */
+export type TreeRow = [string, 0 | 1, string?, string?];
 
 export interface TreeSnapshot {
   at: string; // ISO time the tree was read in the browser
@@ -69,6 +73,50 @@ export type Reason =
   | "billing" // in the tree, billing active
   | "newBilling0" // registry said not connected, now in the tree (billing not yet on)
   | "billingOff"; // in the tree, billing inactive → treated as deleted
+
+/**
+ * A STIR found in the ARGOS tree for a STIR-less registry row (lib/argos-match.ts), stored in KV:
+ * «auto» — a strong match with billing on, applied when the tree arrived; «approved» — a person
+ * confirmed it. `rejected`: per row, STIRs a person turned down (never offered again).
+ */
+export interface StirAssign {
+  items: Record<string, { tin: string; mode: "auto" | "approved"; at: string; label: string }>;
+  rejected: Record<string, string[]>;
+}
+
+export const EMPTY_ASSIGN: StirAssign = { items: {}, rejected: {} };
+
+/** Registry row identity across rebuilds: region + group + name (unique, pinned by tests). */
+export function orgKey(o: Pick<BaseOrg, "region" | "district" | "name">): string {
+  return `${o.region}|${o.district ?? ""}|${o.name}`;
+}
+
+function ddmmyyyy(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 5 * 3600 * 1000); // Tashkent
+  return `${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${d.getUTCFullYear()}`;
+}
+
+/**
+ * The registry as the dashboard counts it: a STIR-less row with a stored assignment takes that STIR.
+ * It then counts as a connected row of the registry («reestr: ulangan»), so a later billing switch-off
+ * shows it as switched off, not as «just added». A row the workbook already gives a STIR is left alone.
+ */
+export function applyAssign(base: readonly BaseOrg[], assign: StirAssign): BaseOrg[] {
+  return base.map((o) => {
+    const a = !o.stir ? assign.items[orgKey(o)] : undefined;
+    if (!a) return o;
+    const old = /eski: (\d+)/.exec(o.note ?? "")?.[1];
+    const keep = (o.note ?? "")
+      .split("·")
+      .map((x) => x.trim())
+      .filter((x) => x && !/^STIR TTB bilan bir xil edi|^STIR boshqa muassasaniki edi/.test(x));
+    keep.push(
+      `Oʻz STIRi ARGOS daraxtidan qoʻyildi ${ddmmyyyy(a.at)} (${a.mode === "auto" ? "avtomatik" : "tasdiqlangan"}` +
+        `${old ? `; avval: ${old}` : ""})`,
+    );
+    return { ...o, stir: a.tin, reestr: "ulangan" as const, assigned: a.mode, note: keep.join(" · ") };
+  });
+}
 
 export interface LiveOrg extends BaseOrg {
   status: LiveStatus;
@@ -214,9 +262,12 @@ export function changedSince(base: BaseOrg[], prev: TreeSnapshot, cur: TreeSnaps
   return out;
 }
 
-/** Stable fingerprint of a tree's content (tin + billing), order-independent. */
+/**
+ * Stable fingerprint of a tree's content (tin + billing, + parent when the bookmarklet sends it),
+ * order-independent. Trees without parents keep their old fingerprints.
+ */
 export function treeFingerprint(rows: TreeRow[]): string {
-  const parts = rows.map(([t, b]) => `${t}:${b ? 1 : 0}`).sort();
+  const parts = rows.map(([t, b, , p]) => `${t}:${b ? 1 : 0}${p ? `:${p}` : ""}`).sort();
   let h = 2166136261;
   for (const p of parts)
     for (let i = 0; i < p.length; i++) {
@@ -239,7 +290,8 @@ export function validTree(x: unknown): x is TreeSnapshot {
         typeof r[0] === "string" &&
         /^\d{6,12}$/.test(r[0]) &&
         (r[1] === 0 || r[1] === 1) &&
-        (r[2] === undefined || typeof r[2] === "string"),
+        (r[2] === undefined || typeof r[2] === "string") &&
+        (r[3] === undefined || (typeof r[3] === "string" && /^\d{6,12}$/.test(r[3]))),
     )
   );
 }

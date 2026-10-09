@@ -149,19 +149,22 @@ def share(a, b, skip):
 
 
 def city(name):
-    """True = city-level, False = district-level, None = unknown."""
+    """True = city-level, False = district-level, None = unknown. A district word wins: «Shahrisabz
+    tumani» is a district although the town's name starts like «shahri»."""
     n = lat(name)
-    c = bool(re.search(r"gorod|shahar|shahri", n))
-    d = bool(re.search(r"rayon|tuman", n))
-    return None if c == d else c
+    if re.search(r"rayon|tuman", n):
+        return False
+    return True if re.search(r"gorod|shahar|shahri", n) else None
 
 
 def district_skel(text):
     """Skeleton (4 letters) of the first non-generic word, e.g. «Районное объединение Фаришского района» → frsh."""
-    for w in re.findall(WORD, text or ""):
+    words = re.findall(WORD, text or "")
+    for w in words:
         if not generic(w):
             return skel(ru_stem(w))[:4]
-    return ""
+    # every word looks generic — «Shahrisabz» starts like «shahri»: take the first one
+    return skel(ru_stem(words[0]))[:4] if words else ""
 
 
 def tree_district(row):

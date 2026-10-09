@@ -56,7 +56,7 @@ export default async function ArgosLivePage() {
     );
   }
 
-  const { result, tree, manifest, changes, prevAt } = live;
+  const { result, tree, manifest, changes, prevAt, own } = live;
   const { totals } = result;
   const checkedAt = manifest?.checkedAt ?? tree.at;
   const stale = isStale(checkedAt);
@@ -153,6 +153,7 @@ export default async function ArgosLivePage() {
           ...(BASE.excluded ?? []).map((e) => ({ ...e, reason: L.attention.reasonInternet, date: null })),
           ...(BASE.removed ?? []),
         ]}
+        own={own}
       />
     </div>
   );

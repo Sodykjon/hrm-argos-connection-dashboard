@@ -9,7 +9,7 @@
 
 ```
 hrm.argos.uz вкладкаси (фойдаланувчи кирган)
-  └─ хатчўп: GetSpInstitutionTreeV2 → [[tin, billing, label], …]  (same-origin, Bearer = localStorage.accessToken)
+  └─ хатчўп: GetSpInstitutionTreeV2 → [[tin, billing, label, parentTin?], …]  (same-origin, Bearer = localStorage.accessToken)
        └─ window.open(<дашборд>/argos-jonli/qabul) + postMessage       (ARGOS'да CSP/COOP йўқ — 25.09.2026 текширилган)
             └─ qabul саҳифаси: origin === https://hrm.argos.uz текшируви
                  └─ POST /api/argos-tree (сайт cookie + ADMIN_PASSWORD) → KV

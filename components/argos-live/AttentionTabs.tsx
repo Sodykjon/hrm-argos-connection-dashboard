@@ -6,9 +6,11 @@ import { fmtInt } from "@/lib/format";
 import { regionLabel } from "@/lib/regions";
 import { StatusPill } from "@/components/StatusPill";
 import { useS, useLang } from "@/lib/i18n/client";
+import type { OwnStirApplied, OwnStirPending } from "@/lib/argos-match";
 import { LiveOrgTable, type LiveOrgRow } from "./LiveOrgTable";
+import { OwnStirPanel } from "./OwnStirPanel";
 
-type Tab = "newConn" | "billingOff" | "missing" | "stir" | "extra" | "removed";
+type Tab = "own" | "newConn" | "billingOff" | "missing" | "stir" | "extra" | "removed";
 
 export function AttentionTabs({
   newConn,
@@ -17,6 +19,7 @@ export function AttentionTabs({
   stirGroups,
   extra,
   removed,
+  own,
 }: {
   newConn: LiveOrgRow[];
   billingOff: LiveOrgRow[];
@@ -24,14 +27,17 @@ export function AttentionTabs({
   stirGroups: StirGroup[];
   extra: { tin: string; billing: 0 | 1; label: string }[];
   removed: RemovedOrg[];
+  own: { applied: OwnStirApplied[]; pending: OwnStirPending[] };
 }) {
   const S = useS();
   const A = S.argosLive.attention;
   const lang = useLang();
-  const [tab, setTab] = useState<Tab>("newConn");
+  // a pairing a person can approve now (billing on) comes first
+  const [tab, setTab] = useState<Tab>(own.pending.some((m) => m.billing === 1) ? "own" : "newConn");
   const [open, setOpen] = useState<string | null>(null);
 
   const tabs: { key: Tab; label: string; n: number }[] = [
+    { key: "own", label: A.own, n: own.applied.length + own.pending.length },
     { key: "newConn", label: A.newConn, n: newConn.length },
     { key: "billingOff", label: A.billingOff, n: billingOff.length },
     { key: "missing", label: A.missing, n: missing.length },
@@ -64,6 +70,7 @@ export function AttentionTabs({
         </div>
       </div>
 
+      {tab === "own" && <OwnStirPanel applied={own.applied} pending={own.pending} />}
       {tab === "newConn" && <List rows={newConn} none={A.none} />}
       {tab === "billingOff" && <List rows={billingOff} none={A.none} />}
       {tab === "missing" && <List rows={missing} none={A.none} />}
