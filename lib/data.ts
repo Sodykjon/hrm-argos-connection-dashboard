@@ -167,11 +167,8 @@ export async function getHistory(): Promise<ManifestEntry[]> {
     const live = await getLive();
     if (live) {
       const snap = liveSnapshot(live);
-      // TEMPORARY (12.10.2026, user): the stored live points from 09.10 up to yesterday were
-      // counted with the district-association STIR rule that is rolled back for the report;
-      // keep them off the trend until the rule is restored.
       liveEntries = [
-        ...liveEntries.filter((e) => e.date !== snap.date && !(e.date >= "2026-10-09" && e.date < snap.date)),
+        ...liveEntries.filter((e) => e.date !== snap.date),
         { date: snap.date, uploadedAt: snap.uploadedAt, url: "live", totals: snap.totals, regions: snap.regions },
       ];
     }
