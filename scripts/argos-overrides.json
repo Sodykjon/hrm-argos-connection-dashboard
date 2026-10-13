@@ -1306,9 +1306,130 @@
    "Boʻzatov tumani Ak yeden oilaviy shifokorlik punkti",
    "207306454",
    "311894171"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312684844"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 5-sonli oilaviy poliklinikasi",
+   "",
+   "312685597"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 6-sonli oilaviy poliklinikasi",
+   "",
+   "312684449"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 7-sonli oilaviy poliklinikasi",
+   "",
+   "312683591"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 8-sonli oilaviy poliklinikasi",
+   "",
+   "312683426"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 9-sonli oilaviy poliklinikasi",
+   "",
+   "312685866"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 10-sonli oilaviy poliklinikasi",
+   "",
+   "312687261"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 11-sonli oilaviy poliklinikasi",
+   "",
+   "312682474"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Paxtakor oilaviy shifokorlik punkti",
+   "",
+   "312685312"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Ozodlik oilaviy shifokorlik punkti",
+   "",
+   "312682554"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani 3- Boyovut markaz oilaviy shifokorlik punkti",
+   "",
+   "312682395"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani A.Navoiy oilaviy shifokorlik punkti",
+   "",
+   "312682640"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Bunyodkor oilaviy shifokorlik punkti",
+   "",
+   "312682696"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Navbaxor oilaviy shifokorlik punkti",
+   "",
+   "312683007"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Boʻston oilaviy shifokorlik punkti",
+   "",
+   "312685731"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Gʻalaba oilaviy shifokorlik punkti",
+   "",
+   "312683283"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Doʻstlik oilaviy shifokorlik punkti",
+   "",
+   "312687752"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani H. Maxmudov oilaviy shifokorlik punkti",
+   "",
+   "312682768"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Guliston oilaviy shifokorlik punkti",
+   "",
+   "312685486"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Boboyurt oilaviy shifokorlik punkti",
+   "",
+   "312683734"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
  "_izoh_stirFix_05_10_review": "05.10.2026: ko'rib chiqish ro'yxatidagi 6 juftlik (7 satr, Ketenler OShP reestrda ikki marta) — foydalanuvchi «ha» dedi.",
- "_izoh_stirFix_09_10": "09.10.2026: 72 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-09.json, 3 551) bo'yicha yangilandi — TTB STIR'ida yozilgan poliklinika/OShP'lar ARGOS'da o'z STIR'i bilan, billing faol. 70 tasi compare-argos-tree.py «auto» (Qoraqalpog'iston 66: Beruniy, Bo'zatov, Mo'ynoq, Qorao'zak, Taxtako'pir, Xo'jayli, Amudaryo; Sirdaryo 4: Guliston shahar), 2 tasi qo'lda (Xo'jayli «Qoraqalpog'iston» OShP, Bo'zatov «Ak yeden» OShP). Billing nofaol yangi STIR'lar (Guliston tumani) qo'llanmadi. Excel: ..._FINAL_v4.xlsx"
+ "_izoh_stirFix_09_10": "09.10.2026: 72 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-09.json, 3 551) bo'yicha yangilandi — TTB STIR'ida yozilgan poliklinika/OShP'lar ARGOS'da o'z STIR'i bilan, billing faol. 70 tasi compare-argos-tree.py «auto» (Qoraqalpog'iston 66: Beruniy, Bo'zatov, Mo'ynoq, Qorao'zak, Taxtako'pir, Xo'jayli, Amudaryo; Sirdaryo 4: Guliston shahar), 2 tasi qo'lda (Xo'jayli «Qoraqalpog'iston» OShP, Bo'zatov «Ak yeden» OShP). Billing nofaol yangi STIR'lar (Guliston tumani) qo'llanmadi. Excel: ..._FINAL_v4.xlsx",
+ "_izoh_stirFix_13_10": "13.10.2026: Sirdaryo › Boyovut tumani — TTB STIR’idan bo‘shatilgan 20 ta poliklinika/OShP o‘z STIR’i bilan (ARGOS’da yangi, billing faol; «ARGOS’da bor, reestrda yo‘q» ro‘yxatidan). «Центр семейного врача бойовутского района» → «3- Boyovut markaz» OShP — ehtimoliy moslik. Tarakiyot va Sh.Rashidov OShP ro‘yxatda ko‘rinmadi; «аялакколь» (312688141) reestrda yo‘q."
 }
