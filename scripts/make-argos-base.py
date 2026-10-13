@@ -9,6 +9,7 @@ Kirish:
     remove  — reestrdan chiqarilgan: bazaga tushmaydi, STIR «ignoreStir»ga
     exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
     stirFix — xato STIR: [varaq, nom, eski, yangi]; Excel'da eskisi tursa almashtiriladi
+    retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
   --aliases scripts/argos-district-aliases.json — bir tumanning turlicha yozilishi → bitta guruh
 Chiqish:
   data/argos-live-base.json — Excel tartibida (varaq → guruh → satr); guruh = tuman/shahar yoki
@@ -195,6 +196,8 @@ out = ordered
 for o in out:
     del o["_raw"], o["_sheet"]
 
+# Old village-post STIRs a stirFix replaced: still in the ARGOS tree, but no registry org of their own.
+ignore |= set(ov.get("retiredStir", []))
 # A removed row's STIR shared with a kept row stays countable.
 known = {o["stir"] for o in out if o["stir"]}
 ignore -= known

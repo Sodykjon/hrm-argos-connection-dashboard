@@ -1426,10 +1426,221 @@
    "Boyovut tumani Boboyurt oilaviy shifokorlik punkti",
    "",
    "312683734"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani 12-sonli oilaviy poliklinikasi",
+   "204308176",
+   "312684923"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani 13-sonli oilaviy poliklinikasi",
+   "204308224",
+   "312685099"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani 14-sonli oilaviy poliklinikasi",
+   "204308184",
+   "312685011"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani 15-sonli oilaviy poliklinikasi",
+   "204308231",
+   "312683949"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani Beshbuloq oilaviy shifokorlik punkti",
+   "204308191",
+   "312685709"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani Boyovut oilaviy shifokorlik punkti",
+   "204308263",
+   "312684994"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani Islomobod oilaviy shifokorlik punkti",
+   "204308152",
+   "312685296"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani U.Nosir oilaviy shifokorlik punkti",
+   "204308169",
+   "312685154"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani A.Toirov nomli oilaviy shifokorlik punkti",
+   "204591524",
+   "312681089"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani Usmon Nosir nomli oilaviy shifokorlik punkti",
+   "204591516",
+   "312682522"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani Uch tom nomli oilaviy shifokorlik punkti",
+   "204591516",
+   "312682260"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani Bobur nomli oilaviy shifokorlik punkti",
+   "204591516",
+   "312682087"
+  ],
+  [
+   "Xorazm",
+   "Xazorasp tumani Ashaq atov oilaviy shifokorlik punkti",
+   "",
+   "311861592"
+  ],
+  [
+   "Xorazm",
+   "Xazorasp tumani Toshsaqa oilaviy shifokorlik punkti",
+   "",
+   "311861807"
+  ],
+  [
+   "Xorazm",
+   "Urganch tumani Anjirchi oilaviy shifokorlik punkti",
+   "",
+   "311858721"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani 63-sonli oilaviy poliklinikasi",
+   "",
+   "311851605"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani 64-sonli oilaviy poliklinikasi",
+   "",
+   "311852532"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani 65-sonli oilaviy poliklinikasi",
+   "",
+   "311851304"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "311852517"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani Qalandar Dormon oilaviy shifokorlik punkti",
+   "",
+   "311851526"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani Uygʻur oilaviy shifokorlik punkti",
+   "",
+   "311852460"
+  ],
+  [
+   "Xorazm",
+   "Yangiariq tumani Guliston oilaviy shifokorlik punkti",
+   "",
+   "311876770"
+  ],
+  [
+   "Xorazm",
+   "Yangiariq tumani Oʻzbekiston oilaviy shifokorlik punkti",
+   "",
+   "311878894"
+  ],
+  [
+   "Xorazm",
+   "Yangiariq tumani Xorazm oilaviy shifokorlik punkti",
+   "",
+   "311878863"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani A.Navoiy oilaviy shifokorlik punkti",
+   "204308169",
+   "312684733"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani Andijon oilaviy shifokorlik punkti",
+   "204591516",
+   "312682428"
+  ],
+  [
+   "Xorazm",
+   "Xazorasp tumani Chorvador oilaviy shifokorlik punkti",
+   "",
+   "311861664"
+  ],
+  [
+   "Xorazm",
+   "Xazorasp tumani Doʻstlik oilaviy shifokorlik punkti",
+   "",
+   "311861918"
+  ],
+  [
+   "Xorazm",
+   "Xazorasp tumani Shovot oilaviy shifokorlik punkti",
+   "",
+   "311860049"
+  ],
+  [
+   "Xorazm",
+   "Urganch tumani Urganch oilaviy shifokorlik punkti",
+   "",
+   "311859055"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani Madaniyat oilaviy shifokorlik punkti",
+   "",
+   "311851709"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Tarakiyot oilaviy shifokorlik punkti",
+   "",
+   "312682894"
+  ],
+  [
+   "Xorazm",
+   "Yangiariq tumani Quriqtom oilaviy shifokorlik punkti",
+   "",
+   "311876233"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
  "_izoh_stirFix_05_10_review": "05.10.2026: ko'rib chiqish ro'yxatidagi 6 juftlik (7 satr, Ketenler OShP reestrda ikki marta) — foydalanuvchi «ha» dedi.",
  "_izoh_stirFix_09_10": "09.10.2026: 72 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-09.json, 3 551) bo'yicha yangilandi — TTB STIR'ida yozilgan poliklinika/OShP'lar ARGOS'da o'z STIR'i bilan, billing faol. 70 tasi compare-argos-tree.py «auto» (Qoraqalpog'iston 66: Beruniy, Bo'zatov, Mo'ynoq, Qorao'zak, Taxtako'pir, Xo'jayli, Amudaryo; Sirdaryo 4: Guliston shahar), 2 tasi qo'lda (Xo'jayli «Qoraqalpog'iston» OShP, Bo'zatov «Ak yeden» OShP). Billing nofaol yangi STIR'lar (Guliston tumani) qo'llanmadi. Excel: ..._FINAL_v4.xlsx",
- "_izoh_stirFix_13_10": "13.10.2026: Sirdaryo › Boyovut tumani — TTB STIR’idan bo‘shatilgan 20 ta poliklinika/OShP o‘z STIR’i bilan (ARGOS’da yangi, billing faol; «ARGOS’da bor, reestrda yo‘q» ro‘yxatidan). «Центр семейного врача бойовутского района» → «3- Boyovut markaz» OShP — ehtimoliy moslik. Tarakiyot va Sh.Rashidov OShP ro‘yxatda ko‘rinmadi; «аялакколь» (312688141) reestrda yo‘q."
+ "_izoh_stirFix_13_10": "13.10.2026: Sirdaryo › Boyovut tumani — TTB STIR’idan bo‘shatilgan 20 ta poliklinika/OShP o‘z STIR’i bilan (ARGOS’da yangi, billing faol; «ARGOS’da bor, reestrda yo‘q» ro‘yxatidan). «Центр семейного врача бойовутского района» → «3- Boyovut markaz» OShP — ehtimoliy moslik. Tarakiyot va Sh.Rashidov OShP ro‘yxatda ko‘rinmadi; «аялакколь» (312688141) reestrda yo‘q.",
+ "retiredStir": [
+  "204308152",
+  "204308169",
+  "204308176",
+  "204308184",
+  "204308191",
+  "204308224",
+  "204308231",
+  "204308263",
+  "204591516",
+  "204591524"
+ ],
+ "_izoh_stirFix_13_10_b": "13.10.2026 (2): «ARGOS’da bor, reestrda yo‘q» skrinshotlaridan 33 ta o‘z STIR’i (billing faol): Sirdaryo — Guliston tumani 9 (eski SVP 204308xxx o‘rniga), Oqoltin 5 (eski 204591524/204591516 o‘rniga), Boyovut Tarakiyot; Xorazm — Xazorasp 5, Urganch 2, Yangibozor 7, Yangiariq 4. 24 tasi compare-argos-tree.py «auto», 9 tasi qo‘lda (nom tarjimasi: пастуха=Chorvador, Дружбы=Do‘stlik, культуры=Madaniyat …); ehtimoliy: «Центр развития»=Tarakiyot, «заповедник»=Quriqtom. Qo‘llanmagan: «аялакколь» 312688141 (reestrda yo‘q), Oqoltin «№ 20» 312681420 (reestrda 16-FARG‘ONA), Yangibozor «районный пункт семейного врача» 311852191 (noaniq). Almashtirilgan eski STIR’lar → retiredStir."
 }
