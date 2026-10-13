@@ -1638,9 +1638,357 @@
   "204308191",
   "204308224",
   "204308231",
+  "204308248",
   "204308263",
   "204591516",
-  "204591524"
+  "204591524",
+  "204591555"
  ],
- "_izoh_stirFix_13_10_b": "13.10.2026 (2): «ARGOS’da bor, reestrda yo‘q» skrinshotlaridan 33 ta o‘z STIR’i (billing faol): Sirdaryo — Guliston tumani 9 (eski SVP 204308xxx o‘rniga), Oqoltin 5 (eski 204591524/204591516 o‘rniga), Boyovut Tarakiyot; Xorazm — Xazorasp 5, Urganch 2, Yangibozor 7, Yangiariq 4. 24 tasi compare-argos-tree.py «auto», 9 tasi qo‘lda (nom tarjimasi: пастуха=Chorvador, Дружбы=Do‘stlik, культуры=Madaniyat …); ehtimoliy: «Центр развития»=Tarakiyot, «заповедник»=Quriqtom. Qo‘llanmagan: «аялакколь» 312688141 (reestrda yo‘q), Oqoltin «№ 20» 312681420 (reestrda 16-FARG‘ONA), Yangibozor «районный пункт семейного врача» 311852191 (noaniq). Almashtirilgan eski STIR’lar → retiredStir."
+ "_izoh_stirFix_13_10_b": "13.10.2026 (2): «ARGOS’da bor, reestrda yo‘q» skrinshotlaridan 33 ta o‘z STIR’i (billing faol): Sirdaryo — Guliston tumani 9 (eski SVP 204308xxx o‘rniga), Oqoltin 5 (eski 204591524/204591516 o‘rniga), Boyovut Tarakiyot; Xorazm — Xazorasp 5, Urganch 2, Yangibozor 7, Yangiariq 4. 24 tasi compare-argos-tree.py «auto», 9 tasi qo‘lda (nom tarjimasi: пастуха=Chorvador, Дружбы=Do‘stlik, культуры=Madaniyat …); ehtimoliy: «Центр развития»=Tarakiyot, «заповедник»=Quriqtom. Qo‘llanmagan: «аялакколь» 312688141 (reestrda yo‘q), Oqoltin «№ 20» 312681420 (reestrda 16-FARG‘ONA), Yangibozor «районный пункт семейного врача» 311852191 (noaniq). Almashtirilgan eski STIR’lar → retiredStir.",
+ "xatStir": [
+  [
+   "Sirdaryo",
+   "Xovos tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312682862",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani 34-sonli oilaviy poliklinikasi",
+   "",
+   "312682854",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani 35-sonli oilaviy poliklinikasi",
+   "",
+   "312683362",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani 36-sonli oilaviy poliklinikasi",
+   "",
+   "312683172",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Amir Temur nomli oilaviy shifokorlik punkti",
+   "",
+   "312683046",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Binokor oilaviy shifokorlik punkti",
+   "",
+   "312683268",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Paxtakor oilaviy shifokorlik punkti",
+   "",
+   "312683244",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Oʻzbekiston mustaqilligi 5 yilligi oilaviy shifokorlik punkti",
+   "",
+   "312683308",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Chamanzor oilaviy shifokorlik punkti",
+   "",
+   "312683465",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Zafarobod oilaviy shifokorlik punkti",
+   "",
+   "312683125",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Karvansaroy oilaviy shifokorlik punkti",
+   "",
+   "312683759",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Obod turmush oilaviy shifokorlik punkti",
+   "",
+   "312683624",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Farxod oilaviy shifokorlik punkti",
+   "",
+   "312683917",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Xovosobod oilaviy shifokorlik punkti",
+   "",
+   "312683441",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Turkiston oilaviy shifokorlik punkti",
+   "",
+   "312683694",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Husnobod oilaviy shifokorlik punkti",
+   "",
+   "312682902",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Xovos tumani Sharqobod oilaviy shifokorlik punkti",
+   "200970134",
+   "312684298",
+   "Xovos TTB xati 08.10.2026 № 2/976"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312683648",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani 21-sonli oilaviy poliklinikasi",
+   "",
+   "312683988",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani 22-sonli oilaviy poliklinikasi",
+   "",
+   "312684400",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani 23-sonli oilaviy poliklinikasi",
+   "",
+   "312684550",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani 24-sonli oilaviy poliklinikasi",
+   "",
+   "312685289",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Gʻalaba oilaviy shifokorlik punkti",
+   "",
+   "312685043",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Oʻzbekiston oilaviy shifokorlik punkti",
+   "",
+   "312685859",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Sh.Raximov nomli oilaviy shifokorlik punkti",
+   "",
+   "312688220",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Shoʻroʻzak oilaviy shifokorlik punkti",
+   "",
+   "312684574",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Yangiobod oilaviy shifokorlik punkti",
+   "",
+   "312685272",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Olgʻabos oilaviy shifokorlik punkti",
+   "",
+   "312685519",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Xisor oilaviy shifokorlik punkti",
+   "",
+   "312686374",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sayxunobod tumani Robot oilaviy shifokorlik punkti",
+   "",
+   "312686406",
+   "Sayxunobod TTB xati 06.10.2026 № 01/-868"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312681452",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani 25-sonli oilaviy poliklinikasi",
+   "",
+   "312682206",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani 26-sonli oilaviy poliklinikasi",
+   "",
+   "312682388",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani Baxmal oilaviy shifokorlik punkti",
+   "",
+   "312681444",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani G.Gulom oilaviy shifokorlik punkti",
+   "",
+   "312685637",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani Dustlik oilaviy shifokorlik punkti",
+   "",
+   "312681365",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani Kushchinor oilaviy shifokorlik punkti",
+   "",
+   "312681358",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani Sh Rashidov oilaviy shifokorlik punkti",
+   "",
+   "312686524",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani Baxor oilaviy shifokorlik punkti",
+   "",
+   "312682277",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Sardoba tumani X Olimjon oilaviy shifokorlik punkti",
+   "",
+   "312683774",
+   "Sardoba TTB xati 07.10.2026 № 571"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312685264",
+   "Guliston tuman TTB xati 07.10.2026 № 02-852-0101"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani Chortoq oilaviy shifokorlik punkti",
+   "",
+   "312685368",
+   "Guliston tuman TTB xati 07.10.2026 № 02-852-0101"
+  ],
+  [
+   "Sirdaryo",
+   "Guliston tumani Oʻzbekiston oilaviy shifokorlik punkti",
+   "204308248",
+   "312684979",
+   "Guliston tuman TTB xati 07.10.2026 № 02-852-0101"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312681943",
+   "Oqoltin TTB xati 07.10.2026 № 644"
+  ],
+  [
+   "Sirdaryo",
+   "Oqoltin tumani 16- FARGʻONA oilaviy poliklinikasi",
+   "204591555",
+   "312681420",
+   "Oqoltin TTB xati 07.10.2026 № 644"
+  ],
+  [
+   "Sirdaryo",
+   "Boyovut tumani Sh.Rashidov oilaviy shifokorlik punkti",
+   "",
+   "312688141",
+   "Boyovut TTB xati 08.10.2026 № 2-965"
+  ],
+  [
+   "Sirdaryo",
+   "Yangiyep shahar koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "311988426",
+   "Yangiyer shahar TB xati 08.10.2026 № 01-946"
+  ],
+  [
+   "Sirdaryo",
+   "Shipin shahar koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "312680834",
+   "Shirin shahar TB xati 13.10.2026 № 21093"
+  ],
+  [
+   "Sirdaryo",
+   "Shipin shahar Nurobod oilaviy shifokorlik punkti",
+   "",
+   "312680723",
+   "Shirin shahar TB xati 13.10.2026 № 21093"
+  ]
+ ],
+ "_izoh_xatStir": "13.10.2026: Sirdaryo tuman/shahar tibbiyot birlashmalarining UZINFOCOM’ga xatlaridagi INN’lar («Sirdaryo xat.rar» + Shirin 13.10 xati). Foydalanuvchi qarori (2-variant): bunday satr faqat ARGOS’da billing faol bo‘lsa «ulangan»; billing nofaol yoki daraxtda yo‘q — «ulanmagan» (awaitBilling). Qo‘yilmagan: Yangiyer 37-OP (xatda KTMP bilan bir xil INN), Sirdaryo tumani 7-OP (xatda 6-OP bilan bir xil; reestrdagi 312217917 qoldi), Sayxunobod «Paxtaobod OShP» 312685914 ↔ reestr «K.Sultonov» (noaniq). Xovos Sharqobod OShP’dagi 200970134 — Xovos SES’ining STIR’i edi."
 }

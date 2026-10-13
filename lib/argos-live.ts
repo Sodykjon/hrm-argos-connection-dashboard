@@ -25,6 +25,9 @@ export interface BaseOrg {
   sub?: string | null; // «Boʻysunuvi»
   note?: string | null; // workbook remark that is not a restatement of the live status
   assigned?: "auto" | "approved"; // STIR taken from the ARGOS tree (applyAssign), not from the workbook
+  // STIR from the district association's letter to UZINFOCOM asking for the connection (user, 13.10.2026):
+  // counted connected only once ARGOS has it with billing on
+  awaitBilling?: true;
 }
 
 /** A registry row kept out of every count (e.g. no internet in a mountain village). */
@@ -72,7 +75,8 @@ export type Reason =
   | "missing" // STIR not in the ARGOS tree
   | "billing" // in the tree, billing active
   | "newBilling0" // registry said not connected, now in the tree (billing not yet on)
-  | "billingOff"; // in the tree, billing inactive → treated as deleted
+  | "billingOff" // in the tree, billing inactive → treated as deleted
+  | "awaitBilling"; // STIR from the association's letter, in the tree, billing not yet on → not connected
 
 /**
  * A STIR found in the ARGOS tree for a STIR-less registry row (lib/argos-match.ts), stored in KV:
@@ -139,11 +143,15 @@ export function indexTree(rows: TreeRow[]): TreeIndex {
  *  in the tree with billing on: connected → in the tree with billing off: a
  *  registry-unconnected org has just been added (billing switches on hours
  *  later), anything else has been switched off.
+ * A STIR taken from an association's letter (awaitBilling) counts only with billing on:
+ * absent or billing off, the org is not connected yet.
  */
 export function decide(org: BaseOrg, tree: TreeIndex): { status: LiveStatus; reason: Reason; billing: 0 | 1 | null } {
   const billing = org.stir ? (tree.get(org.stir) ?? null) : null;
   if (org.override) return { status: org.override, reason: "override", billing };
   if (!org.stir) return { status: org.reestr, reason: "nostir", billing };
+  if (org.awaitBilling && billing !== 1)
+    return { status: "ulanmagan", reason: billing === 0 ? "awaitBilling" : "missing", billing };
   if (billing === null)
     return { status: org.reestr === "ulangan" ? "ochirilgan" : org.reestr, reason: "missing", billing };
   if (billing === 1) return { status: "ulangan", reason: "billing", billing };

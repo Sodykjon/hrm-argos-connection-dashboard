@@ -5,7 +5,21 @@ import { findOwnStir, orgKey } from "../lib/argos-match.ts";
 import type { BaseFile, TreeRow } from "../lib/argos-live.ts";
 
 const read = (f: string) => JSON.parse(readFileSync(new URL(f, import.meta.url), "utf-8"));
-const base: BaseFile = read("../data/argos-live-base.json");
+// The registry as it stood on 09.10, which these trees and pairings belong to: the STIRs set on 13.10
+// (stirFix entries after the 191 of 09.10, and the associations' letters) are taken back.
+const current: BaseFile = read("../data/argos-live-base.json");
+const ov: { stirFix: string[][]; xatStir: string[][]; retiredStir: string[] } = read("../scripts/argos-overrides.json");
+const undo = new Map([...ov.stirFix.slice(191), ...ov.xatStir].map(([, name, old, now]) => [`${name}|${now}`, old || null]));
+const base: BaseFile = {
+  ...current,
+  orgs: current.orgs.map((o) => {
+    const old = undo.get(`${o.name}|${o.stir}`);
+    if (old === undefined) return o;
+    const { awaitBilling: _, ...rest } = o;
+    return { ...rest, stir: old };
+  }),
+  ignoreStir: (current.ignoreStir ?? []).filter((s) => !ov.retiredStir.includes(s)),
+};
 // The 09.10.2026 hrm.argos.uz tree with each org's parent org (as the bookmarklet now sends it).
 const tree: { at: string; rows: TreeRow[] } = read("./fixtures/argos-tree-2026-10-09-full.json");
 // scripts/compare-argos-tree.py on the same tree, with the 72 rows fixed on 09.10 blanked again.
@@ -27,7 +41,7 @@ test("matches the Python script: the 72 rows fixed on 09.10 found again, strong 
   assert.equal(got.filter((m) => m.strength === "strong").length, 40);
 });
 
-test("on the live registry: only Guliston district's KTMP (strong) and Chortoq OShP (weak), both billing off", () => {
+test("on the 09.10 registry: only Guliston district's KTMP (strong) and Chortoq OShP (weak), both billing off", () => {
   const got = findOwnStir(base.orgs, tree.rows, knownOf(base.orgs));
   assert.deepEqual(
     got.map((m) => [m.key.split("|")[2], m.tin, m.strength, m.billing]),

@@ -10,6 +10,8 @@ Kirish:
     exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
     stirFix — xato STIR: [varaq, nom, eski, yangi]; Excel'da eskisi tursa almashtiriladi
     retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
+    xatStir — TTB xatidagi INN: [varaq, nom, eski, yangi, xat]; satr «awaitBilling» oladi — faqat billing
+              faol bo'lsa ulangan
   --aliases scripts/argos-district-aliases.json — bir tumanning turlicha yozilishi → bitta guruh
 Chiqish:
   data/argos-live-base.json — Excel tartibida (varaq → guruh → satr); guruh = tuman/shahar yoki
@@ -74,6 +76,8 @@ OV_STIR = set(ov["faolStir"])
 REMOVE = {(k[1], k[2]) for k in ov.get("remove", [])}
 EXCLUDE = {(k[1], k[2]): k[3] for k in ov.get("exclude", [])}
 STIRFIX = {(k[1], k[2]): k[3] for k in ov.get("stirFix", [])}
+# STIRs from the district associations' letters to UZINFOCOM: [varaq, nom, eski, yangi, xat]
+XATSTIR = {(k[1], k[2]): (k[3], k[4]) for k in ov.get("xatStir", [])}
 
 wb = openpyxl.load_workbook(a.excel)
 
@@ -124,10 +128,13 @@ for sn in REGION:
                 ignore.add(stir)
             excluded.append({**place, "reason": EXCLUDE[k]})
             continue
-        fixed_from = None
+        fixed_from, xat = None, None
         if k in STIRFIX:
             seen.add(k)
             fixed_from, stir = stir, STIRFIX[k]
+        elif k in XATSTIR:
+            seen.add(k)
+            fixed_from, (stir, xat) = stir, XATSTIR[k]
         m = re.search(r"edi: (\S+)\)", chg)
         reestr = EDI[m.group(1)] if m else status
         o = "ulanmagan" if k in OV_UL else "ulangan" if (k in OV_FA or (stir and stir in OV_STIR)) else None
@@ -136,7 +143,10 @@ for sn in REGION:
         if fixed_from is not None:
             # the workbook's «alohida STIR bor …» hint is what the fix resolved
             keep = [p for p in keep if not p.startswith("ARGOS daraxtida alohida STIR bor")]
-            if fixed_from != stir:
+            if xat:
+                keep = [p for p in keep if not p.startswith("STIR TTB bilan bir xil edi")]
+                keep.append(f"INN {xat} bo'yicha (eski: {fixed_from or 'yo‘q'}) — billing yoqilganda ulangan hisoblanadi")
+            elif fixed_from != stir:
                 keep.append(f"STIR ARGOS daraxti bo'yicha tuzatildi (eski: {fixed_from or 'yo‘q'})")
         out.append({
             "region": REGION[sn], "district": district, "hudud": hudud,
@@ -146,6 +156,7 @@ for sn in REGION:
             "sub": s(w.cell(r, C_SUB).value) or None,
             "note": " · ".join(keep) or None,
             "_raw": group, "_sheet": sn,
+            **({"awaitBilling": True} if xat else {}),
         })
         expected_status.append(status)
         # The tree that would have produced this workbook: in the tree with billing on unless the

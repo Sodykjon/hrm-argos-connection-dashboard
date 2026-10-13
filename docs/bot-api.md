@@ -42,7 +42,8 @@ To'liq ro'yxat nomlari bilan birga `GET /api/bot/umumiy` javobida keladi.
 
 `sabab` / `sababMatn` holat nima uchun shundayligini aytadi: `billing` (daraxtda, billing faol),
 `billingOff` (daraxtda, billing nofaol), `missing` (ARGOS daraxtida yo'q), `nostir` (STIR yo'q —
-reestr holati), `newBilling0` (yangi ulangan, billing hali yoqilmagan), `override` (qo'lda belgilangan).
+reestr holati), `newBilling0` (yangi ulangan, billing hali yoqilmagan), `awaitBilling` (tuman xatidagi INN,
+daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgilangan).
 
 ## Tashkilot obyekti
 

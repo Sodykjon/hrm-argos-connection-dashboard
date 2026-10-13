@@ -21,6 +21,7 @@ export const REASON_TEXT: Record<Reason, string> = {
   billing: "Дарахтда, биллинг фаол",
   newBilling0: "Янги уланган, биллинг ҳали ёқилмаган",
   billingOff: "Дарахтда, биллинг нофаол",
+  awaitBilling: "Хатдаги ИНН, биллинг ҳали ёқилмаган — уланмаган",
 };
 
 export const STATUSES: readonly LiveStatus[] = ["ulangan", "ulanmagan", "ochirilgan"];

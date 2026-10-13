@@ -83,6 +83,7 @@ const REASON: Record<Reason, string> = {
   billing: "",
   newBilling0: "Yangi ulangan, billing hali yoqilmagan",
   billingOff: "Daraxtda bor, billing nofaol",
+  awaitBilling: "Xatdagi INN, billing hali yoqilmagan — ulanmagan",
 };
 
 const LEGEND =

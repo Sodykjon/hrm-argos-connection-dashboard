@@ -101,7 +101,7 @@ test("removed and excluded rows count nowhere, not even as «in ARGOS, not in th
     ...["202611253", "202611245", "201290315", "203317578", "206949249", "202636696"], // Namangan, Surxondaryo, Andijon
   ];
   // + the old village-post STIRs that Guliston district's and Oqoltin's units left for their own (13.10)
-  const retired = ["204308152", "204308169", "204308176", "204308184", "204308191", "204308224", "204308231", "204308263", "204591516", "204591524"];
+  const retired = ["204308152", "204308169", "204308176", "204308184", "204308191", "204308224", "204308231", "204308248", "204308263", "204591516", "204591524", "204591555"];
   assert.deepEqual(base.ignoreStir, [...gone, ...retired].sort());
   assert.equal(base.removed?.length, 10);
   assert.deepEqual(
@@ -131,10 +131,10 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: 145 / 667 less the rows given their own STIR (05.10, 09.10) and the association groups cleared (09.10) → 67 / 158, village-post STIRs retired (13.10) → 65 / 152, none mixed, no association left in one", () => {
+test("same-STIR groups: 145 / 667 less the rows given their own STIR (05.10, 09.10) and the association groups cleared (09.10) → 67 / 158, village-post STIRs retired and Xovos Sharqobod OShP off the SES's STIR (13.10) → 64 / 150, none mixed, no association left in one", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 65);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 152);
+  assert.equal(stirGroups.length, 64);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 150);
   // a district association never shares its STIR with a unit any more (Yakkasaroy: two association
   // rows of one org, left as is)
   const assoc = (n: string) => /tibbiyot birlashmasi/i.test(n);
@@ -156,7 +156,7 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 216 wait for their own (3 896 / 3 457 / 291 / 148)", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 170 wait for their own (3 896 / 3 454 / 294 / 148)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
@@ -164,15 +164,18 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 2
   // Then the units still filed under their association's STIR were cleared to «ulanmagan» (user,
   // 09.10): 3 722 / 38 / 137 → 3 471 / 292 / 134; shifted STIRs put back (v6) → 3 896 / 3 471 / 291 / 134.
   // 13.10: 14 Guliston-district / Oqoltin units moved off their old village-post STIRs to their own, which
-  // this older tree lacks (6) or has with billing still off (8) → 3 896 / 3 457 / 291 / 148.
+  // this older tree lacks (6) or has with billing still off (8) → 3 896 / 3 457 / 291 / 148; Sirdaryo
+  // associations' letters give 49 more units a STIR counted only with billing on — three that were
+  // connected through the wrong STIR (two village posts, Xovos SES) are not yet → 3 896 / 3 454 / 294 / 148.
   const r = compute(base.orgs, { at: "2026-10-09T05:28:51Z", rows: tree1009 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3896, 3457, 291, 148]);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3896, 3454, 294, 148]);
   // every registry row is a named organisation; rows without a STIR are the 252 association units
   // and the 3 whose STIR was another unit's, all «ulanmagan» with the reason in the note — less the 39
   // units that turned up in ARGOS under their own STIR (13.10: Boyovut 21, Xorazm 18; not in this tree)
+  // and the 46 given one by their association's letter (13.10, Sirdaryo)
   assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
   const cleared = base.orgs.filter((o) => !o.stir);
-  assert.equal(cleared.length, 216);
+  assert.equal(cleared.length, 170);
   assert.deepEqual(
     cleared
       .filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi|STIR boshqa muassasaniki edi/.test(o.note ?? ""))
@@ -186,11 +189,11 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 2
   }
   assert.deepEqual([...seen].filter(([, c]) => c > 1).map(([k]) => k), []);
   // the 34 the user marked «yo'q» (colleges, depots, project units…) + the Xiva college whose STIR
-  // the Xiva OPs had been filed under + Guliston district's 2 new STIRs not yet in the registry (8 of
-  // the 10 applied 13.10)
-  assert.equal(r.extraInTree.length, 37);
-  // 3 550 distinct STIRs + 53 units' own (13.10) − 10 retired village-post STIRs
-  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3593);
+  // the Xiva OPs had been filed under (Guliston district's 10 new STIRs of 09.10 are all in the registry
+  // since 13.10)
+  assert.equal(r.extraInTree.length, 35);
+  // 3 550 distinct STIRs + 102 units' own (13.10) − 12 retired village-post STIRs
+  assert.equal(new Set(base.orgs.map((o) => o.stir).filter(Boolean)).size, 3640);
   // every 05.10 tree org is still in the 09.10 tree
   const t9 = new Set(tree1009.map(([t]) => t));
   assert.deepEqual(tree1005.map(([t]) => t).filter((t) => !t9.has(t)), []);
@@ -208,6 +211,13 @@ test("decide(): each branch of the rule", () => {
   assert.equal(o("ulanmagan", "999999999"), "ulanmagan");
   assert.equal(o("ochirilgan", null), "ochirilgan");
   assert.equal(o("ulangan", "222222222", "ulangan"), "ulangan"); // override wins
+  // a STIR from the association's letter counts only with billing on (user, 13.10.2026)
+  const w = (reestr: "ulangan" | "ulanmagan", stir: string) =>
+    decide({ region: "x", district: null, name: "n", stir, reestr, override: null, awaitBilling: true }, t);
+  assert.deepEqual([w("ulanmagan", "111111111").status, w("ulanmagan", "111111111").reason], ["ulangan", "billing"]);
+  assert.deepEqual([w("ulanmagan", "222222222").status, w("ulanmagan", "222222222").reason], ["ulanmagan", "awaitBilling"]);
+  assert.deepEqual([w("ulangan", "222222222").status, w("ulangan", "222222222").reason], ["ulanmagan", "awaitBilling"]);
+  assert.deepEqual([w("ulangan", "999999999").status, w("ulangan", "999999999").reason], ["ulanmagan", "missing"]);
 });
 
 test("fingerprint ignores order, validTree rejects junk", () => {
