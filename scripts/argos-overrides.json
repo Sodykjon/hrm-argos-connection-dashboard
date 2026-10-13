@@ -1624,6 +1624,90 @@
    "Yangiariq tumani Quriqtom oilaviy shifokorlik punkti",
    "",
    "311876233"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "311860927"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 1-sonli oilaviy poliklinikasi",
+   "",
+   "311860776"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 2-sonli oilaviy poliklinikasi",
+   "",
+   "311860088"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 3-sonli oilaviy poliklinikasi",
+   "",
+   "311860523"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 4-sonli oilaviy poliklinikasi",
+   "",
+   "311860333"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 5-sonli oilaviy poliklinikasi",
+   "",
+   "311860143"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 6-sonli oilaviy poliklinikasi",
+   "",
+   "311860634"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 7-sonli oilaviy poliklinikasi",
+   "",
+   "311868005"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani 8-sonli oilaviy poliklinikasi",
+   "",
+   "311859539"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani Madaniyat oilaviy shifokorlik punkti",
+   "",
+   "311859657"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani Ogohiy oilaviy shifokorlik punkti",
+   "",
+   "311860855"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani Oʻzgarish oilaviy shifokorlik punkti",
+   "",
+   "311914969"
+  ],
+  [
+   "Xorazm",
+   "Bogʻot tumani Bogʻot oilaviy shifokorlik punkti",
+   "",
+   "311860032"
+  ],
+  [
+   "Xorazm",
+   "Yangibozor tumani Oyoqdoʻrman oilaviy shifokorlik punkti",
+   "",
+   "311852191"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
@@ -1990,5 +2074,6 @@
    "Shirin shahar TB xati 13.10.2026 № 21093"
   ]
  ],
- "_izoh_xatStir": "13.10.2026: Sirdaryo tuman/shahar tibbiyot birlashmalarining UZINFOCOM’ga xatlaridagi INN’lar («Sirdaryo xat.rar» + Shirin 13.10 xati). Foydalanuvchi qarori (2-variant): bunday satr faqat ARGOS’da billing faol bo‘lsa «ulangan»; billing nofaol yoki daraxtda yo‘q — «ulanmagan» (awaitBilling). Qo‘yilmagan: Yangiyer 37-OP (xatda KTMP bilan bir xil INN), Sirdaryo tumani 7-OP (xatda 6-OP bilan bir xil; reestrdagi 312217917 qoldi), Sayxunobod «Paxtaobod OShP» 312685914 ↔ reestr «K.Sultonov» (noaniq). Xovos Sharqobod OShP’dagi 200970134 — Xovos SES’ining STIR’i edi."
+ "_izoh_xatStir": "13.10.2026: Sirdaryo tuman/shahar tibbiyot birlashmalarining UZINFOCOM’ga xatlaridagi INN’lar («Sirdaryo xat.rar» + Shirin 13.10 xati). Foydalanuvchi qarori (2-variant): bunday satr faqat ARGOS’da billing faol bo‘lsa «ulangan»; billing nofaol yoki daraxtda yo‘q — «ulanmagan» (awaitBilling). Qo‘yilmagan: Yangiyer 37-OP (xatda KTMP bilan bir xil INN), Sirdaryo tumani 7-OP (xatda 6-OP bilan bir xil; reestrdagi 312217917 qoldi), Sayxunobod «Paxtaobod OShP» 312685914 ↔ reestr «K.Sultonov» (noaniq). Xovos Sharqobod OShP’dagi 200970134 — Xovos SES’ining STIR’i edi.",
+ "_izoh_stirFix_13_10_c": "13.10.2026 (3): Xorazm › Bog‘ot tumani 13 + Yangibozor Oyoqdo‘rman OShP — «ARGOS’da bor, reestrda yo‘q» skrinshotidan (billing faol). Ehtimoliy: 311860523 (ARGOS nomi «№ 1», ro‘yxatda № 3 o‘rnida, № 3 yo‘q) → 3-OP; 311860855 «семейный врачебный кабинет» → Ogohiy OShP (qolgan yagona); 311852191 → Oyoqdo‘rman (qolgan yagona)."
 }
