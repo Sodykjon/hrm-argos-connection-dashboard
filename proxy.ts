@@ -8,7 +8,8 @@ import type { NextRequest } from "next/server";
 // the env var is added.
 
 const COOKIE = "hrm_site";
-const ALLOW = ["/login", "/api/login", "/api/logout"];
+// /api/bot checks its own bearer token (lib/bot-route.ts): the Telegram bot has no site cookie.
+const ALLOW = ["/login", "/api/login", "/api/logout", "/api/bot"];
 
 async function sha256hex(input: string): Promise<string> {
   const buf = await crypto.subtle.digest(
