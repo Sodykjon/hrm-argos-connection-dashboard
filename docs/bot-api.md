@@ -55,6 +55,7 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
   "hududSlug": "andijon",
   "tuman": "Oltinkoʻl tumani",
   "stir": "200254651",
+  "boysunuvi": "Hududiy SSB va tuman hokimligi",
   "holat": "ulangan",
   "holatMatn": "Уланган",
   "sabab": "billing",
@@ -66,6 +67,8 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 - `id` — doimiy identifikator (hudud + guruh + nom asosida). Tashkilot nomi reestrda tuzatilsa,
   `id` o'zgaradi.
 - `stir` — `null` bo'lishi mumkin. Bitta STIR ostida bir nechta tashkilot bo'lishi mumkin.
+- `boysunuvi` — reestrdagi «Boʻysunuvi» ustuni: tashkilot kimga bo'ysunadi (masalan «Tuman tibbiyot
+  birlashmasi», «Hududiy SSB va tuman hokimligi», «Viloyat SSB»). Qiymat bo'lmasa `null`.
 - `billing`: `1` faol, `0` nofaol, `null` daraxtda yo'q.
 
 ## Endpoint'lar
@@ -102,7 +105,7 @@ Oxirgi ikki **turli** ARGOS daraxti orasida holati o'zgargan tashkilotlar: (miso
 { "oldingiDaraxt": "2026-10-05T11:27:28.709Z", "daraxtOlingan": "2026-10-05T11:37:28.709Z", "jami": 1,
   "ozgarishlar": [ { "id": "919061a623fc", "nomi": "Oltinkoʻl tumani tibbiyot birlashmasi", "hudud": "Андижон вилояти",
     "hududSlug": "andijon", "tuman": "Oltinkoʻl tumani", "stir": "200254651",
-    "oldin": "ochirilgan", "oldinMatn": "Ўчирилган", "holat": "ulangan", "holatMatn": "Уланган" } ] }
+    "boysunuvi": "Hududiy SSB va tuman hokimligi", "oldin": "ochirilgan", "oldinMatn": "Ўчирилган", "holat": "ulangan", "holatMatn": "Уланган" } ] }
 ```
 
 ## Bildirishnoma uchun tavsiya

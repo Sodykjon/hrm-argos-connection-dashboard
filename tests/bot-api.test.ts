@@ -92,6 +92,14 @@ test("region list, whole and by status", () => {
   assert.equal(regionOrgs(r, "yoq-hudud"), null);
 });
 
+test("every org carries the registry's «Boʻysunuvi»", () => {
+  const all = regionOrgs(r, "andijon")!;
+  assert.ok(all.every((o) => o.boysunuvi === (base.orgs.find((b) => orgId(b) === o.id)!.sub ?? null)));
+  const [o] = byStir(r, "200254651");
+  assert.equal(o.boysunuvi, "Hududiy SSB va tuman hokimligi");
+  assert.ok(all.some((x) => x.boysunuvi === "Tuman tibbiyot birlashmasi"));
+});
+
 test("changes between two trees, with the region filter", () => {
   // Switch billing off for one connected Andijon STIR and on for one unconnected Xorazm row's STIR.
   const on = r.orgs.find((o) => o.region === "Андижон вилояти" && o.reason === "billing")!;

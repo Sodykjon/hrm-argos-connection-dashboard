@@ -44,6 +44,7 @@ export interface BotOrg {
   hududSlug: string;
   tuman: string | null;
   stir: string | null;
+  boysunuvi: string | null; // registry «Boʻysunuvi», e.g. «Tuman tibbiyot birlashmasi»
   holat: LiveStatus;
   holatMatn: string;
   sabab: Reason;
@@ -59,6 +60,7 @@ export function botOrg(o: LiveOrg): BotOrg {
     hududSlug: regionSlug(o.region),
     tuman: o.district,
     stir: o.stir,
+    boysunuvi: o.sub ?? null,
     holat: o.status,
     holatMatn: STATUS_TEXT[o.status],
     sabab: o.reason,
@@ -174,6 +176,7 @@ export function changes(
       hududSlug: regionSlug(o.region),
       tuman: o.district,
       stir: o.stir,
+      boysunuvi: o.sub ?? null,
       oldin: from,
       oldinMatn: STATUS_TEXT[from],
       holat: to,
