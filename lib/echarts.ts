@@ -68,3 +68,26 @@ export function canvasFont(stack: string): string {
   const cs = getComputedStyle(document.body);
   return stack.replace(/var\((--[^)]+)\)/g, (_, v: string) => cs.getPropertyValue(v).trim() || "sans-serif");
 }
+
+/**
+ * Resize a chart with its box, and only when the box really changed size. Opening a row of the
+ * expandable trees grows the page; observers then fire with an unchanged chart box, and ECharts can
+ * throw from inside such a resize («Cannot read properties of null (reading '0')», 15.10.2026) — a
+ * failed resize is skipped, the next real one redraws.
+ */
+export function observeResize(el: Element, chart: EChartsType): ResizeObserver {
+  let last = "";
+  const ro = new ResizeObserver((entries) => {
+    const r = entries[entries.length - 1]?.contentRect;
+    const key = r ? `${Math.round(r.width)}x${Math.round(r.height)}` : "";
+    if (!r || key === last || r.width === 0 || r.height === 0) return;
+    last = key;
+    try {
+      chart.resize();
+    } catch {
+      /* see above */
+    }
+  });
+  ro.observe(el);
+  return ro;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
+import { echarts, observeResize, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { KadrlarStat } from "@/lib/types";
 import { pensionMetrics, riskRamp, riskT } from "@/lib/pension-metrics";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
@@ -55,8 +55,7 @@ export function PensionMap({
         if (p.name) onSelect?.(p.name);
       });
 
-      ro = new ResizeObserver(() => chart.resize());
-      ro.observe(elRef.current);
+      ro = observeResize(elRef.current, chart);
       setReady(true);
     })();
 

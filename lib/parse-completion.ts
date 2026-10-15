@@ -3,7 +3,9 @@
 // upload) and in Node (seed generation). Pure functions, no framework deps.
 //
 // CSV: UTF-8 (BOM), ';'-delimited, decimal comma, columns
-//   № ; ID ; Тўлдирилиш даражаси (%) ; orgType ; Бош ташкилот (гуруҳ) ; Ташкилот номи
+//   № ; ID ; Тўлдирилиш даражаси (%) ; orgType ; Бош ташкилот (гуруҳ) ; Ташкилот номи [; STIR]
+// STIR (the org's `tin` in the ARGOS tree) is written by the bookmarklet since 15.10.2026; older
+// files have no such column and parse as before.
 // Percentages are converted to fractions 0..1 to match fmtPct / rampColor.
 
 import type {
@@ -118,6 +120,7 @@ interface ColIdx {
   orgType: number;
   group: number;
   name: number;
+  stir: number; // -1 = no STIR column (files before 15.10.2026)
 }
 
 function headerIndex(header: string[]): ColIdx {
@@ -131,6 +134,7 @@ function headerIndex(header: string[]): ColIdx {
     orgType: find(/orgtype/, 3),
     group: find(/гуру/, 4), // "Бош ташкилот (гуруҳ/гурух)"
     name: find(/номи/, 5), // "Ташкилот номи"
+    stir: find(/^(stir|стир|инн)$/, -1),
   };
 }
 
@@ -219,10 +223,12 @@ export function parseCompletionCsv(
     const name = (f[idx.name] ?? "").trim();
     const group = (f[idx.group] ?? "").trim();
     const orgType = (f[idx.orgType] ?? "").trim() || undefined;
+    const stir = idx.stir >= 0 ? (f[idx.stir] ?? "").trim() : "";
     orgs.push({
       id,
       name,
       orgType,
+      ...(/^\d{6,12}$/.test(stir) ? { stir } : {}),
       completion: clamp01(rate / 100),
       region: completionRegion(group, id),
     });

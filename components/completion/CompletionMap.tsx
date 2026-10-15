@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
+import { echarts, observeResize, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { CompletionRegionStat } from "@/lib/types";
 import { toPct, fmtInt, fmtPct } from "@/lib/format";
 import { regionLabel, regionLabelShort } from "@/lib/regions";
@@ -54,8 +54,7 @@ export function CompletionMap({
         if (p.name) onSelect?.(p.name);
       });
 
-      ro = new ResizeObserver(() => chart.resize());
-      ro.observe(elRef.current);
+      ro = observeResize(elRef.current, chart);
       setReady(true);
     })();
 

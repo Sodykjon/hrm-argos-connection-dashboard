@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { echarts, resolveFonts, type EChartsOption, type EChartsType } from "@/lib/echarts";
+import { echarts, observeResize, resolveFonts, type EChartsOption, type EChartsType } from "@/lib/echarts";
 
 interface ChartProps {
   option: EChartsOption;
@@ -24,8 +24,7 @@ export function Chart({ option, className, style, onReady, ariaLabel }: ChartPro
     chartRef.current = chart;
     onReady?.(chart);
 
-    const ro = new ResizeObserver(() => chart.resize());
-    ro.observe(elRef.current);
+    const ro = observeResize(elRef.current, chart);
 
     return () => {
       ro.disconnect();

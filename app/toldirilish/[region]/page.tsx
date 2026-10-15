@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getLatestCompletion } from "@/lib/data";
-import { regionFromSlug, regionLabel } from "@/lib/regions";
+import { notFound, redirect } from "next/navigation";
+import { getCompletionView } from "@/lib/completion-data";
+import { topRegion } from "@/lib/completion-tree";
+import { regionFromSlug, regionLabel, regionSlug } from "@/lib/regions";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { StatTile } from "@/components/StatTile";
-import { CompletionTable } from "@/components/completion/CompletionTable";
+import { CompletionTree } from "@/components/completion/CompletionTree";
 import { fmtDate } from "@/lib/format";
 import { getLang, getS } from "@/lib/i18n/server";
 
@@ -18,16 +19,19 @@ export default async function CompletionRegionPage({
   const S = await getS();
   const lang = await getLang();
   const { region: slug } = await params;
-  const { snapshot } = await getLatestCompletion();
+  const view = await getCompletionView();
+  const { snapshot } = view;
 
   const known = snapshot.regions.map((r) => r.name);
   const name = regionFromSlug(slug, known);
   if (!name) notFound();
+  // The old republican buckets (central apparatus, SES committee, republican centres) now live
+  // under «Республика муассасалари».
+  if (topRegion(name) !== name) redirect(`/toldirilish/${regionSlug(topRegion(name))}`);
 
   const stat = snapshot.regions.find((r) => r.name === name);
   if (!stat) notFound();
 
-  const orgs = snapshot.orgs.filter((o) => o.region === name);
   const rankOrder = [...snapshot.regions].sort((a, b) => b.avg - a.avg);
   const rank = rankOrder.findIndex((r) => r.name === name) + 1;
 
@@ -75,11 +79,12 @@ export default async function CompletionRegionPage({
 
       {/* org list */}
       <section className="space-y-3">
-        <h2 className="text-[0.95rem] font-semibold">{S.completion.orgList}</h2>
-        <CompletionTable
-          rows={orgs}
-          exportName={`HRM_tuldirilish_${slug}_${snapshot.date}`}
-        />
+        {view.placed === 0 && (
+          <p className="rounded-lg border border-warn/40 bg-goal-soft px-4 py-2 text-[0.8rem] text-warn">
+            {S.completion.tree.noStir}
+          </p>
+        )}
+        <CompletionTree regions={view.tree.filter((r) => r.name === name)} single />
       </section>
     </div>
   );

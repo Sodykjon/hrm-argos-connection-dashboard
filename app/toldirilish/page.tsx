@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLatestCompletion, getCompletionHistory } from "@/lib/data";
+import { getCompletionDays, getCompletionView } from "@/lib/completion-data";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { StatTile } from "@/components/StatTile";
 import { LiveFeed } from "@/components/LiveFeed";
@@ -8,7 +8,7 @@ import { CompletionBoard } from "@/components/completion/CompletionBoard";
 import { CompletionRegionTable } from "@/components/completion/CompletionRegionTable";
 import { CompletionDistribution } from "@/components/completion/CompletionDistribution";
 import { CompletionTrend } from "@/components/completion/CompletionTrend";
-import { CompletionTable } from "@/components/completion/CompletionTable";
+import { CompletionTree } from "@/components/completion/CompletionTree";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate, fmtPct, toPct, rampCss } from "@/lib/format";
 import { CENTRAL } from "@/lib/regions";
@@ -18,8 +18,10 @@ export const dynamic = "force-dynamic";
 
 export default async function CompletionPage() {
   const S = await getS();
-  const { snapshot } = await getLatestCompletion();
-  const history = await getCompletionHistory();
+  // Regions as on every other page: the republican institutions + 14 regions (user, 15.10.2026).
+  const view = await getCompletionView();
+  const { snapshot, raw } = view;
+  const history = await getCompletionDays();
   const { overall, regions, orgs } = snapshot;
 
   const bands = [
@@ -31,12 +33,11 @@ export default async function CompletionPage() {
     { label: "100%", frac: 1, count: orgs.filter((o) => o.completion === 1).length },
   ];
 
-  const regionNames = regions.map((r) => r.name);
   // Use the "Марказий аппарат" group average so this card matches the region
   // page it links to; fall back to the ministry HQ org (id 1052) if the group
   // is missing. Match on the canonical key — the label is translated.
   const central =
-    regions.find((r) => r.name === CENTRAL)?.avg ??
+    raw.regions.find((r) => r.name === CENTRAL)?.avg ??
     orgs.find((o) => o.id === "1052")?.completion ??
     0;
   // Theme-resolved ramp colour (text, icon stroke and bar read in both themes).
@@ -102,7 +103,7 @@ export default async function CompletionPage() {
       {/* central apparatus highlight */}
       <Reveal>
         <Link
-          href="/toldirilish/markaziy-apparat"
+          href="/toldirilish/respublika"
           className="card card-link group flex items-center gap-4 p-4 sm:gap-5 sm:p-5"
         >
           <span
@@ -220,14 +221,14 @@ export default async function CompletionPage() {
         </Reveal>
       </div>
 
-      {/* org table */}
+      {/* organisations in the registry's shape, as on /argos-jonli */}
       <section className="space-y-3">
-        <h2 className="text-[0.95rem] font-semibold">{S.completion.orgList}</h2>
-        <CompletionTable
-          rows={orgs}
-          regions={regionNames}
-          exportName={`HRM_tuldirilish_${snapshot.date}`}
-        />
+        {view.placed === 0 && (
+          <p className="rounded-lg border border-warn/40 bg-goal-soft px-4 py-2 text-[0.8rem] text-warn">
+            {S.completion.tree.noStir}
+          </p>
+        )}
+        <CompletionTree regions={view.tree} />
       </section>
     </div>
   );

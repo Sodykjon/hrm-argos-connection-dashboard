@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
+import { echarts, observeResize, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { KadrlarStat } from "@/lib/types";
 import { riskRamp, riskT } from "@/lib/pension-metrics";
 import { vacancyMetrics } from "@/lib/vakansiya-metrics";
@@ -56,8 +56,7 @@ export function VakansiyaMap({
         if (p.name) onSelect?.(p.name);
       });
 
-      ro = new ResizeObserver(() => chart.resize());
-      ro.observe(elRef.current);
+      ro = observeResize(elRef.current, chart);
       setReady(true);
     })();
 

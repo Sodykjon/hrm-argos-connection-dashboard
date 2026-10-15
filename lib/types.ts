@@ -76,6 +76,7 @@ export interface CompletionOrg {
   name: string;
   id: string; // institutionId from ARGOS (its own key space, NOT the STIR)
   orgType?: string;
+  stir?: string; // the org's STIR from the ARGOS tree (CSVs from 15.10.2026 on)
   completion: number; // 0..1
 }
 

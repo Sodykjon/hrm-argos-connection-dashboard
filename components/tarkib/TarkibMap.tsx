@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { echarts, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
+import { echarts, observeResize, type EChartsType, FONT_SANS, FONT_MONO, canvasFont } from "@/lib/echarts";
 import type { TarkibRegion } from "@/lib/tarkib";
 import { vrachTaminlShare } from "@/lib/tarkib";
 import { toPct, fmtInt, fmtPct, rampColor } from "@/lib/format";
@@ -78,8 +78,7 @@ export function TarkibMap({ rows, activeRegion, onHover, onSelect }: TarkibMapPr
         if (p.name) onSelect?.(p.name);
       });
 
-      ro = new ResizeObserver(() => chart.resize());
-      ro.observe(elRef.current);
+      ro = observeResize(elRef.current, chart);
       setReady(true);
     })();
 
