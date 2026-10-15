@@ -6,6 +6,8 @@ import { StatTile } from "@/components/StatTile";
 import { NationalBoard } from "@/components/NationalBoard";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { ConnectionRegionTable } from "@/components/ConnectionRegionTable";
+import { LiveTree } from "@/components/argos-live/LiveTree";
+import { getLive, liveTree } from "@/lib/argos-live-data";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { fmtDate, fmtInt, fmtPct } from "@/lib/format";
@@ -18,12 +20,14 @@ export default async function OverviewPage() {
   const { snapshot, source } = await getLatestSnapshot();
   const { snapshot: completion } = await getLatestCompletion();
   const { totals, regions } = snapshot;
+  // With the live tree the summary is the registry tree itself, as on /argos-jonli (user, 15.10.2026).
+  const live = source === "live" ? await getLive() : null;
 
   // Change since the previous live day. Live points only: an uploaded report
   // covers a different org list (3 886 vs the 3 878-row registry), so mixing
   // the two would report a scope change as progress.
-  const live = source === "live" ? (await getHistory()).filter((h) => h.url === "live") : [];
-  const prev = [...live].reverse().find((h) => h.date < snapshot.date) ?? null;
+  const liveDays = source === "live" ? (await getHistory()).filter((h) => h.url === "live") : [];
+  const prev = [...liveDays].reverse().find((h) => h.date < snapshot.date) ?? null;
   const since = prev ? fmtDate(prev.date) : "";
   const d = prev
     ? {
@@ -90,14 +94,19 @@ export default async function OverviewPage() {
         <AttentionStrip regions={regions} />
       </Reveal>
 
-      {/* regional summary table, leadership-PDF format */}
+      {/* the registry tree (region → district / system → organisation), as on /argos-jonli;
+          the leadership-PDF summary table stays for uploaded reports */}
       <Reveal>
+        {live ? (
+          <LiveTree regions={liveTree(live.result)} exportHref="/api/argos-tree/xlsx" />
+        ) : (
         <ConnectionRegionTable
           regions={regions}
           totals={totals}
           exportName={`HRM_ulanish_hududlar_${snapshot.date}`}
           exportHref={source === "live" ? "/api/argos-tree/xlsx" : undefined}
         />
+        )}
       </Reveal>
 
       {/* «Кадрлар таҳлили» (pension card) hidden on the user's request 25.09.2026 — see Nav.tsx. */}

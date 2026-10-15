@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getLive } from "@/lib/argos-live-data";
+import { getLive, liveTree } from "@/lib/argos-live-data";
 import { StatTile } from "@/components/StatTile";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { AutoRefresh } from "@/components/argos-live/AutoRefresh";
 import { LiveTree } from "@/components/argos-live/LiveTree";
-import { buildTree } from "@/lib/argos-live-view";
 import { fmtTashkent } from "@/components/argos-live/time";
 import { regionFromSlug, regionLabel } from "@/lib/regions";
 import { getLang, getS } from "@/lib/i18n/server";
@@ -62,7 +61,7 @@ export default async function ArgosLiveRegionPage({ params }: { params: Promise<
         </div>
       </section>
 
-      <LiveTree regions={buildTree(live.result, name)} single exportHref={`/api/argos-tree/xlsx?region=${slug}`} />
+      <LiveTree regions={liveTree(live.result, name)} single exportHref={`/api/argos-tree/xlsx?region=${slug}`} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
-import { BASE, getLive } from "@/lib/argos-live-data";
-import { buildTree } from "@/lib/argos-live-view";
+import { BASE, getLive, liveTree } from "@/lib/argos-live-data";
 import { liveWorkbook } from "@/lib/argos-xlsx";
 import { regionFromSlug } from "@/lib/regions";
 
@@ -19,7 +18,7 @@ export async function GET(request: Request) {
   }
 
   const { buf, filename } = await liveWorkbook({
-    regions: buildTree(live.result, onlyRegion),
+    regions: liveTree(live.result, onlyRegion),
     orgs: live.result.orgs,
     checkedAt: live.manifest?.checkedAt ?? live.tree.at,
     removed: BASE.removed,

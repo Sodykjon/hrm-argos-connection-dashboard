@@ -1,0 +1,1113 @@
+{
+ "source": "HRM_ARGOS_14.10.2026_BARCHA_HUDUDLAR_FINAL.xlsx",
+ "group": "Sanitariya-epidemiologiya qoʻmitasi tizimi",
+ "blocks": [
+  {
+   "name": "markaz",
+   "rows": [
+    {
+     "name": "Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi huzuridagi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi qoʻmitasi",
+     "role": "markaz"
+    },
+    {
+     "name": "Respublika ixtisoslashtirilgan epidemiologiya, mikrobiologiya yuqumli va parazitar kasalliklari ilmiy-amaliy tibbiyot markazi",
+     "role": "resp"
+    },
+    {
+     "name": "Respublika OITSga qarshi kurash markazi",
+     "role": "resp"
+    },
+    {
+     "name": "Sanitariya-gigiyena va kasb kasalliklari ilmiy-tadqiqot instituti",
+     "role": "resp"
+    },
+    {
+     "name": "Respublika ixtisoslashtirilgan epidemiologiya, mikrobiologiya, yuqumli va parazitar kasalliklar ilmiy-amaliy tibbiyot markazining Virusologiya ilmiy-tadqiqot instituti",
+     "role": "resp"
+    },
+    {
+     "name": "Fuqaro aviatsiyasi obyektlarida sanitariya-epidemiologik osoyishtalik markazi",
+     "role": "resp"
+    },
+    {
+     "name": "Республика дезинфекция станцияси",
+     "role": "resp"
+    },
+    {
+     "name": "Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi Oʻzbekiston Respublikasi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi xizmati Respublika oʻlat profilaktikasi markazi",
+     "role": "resp"
+    },
+    {
+     "name": "Санитария-эпидемиологик осойишталик ва жамоат саломатлиги соҳасида кадрларни қайта тайёрлаш ва уларнинг малакасини ошириш маркази",
+     "role": "resp"
+    }
+   ]
+  },
+  {
+   "name": "Қорақалпоғистон Республикаси",
+   "rows": [
+    {
+     "name": "Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi huzuridagi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi qoʻmitasining Qoraqalpogʻiston Respublikasi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Amudaryo tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Beruniy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Boʻzatov tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Chimboy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Ellikqalʼa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kegeyli tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Moʻynoq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nukus shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nukus tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qonlikoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoraoʻzak tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻngʻirot tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shumanay tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Taxiatosh tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Taxtakoʻpir tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toʻrtkoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xoʻjayli tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "\"Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi Oʻzbekiston Respublikasi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi xizmati Respublika oʻlat profilaktika markazi Qoraqalpogʻiston filiali\" davlat muassasasi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Respublika oʻlat profilaktika markazi Qoraqalpogʻiston filiali Jaslik boʻlimi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Oʻzbekiston Respublikasi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi xizmati Respublika oʻlat profilaktika markazi Qoraqalpogʻiston filiali\" Toʻrtkoʻl boʻlimi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi Oʻzbekiston Respublikasi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi xizmati Respublika oʻlat profilaktika markazi Qoraqalpogʻiston filiali Taxtakoʻpir boʻlimi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Qoraqalpogʻiston Respublikasi Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Андижон вилояти",
+   "rows": [
+    {
+     "name": "Andijon viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Andijon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Andijon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Asaka tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Baliqchi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Boʻston tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Buloqboshi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Izboskan tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Jalaquduq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Marxamat tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oltinkoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Paxtaobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻrgʻontepa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shahrihon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Ulugʻnor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xonobod shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xoʻjaobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Andijon viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Бухоро вилояти",
+   "rows": [
+    {
+     "name": "Buxoro viloyati sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Buxoro shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Buxoro tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Gʻijduvon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Jondop tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kogon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kogon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Olot tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Peshku tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qorakoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qorovulbozor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Romitan tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shofirkon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Vobkent tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Respublika oʻlat profilaktika markazi Buxoro boʻlimi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Buxoro viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Жиззах вилояти",
+   "rows": [
+    {
+     "name": "Jizzax viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Arnasoy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Baxmal tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Doʻstlik tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Forish tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Gʻallaorol tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Jizzax shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mirzachoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Paxtakor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sharof Rashidov tumani, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Zafarobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Zarbdor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Zomin tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Jizzax viloyati Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Қашқадарё вилояти",
+   "rows": [
+    {
+     "name": "Qashqadaryo viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Chiroqchi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Dehqonobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Gʻuzor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kasbi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kitob tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Koson tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kukdala tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mirishkor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Muborak tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nishon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qamashi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qarshi shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qarshi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shahrisabz shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shahrisabz tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yakkabogʻ tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qashqadaryo viloyati Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Respublika ixtisoslashtirilgan epidemiologiya, mikrobiologiya, yuqumli va parazitar kasalliklar ilmiy-amaliy tibbiyot markazi qashqadaryo viloyat filiali",
+     "role": "bevosita"
+    },
+    {
+     "name": "Respublika oʻlat profilaktika markazi Qashkadaryo filiali",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Навоий вилояти",
+   "rows": [
+    {
+     "name": "Navoiy viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Gʻozgʻon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Karmana tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Konimex tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Navbahor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Navoiy shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nurota tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qiziltepa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Tomdi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uchquduq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xatirchi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Zapafshon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Navoiy viloyati OITSga qarshi kurashish markazi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Respublika ixtisoslashtirilgan epidemiologiya mikrobiologiya yuqumli va parazitar kasalliklar ilmiy-amaliy tibbiyot markazi Navoiy viloyat filiali",
+     "role": "bevosita"
+    },
+    {
+     "name": "Oʻzbekiston Respublikasi sogʻliqni saqlash vazirligi Oʻzbekiston Respublikasi sanitariya-epidemiologik osoyishtalik va jamoat salomatligi xizmati respublika oʻlat profilaktika markazi Zarafshon boʻlimi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Наманган вилояти",
+   "rows": [
+    {
+     "name": "Namangan viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Chortoq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Chust tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Davlatobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kosonsoy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mingbuloq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Namangan shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Namangan tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Norin tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Pop tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toʻraqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uchqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uychi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangi Namangan tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Namangan viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Самарқанд вилояти",
+   "rows": [
+    {
+     "name": "Samarqand viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Bulungʻur tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Ishtixon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Kattaqoʻrgʻon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nurobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oqdaryo tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻshrobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Samarqand shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Samarqand tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Жомбой туман  СЭОваЖС бўлими",
+     "role": "bolim"
+    },
+    {
+     "name": "Каттақўрғон тумани санитария-эпидемиологик осойишталик ва жамоат саломатлиги бўлими",
+     "role": "bolim"
+    },
+    {
+     "name": "Нарпай  туман Санитария эпидемиология назорат маркази",
+     "role": "bolim"
+    },
+    {
+     "name": "Пайариқ туман  санитария  эпидемиологик  осойишталик  ва  жамоат  саломатлиги  булими",
+     "role": "bolim"
+    },
+    {
+     "name": "Пастдарғом туман  ДСЭНМ",
+     "role": "bolim"
+    },
+    {
+     "name": "Пахтачи туман санитария  эпидемиологик  осойишталик  ва  жамоат  саломатлиги  булими",
+     "role": "bolim"
+    },
+    {
+     "name": "Тойлок  туман Санитария Эпидемиологик Осойишталик Маркази",
+     "role": "bolim"
+    },
+    {
+     "name": "Ургут  туман Хўжалик хисобидаги дезинфекция станцияси",
+     "role": "bolim"
+    },
+    {
+     "name": "Ургут туман СЭО ва ЖСХ",
+     "role": "bolim"
+    },
+    {
+     "name": "Samarkand viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Сурхондарё вилояти",
+   "rows": [
+    {
+     "name": "Oʻzbekiston Respublikasi Sanitariya-epidimiologik osoyishtalik va jamoat salomatligi qoʻmitasining, Surxondaryo viloyati boshqarmasi, Davlat muassasasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Surxondaryo viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "bolim"
+    },
+    {
+     "name": "Angor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Bandixon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Boysun tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Denov tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Jarqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Muzrobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oltinsoy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qiziriq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qumqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sariosiyo tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sherobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shoʻrchi tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Termiz shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Termiz tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uzun tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Surxondaryo viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Сирдарё вилояти",
+   "rows": [
+    {
+     "name": "Sirdaryo viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Boyovut tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Guliston shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Guliston tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mirzaobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oqoltin tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sardoba tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sayxunobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shipin shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sirdaryo tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xovos tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiyer shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sirdaryo viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Тошкент вилояти",
+   "rows": [
+    {
+     "name": "Toshkent viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Angren shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Bekobod shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Bekobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Boʻka tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Boʻstonliq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Chinoz tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Chipchiq shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Nurafshon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Ohangapon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Ohangaron tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Olmaliq shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oqqoʻrgʻon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oʻrtachirchiq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Parkent tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Pskent tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qibray tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Quyichirchiq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toshkent tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiyoʻl shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiyoʻl tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yuqorichirchiq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Zangiota tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toshkent viloyati Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Фарғона вилояти",
+   "rows": [
+    {
+     "name": "Fargʻona viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Beshariq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Bogʻdod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Buvayda tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Dangʻara tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Fargʻona shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Fargʻona tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Furqat tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mapgʻilon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oltiariq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Oʻzbekiston tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻqon shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻshtepa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Quva tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Quvasoy shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Rishton tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Soʻx tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toshloq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uchkoʻprik tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yozyovon tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Fargʻona viloyat Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    },
+    {
+     "name": "Respublika ixtisoslashtirilgan epidemiologiya mikrobiologiya yuqumli va parazitar kasalliklar ilmiy -amaliy tibbiyot markazi Fargʻona filiali",
+     "role": "bevosita"
+    },
+    {
+     "name": "Oʻzbekiston Respeblikasi sogʻliqni saqlash vazirligi huziridagi Sanitariya epidemiologik osoyishtalik va jamoat salomatligi qoʻmitasi Respublika olat profilaktika markazi Fargʻona filiali",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Хоразм вилояти",
+   "rows": [
+    {
+     "name": "Xorazm viloyati, sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Bogʻot tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Gurlan tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Qoʻshkoʻpir tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shovot tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Tuproqqala tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Urganch shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Urganch tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xazorasp tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xiva shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xiva tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xonqa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangiariq tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangibozor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Xorazm viloyati Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  },
+  {
+   "name": "Тошкент шаҳри",
+   "rows": [
+    {
+     "name": "Toshkent shahar sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boshqarmasi",
+     "role": "boshqarma"
+    },
+    {
+     "name": "Bektemir tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Chilonzor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mirobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Mirzo Ulugʻbek tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Olmazor tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Shayxontoxur tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Sirgʻali tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Uchtepa tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yakkasaroy tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yangixayot tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yashnobod tumani Sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Yunusobod tumani sanitariya-epidemiologik osoyishtalik va jamoat salomatligi boʻlimi",
+     "role": "bolim"
+    },
+    {
+     "name": "Toshkent shahar Orttirilgan immunitet tanqisligi sindromiga qarshi kurash markazi",
+     "role": "bevosita"
+    }
+   ]
+  }
+ ]
+}

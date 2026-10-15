@@ -3,7 +3,9 @@
 // the store, pushed by the user's browser. Never throws: with no tree yet the
 // page renders an empty state.
 
+import { cache } from "react";
 import raw from "@/data/argos-live-base.json";
+import sesRaw from "@/data/ses-tuzilma.json";
 import {
   changedSince,
   compute,
@@ -12,9 +14,17 @@ import {
   type TreeSnapshot,
 } from "./argos-live";
 import { resolveOwnStir, type OwnStirApplied, type OwnStirPending } from "./argos-match";
+import { buildTree, type SesStructure, type TreeRegion } from "./argos-live-view";
 import { getLiveManifest, getLivePrevTree, getLiveTree, getStirAssign, type LiveManifest } from "./store";
 
 export const BASE = raw as unknown as BaseFile;
+/** The SES committee's two-level structure («SES tuzilmasi» sheet). */
+export const SES = sesRaw as unknown as SesStructure;
+
+/** The registry tree as every page shows it — the SES group in its structure. */
+export function liveTree(result: LiveResult, onlyRegion?: string): TreeRegion[] {
+  return buildTree(result, onlyRegion, SES);
+}
 
 export interface LiveData {
   tree: TreeSnapshot;
@@ -26,7 +36,8 @@ export interface LiveData {
   own: { applied: OwnStirApplied[]; pending: OwnStirPending[] };
 }
 
-export async function getLive(): Promise<LiveData | null> {
+// Per-request memo: the home page reads it for both its figures and its tree.
+export const getLive = cache(async (): Promise<LiveData | null> => {
   const [tree, manifest] = await Promise.all([getLiveTree(), getLiveManifest()]);
   if (!tree) return null;
   const [prev, stored] = await Promise.all([getLivePrevTree(), getStirAssign()]);
@@ -41,4 +52,4 @@ export async function getLive(): Promise<LiveData | null> {
     changes: prev ? changedSince(own.orgs, prev, tree) : [],
     own: { applied: own.applied, pending: own.pending },
   };
-}
+});

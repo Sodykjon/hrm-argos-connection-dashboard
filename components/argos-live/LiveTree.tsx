@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Fragment, useMemo, useState, type ReactNode } from "react";
 import type { Counts, LiveStatus } from "@/lib/argos-live";
-import type { TreeOrg, TreeRegion } from "@/lib/argos-live-view";
+import type { SesRole, TreeOrg, TreeRegion } from "@/lib/argos-live-view";
 import { fmtInt, fmtPct, rampCss } from "@/lib/format";
 import { isRepublic, regionLabel, regionSlug } from "@/lib/regions";
 import { StatusPill } from "@/components/StatusPill";
@@ -14,6 +14,7 @@ type Sort = "excel" | "pct";
 
 const SEP = "\u0000";
 const COLS = 6;
+const ROLE_MARK: Partial<Record<SesRole, string>> = { bolim: "└", bevosita: "◆" };
 const EMPTY: ReadonlySet<string> = new Set();
 
 /**
@@ -39,14 +40,13 @@ export function LiveTree({
   const [sort, setSort] = useState<Sort>("excel");
   const [openR, setOpenR] = useState<Set<string>>(() => new Set());
   const [openG, setOpenG] = useState<Set<string>>(() => new Set());
+  const [openB, setOpenB] = useState<Set<string>>(() => new Set());
   // While searching/filtering every matching row starts open; these hold the
   // rows the user folded since, tagged with the query they belong to so a new
   // query opens everything again.
-  const [shut, setShut] = useState<{ sig: string; r: ReadonlySet<string>; g: ReadonlySet<string> }>(() => ({
-    sig: "",
-    r: EMPTY,
-    g: EMPTY,
-  }));
+  const [shut, setShut] = useState<{ sig: string; r: ReadonlySet<string>; g: ReadonlySet<string>; b: ReadonlySet<string> }>(
+    () => ({ sig: "", r: EMPTY, g: EMPTY, b: EMPTY }),
+  );
 
   const all = useMemo(() => regions.flatMap((r) => r.groups.flatMap((g) => g.orgs)), [regions]);
   const totals = useMemo(() => sumCounts(regions), [regions]);
@@ -71,7 +71,14 @@ export function LiveTree({
           ...r,
           groups: order(
             r.groups
-              .map((g) => ({ ...g, shown: active ? g.orgs.filter((o) => keep(o, g.name)) : g.orgs }))
+              .map((g) => {
+                const shown = active ? g.orgs.filter((o) => keep(o, g.name)) : g.orgs;
+                const set = new Set(shown);
+                const blocks = g.blocks
+                  ?.map((b) => ({ ...b, shown: active ? b.orgs.filter((o) => set.has(o)) : b.orgs }))
+                  .filter((b) => !active || b.shown.length > 0);
+                return { ...g, shown, blocks };
+              })
               .filter((g) => !active || g.shown.length > 0),
           ),
         }))
@@ -82,22 +89,29 @@ export function LiveTree({
   const sig = needle + SEP + filter;
   const shutR = shut.sig === sig ? shut.r : EMPTY;
   const shutG = shut.sig === sig ? shut.g : EMPTY;
+  const shutB = shut.sig === sig ? shut.b : EMPTY;
   const isOpenR = (k: string) => (active ? !shutR.has(k) : openR.has(k));
   const isOpenG = (k: string) => (active ? !shutG.has(k) : openG.has(k));
+  const isOpenB = (k: string) => (active ? !shutB.has(k) : openB.has(k));
 
   const nShown = view.reduce((s, r) => s + r.groups.reduce((t, g) => t + g.shown.length, 0), 0);
 
   const toggleR = (k: string) =>
-    active ? setShut({ sig, r: flip(shutR, k), g: shutG }) : setOpenR(flip(openR, k));
+    active ? setShut({ sig, r: flip(shutR, k), g: shutG, b: shutB }) : setOpenR(flip(openR, k));
   const toggleG = (k: string) =>
-    active ? setShut({ sig, r: shutR, g: flip(shutG, k) }) : setOpenG(flip(openG, k));
+    active ? setShut({ sig, r: shutR, g: flip(shutG, k), b: shutB }) : setOpenG(flip(openG, k));
+  const toggleB = (k: string) =>
+    active ? setShut({ sig, r: shutR, g: shutG, b: flip(shutB, k) }) : setOpenB(flip(openB, k));
   const expandAll = () => {
     if (active) {
-      setShut({ sig, r: EMPTY, g: EMPTY });
+      setShut({ sig, r: EMPTY, g: EMPTY, b: EMPTY });
       return;
     }
     setOpenR(new Set(regions.map((r) => r.name)));
     setOpenG(new Set(regions.flatMap((r) => r.groups.map((g) => r.name + SEP + g.name))));
+    setOpenB(
+      new Set(regions.flatMap((r) => r.groups.flatMap((g) => (g.blocks ?? []).map((b) => r.name + SEP + g.name + SEP + b.name)))),
+    );
   };
   const collapseAll = () => {
     if (active) {
@@ -105,11 +119,13 @@ export function LiveTree({
         sig,
         r: new Set(view.map((r) => r.name)),
         g: new Set(view.flatMap((r) => r.groups.map((g) => r.name + SEP + g.name))),
+        b: new Set(view.flatMap((r) => r.groups.flatMap((g) => (g.blocks ?? []).map((b) => r.name + SEP + g.name + SEP + b.name)))),
       });
       return;
     }
     setOpenR(new Set());
     setOpenG(new Set());
+    setOpenB(new Set());
   };
 
   const chips: { key: Filter; label: string; n: number; tone: string }[] = [
@@ -242,13 +258,42 @@ export function LiveTree({
                       matches={active ? g.shown.length : undefined}
                       matchLabel={T.matches}
                     />
-                    {open && (
+                    {open && !g.blocks && (
                       <tr>
                         <td colSpan={COLS} className="p-0">
                           <OrgTable orgs={g.shown} republic={isRepublic(r.name)} indent={!single} />
                         </td>
                       </tr>
                     )}
+                    {open &&
+                      g.blocks?.map((b) => {
+                        const bk = key + SEP + b.name;
+                        const bo = isOpenB(bk);
+                        return (
+                          <Fragment key={bk}>
+                            <SummaryRow
+                              c={b}
+                              depth={single ? 1 : 2}
+                              open={bo}
+                              onToggle={() => toggleB(bk)}
+                              label={
+                                <span>
+                                  {b.name === "markaz" ? T.sesCentral : b.name === "—" ? T.sesOther : regionLabel(b.name, lang)}
+                                </span>
+                              }
+                              matches={active ? b.shown.length : undefined}
+                              matchLabel={T.matches}
+                            />
+                            {bo && (
+                              <tr>
+                                <td colSpan={COLS} className="p-0">
+                                  <OrgTable orgs={b.shown} republic={false} indent={!single} deep />
+                                </td>
+                              </tr>
+                            )}
+                          </Fragment>
+                        );
+                      })}
                   </Fragment>
                 );
               });
@@ -346,7 +391,7 @@ function SummaryRow({
   matchLabel,
 }: {
   c: Counts;
-  depth: 0 | 1;
+  depth: 0 | 1 | 2;
   open: boolean;
   onToggle?: () => void;
   label: ReactNode;
@@ -358,11 +403,15 @@ function SummaryRow({
   return (
     <tr
       className={`border-b border-line-soft ${onToggle ? "cursor-pointer" : ""} ${
-        depth === 0 ? "hover:bg-paper" : "bg-paper/40 text-[0.8rem] hover:bg-paper"
+        depth === 0
+          ? "hover:bg-paper"
+          : depth === 1
+            ? "bg-paper/40 text-[0.8rem] hover:bg-paper"
+            : "bg-paper/70 text-[0.78rem] hover:bg-paper"
       }`}
       onClick={onToggle}
     >
-      <td className={`py-2 pr-3 ${depth === 0 ? "pl-3 sm:pl-4" : "pl-8 sm:pl-10"}`}>
+      <td className={`py-2 pr-3 ${depth === 0 ? "pl-3 sm:pl-4" : depth === 1 ? "pl-8 sm:pl-10" : "pl-14 sm:pl-16"}`}>
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -406,7 +455,17 @@ const TINT: Record<LiveStatus, string> = {
   ochirilgan: "bg-och-soft/60",
 };
 
-function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boolean; indent: boolean }) {
+function OrgTable({
+  orgs,
+  republic,
+  indent,
+  deep,
+}: {
+  orgs: TreeOrg[];
+  republic: boolean;
+  indent: boolean;
+  deep?: boolean;
+}) {
   const S = useS();
   const L = S.argosLive;
   const T = L.tree;
@@ -414,7 +473,11 @@ function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boole
     s === "ulangan" ? S.status.ulangan : s === "ulanmagan" ? S.status.ulanmagan : S.status.ochirilganShort;
 
   return (
-    <div className={`border-b border-line bg-surface ${indent ? "pl-6 sm:pl-8" : ""}`}>
+    <div
+      className={`border-b border-line bg-surface ${
+        deep ? (indent ? "pl-12 sm:pl-14" : "pl-6 sm:pl-8") : indent ? "pl-6 sm:pl-8" : ""
+      }`}
+    >
       <table className="w-full min-w-[1000px] table-fixed border-collapse text-left text-[0.78rem]">
         <colgroup>
           <col className="w-12" />
@@ -443,7 +506,20 @@ function OrgTable({ orgs, republic, indent }: { orgs: TreeOrg[]; republic: boole
             <tr key={o.n} className={`border-b border-line-soft align-top last:border-b-0 ${TINT[o.status]}`}>
               <td className="tnum px-3 py-1.5 text-right text-ink-faint">{o.n}</td>
               <td className="px-3 py-1.5">
-                <div className="text-ink">{o.name}</div>
+                <div
+                  className={`flex gap-1.5 text-ink ${o.role === "bolim" ? "pl-4" : ""} ${
+                    o.role === "boshqarma" || o.role === "markaz" ? "font-semibold" : ""
+                  }`}
+                  title={o.role ? T.sesRole[o.role] : undefined}
+                >
+                  {o.role && ROLE_MARK[o.role] && (
+                    <span aria-hidden className="shrink-0 text-ink-faint">
+                      {ROLE_MARK[o.role]}
+                    </span>
+                  )}
+                  <span>{o.name}</span>
+                  {o.role && <span className="sr-only">({T.sesRole[o.role]})</span>}
+                </div>
                 {republic && o.hudud && <div className="text-[0.75rem] text-ink-faint">{o.hudud}</div>}
                 {o.note && <div className="mt-0.5 text-[0.75rem] text-warn">{o.note}</div>}
               </td>

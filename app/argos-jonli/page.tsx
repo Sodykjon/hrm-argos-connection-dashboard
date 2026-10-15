@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { BASE, getLive } from "@/lib/argos-live-data";
-import { buildTree } from "@/lib/argos-live-view";
+import { BASE, getLive, liveTree } from "@/lib/argos-live-data";
 import { StatTile } from "@/components/StatTile";
 import { ReadinessRing } from "@/components/ReadinessRing";
 import { StatusPill } from "@/components/StatusPill";
@@ -109,7 +108,7 @@ export default async function ArgosLivePage() {
         </div>
       </section>
 
-      <LiveTree regions={buildTree(result)} exportHref="/api/argos-tree/xlsx" />
+      <LiveTree regions={liveTree(result)} exportHref="/api/argos-tree/xlsx" />
 
       {prevAt && (
         <section className="card overflow-hidden">
