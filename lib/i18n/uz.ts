@@ -794,8 +794,6 @@ export const UZ = {
       changed: "17.09 дан ўзгарган",
       expandAll: "Барчасини очиш",
       collapseAll: "Йиғиш",
-      sortExcel: "Excel тартиби",
-      sortPct: "Энг паст уланиш биринчи",
       matches: (n: string) => `${n} та мос`,
       nothing: "Мос ташкилот топилмади.",
       openRegion: "Ҳудуд саҳифаси",

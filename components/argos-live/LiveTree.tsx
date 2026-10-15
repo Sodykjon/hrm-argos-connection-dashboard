@@ -10,7 +10,6 @@ import { StatusPill } from "@/components/StatusPill";
 import { useLang, useS } from "@/lib/i18n/client";
 
 type Filter = "all" | LiveStatus | "changed";
-type Sort = "excel" | "pct";
 
 const SEP = "\u0000";
 const COLS = 6;
@@ -37,7 +36,6 @@ export function LiveTree({
   const lang = useLang();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
-  const [sort, setSort] = useState<Sort>("excel");
   const [openR, setOpenR] = useState<Set<string>>(() => new Set());
   const [openG, setOpenG] = useState<Set<string>>(() => new Set());
   const [openB, setOpenB] = useState<Set<string>>(() => new Set());
@@ -63,28 +61,23 @@ export function LiveTree({
         (o.stir ?? "").includes(needle) ||
         g.toLowerCase().includes(needle) ||
         (o.hudud ?? "").toLowerCase().includes(needle));
-    const order = <X extends Counts>(xs: X[]) =>
-      sort === "pct" ? [...xs].sort((a, b) => a.percent - b.percent || b.total - a.total) : xs;
-    return order(
-      regions
-        .map((r) => ({
-          ...r,
-          groups: order(
-            r.groups
-              .map((g) => {
-                const shown = active ? g.orgs.filter((o) => keep(o, g.name)) : g.orgs;
-                const set = new Set(shown);
-                const blocks = g.blocks
-                  ?.map((b) => ({ ...b, shown: active ? b.orgs.filter((o) => set.has(o)) : b.orgs }))
-                  .filter((b) => !active || b.shown.length > 0);
-                return { ...g, shown, blocks };
-              })
-              .filter((g) => !active || g.shown.length > 0),
-          ),
-        }))
-        .filter((r) => !active || r.groups.length > 0),
-    );
-  }, [regions, needle, filter, sort, active]);
+    // Always the registry workbook's order — the sort switch was removed on the user's request 15.10.2026.
+    return regions
+      .map((r) => ({
+        ...r,
+        groups: r.groups
+          .map((g) => {
+            const shown = active ? g.orgs.filter((o) => keep(o, g.name)) : g.orgs;
+            const set = new Set(shown);
+            const blocks = g.blocks
+              ?.map((b) => ({ ...b, shown: active ? b.orgs.filter((o) => set.has(o)) : b.orgs }))
+              .filter((b) => !active || b.shown.length > 0);
+            return { ...g, shown, blocks };
+          })
+          .filter((g) => !active || g.shown.length > 0),
+      }))
+      .filter((r) => !active || r.groups.length > 0);
+  }, [regions, needle, filter, active]);
 
   const sig = needle + SEP + filter;
   const shutR = shut.sig === sig ? shut.r : EMPTY;
@@ -185,14 +178,6 @@ export function LiveTree({
               </button>
             )}
           </div>
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as Sort)}
-            className="rounded-lg border border-line bg-surface px-3 py-2 text-[0.8rem] font-medium outline-none focus:border-sov"
-          >
-            <option value="excel">{T.sortExcel}</option>
-            <option value="pct">{T.sortPct}</option>
-          </select>
           <div className="flex gap-1">
             <button onClick={expandAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
               {T.expandAll}

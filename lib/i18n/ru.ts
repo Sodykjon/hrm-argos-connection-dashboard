@@ -770,8 +770,6 @@ export const RU = {
       changed: "Изменились с 17.09",
       expandAll: "Раскрыть все",
       collapseAll: "Свернуть",
-      sortExcel: "Порядок Excel",
-      sortPct: "Сначала самое низкое подключение",
       matches: (n: string) => `совпадений: ${n}`,
       nothing: "Подходящих организаций не найдено.",
       openRegion: "Страница региона",
