@@ -47,3 +47,22 @@ python scripts/make-argos-base.py \
 ```
 
 Қўлда тузатишлар `scripts/argos-overrides.json` да калит (варақ, ном, СТИР) бўйича.
+
+## Ходимлар сони («ТТБ → поликлиника», `/taqsimlash`)
+
+Дарахт сақлангач, қабул вкладкаси `GET /api/argos-tree/staff` дан охирги ўқилиш санасини
+олади ва жавобда `needStaff` беради. Тошкент бўйича бугун ўқилмаган бўлса, хатчўп кунига
+бир марта статистика конструкторидан муассаса кесимида ходимлар сонини ўқийди:
+
+- `POST /api/report/constructor/GetReport`, `selectTreeNodes: general + totalEmployee` —
+  фақат жами сон, шахсий маълумот йўқ;
+- «Территориальный уровень» нинг 14 ҳудуди, ҳар бири 250 тадан id бўлиб; 500 хатода
+  ярмига бўлиб қайта уринади (`kadrlar.md` даги усул);
+- `institutionId` → дарахтдаги `tin`; бир СТИРдаги тугунлар қўшилади.
+
+Натижа `{type:"argos-jonli-staff", staff:{at, ids, rows:[[tin, xodim]]}}` →
+`POST /api/argos-tree/staff` → KV `argoslive:staff:latest` + кунлик
+`argoslive:staff:history`. Ҳисоб `lib/taqsimlash.ts`: реестрда «Бўйсунуви» = «Tuman
+tibbiyot birlashmasi» ёки «Tuman SSB boʻlimi (pilot)» бўлган муассасанинг ўз СТИРи
+дарахтда бўлиб, тугунида ≥ 1 ходим бўлса — «ўтказилган». Масъуллар → ҳудудлар:
+`data/masullar.json`.

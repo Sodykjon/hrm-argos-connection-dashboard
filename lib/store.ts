@@ -29,6 +29,7 @@ import type {
   Snapshot,
 } from "./types";
 import type { StirAssign, TreeSnapshot } from "./argos-live";
+import type { StaffSnapshot, TaqDay } from "./taqsimlash";
 
 const KV_URL =
   process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -56,6 +57,8 @@ const K = {
   livePrev: "argoslive:tree:prev",
   liveManifest: "argoslive:manifest",
   liveAssign: "argoslive:stirassign",
+  staffLatest: "argoslive:staff:latest",
+  staffHistory: "argoslive:staff:history",
 } as const;
 
 // ---------------------------------------------------------------- redis client
@@ -347,6 +350,28 @@ export async function getStirAssign(): Promise<StirAssign> {
 
 export async function putStirAssign(a: StirAssign): Promise<void> {
   await writeKey(K.liveAssign, a);
+}
+
+// ------------------------------------------------- «ТТБ → поликлиника» head counts
+
+/** The latest constructor pull (STIR → employees), pushed once a day by the bookmarklet. */
+export async function getStaff(): Promise<StaffSnapshot | null> {
+  return readKey<StaffSnapshot>(K.staffLatest);
+}
+
+/** One summary per Tashkent day, oldest first. */
+export async function getStaffHistory(): Promise<TaqDay[]> {
+  return (await readKey<TaqDay[]>(K.staffHistory)) ?? [];
+}
+
+export async function publishStaff(staff: StaffSnapshot, day: TaqDay): Promise<{ history: number }> {
+  await writeKey(K.staffLatest, staff);
+  const h = (await getStaffHistory()).filter((d) => d.date !== day.date);
+  h.push(day);
+  h.sort((a, b) => a.date.localeCompare(b.date));
+  const kept = h.slice(-LIVE_HISTORY_MAX);
+  await writeKey(K.staffHistory, kept);
+  return { history: kept.length };
 }
 
 /** YYYY-MM-DD in Tashkent (UTC+5, no DST). */

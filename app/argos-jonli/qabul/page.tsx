@@ -6,6 +6,7 @@ import { useS } from "@/lib/i18n/client";
 import { fmtInt } from "@/lib/format";
 import { fmtTashkent } from "@/components/argos-live/time";
 import type { TreeSnapshot } from "@/lib/argos-live";
+import type { StaffSnapshot } from "@/lib/taqsimlash";
 
 // Receiver window opened by the bookmarklet on hrm.argos.uz. ARGOS's CSP blocks
 // fetch() to other origins but not postMessage, so the tree arrives here as a
@@ -26,6 +27,7 @@ export default function ReceiverPage() {
   const [needPw, setNeedPw] = useState(false);
   const [log, setLog] = useState<Log[]>([]);
   const pending = useRef<{ tree: TreeSnapshot; source: MessageEventSource | null } | null>(null);
+  const pendingStaff = useRef<{ staff: StaffSnapshot; source: MessageEventSource | null } | null>(null);
 
   const add = (text: string, ok: boolean) =>
     setLog((l) => [{ at: new Date().toISOString(), text, ok }, ...l].slice(0, 30));
@@ -34,6 +36,7 @@ export default function ReceiverPage() {
     add(R.received(fmtInt(tree.rows.length)), true);
     let msg = "";
     let ok = false;
+    let needStaff = false;
     try {
       const r = await fetch("/api/argos-tree", {
         method: "POST",
@@ -53,29 +56,69 @@ export default function ReceiverPage() {
       } else {
         ok = true;
         msg = `${j.changed ? R.saved : R.unchanged} · ${(j.totals.percent * 100).toFixed(1)}%`;
+        // Head counts are pulled once a Tashkent day: ask the bookmarklet only when today's is missing.
+        try {
+          const s = await (await fetch("/api/argos-tree/staff", { cache: "no-store" })).json();
+          needStaff = !!s.today && s.date !== s.today;
+        } catch {}
       }
     } catch (e) {
       msg = `${R.errServer}: ${String(e)}`;
     }
     add(msg, ok);
-    (source as Window | null)?.postMessage({ type: "argos-jonli-ack", ok, msg }, ARGOS);
+    (source as Window | null)?.postMessage({ type: "argos-jonli-ack", ok, msg, needStaff }, ARGOS);
+  }
+
+  async function saveStaff(staff: StaffSnapshot, source: MessageEventSource | null, password: string) {
+    add(R.staffReceived(fmtInt(staff.rows.length)), true);
+    let msg = "";
+    let ok = false;
+    try {
+      const r = await fetch("/api/argos-tree/staff", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, staff }),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.status === 401) {
+        try {
+          sessionStorage.removeItem(PW_KEY);
+        } catch {}
+        pendingStaff.current = { staff, source };
+        setNeedPw(true);
+        msg = R.errAuth;
+      } else if (!r.ok) {
+        msg = r.status === 400 ? R.errBad : `${R.errServer}${j.detail ? `: ${j.detail}` : ""}`;
+      } else {
+        ok = true;
+        msg = R.staffSaved(fmtInt(j.totals.otkazilgan), fmtInt(j.totals.total));
+      }
+    } catch (e) {
+      msg = `${R.errServer}: ${String(e)}`;
+    }
+    add(msg, ok);
+    (source as Window | null)?.postMessage({ type: "argos-jonli-staff-ack", ok, msg }, ARGOS);
   }
 
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
       if (e.origin !== ARGOS) return;
-      const d = e.data as { type?: string; tree?: TreeSnapshot };
-      if (d?.type !== "argos-jonli-tree" || !d.tree) return;
+      const d = e.data as { type?: string; tree?: TreeSnapshot; staff?: StaffSnapshot };
+      const isTree = d?.type === "argos-jonli-tree" && !!d.tree;
+      const isStaff = d?.type === "argos-jonli-staff" && !!d.staff;
+      if (!isTree && !isStaff) return;
       let stored = "";
       try {
         stored = sessionStorage.getItem(PW_KEY) ?? "";
       } catch {}
       if (!stored) {
-        pending.current = { tree: d.tree, source: e.source };
+        if (isTree) pending.current = { tree: d.tree!, source: e.source };
+        else pendingStaff.current = { staff: d.staff!, source: e.source };
         setNeedPw(true);
         return;
       }
-      void save(d.tree, e.source, stored);
+      if (isTree) void save(d.tree!, e.source, stored);
+      else void saveStaff(d.staff!, e.source, stored);
     };
     window.addEventListener("message", onMsg);
     // Tell the ARGOS tab we are ready to receive.
@@ -93,6 +136,9 @@ export default function ReceiverPage() {
     const p = pending.current;
     pending.current = null;
     if (p) void save(p.tree, p.source, pw);
+    const ps = pendingStaff.current;
+    pendingStaff.current = null;
+    if (ps) void saveStaff(ps.staff, ps.source, pw);
   }
 
   return (

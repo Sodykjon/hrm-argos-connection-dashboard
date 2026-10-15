@@ -26,6 +26,7 @@ export function Nav() {
         // /ulanmaganlar still exists (linked from the home page's attention strip).
         { href: "/trend", label: S.nav.trend },
         { href: "/toldirilish", label: S.nav.completion, highlight: true },
+        { href: "/taqsimlash", label: S.nav.taqsimlash },
       ],
     },
     // «Кадрлар таҳлили» (/pensiya, /vakansiya, /tarkib) hidden on the user's
