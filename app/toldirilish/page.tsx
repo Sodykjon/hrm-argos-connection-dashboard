@@ -5,7 +5,6 @@ import { StatTile } from "@/components/StatTile";
 import { LiveFeed } from "@/components/LiveFeed";
 import { AnimatedNumber } from "@/components/motion/AnimatedNumber";
 import { CompletionBoard } from "@/components/completion/CompletionBoard";
-import { CompletionRegionTable } from "@/components/completion/CompletionRegionTable";
 import { CompletionDistribution } from "@/components/completion/CompletionDistribution";
 import { CompletionTrend } from "@/components/completion/CompletionTrend";
 import { CompletionTree } from "@/components/completion/CompletionTree";
@@ -190,14 +189,7 @@ export default async function CompletionPage() {
         <CompletionBoard regions={regions} />
       </Reveal>
 
-      {/* regional summary table, leadership-PDF format */}
-      <Reveal>
-        <CompletionRegionTable
-          regions={regions}
-          overall={snapshot.overall}
-          exportName={`HRM_tuldirilish_hududlar_${snapshot.date}`}
-        />
-      </Reveal>
+      {/* «Ҳудудлар кесими» table removed on the user's request 15.10.2026 — the tree below carries the same figures. */}
 
       {/* distribution + trend (equal size) */}
       <div className="grid items-stretch gap-5 lg:grid-cols-2">
