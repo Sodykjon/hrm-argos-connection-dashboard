@@ -11,7 +11,15 @@ import { useLang, useS } from "@/lib/i18n/client";
 
 type Filter = "all" | LiveStatus | "changed";
 
+type Sort = "low" | "high" | "unconnected";
+
 const SEP = "\u0000";
+// No «Excel order» option (user, 15.10.2026): lowest connection first by default.
+const ORDER: Record<Sort, (a: Counts, b: Counts) => number> = {
+  low: (a, b) => a.percent - b.percent || b.total - a.total,
+  high: (a, b) => b.percent - a.percent || b.total - a.total,
+  unconnected: (a, b) => b.ulanmagan - a.ulanmagan || a.percent - b.percent,
+};
 const COLS = 6;
 const ROLE_MARK: Partial<Record<SesRole, string>> = { bolim: "└", bevosita: "◆" };
 const EMPTY: ReadonlySet<string> = new Set();
@@ -36,6 +44,7 @@ export function LiveTree({
   const lang = useLang();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [sort, setSort] = useState<Sort>("low");
   const [openR, setOpenR] = useState<Set<string>>(() => new Set());
   const [openG, setOpenG] = useState<Set<string>>(() => new Set());
   const [openB, setOpenB] = useState<Set<string>>(() => new Set());
@@ -61,7 +70,7 @@ export function LiveTree({
         (o.stir ?? "").includes(needle) ||
         g.toLowerCase().includes(needle) ||
         (o.hudud ?? "").toLowerCase().includes(needle));
-    // Always the registry workbook's order — the sort switch was removed on the user's request 15.10.2026.
+    const by = ORDER[sort];
     return regions
       .map((r) => ({
         ...r,
@@ -71,13 +80,16 @@ export function LiveTree({
             const set = new Set(shown);
             const blocks = g.blocks
               ?.map((b) => ({ ...b, shown: active ? b.orgs.filter((o) => set.has(o)) : b.orgs }))
-              .filter((b) => !active || b.shown.length > 0);
+              .filter((b) => !active || b.shown.length > 0)
+              .sort(by);
             return { ...g, shown, blocks };
           })
-          .filter((g) => !active || g.shown.length > 0),
+          .filter((g) => !active || g.shown.length > 0)
+          .sort(by),
       }))
-      .filter((r) => !active || r.groups.length > 0);
-  }, [regions, needle, filter, active]);
+      .filter((r) => !active || r.groups.length > 0)
+      .sort(by);
+  }, [regions, needle, filter, sort, active]);
 
   const sig = needle + SEP + filter;
   const shutR = shut.sig === sig ? shut.r : EMPTY;
@@ -178,6 +190,16 @@ export function LiveTree({
               </button>
             )}
           </div>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as Sort)}
+            aria-label={T.sortLabel}
+            className="rounded-lg border border-line bg-surface px-3 py-2 text-[0.8rem] font-medium outline-none focus:border-sov"
+          >
+            <option value="low">{T.sortLow}</option>
+            <option value="high">{T.sortHigh}</option>
+            <option value="unconnected">{T.sortUnconnected}</option>
+          </select>
           <div className="flex gap-1">
             <button onClick={expandAll} className="rounded-lg border border-line px-3 py-2 text-[0.78rem] font-medium text-ink-soft hover:bg-paper">
               {T.expandAll}
