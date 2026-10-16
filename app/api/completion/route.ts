@@ -1,5 +1,5 @@
 import { getCompletionHistory } from "@/lib/data";
-import { hasBlob, publishCompletion } from "@/lib/store";
+import { canSave, publishCompletion } from "@/lib/store";
 import type { CompletionSnapshot } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   }
 
   // On Vercel's read-only filesystem we can only persist via Blob.
-  if (!hasBlob() && process.env.NODE_ENV === "production") {
+  if (!canSave()) {
     return Response.json({ error: "nostore" }, { status: 501 });
   }
 

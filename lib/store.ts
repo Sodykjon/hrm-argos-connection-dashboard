@@ -5,7 +5,9 @@
 //     naming) or UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN is set. Shared
 //     across all viewers. This is what production uses.
 //   • Local .data/ files — dev fallback so the upload loop is testable without a
-//     store. (Vercel's filesystem is read-only, so prod always needs the KV.)
+//     store, and the store of the LAN server on the HRISD PC (LOCAL_STORE=1,
+//     DATA_DIR; ops/supervisor.mjs) since Upstash's free plan ran out (16.10.2026).
+//     Vercel's filesystem is read-only, so a Vercel deploy always needs the KV.
 //
 // If neither yields a manifest, the read layer (data.ts) falls back to the seed.
 //
@@ -42,7 +44,12 @@ export function hasStore(): boolean {
 // Back-compat name still imported by the upload/completion routes.
 export const hasBlob = hasStore;
 
-const LOCAL_DIR = path.join(process.cwd(), ".data");
+/** Uploads can be kept: a KV, the LAN server's files (LOCAL_STORE=1), or a dev run. */
+export function canSave(): boolean {
+  return hasStore() || process.env.LOCAL_STORE === "1" || process.env.NODE_ENV !== "production";
+}
+
+const LOCAL_DIR = process.env.DATA_DIR || path.join(process.cwd(), ".data");
 
 // Fixed keys — one manifest + one latest snapshot per dataset.
 const K = {
@@ -102,9 +109,12 @@ async function writeKey(key: string, data: unknown): Promise<void> {
     await r.set(key, data); // @upstash/redis serializes objects to JSON
     return;
   }
+  // Written aside and renamed over, so a page read mid-write never sees half a file.
   const full = localPath(key);
   await fs.mkdir(path.dirname(full), { recursive: true });
-  await fs.writeFile(full, JSON.stringify(data), "utf-8");
+  const tmp = `${full}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(tmp, JSON.stringify(data), "utf-8");
+  await fs.rename(tmp, full);
 }
 
 // ------------------------------------------------------------------- read API

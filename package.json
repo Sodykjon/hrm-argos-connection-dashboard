@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test \"tests/**/*.test.ts\""
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "server:install": "powershell -NoProfile -ExecutionPolicy Bypass -File ops/install-autostart.ps1",
+    "server:remove": "powershell -NoProfile -ExecutionPolicy Bypass -File ops/install-autostart.ps1 -Remove",
+    "server:restart": "powershell -NoProfile -Command \"Stop-ScheduledTask 'HRM ARGOS dashboard'; Start-Sleep 3; Start-ScheduledTask 'HRM ARGOS dashboard'\""
   },
   "dependencies": {
     "@upstash/redis": "^1.38.0",

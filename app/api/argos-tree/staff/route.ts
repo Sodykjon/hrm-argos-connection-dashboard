@@ -1,5 +1,5 @@
 import { registryFor } from "@/lib/taqsimlash-data";
-import { getLiveTree, getStaff, hasStore, publishStaff, tashkentDate } from "@/lib/store";
+import { canSave, getLiveTree, getStaff, publishStaff, tashkentDate } from "@/lib/store";
 import { computeTaq, daySummary, validStaff, type StaffSnapshot } from "@/lib/taqsimlash";
 
 export const runtime = "nodejs";
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   }
   if (body.password !== pw) return Response.json({ error: "auth" }, { status: 401 });
   if (!validStaff(body.staff)) return Response.json({ error: "bad" }, { status: 400 });
-  if (!hasStore() && process.env.NODE_ENV === "production")
+  if (!canSave())
     return Response.json({ error: "nostore" }, { status: 501 });
 
   const staff: StaffSnapshot = { at: body.staff.at, ids: body.staff.ids, rows: body.staff.rows };

@@ -1,4 +1,4 @@
-import { hasBlob, publish } from "@/lib/store";
+import { canSave, publish } from "@/lib/store";
 import type { Registry, Snapshot } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
   }
 
   // On Vercel's read-only filesystem we can only persist via Blob.
-  if (!hasBlob() && process.env.NODE_ENV === "production") {
+  if (!canSave()) {
     return Response.json({ error: "nostore" }, { status: 501 });
   }
 

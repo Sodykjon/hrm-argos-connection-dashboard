@@ -45,3 +45,8 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# LAN server (ops/supervisor.mjs)
+/ops/server.env
+/logs/
+.env.upstash

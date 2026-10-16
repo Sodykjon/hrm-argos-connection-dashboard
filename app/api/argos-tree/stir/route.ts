@@ -1,6 +1,6 @@
 import { orgKey } from "@/lib/argos-live";
 import { BASE } from "@/lib/argos-live-data";
-import { getLiveTree, getStirAssign, hasStore, putStirAssign } from "@/lib/store";
+import { canSave, getLiveTree, getStirAssign, putStirAssign } from "@/lib/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   const { key, tin, action } = body;
   if (!key || !tin || !/^\d{6,12}$/.test(tin) || (action !== "approve" && action !== "reject"))
     return Response.json({ error: "bad" }, { status: 400 });
-  if (!hasStore() && process.env.NODE_ENV === "production")
+  if (!canSave())
     return Response.json({ error: "nostore" }, { status: 501 });
 
   // only a STIR-less registry row, and only a STIR the current tree has

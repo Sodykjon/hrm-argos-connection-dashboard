@@ -32,7 +32,8 @@ export async function POST(request: Request) {
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7, // 7 days
-    secure: process.env.NODE_ENV === "production",
+    // Secure only over https: the LAN server is plain http, where a browser drops a Secure cookie.
+    secure: new URL(request.url).protocol === "https:" || request.headers.get("x-forwarded-proto") === "https",
   });
 
   return Response.json({ ok: true });

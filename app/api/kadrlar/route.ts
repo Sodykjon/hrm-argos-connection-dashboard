@@ -1,5 +1,5 @@
 import { getKadrlarHistory } from "@/lib/data";
-import { hasBlob, publishKadrlar } from "@/lib/store";
+import { canSave, publishKadrlar } from "@/lib/store";
 import type { KadrlarSnapshot } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "bad" }, { status: 400 });
   }
 
-  if (!hasBlob() && process.env.NODE_ENV === "production") {
+  if (!canSave()) {
     return Response.json({ error: "nostore" }, { status: 501 });
   }
 
