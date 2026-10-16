@@ -86,6 +86,21 @@ for r in wb[SHEET].iter_rows(min_row=9, values_only=True):
     used.add(id(o))
     cur["rows"].append({"name": o["name"], "role": ROLE[kind]})
 
+# Registry rows the sheet lacks, added on HRISD's word (scripts/argos-overrides.json «add»):
+# STIR → (block, role, the STIR of the row it follows).
+EXTRA = {
+    "200647898": (MARKAZ, "resp", "200936048"),  # o'lat markazining temir yo'l filiali, 16.10.2026
+}
+by_stir = {o["stir"]: o for o in ses if o["stir"]}
+for stir, (blk, role, after) in EXTRA.items():
+    o, prev = by_stir.get(stir), by_stir.get(after)
+    if o is None or id(o) in used:
+        continue
+    b = next(x for x in blocks if x["name"] == blk)
+    i = next(i for i, r in enumerate(b["rows"]) if r["name"] == prev["name"])
+    b["rows"].insert(i + 1, {"name": o["name"], "role": role})
+    used.add(id(o))
+
 missing = [o["name"] for o in ses if id(o) not in used]
 print(f"blocks {len(blocks)}, rows {sum(len(b['rows']) for b in blocks)} / SES in base {len(ses)}")
 for x in skipped:

@@ -12,6 +12,8 @@ Kirish:
     retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
     xatStir — TTB xatidagi INN: [varaq, nom, eski, yangi, xat]; satr «awaitBilling» oladi — faqat billing
               faol bo'lsa ulangan
+    add — Excel'da yo'q, ARGOS'da bor bo'linma: {varaq, tuman, nom, stir, sub, hudud?, izoh}; o'z tumani
+          guruhining oxiriga qo'shiladi (tuman nomi bazadagi kabi, alias'dan keyingi)
   --aliases scripts/argos-district-aliases.json — bir tumanning turlicha yozilishi → bitta guruh
 Chiqish:
   data/argos-live-base.json — Excel tartibida (varaq → guruh → satr); guruh = tuman/shahar yoki
@@ -166,6 +168,23 @@ for sn in REGION:
                 tree_billing.setdefault(stir, 0)
             elif status == "ulangan" and "daraxtda yoʻq" not in note and o is None:
                 tree_billing[stir] = 1
+
+# Units in ARGOS that the workbook lacks, added on HRISD's word: each joins the end of its district's
+# group (the stable sort below keeps it there), taking the group key of a row already in it.
+for x in ov.get("add", []):
+    sn = x["varaq"]
+    anchor = next((o for o in out if o["_sheet"] == sn and o["district"] == x["tuman"]), None)
+    if anchor is None:
+        raise SystemExit(f"add: {sn} › {x['tuman']} guruhi topilmadi")
+    if any(o["stir"] == x["stir"] for o in out):
+        raise SystemExit(f"add: {x['stir']} bazada allaqachon bor")
+    out.append({
+        "region": REGION[sn], "district": x["tuman"], "hudud": x.get("hudud"),
+        "name": x["nom"], "stir": x["stir"], "reestr": "ulanmagan", "override": None,
+        "contract": None, "pay": None, "sub": x["sub"], "note": x["izoh"],
+        "_raw": anchor["_raw"], "_sheet": sn,
+    })
+    expected_status.append("ulanmagan")   # not in the workbook's tree: absent there
 
 # Rows the workbook itself already moved to «Roʻyxatdan chiqarilganlar».
 HUDUD = {"Qoraqalpogʻiston Respublikasi": "Qoraqalpogʻiston", "Toshkent viloyati": "Toshkent viloyati",

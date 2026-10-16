@@ -1708,6 +1708,48 @@
    "Yangibozor tumani Oyoqdoʻrman oilaviy shifokorlik punkti",
    "",
    "311852191"
+  ],
+  [
+   "Sirdaryo",
+   "Mirzaobod tumani Baxoriston oilaviy shifokorlik punkti",
+   "",
+   "312683212"
+  ],
+  [
+   "Sirdaryo",
+   "Mirzaobod tumani Chulkuvar oilaviy shifokorlik punkti",
+   "",
+   "312682292"
+  ],
+  [
+   "Sirdaryo",
+   "Mirzaobod tumani Ok oltin oilaviy shifokorlik punkti",
+   "",
+   "312682973"
+  ],
+  [
+   "Sirdaryo",
+   "Mirzaobod tumani Oydin oilaviy shifokorlik punkti",
+   "",
+   "312683140"
+  ],
+  [
+   "Xorazm",
+   "Xonqa tumani Yangi xayot oilaviy shifokorlik punkti",
+   "",
+   "311862401"
+  ],
+  [
+   "Xorazm",
+   "Xiva tumani Ogaxiy oilaviy shifokorlik punkti",
+   "",
+   "311863297"
+  ],
+  [
+   "Xorazm",
+   "Tuproqqala tumani Tuproqqala oilaviy shifokorlik punkti",
+   "",
+   "311867473"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
@@ -2075,5 +2117,58 @@
   ]
  ],
  "_izoh_xatStir": "13.10.2026: Sirdaryo tuman/shahar tibbiyot birlashmalarining UZINFOCOM’ga xatlaridagi INN’lar («Sirdaryo xat.rar» + Shirin 13.10 xati). Foydalanuvchi qarori (2-variant): bunday satr faqat ARGOS’da billing faol bo‘lsa «ulangan»; billing nofaol yoki daraxtda yo‘q — «ulanmagan» (awaitBilling). Qo‘yilmagan: Yangiyer 37-OP (xatda KTMP bilan bir xil INN), Sirdaryo tumani 7-OP (xatda 6-OP bilan bir xil; reestrdagi 312217917 qoldi), Sayxunobod «Paxtaobod OShP» 312685914 ↔ reestr «K.Sultonov» (noaniq). Xovos Sharqobod OShP’dagi 200970134 — Xovos SES’ining STIR’i edi.",
- "_izoh_stirFix_13_10_c": "13.10.2026 (3): Xorazm › Bog‘ot tumani 13 + Yangibozor Oyoqdo‘rman OShP — «ARGOS’da bor, reestrda yo‘q» skrinshotidan (billing faol). Ehtimoliy: 311860523 (ARGOS nomi «№ 1», ro‘yxatda № 3 o‘rnida, № 3 yo‘q) → 3-OP; 311860855 «семейный врачебный кабинет» → Ogohiy OShP (qolgan yagona); 311852191 → Oyoqdo‘rman (qolgan yagona)."
+ "_izoh_stirFix_13_10_c": "13.10.2026 (3): Xorazm › Bog‘ot tumani 13 + Yangibozor Oyoqdo‘rman OShP — «ARGOS’da bor, reestrda yo‘q» skrinshotidan (billing faol). Ehtimoliy: 311860523 (ARGOS nomi «№ 1», ro‘yxatda № 3 o‘rnida, № 3 yo‘q) → 3-OP; 311860855 «семейный врачебный кабинет» → Ogohiy OShP (qolgan yagona); 311852191 → Oyoqdo‘rman (qolgan yagona).",
+ "_izoh_stirFix_16_10": "16.10.2026: «ARGOS’da bor, reestrda yo‘q» skrinshotidan, HRISD tasdig‘i bilan. Mirzaobod: Бахаристан/Чолувар/Аколтин/Айдын; Xonqa: Янги Хаят; Xiva: «Бдительный» = Ogahiy OShP (foydalanuvchi aytdi); Tuproqqala: «Грункальский» (ARGOS’da Tuproqqala TTB ostida) = Tuproqqala OShP.",
+ "add": [
+  {
+   "varaq": "Sirdaryo",
+   "tuman": "Mirzaobod tumani",
+   "nom": "Mirzaobod tumani Yangi yoʻl oilaviy shifokorlik punkti",
+   "stir": "312688434",
+   "sub": "Tuman tibbiyot birlashmasi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD)"
+  },
+  {
+   "varaq": "Sirdaryo",
+   "tuman": "Sayxunobod tumani",
+   "nom": "Sayxunobod tumani Paxtaobod oilaviy shifokorlik punkti",
+   "stir": "312685914",
+   "sub": "Tuman tibbiyot birlashmasi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD)"
+  },
+  {
+   "varaq": "Xorazm",
+   "tuman": "Xonqa tumani",
+   "nom": "Xonqa tumani Doʻstlik oilaviy shifokorlik punkti",
+   "stir": "311856202",
+   "sub": "Tuman tibbiyot birlashmasi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD)"
+  },
+  {
+   "varaq": "Qoraqalpogʻiston",
+   "tuman": "Taxiatosh tumani",
+   "nom": "Taxiatosh tumani Azatliq oilaviy shifokorlik punkti",
+   "stir": "311883178",
+   "sub": "Tuman tibbiyot birlashmasi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD)"
+  },
+  {
+   "varaq": "Qoraqalpogʻiston",
+   "tuman": "Taxiatosh tumani",
+   "nom": "Taxiatosh tumani Keneges oilaviy shifokorlik punkti",
+   "stir": "311883304",
+   "sub": "Tuman tibbiyot birlashmasi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD)"
+  },
+  {
+   "varaq": "Respublika markazlari",
+   "tuman": "Sanitariya-epidemiologiya qoʻmitasi tizimi",
+   "hudud": "Respublika",
+   "nom": "Республиканский центр профилактики чумы железнодорожный противочумный филиал",
+   "stir": "200647898",
+   "sub": "Respublika oʻlat profilaktika markazi",
+   "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD); nomi ARGOS’dagidek"
+  }
+ ],
+ "_izoh_add": "add: Excel’da yo‘q, ARGOS’da bor bo‘linmalar — nomlarini HRISD aytgan (16.10.2026); o‘lat markazi filiali nomi ARGOS’dan."
 }
