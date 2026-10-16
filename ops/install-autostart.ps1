@@ -1,5 +1,7 @@
-# Makes this PC the dashboard's server: at Windows sign-in the «HRM ARGOS dashboard» task starts
-# ops/supervisor.mjs (next start on :3010, LAN), hidden, and keeps it running.
+# Makes this PC the dashboard's server: when Windows boots — before anyone signs in — the
+# «HRM ARGOS dashboard» task starts ops/supervisor.mjs (next start on :3010, LAN) and keeps it
+# running. S4U («run whether the user is logged on or not», no stored password) as SSVPortal does:
+# there is no Postgres here, so the admin-token trap of the Nomenklatura task does not apply.
 #
 #   powershell -ExecutionPolicy Bypass -File ops\install-autostart.ps1          -- register + start
 #   powershell -ExecutionPolicy Bypass -File ops\install-autostart.ps1 -Remove  -- unregister
@@ -28,9 +30,11 @@ foreach ($f in @('.next\BUILD_ID', 'ops\server.env')) {
 $node = (Get-Command node).Source
 $action = New-ScheduledTaskAction -Execute "$env:WINDIR\System32\conhost.exe" `
   -Argument "--headless `"$node`" ops\supervisor.mjs" -WorkingDirectory $proj
-$trigger = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
-$trigger.Delay = 'PT20S'
-$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Limited
+$boot = New-ScheduledTaskTrigger -AtStartup
+$boot.Delay = 'PT30S'   # let the network come up first
+$logon = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"   # a fallback; ignored while running
+$trigger = @($boot, $logon)
+$principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U -RunLevel Limited
 $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
   -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero) `
   -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1)
