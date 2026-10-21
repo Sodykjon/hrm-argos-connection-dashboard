@@ -63,7 +63,7 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
   "sabab": "billing",
   "sababMatn": "Дарахтда, биллинг фаол",
   "billing": 1,
-  "toldirish": { "foiz": 87.5, "sana": "2026-10-14" }
+  "toldirish": { "foiz": 73.8, "sana": "2026-10-14" }
 }
 ```
 
@@ -79,10 +79,11 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 
 ## To'ldirish jamlamasi
 
-`umumiy`, `hudud/{slug}` va ularning `hududlar[]` / `tumanlar[]` elementlarida, `toldirish` endpoint'ida:
+`umumiy`, `hudud/{slug}` va ularning `hududlar[]` / `tumanlar[]` elementlarida, `toldirish` endpoint'ida
+(misol: Andijon viloyati, 14.10 fayli):
 
 ```json
-{ "tashkilotlar": 274, "ortacha": 31.4, "nol": 120, "ellikdanKam": 190, "sana": "2026-10-14" }
+{ "tashkilotlar": 259, "ortacha": 13.9, "nol": 192, "ellikdanKam": 229, "sana": "2026-10-14" }
 ```
 
 - `tashkilotlar` — to'ldirish faylidagi tashkilotlar soni (ulanish `jami` bilan bir xil emas:
@@ -95,7 +96,8 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 ## Endpoint'lar
 
 ### `GET /api/bot/umumiy`
-Respublika jami va hududlar. Misol javob (05.10 daraxti, qisqartirilgan):
+Respublika jami va hududlar; respublika va har bir hududda `toldirish` jamlamasi ham bor. Misol javob
+(05.10 daraxti, qisqartirilgan, `toldirish` tushirib qoldirilgan):
 
 ```json
 { "jami": 3896, "ulangan": 3434, "ulanmagan": 375, "ochirilgan": 87, "foiz": 88.1,
@@ -104,7 +106,7 @@ Respublika jami va hududlar. Misol javob (05.10 daraxti, qisqartirilgan):
 
 ### `GET /api/bot/hudud/{slug}`
 Bitta hudud jami va tumanlar (tizimlar) kesimi: `tumanlar[]` — `nomi`, `jami`, `ulangan`,
-`ulanmagan`, `ochirilgan`, `foiz`.
+`ulanmagan`, `ochirilgan`, `foiz`, `toldirish`. Hududning o'zida ham `toldirish` bor.
 
 ### `GET /api/bot/hudud/{slug}/tashkilotlar[?holat=ulanmagan]`
 Hududdagi barcha tashkilotlar (reestr tartibida). `holat` berilsa — faqat shu holatdagilar.
@@ -124,10 +126,10 @@ To'ldirish faylidagi tashkilotlar, eng past foizdan boshlab. `kam` berilsa — f
 **past**lar; `limit` — eng ko'pi 5000 (standart: hammasi). Javob:
 
 ```json
-{ "slug": "andijon", "toldirish": { "tashkilotlar": 274, "ortacha": 31.4, "nol": 120, "ellikdanKam": 190, "sana": "2026-10-14" },
-  "jami": 190,
-  "tashkilotlar": [ { "nomi": "…", "stir": "200254651", "foiz": 0, "hudud": "Андижон вилояти", "hududSlug": "andijon",
-    "tuman": "Oltinkoʻl tumani", "reestrId": "919061a623fc" } ] }
+{ "slug": "andijon", "toldirish": { "tashkilotlar": 259, "ortacha": 13.9, "nol": 192, "ellikdanKam": 229, "sana": "2026-10-14" },
+  "jami": 229,
+  "tashkilotlar": [ { "nomi": "Андижанская районная многопрофильная центральная поликлиника", "stir": "311924480", "foiz": 0, "hudud": "Андижон вилояти", "hududSlug": "andijon",
+    "tuman": "Andijon tumani", "reestrId": "3a8ed35c8088" } ] }
 ```
 
 - `nomi` — to'ldirish faylidagi nom (ARGOS yozilishi, reestrdagidan farq qilishi mumkin);
