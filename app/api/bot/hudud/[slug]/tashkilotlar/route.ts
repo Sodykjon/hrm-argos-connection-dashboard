@@ -8,11 +8,11 @@ export const dynamic = "force-dynamic";
 // Every registry row of a region, registry order; ?holat=ulangan|ulanmagan|ochirilgan narrows it.
 export async function GET(request: Request, ctx: RouteContext<"/api/bot/hudud/[slug]/tashkilotlar">) {
   const { slug } = await ctx.params;
-  return withLive(request, (live, meta) => {
+  return withLive(request, (live, meta, c) => {
     const holat = new URL(request.url).searchParams.get("holat") ?? undefined;
     if (holat && !STATUSES.includes(holat as LiveStatus))
       return json({ xato: "holat: ulangan, ulanmagan yoki ochirilgan" }, 400);
-    const list = regionOrgs(live.result, slug, holat as LiveStatus | undefined);
+    const list = regionOrgs(live.result, slug, holat as LiveStatus | undefined, c);
     if (!list) return json({ xato: "Bunday hudud yoʻq", slug }, 404);
     return json({ ...meta, slug, jami: list.length, tashkilotlar: list });
   });

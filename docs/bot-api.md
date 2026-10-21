@@ -1,7 +1,9 @@
 # Bot API — tashkilotlarning ARGOS'ga ulanish holati
 
 Telegram bot uchun faqat o'qish API'si. Raqamlar «ARGOS жонли» sahifasidagi bilan aynan bir xil
-hisoblanadi: reestr + foydalanuvchi brauzeridan kelgan oxirgi ARGOS daraxti.
+hisoblanadi: reestr + foydalanuvchi brauzeridan kelgan oxirgi ARGOS daraxti. To'ldirish darajasi
+(`toldirish`) — «Тўлдирилиш даражаси» sahifasidagi oxirgi kunlik fayldan, tashkilotga STIR orqali
+bog'lanadi.
 
 Manzil: `https://<sayt-manzili>/api/bot/...` — barcha javoblar JSON, kodirovka UTF-8.
 
@@ -60,7 +62,8 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
   "holatMatn": "Уланган",
   "sabab": "billing",
   "sababMatn": "Дарахтда, биллинг фаол",
-  "billing": 1
+  "billing": 1,
+  "toldirish": { "foiz": 87.5, "sana": "2026-10-14" }
 }
 ```
 
@@ -70,6 +73,24 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 - `boysunuvi` — reestrdagi «Boʻysunuvi» ustuni: tashkilot kimga bo'ysunadi (masalan «Tuman tibbiyot
   birlashmasi», «Hududiy SSB va tuman hokimligi», «Viloyat SSB»). Qiymat bo'lmasa `null`.
 - `billing`: `1` faol, `0` nofaol, `null` daraxtda yo'q.
+- `toldirish` — ma'lumotlar to'ldirilish darajasi: `foiz` (0–100, bir kasr xona) va `sana` (fayl
+  sanasi, ISO). `null` — tashkilotda STIR yo'q yoki uning STIR'i to'ldirish faylida yo'q.
+  Bitta STIR ostidagi bir nechta reestr qatori bir xil qiymat oladi.
+
+## To'ldirish jamlamasi
+
+`umumiy`, `hudud/{slug}` va ularning `hududlar[]` / `tumanlar[]` elementlarida, `toldirish` endpoint'ida:
+
+```json
+{ "tashkilotlar": 274, "ortacha": 31.4, "nol": 120, "ellikdanKam": 190, "sana": "2026-10-14" }
+```
+
+- `tashkilotlar` — to'ldirish faylidagi tashkilotlar soni (ulanish `jami` bilan bir xil emas:
+  boshqa ro'yxat);
+- `ortacha` — tashkilotlar foizlarining o'rtachasi; `nol` — 0% dagilar; `ellikdanKam` — 50% dan pastlar.
+- Hudud raqamlari «Тўлдирилиш даражаси» sahifasidagi bilan bir xil. Tuman raqami — STIR'i reestrda
+  shu tumanda turgan tashkilotlardan; STIR'i reestrda topilmaganlar tumanlarga kirmaydi.
+- Ma'lumot bo'lmasa `null`. `sana` eski bo'lsa — kunlik fayl hali yangilanmagan.
 
 ## Endpoint'lar
 
@@ -97,6 +118,24 @@ Nom bo'yicha qidiruv: so'rovdagi har bir so'z nomdagi biror so'zning boshiga mos
 Katta-kichik harf, apostrof (ʻ ' ’) va kirill/lotin farqi hisobga olinmaydi («Олтинкўл» =
 «oltinkol»). `limit` standart 20, eng ko'pi 100. Javob: `{ jami, natijalar: [...] }` — `jami`
 limitdan oldingi umumiy son.
+
+### `GET /api/bot/toldirish[?hudud=andijon][&kam=50][&limit=100]`
+To'ldirish faylidagi tashkilotlar, eng past foizdan boshlab. `kam` berilsa — faqat shu foizdan
+**past**lar; `limit` — eng ko'pi 5000 (standart: hammasi). Javob:
+
+```json
+{ "slug": "andijon", "toldirish": { "tashkilotlar": 274, "ortacha": 31.4, "nol": 120, "ellikdanKam": 190, "sana": "2026-10-14" },
+  "jami": 190,
+  "tashkilotlar": [ { "nomi": "…", "stir": "200254651", "foiz": 0, "hudud": "Андижон вилояти", "hududSlug": "andijon",
+    "tuman": "Oltinkoʻl tumani", "reestrId": "919061a623fc" } ] }
+```
+
+- `nomi` — to'ldirish faylidagi nom (ARGOS yozilishi, reestrdagidan farq qilishi mumkin);
+- `reestrId` — reestr qatorining `id`si (tashkilot obyekti bilan bog'lash uchun), `tuman` — reestrdagi
+  tuman; STIR reestrda topilmasa ikkalasi `null`;
+- `toldirish` — butun hudud (yoki respublika) jamlamasi, `kam` filtridan oldin; `jami` — filtrdan
+  keyingi, `limit`dan oldingi son.
+- 503 — to'ldirish fayli hali yuklanmagan.
 
 ### `GET /api/bot/ozgarishlar[?hudud=andijon]`
 Oxirgi ikki **turli** ARGOS daraxti orasida holati o'zgargan tashkilotlar: (misol)

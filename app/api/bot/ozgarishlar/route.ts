@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 // Rows whose status changed between the previous and the current ARGOS tree, [?hudud=<slug>].
 // The pair (oldingiDaraxt, daraxtOlingan) names the change set: the same pair = already sent.
 export async function GET(request: Request) {
-  return withLive(request, (live, meta) => {
+  return withLive(request, (live, meta, c) => {
     const slug = new URL(request.url).searchParams.get("hudud") ?? undefined;
-    const list = changes(live.changes, slug);
+    const list = changes(live.changes, slug, c);
     return json({ ...meta, oldingiDaraxt: live.prevAt, jami: list.length, ozgarishlar: list });
   });
 }

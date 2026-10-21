@@ -5,6 +5,8 @@ import { changedSince, compute, type BaseFile, type TreeRow } from "../lib/argos
 import {
   byStir,
   changes,
+  completionList,
+  type CompletionData,
   fold,
   orgId,
   regionOrgs,
@@ -111,4 +113,43 @@ test("changes between two trees, with the region filter", () => {
   assert.ok(list.some((c) => c.id === orgId(on)));
   assert.equal(changes(changedSince(base.orgs, tree, cur), "andijon").length, shared);
   assert.equal(changes(changedSince(base.orgs, tree, cur), "xorazm").length, 0);
+});
+
+test("completion: per org by STIR, region and district figures, the low-first list", () => {
+  const a = r.orgs.find((o) => o.region === "Андижон вилояти" && o.stir && o.district)!;
+  const b = r.orgs.find((o) => o.region === "Андижон вилояти" && o.stir && o.stir !== a.stir && o.district === a.district)!;
+  const c: CompletionData = {
+    sana: "2026-10-14",
+    overall: { orgCount: 3, avg: 0.5, zeroCount: 1, below50: 1 },
+    regions: [{ name: "Андижон вилояти", orgCount: 2, avg: 0.75, zeroCount: 0, below50: 0 }],
+    orgs: [
+      { name: "A", stir: a.stir!, region: "Андижон вилояти", completion: 0.9 },
+      { name: "B", stir: b.stir!, region: "Андижон вилояти", completion: 0.6 },
+      { name: "Z", region: "Республика муассасалари", completion: 0 },
+    ],
+  };
+  const [o] = byStir(r, a.stir!, c);
+  assert.deepEqual(o.toldirish, { foiz: 90, sana: "2026-10-14" });
+  assert.equal(byStir(r, a.stir!)[0].toldirish, null, "no file → null");
+  assert.ok(regionOrgs(r, "andijon", undefined, c)!.some((x) => x.toldirish === null), "STIR not in the file → null");
+
+  const s = summary(r, c);
+  assert.deepEqual(s.toldirish, { tashkilotlar: 3, ortacha: 50, nol: 1, ellikdanKam: 1, sana: "2026-10-14" });
+  assert.equal(s.hududlar.find((h) => h.slug === "andijon")!.toldirish!.ortacha, 75);
+  assert.equal(s.hududlar.find((h) => h.slug === "xorazm")!.toldirish, null);
+  assert.equal(summary(r).toldirish, null);
+
+  const d = regionSummary(r, "andijon", c)!.tumanlar.find((t) => t.nomi === a.district)!;
+  assert.equal(d.toldirish!.tashkilotlar, 2);
+  assert.equal(d.toldirish!.ortacha, 75);
+
+  const all = completionList(r, c);
+  assert.deepEqual(all.tashkilotlar.map((x) => x.nomi), ["Z", "B", "A"]);
+  assert.equal(all.tashkilotlar[0].reestrId, null);
+  assert.equal(all.tashkilotlar[2].reestrId, orgId(a));
+  assert.equal(all.tashkilotlar[2].tuman, a.district);
+  const low = completionList(r, c, { slug: "andijon", kam: 70 });
+  assert.deepEqual(low.tashkilotlar.map((x) => x.nomi), ["B"]);
+  assert.equal(low.toldirish!.tashkilotlar, 2, "region figure, not the filtered list's");
+  assert.equal(completionList(r, c, { limit: 1 }).jami, 3);
 });
