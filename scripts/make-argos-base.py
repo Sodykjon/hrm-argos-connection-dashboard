@@ -6,7 +6,7 @@ Kirish:
            + «Roʻyxatdan chiqarilganlar»; boshqa varaqlar o'qilmaydi)
   --overrides scripts/argos-overrides.json
     faol / ulanmagan / faolStir — qo'lda qaror (daraxtdan ustun)
-    remove  — reestrdan chiqarilgan: bazaga tushmaydi, STIR «ignoreStir»ga
+    remove  — reestrdan chiqarilgan: [varaq, nom, STIR, sabab?, sana?]; bazaga tushmaydi, STIR «ignoreStir»ga
     exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
     stirFix — xato STIR: [varaq, nom, eski, yangi]; Excel'da eskisi tursa almashtiriladi
     retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
@@ -76,6 +76,8 @@ OV_FA = {(k[1], k[2]) for k in ov["faol"]}
 OV_UL = {(k[1], k[2]) for k in ov["ulanmagan"]}
 OV_STIR = set(ov["faolStir"])
 REMOVE = {(k[1], k[2]) for k in ov.get("remove", [])}
+# optional [.., sabab, sana] — for rows removed after the workbook's own «Roʻyxatdan chiqarilganlar»
+REMOVE_INFO = {(k[1], k[2]): {"reason": k[3], "date": k[4]} for k in ov.get("remove", []) if len(k) > 4}
 EXCLUDE = {(k[1], k[2]): k[3] for k in ov.get("exclude", [])}
 STIRFIX = {(k[1], k[2]): k[3] for k in ov.get("stirFix", [])}
 # STIRs from the district associations' letters to UZINFOCOM: [varaq, nom, eski, yangi, xat]
@@ -121,7 +123,7 @@ for sn in REGION:
             seen.add(k)
             if stir:
                 ignore.add(stir)
-            info = removed_info.get(k, {"reason": None, "date": "29.09.2026"})
+            info = removed_info.get(k, REMOVE_INFO.get(k, {"reason": None, "date": "29.09.2026"}))
             removed.append({**place, "reason": info["reason"], "date": info["date"]})
             continue
         if k in EXCLUDE:
