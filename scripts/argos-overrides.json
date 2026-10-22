@@ -138,6 +138,16 @@
    "Andijon",
    "Andijon viloyat sogʻliqni saqlash boshqarmasi maxsus tibbiy baza",
    "202636696"
+  ],
+  [
+   "Namangan",
+   "Namangan shahar tibbiyot birlashmasi tasarrufidagi \"Markazlashgan taʼmirlash foydalanish xizmati\"",
+   "201763611"
+  ],
+  [
+   "Namangan",
+   "Наманганская городская 5 семейная поликлиника",
+   "201843930"
   ]
  ],
  "exclude": [
@@ -2170,5 +2180,6 @@
    "izoh": "ARGOS’da bor, reestrga qo‘shildi 16.10.2026 (HRISD); nomi ARGOS’dagidek"
   }
  ],
- "_izoh_add": "add: Excel’da yo‘q, ARGOS’da bor bo‘linmalar — nomlarini HRISD aytgan (16.10.2026); o‘lat markazi filiali nomi ARGOS’dan."
+ "_izoh_add": "add: Excel’da yo‘q, ARGOS’da bor bo‘linmalar — nomlarini HRISD aytgan (16.10.2026); o‘lat markazi filiali nomi ARGOS’dan.",
+ "_izoh_remove_22_10": "22.10.2026 (foydalanuvchi): Namangan shahar «Markazlashgan taʼmirlash foydalanish xizmati» — yopilgan; «Наманганская городская 5 семейная поликлиника» — «Namangan shahar 5-sonli oilaviy poliklinikasi» (309333608) dubli"
 }
