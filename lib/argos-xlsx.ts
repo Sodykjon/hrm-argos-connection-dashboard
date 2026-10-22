@@ -156,6 +156,7 @@ function regionSheet(wb: ExcelJS.Workbook, r: TreeRegion, iso: string) {
     { width: rep ? 34 : 32 },
     { width: 24 },
     { width: 30 },
+    { width: 40 },
   ];
 
   ws.mergeCells("A1:G1");
@@ -214,6 +215,7 @@ function regionSheet(wb: ExcelJS.Workbook, r: TreeRegion, iso: string) {
     "Boʻysunuvi",
     "17.09 dan oʻzgarish",
     `ARGOS izohi (${s.day})`,
+    "Izoh",
   ];
   const hr = ws.getRow(9);
   head.forEach((t, i) => {
@@ -253,7 +255,7 @@ function regionSheet(wb: ExcelJS.Workbook, r: TreeRegion, iso: string) {
       at++;
     }
   }
-  ws.autoFilter = { from: { row: 9, column: 1 }, to: { row: Math.max(9, at - 1), column: 11 } };
+  ws.autoFilter = { from: { row: 9, column: 1 }, to: { row: Math.max(9, at - 1), column: 12 } };
   ws.pageSetup.printTitlesRow = "9:9";
   return ws;
 }
@@ -277,6 +279,7 @@ function orgRow(row: ExcelJS.Row, o: TreeOrg, where: string) {
         ? `▼ ${o.status === "ochirilgan" ? "Oʻchirildi" : "Ulanmagan"}  (edi: ${STATUS_LOWER[o.was]})`
         : "",
     [REASON[o.reason], o.note].filter(Boolean).join(" · "),
+    o.izoh ? `${o.izoh.text} (${tashkentDay(o.izoh.at)})` : "",
   ];
   v.forEach((x, i) => {
     if (i === 7) return;
@@ -291,6 +294,14 @@ function orgRow(row: ExcelJS.Row, o: TreeOrg, where: string) {
   if (o.ch !== 0) style(row.getCell(10), { size: 9, bold: true, color: o.ch > 0 ? C.ulInk : C.unInk, border: true });
   else style(row.getCell(10), { size: 9, border: true });
   style(row.getCell(11), { size: 9, color: C.note, border: true });
+  style(row.getCell(12), { size: 9, border: true, wrap: true });
+}
+
+/** dd.mm.yyyy of an ISO time, in Tashkent. */
+function tashkentDay(iso: string): string {
+  const d = new Date(new Date(iso).getTime() + 5 * 3600 * 1000);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${p(d.getUTCDate())}.${p(d.getUTCMonth() + 1)}.${d.getUTCFullYear()}`;
 }
 
 /** «Umumiy»: the republic in one box row, then every sheet ranked from the lowest share up. */

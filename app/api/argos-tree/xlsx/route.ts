@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   }
 
   const { buf, filename } = await liveWorkbook({
-    regions: liveTree(live.result, onlyRegion),
+    regions: liveTree(live.result, onlyRegion, live.izoh),
     orgs: live.result.orgs,
     checkedAt: live.manifest?.checkedAt ?? live.tree.at,
     removed: BASE.removed,

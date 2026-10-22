@@ -15,15 +15,16 @@ import {
 } from "./argos-live";
 import { resolveOwnStir, type OwnStirApplied, type OwnStirPending } from "./argos-match";
 import { buildTree, type SesStructure, type TreeRegion } from "./argos-live-view";
-import { getLiveManifest, getLivePrevTree, getLiveTree, getStirAssign, type LiveManifest } from "./store";
+import { getIzohlar, getLiveManifest, getLivePrevTree, getLiveTree, getStirAssign, type LiveManifest } from "./store";
+import type { Izoh } from "./izoh";
 
 export const BASE = raw as unknown as BaseFile;
 /** The SES committee's two-level structure («SES tuzilmasi» sheet). */
 export const SES = sesRaw as unknown as SesStructure;
 
 /** The registry tree as every page shows it — the SES group in its structure. */
-export function liveTree(result: LiveResult, onlyRegion?: string): TreeRegion[] {
-  return buildTree(result, onlyRegion, SES);
+export function liveTree(result: LiveResult, onlyRegion?: string, izohlar?: Record<string, Izoh>): TreeRegion[] {
+  return buildTree(result, onlyRegion, SES, izohlar);
 }
 
 export interface LiveData {
@@ -34,13 +35,15 @@ export interface LiveData {
   changes: ReturnType<typeof changedSince>;
   /** STIRs found in the tree for STIR-less registry rows: applied, and waiting for a person. */
   own: { applied: OwnStirApplied[]; pending: OwnStirPending[] };
+  /** Notes on registry rows, by orgKey (lib/izoh.ts). */
+  izoh: Record<string, Izoh>;
 }
 
 // Per-request memo: the home page reads it for both its figures and its tree.
 export const getLive = cache(async (): Promise<LiveData | null> => {
   const [tree, manifest] = await Promise.all([getLiveTree(), getLiveManifest()]);
   if (!tree) return null;
-  const [prev, stored] = await Promise.all([getLivePrevTree(), getStirAssign()]);
+  const [prev, stored, izoh] = await Promise.all([getLivePrevTree(), getStirAssign(), getIzohlar()]);
   // Strong matches are applied here too, so a page never waits for the next tree to show them;
   // POST /api/argos-tree stores them.
   const own = resolveOwnStir(BASE.orgs, BASE.ignoreStir ?? [], tree.rows, stored, tree.at);
@@ -51,5 +54,6 @@ export const getLive = cache(async (): Promise<LiveData | null> => {
     prevAt: prev?.at ?? null,
     changes: prev ? changedSince(own.orgs, prev, tree) : [],
     own: { applied: own.applied, pending: own.pending },
+    izoh: izoh.items,
   };
 });

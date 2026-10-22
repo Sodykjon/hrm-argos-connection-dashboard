@@ -31,6 +31,7 @@ import type {
   Snapshot,
 } from "./types";
 import type { StirAssign, TreeSnapshot } from "./argos-live";
+import type { IzohStore } from "./izoh";
 import type { StaffSnapshot, TaqDay } from "./taqsimlash";
 
 const KV_URL =
@@ -64,6 +65,7 @@ const K = {
   livePrev: "argoslive:tree:prev",
   liveManifest: "argoslive:manifest",
   liveAssign: "argoslive:stirassign",
+  izoh: "argoslive:izohlar",
   staffLatest: "argoslive:staff:latest",
   staffHistory: "argoslive:staff:history",
 } as const;
@@ -360,6 +362,25 @@ export async function getStirAssign(): Promise<StirAssign> {
 
 export async function putStirAssign(a: StirAssign): Promise<void> {
   await writeKey(K.liveAssign, a);
+}
+
+/** Notes on registry rows (lib/izoh.ts). */
+export async function getIzohlar(): Promise<IzohStore> {
+  const a = await readKey<IzohStore>(K.izoh);
+  return { items: a?.items ?? {} };
+}
+
+// Saves run one after another in this process, so two people saving at once do not
+// read the same file and drop each other's note.
+let izohQueue: Promise<unknown> = Promise.resolve();
+export function updateIzohlar<T>(fn: (s: IzohStore) => { store: IzohStore | null; out: T }): Promise<T> {
+  const run = izohQueue.then(async () => {
+    const { store, out } = fn(await getIzohlar());
+    if (store) await writeKey(K.izoh, store);
+    return out;
+  });
+  izohQueue = run.catch(() => {});
+  return run;
 }
 
 // ------------------------------------------------- «ТТБ → поликлиника» head counts

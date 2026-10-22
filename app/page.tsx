@@ -98,7 +98,7 @@ export default async function OverviewPage() {
           the leadership-PDF summary table stays for uploaded reports */}
       <Reveal>
         {live ? (
-          <LiveTree regions={liveTree(live.result)} exportHref="/api/argos-tree/xlsx" />
+          <LiveTree regions={liveTree(live.result, undefined, live.izoh)} exportHref="/api/argos-tree/xlsx" />
         ) : (
         <ConnectionRegionTable
           regions={regions}

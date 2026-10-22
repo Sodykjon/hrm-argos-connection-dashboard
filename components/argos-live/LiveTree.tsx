@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useMemo, useState, type ReactNode } from "react";
+import { Fragment, useCallback, useMemo, useState, type ReactNode } from "react";
 import type { Counts, LiveStatus } from "@/lib/argos-live";
 import type { SesRole, TreeOrg, TreeRegion } from "@/lib/argos-live-view";
 import { fmtInt, fmtPct, rampCss } from "@/lib/format";
 import { isRepublic, regionLabel, regionSlug } from "@/lib/regions";
 import { StatusPill } from "@/components/StatusPill";
+import { IzohCell } from "@/components/argos-live/IzohCell";
+import type { Izoh } from "@/lib/izoh";
 import { useLang, useS } from "@/lib/i18n/client";
 
 type Filter = "all" | LiveStatus | "changed";
@@ -53,6 +55,13 @@ export function LiveTree({
   // query opens everything again.
   const [shut, setShut] = useState<{ sig: string; r: ReadonlySet<string>; g: ReadonlySet<string>; b: ReadonlySet<string> }>(
     () => ({ sig: "", r: EMPTY, g: EMPTY, b: EMPTY }),
+  );
+
+  // notes saved on this page since it loaded (orgKey → note, null = cleared)
+  const [edits, setEdits] = useState<ReadonlyMap<string, Izoh | null>>(() => new Map());
+  const onSaved = useCallback(
+    (key: string, izoh: Izoh | null) => setEdits((m) => new Map(m).set(key, izoh)),
+    [],
   );
 
   const all = useMemo(() => regions.flatMap((r) => r.groups.flatMap((g) => g.orgs)), [regions]);
@@ -268,7 +277,7 @@ export function LiveTree({
                     {open && !g.blocks && (
                       <tr>
                         <td colSpan={COLS} className="p-0">
-                          <OrgTable orgs={g.shown} republic={isRepublic(r.name)} indent={!single} />
+                          <OrgTable orgs={g.shown} republic={isRepublic(r.name)} indent={!single} edits={edits} onSaved={onSaved} />
                         </td>
                       </tr>
                     )}
@@ -294,7 +303,7 @@ export function LiveTree({
                             {bo && (
                               <tr>
                                 <td colSpan={COLS} className="p-0">
-                                  <OrgTable orgs={b.shown} republic={false} indent={!single} deep />
+                                  <OrgTable orgs={b.shown} republic={false} indent={!single} deep edits={edits} onSaved={onSaved} />
                                 </td>
                               </tr>
                             )}
@@ -467,11 +476,15 @@ function OrgTable({
   republic,
   indent,
   deep,
+  edits,
+  onSaved,
 }: {
   orgs: TreeOrg[];
   republic: boolean;
   indent: boolean;
   deep?: boolean;
+  edits: ReadonlyMap<string, Izoh | null>;
+  onSaved: (key: string, izoh: Izoh | null) => void;
 }) {
   const S = useS();
   const L = S.argosLive;
@@ -485,16 +498,17 @@ function OrgTable({
         deep ? (indent ? "pl-12 sm:pl-14" : "pl-6 sm:pl-8") : indent ? "pl-6 sm:pl-8" : ""
       }`}
     >
-      <table className="w-full min-w-[1000px] table-fixed border-collapse text-left text-[0.78rem]">
+      <table className="w-full min-w-[1120px] table-fixed border-collapse text-left text-[0.78rem]">
         <colgroup>
           <col className="w-12" />
           <col />
-          <col className="w-[132px]" />
-          <col className="w-[150px]" />
-          <col className="w-[138px]" />
-          <col className="w-[64px]" />
+          <col className="w-[112px]" />
+          <col className="w-[136px]" />
+          <col className="w-[124px]" />
+          <col className="w-[60px]" />
+          <col className="w-[156px]" />
+          <col className="w-[124px]" />
           <col className="w-[190px]" />
-          <col className="w-[150px]" />
         </colgroup>
         <thead>
           <tr className="border-b border-line-soft text-[0.75rem] uppercase tracking-wide text-ink-faint">
@@ -505,12 +519,13 @@ function OrgTable({
             <th className="px-3 py-1.5 font-medium">{T.col.contract}</th>
             <th className="tnum px-3 py-1.5 text-right font-medium">{T.col.pay}</th>
             <th className="px-3 py-1.5 font-medium">{T.col.sub}</th>
-            <th className="px-3 py-1.5 font-medium sm:pr-4">{T.col.argos}</th>
+            <th className="px-3 py-1.5 font-medium">{T.col.argos}</th>
+            <th className="px-3 py-1.5 font-medium sm:pr-4">{T.col.izoh}</th>
           </tr>
         </thead>
         <tbody>
           {orgs.map((o) => (
-            <tr key={o.n} className={`border-b border-line-soft align-top last:border-b-0 ${TINT[o.status]}`}>
+            <tr key={o.n} className={`group border-b border-line-soft align-top last:border-b-0 ${TINT[o.status]}`}>
               <td className="tnum px-3 py-1.5 text-right text-ink-faint">{o.n}</td>
               <td className="px-3 py-1.5">
                 <div
@@ -557,8 +572,11 @@ function OrgTable({
               <td className="whitespace-nowrap px-3 py-1.5 text-ink-soft">{o.contract ?? <span className="text-ink-faint">—</span>}</td>
               <td className={`tnum px-3 py-1.5 text-right ${payTone(o.pay)}`}>{o.pay === null ? "—" : `${fmtNum(o.pay)}%`}</td>
               <td className="px-3 py-1.5 text-ink-soft">{o.sub ?? "—"}</td>
-              <td className="px-3 py-1.5 text-[0.75rem] text-ink-faint sm:pr-4">
+              <td className="px-3 py-1.5 text-[0.75rem] text-ink-faint">
                 {o.reason === "billing" ? "" : L.reasons[o.reason]}
+              </td>
+              <td className="px-3 py-1.5 sm:pr-4">
+                <IzohCell orgKey={o.key} org={o.name} izoh={edits.has(o.key) ? edits.get(o.key)! : o.izoh} onSaved={onSaved} />
               </td>
             </tr>
           ))}

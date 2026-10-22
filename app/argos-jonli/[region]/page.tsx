@@ -61,7 +61,7 @@ export default async function ArgosLiveRegionPage({ params }: { params: Promise<
         </div>
       </section>
 
-      <LiveTree regions={liveTree(live.result, name)} single exportHref={`/api/argos-tree/xlsx?region=${slug}`} />
+      <LiveTree regions={liveTree(live.result, name, live.izoh)} single exportHref={`/api/argos-tree/xlsx?region=${slug}`} />
     </div>
   );
 }

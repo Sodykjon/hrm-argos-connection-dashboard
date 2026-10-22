@@ -4,10 +4,13 @@
 //
 // Pure module: no `@/` imports, so node --test can load it directly.
 
-import type { Counts, LiveOrg, LiveResult, LiveStatus, Reason } from "./argos-live.ts";
+import { orgKey, type Counts, type LiveOrg, type LiveResult, type LiveStatus, type Reason } from "./argos-live.ts";
+import type { Izoh } from "./izoh.ts";
 
 export interface TreeOrg {
   n: number; // row number within the sheet, as the workbook numbers it
+  key: string; // orgKey — what a note (lib/izoh.ts) is filed under
+  izoh: Izoh | null;
   name: string;
   stir: string | null;
   status: LiveStatus;
@@ -68,7 +71,12 @@ function sesPlaces(ses: SesStructure): Map<string, { i: number; role: SesRole }>
   return m;
 }
 
-export function buildTree(result: LiveResult, onlyRegion?: string, ses?: SesStructure): TreeRegion[] {
+export function buildTree(
+  result: LiveResult,
+  onlyRegion?: string,
+  ses?: SesStructure,
+  izohlar?: Record<string, Izoh>,
+): TreeRegion[] {
   const dup = new Map<string, number>();
   for (const o of result.orgs) if (o.stir) dup.set(o.stir, (dup.get(o.stir) ?? 0) + 1);
 
@@ -91,6 +99,8 @@ export function buildTree(result: LiveResult, onlyRegion?: string, ses?: SesStru
       const orgs = place ? [...list].sort((a, b) => (place.get(a.name)?.i ?? 1e9) - (place.get(b.name)?.i ?? 1e9)) : list;
       const rows: TreeOrg[] = orgs.map((o) => ({
         n: ++n,
+        key: orgKey(o),
+        izoh: izohlar?.[orgKey(o)] ?? null,
         name: o.name,
         stir: o.stir,
         status: o.status,

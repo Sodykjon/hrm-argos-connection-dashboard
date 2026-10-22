@@ -55,7 +55,7 @@ export default async function ArgosLivePage() {
     );
   }
 
-  const { result, tree, manifest, changes, prevAt, own } = live;
+  const { result, tree, manifest, changes, prevAt, own, izoh } = live;
   const { totals } = result;
   const checkedAt = manifest?.checkedAt ?? tree.at;
   const stale = isStale(checkedAt);
@@ -108,7 +108,7 @@ export default async function ArgosLivePage() {
         </div>
       </section>
 
-      <LiveTree regions={liveTree(result)} exportHref="/api/argos-tree/xlsx" />
+      <LiveTree regions={liveTree(result, undefined, izoh)} exportHref="/api/argos-tree/xlsx" />
 
       {prevAt && (
         <section className="card overflow-hidden">
