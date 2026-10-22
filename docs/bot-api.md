@@ -1,6 +1,6 @@
 # Bot API — tashkilotlarning ARGOS'ga ulanish holati
 
-Telegram bot uchun faqat o'qish API'si. Raqamlar «ARGOS жонли» sahifasidagi bilan aynan bir xil
+Telegram bot va xodimlar uchun API: hammasi faqat o'qish, tashkilot izohlari esa o'qish va yozish (`/api/bot/izoh`). Raqamlar «ARGOS жонли» sahifasidagi bilan aynan bir xil
 hisoblanadi: reestr + foydalanuvchi brauzeridan kelgan oxirgi ARGOS daraxti. To'ldirish darajasi
 (`toldirish`) — «Тўлдирилиш даражаси» sahifasidagi oxirgi kunlik fayldan, tashkilotga STIR orqali
 bog'lanadi.
@@ -63,7 +63,8 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
   "sabab": "billing",
   "sababMatn": "Дарахтда, биллинг фаол",
   "billing": 1,
-  "toldirish": { "foiz": 73.8, "sana": "2026-10-14" }
+  "toldirish": { "foiz": 73.8, "sana": "2026-10-14" },
+  "izoh": { "matn": "Xat yuborildi, javob kutilmoqda", "sana": "2026-10-22T07:15:00.000Z" }
 }
 ```
 
@@ -76,6 +77,9 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 - `toldirish` — ma'lumotlar to'ldirilish darajasi: `foiz` (0–100, bir kasr xona) va `sana` (fayl
   sanasi, ISO). `null` — tashkilotda STIR yo'q yoki uning STIR'i to'ldirish faylida yo'q.
   Bitta STIR ostidagi bir nechta reestr qatori bir xil qiymat oladi.
+- `izoh` — tashkilotga yozilgan izoh: `matn` va `sana` (oxirgi saqlangan vaqt, ISO, UTC). `null` —
+  izoh yo'q. Saytdagi «Изоҳ» ustuni bilan bir xil: saytda yozilgani API'da, API'da yozilgani saytda
+  ko'rinadi. Har tashkilotda bitta izoh, tarix saqlanmaydi. `/ozgarishlar` yozuvlarida ham bor.
 
 ## To'ldirish jamlamasi
 
@@ -147,6 +151,34 @@ Oxirgi ikki **turli** ARGOS daraxti orasida holati o'zgargan tashkilotlar: (miso
   "ozgarishlar": [ { "id": "919061a623fc", "nomi": "Oltinkoʻl tumani tibbiyot birlashmasi", "hudud": "Андижон вилояти",
     "hududSlug": "andijon", "tuman": "Oltinkoʻl tumani", "stir": "200254651",
     "boysunuvi": "Hududiy SSB va tuman hokimligi", "oldin": "ochirilgan", "oldinMatn": "Ўчирилган", "holat": "ulangan", "holatMatn": "Уланган" } ] }
+```
+
+### `GET /api/bot/izoh[?hudud=andijon]`
+Izohi bor tashkilotlar, reestr tartibida (tashkilot obyektlari):
+
+```json
+{ "daraxtOlingan": "...", "tekshirilgan": "...", "slug": "andijon", "jami": 1, "tashkilotlar": [ { "id": "919061a623fc", "...": "...", "izoh": { "matn": "...", "sana": "..." } } ] }
+```
+
+### `GET /api/bot/izoh?id=919061a623fc`
+Bitta tashkilot obyekti (`izoh` `null` bo'lishi mumkin). 404 — bunday `id` reestrda yo'q.
+
+### `POST /api/bot/izoh`
+Izoh yozish yoki almashtirish. Tana (JSON, `Content-Type: application/json`):
+
+```json
+{ "id": "919061a623fc", "matn": "Xat yuborildi, javob kutilmoqda" }
+```
+
+- `id` — tashkilot obyektidagi `id` (masalan `/tashkilot?stir=...` javobidan).
+- `matn` — 500 belgigacha; boshidagi/oxiridagi bo'shliqlar olib tashlanadi. Bo'sh `matn` izohni o'chiradi.
+- Yangi izoh eskisining ustidan yoziladi.
+
+Javob: `{ "ok": true, "id": "919061a623fc", "izoh": { "matn": "...", "sana": "2026-10-22T07:15:00.000Z" } }`
+(o'chirilganda `"izoh": null`). Xatolar: 400 — tana noto'g'ri yoki matn 500 belgidan uzun; 404 — `id` yo'q.
+
+```bash
+curl -X POST https://<sayt-manzili>/api/bot/izoh   -H "Authorization: Bearer $BOT_API_TOKEN" -H "Content-Type: application/json"   -d '{"id":"919061a623fc","matn":"Xat yuborildi"}'
 ```
 
 ## Bildirishnoma uchun tavsiya

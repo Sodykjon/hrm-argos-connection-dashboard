@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   return withLive(request, (live, meta, c) => {
     const slug = new URL(request.url).searchParams.get("hudud") ?? undefined;
-    const list = changes(live.changes, slug, c);
+    const list = changes(live.changes, slug, c, live.izoh);
     return json({ ...meta, oldingiDaraxt: live.prevAt, jami: list.length, ozgarishlar: list });
   });
 }

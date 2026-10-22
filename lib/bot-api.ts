@@ -2,12 +2,14 @@
 // totals and status changes between the last two ARGOS trees — counted exactly as /argos-jonli
 // counts them (lib/argos-live-data.ts getLive) — and each organisation's data-completion figure from
 // the latest «Тўлдирилиш даражаси» file, joined by STIR as /toldirilish places it
-// (lib/completion-data.ts getCompletionView). Field names are Uzbek (Latin) for the bot's author.
+// (lib/completion-data.ts getCompletionView), and the note staff keep on a row (lib/izoh.ts).
+// Field names are Uzbek (Latin) for the bot's author.
 //
 // Pure module: no `@/` imports, so node --test can load it directly.
 
 import { createHash } from "node:crypto";
-import type { BaseOrg, Counts, LiveOrg, LiveResult, LiveStatus, Reason } from "./argos-live.ts";
+import { orgKey, type BaseOrg, type Counts, type LiveOrg, type LiveResult, type LiveStatus, type Reason } from "./argos-live.ts";
+import type { Izoh } from "./izoh.ts";
 import { regionSlug } from "./regions.ts";
 import type { CompletionOverall, CompletionRegionStat } from "./types.ts";
 
@@ -34,10 +36,21 @@ export const STATUSES: readonly LiveStatus[] = ["ulangan", "ulanmagan", "ochiril
  * group and name; a renamed row gets a new id.
  */
 export function orgId(o: Pick<BaseOrg, "region" | "district" | "name">): string {
-  return createHash("sha1")
-    .update(`${o.region}|${o.district ?? ""}|${o.name}`)
-    .digest("hex")
-    .slice(0, 12);
+  return createHash("sha1").update(orgKey(o)).digest("hex").slice(0, 12);
+}
+
+/** Notes by orgKey, as LiveData.izoh holds them. */
+export type Izohlar = Readonly<Record<string, Izoh>>;
+
+export interface BotIzoh {
+  matn: string;
+  sana: string; // ISO time of the last save
+}
+
+/** A row's note: null when it has none (or the notes were not passed). */
+export function orgIzoh(o: Pick<BaseOrg, "region" | "district" | "name">, iz?: Izohlar | null): BotIzoh | null {
+  const z = iz?.[orgKey(o)];
+  return z ? { matn: z.text, sana: z.at } : null;
 }
 
 /**
@@ -116,9 +129,10 @@ export interface BotOrg {
   sababMatn: string;
   billing: 0 | 1 | null; // null = STIR not in the ARGOS tree
   toldirish: BotCompletion | null; // null = no STIR, or the STIR is not in the completion file
+  izoh: BotIzoh | null; // the row's note (site «Изоҳ» column / POST /api/bot/izoh), null = none
 }
 
-export function botOrg(o: LiveOrg, c?: CompletionData | null): BotOrg {
+export function botOrg(o: LiveOrg, c?: CompletionData | null, iz?: Izohlar | null): BotOrg {
   return {
     id: orgId(o),
     nomi: o.name,
@@ -133,6 +147,7 @@ export function botOrg(o: LiveOrg, c?: CompletionData | null): BotOrg {
     sababMatn: REASON_TEXT[o.reason],
     billing: o.billing,
     toldirish: orgCompletion(o.stir, c),
+    izoh: orgIzoh(o, iz),
   };
 }
 
@@ -211,10 +226,11 @@ export function regionOrgs(
   slug: string,
   holat?: LiveStatus,
   c?: CompletionData | null,
+  iz?: Izohlar | null,
 ): BotOrg[] | null {
   const g = regionBySlug(r, slug);
   if (!g) return null;
-  return r.orgs.filter((o) => o.region === g.name && (!holat || o.status === holat)).map((o) => botOrg(o, c));
+  return r.orgs.filter((o) => o.region === g.name && (!holat || o.status === holat)).map((o) => botOrg(o, c, iz));
 }
 
 export interface BotCompletionOrg {
@@ -288,6 +304,7 @@ export function search(
   q: string,
   opts: { slug?: string; limit?: number } = {},
   c?: CompletionData | null,
+  iz?: Izohlar | null,
 ) {
   const words = fold(q).split(" ").filter(Boolean);
   if (!words.length) return { jami: 0, natijalar: [] as BotOrg[] };
@@ -296,12 +313,12 @@ export function search(
     const hay = ` ${fold(`${o.name} ${o.district ?? ""}`)} `;
     return words.every((w) => hay.includes(` ${w}`));
   });
-  return { jami: hits.length, natijalar: hits.slice(0, opts.limit ?? 20).map((o) => botOrg(o, c)) };
+  return { jami: hits.length, natijalar: hits.slice(0, opts.limit ?? 20).map((o) => botOrg(o, c, iz)) };
 }
 
-export function byStir(r: LiveResult, stir: string, c?: CompletionData | null): BotOrg[] {
+export function byStir(r: LiveResult, stir: string, c?: CompletionData | null, iz?: Izohlar | null): BotOrg[] {
   const s = stir.trim();
-  return r.orgs.filter((o) => o.stir === s).map((o) => botOrg(o, c));
+  return r.orgs.filter((o) => o.stir === s).map((o) => botOrg(o, c, iz));
 }
 
 export interface BotChange extends Omit<BotOrg, "holatMatn" | "sabab" | "sababMatn" | "billing"> {
@@ -318,6 +335,7 @@ export function changes(
   list: readonly { org: BaseOrg; from: LiveStatus; to: LiveStatus }[],
   slug?: string,
   c?: CompletionData | null,
+  iz?: Izohlar | null,
 ): BotChange[] {
   return list
     .filter(({ org }) => !slug || regionSlug(org.region) === slug)
@@ -334,5 +352,18 @@ export function changes(
       holat: to,
       holatMatn: STATUS_TEXT[to],
       toldirish: orgCompletion(o.stir, c),
+      izoh: orgIzoh(o, iz),
     }));
+}
+
+/** id → orgKey over the registry rows (the key a note is stored under). */
+export function keyById(orgs: readonly Pick<BaseOrg, "region" | "district" | "name">[]): Map<string, string> {
+  return new Map(orgs.map((o) => [orgId(o), orgKey(o)]));
+}
+
+/** Rows that have a note, registry order, optionally one region's. */
+export function izohList(r: LiveResult, iz: Izohlar, slug?: string, c?: CompletionData | null): BotOrg[] {
+  return r.orgs
+    .filter((o) => iz[orgKey(o)] && (!slug || regionSlug(o.region) === slug))
+    .map((o) => botOrg(o, c, iz));
 }

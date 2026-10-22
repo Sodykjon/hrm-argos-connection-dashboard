@@ -12,12 +12,12 @@ export async function GET(request: Request) {
     const stir = p.get("stir");
     if (stir) {
       if (!/^\d{6,12}$/.test(stir.trim())) return json({ xato: "STIR faqat raqam boʻlishi kerak" }, 400);
-      const natijalar = byStir(live.result, stir, c);
+      const natijalar = byStir(live.result, stir, c, live.izoh);
       return json({ ...meta, jami: natijalar.length, natijalar });
     }
     const q = p.get("q")?.trim();
     if (!q) return json({ xato: "stir yoki q parametri kerak" }, 400);
     const limit = Math.min(Math.max(Number(p.get("limit")) || 20, 1), 100);
-    return json({ ...meta, ...search(live.result, q, { slug: p.get("hudud") ?? undefined, limit }, c) });
+    return json({ ...meta, ...search(live.result, q, { slug: p.get("hudud") ?? undefined, limit }, c, live.izoh) });
   });
 }

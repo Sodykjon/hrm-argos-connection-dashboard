@@ -1,13 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { changedSince, compute, type BaseFile, type TreeRow } from "../lib/argos-live.ts";
+import { changedSince, compute, orgKey, type BaseFile, type TreeRow } from "../lib/argos-live.ts";
 import {
   byStir,
   changes,
   completionList,
   type CompletionData,
   fold,
+  izohList,
+  keyById,
   orgId,
   regionOrgs,
   regionSummary,
@@ -152,4 +154,19 @@ test("completion: per org by STIR, region and district figures, the low-first li
   assert.deepEqual(low.tashkilotlar.map((x) => x.nomi), ["B"]);
   assert.equal(low.toldirish!.tashkilotlar, 2, "region figure, not the filtered list's");
   assert.equal(completionList(r, c, { limit: 1 }).jami, 3);
+});
+
+test("notes: on every org object, listed by region, id maps to the stored key", () => {
+  const [o] = byStir(r, "200254651");
+  const k = orgKey(base.orgs.find((b) => orgId(b) === o.id)!);
+  const iz = { [k]: { text: "xat yuborildi", at: "2026-10-22T07:00:00.000Z" } };
+  assert.equal(o.izoh, null);
+  assert.deepEqual(byStir(r, "200254651", null, iz)[0].izoh, { matn: "xat yuborildi", sana: "2026-10-22T07:00:00.000Z" });
+  assert.ok(regionOrgs(r, "andijon", undefined, null, iz)!.some((x) => x.izoh?.matn === "xat yuborildi"));
+  assert.ok(search(r, "oltinkol", {}, null, iz).natijalar.every((x) => x.izoh === null || x.id === o.id));
+  assert.deepEqual(izohList(r, iz).map((x) => x.id), [o.id]);
+  assert.equal(izohList(r, iz, "andijon").length, 1);
+  assert.equal(izohList(r, iz, "xorazm").length, 0);
+  assert.equal(keyById(base.orgs).get(o.id), k);
+  assert.equal(keyById(base.orgs).size, base.orgs.length);
 });

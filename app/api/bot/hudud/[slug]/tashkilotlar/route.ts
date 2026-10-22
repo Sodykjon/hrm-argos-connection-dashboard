@@ -12,7 +12,7 @@ export async function GET(request: Request, ctx: RouteContext<"/api/bot/hudud/[s
     const holat = new URL(request.url).searchParams.get("holat") ?? undefined;
     if (holat && !STATUSES.includes(holat as LiveStatus))
       return json({ xato: "holat: ulangan, ulanmagan yoki ochirilgan" }, 400);
-    const list = regionOrgs(live.result, slug, holat as LiveStatus | undefined, c);
+    const list = regionOrgs(live.result, slug, holat as LiveStatus | undefined, c, live.izoh);
     if (!list) return json({ xato: "Bunday hudud yoʻq", slug }, 404);
     return json({ ...meta, slug, jami: list.length, tashkilotlar: list });
   });
