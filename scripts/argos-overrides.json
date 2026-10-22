@@ -152,6 +152,13 @@
    "201843930",
    "Dubl — «Namangan shahar 5-sonli oilaviy poliklinikasi» (309333608)",
    "22.10.2026"
+  ],
+  [
+   "Samarqand",
+   "Ургутская районная больница № 1",
+   "203161576",
+   "Roʻyxatdan chiqarilgan (HRISD koʻrsatmasi)",
+   "22.10.2026"
   ]
  ],
  "exclude": [
@@ -2185,5 +2192,5 @@
   }
  ],
  "_izoh_add": "add: Excel’da yo‘q, ARGOS’da bor bo‘linmalar — nomlarini HRISD aytgan (16.10.2026); o‘lat markazi filiali nomi ARGOS’dan.",
- "_izoh_remove_22_10": "22.10.2026 (foydalanuvchi): Namangan shahar «Markazlashgan taʼmirlash foydalanish xizmati» — yopilgan; «Наманганская городская 5 семейная поликлиника» — «Namangan shahar 5-sonli oilaviy poliklinikasi» (309333608) dubli"
+ "_izoh_remove_22_10": "22.10.2026 (foydalanuvchi): Namangan shahar «Markazlashgan taʼmirlash foydalanish xizmati» — yopilgan; «Наманганская городская 5 семейная поликлиника» — «Namangan shahar 5-sonli oilaviy poliklinikasi» (309333608) dubli; Samarqand, Urgut «Ургутская районная больница № 1» (203161576) — HRISD koʻrsatmasi"
 }
