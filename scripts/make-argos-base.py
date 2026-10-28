@@ -10,6 +10,8 @@ Kirish:
     exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
     stirFix — xato STIR: [varaq, nom, eski, yangi]; Excel'da eskisi tursa almashtiriladi
     rename  — yangi nom: [varaq, nom, STIR, yangi nom] (nom + STIR — Excel'dagi); eski nomi izohda qoladi
+    guruh   — boshqa guruhga o'tkazish: [varaq, nom, STIR, yangi guruh] (masalan tuman → «Viloyat darajasidagi
+              muassasalar»); satr o'sha guruhning oxiriga tushadi
     retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
     xatStir — TTB xatidagi INN: [varaq, nom, eski, yangi, xat]; satr «awaitBilling» oladi — faqat billing
               faol bo'lsa ulangan
@@ -82,6 +84,7 @@ REMOVE_INFO = {(k[1], k[2]): {"reason": k[3], "date": k[4]} for k in ov.get("rem
 EXCLUDE = {(k[1], k[2]): k[3] for k in ov.get("exclude", [])}
 STIRFIX = {(k[1], k[2]): k[3] for k in ov.get("stirFix", [])}
 RENAME = {(k[1], k[2]): k[3] for k in ov.get("rename", [])}
+GURUH = {(k[1], k[2]): k[3] for k in ov.get("guruh", [])}
 # STIRs from the district associations' letters to UZINFOCOM: [varaq, nom, eski, yangi, xat]
 XATSTIR = {(k[1], k[2]): (k[3], k[4]) for k in ov.get("xatStir", [])}
 
@@ -117,7 +120,11 @@ for sn in REGION:
         status = ST[s(w.cell(r, C_ST).value)]
         chg = s(w.cell(r, C_CHG).value)
         note = s(w.cell(r, C_NOTE).value)
-        district = amap.get(group, group)
+        raw_group = group
+        if k in GURUH:
+            seen.add(k)
+            raw_group = GURUH[k]
+        district = amap.get(raw_group, raw_group)
         hudud = grp if sn == REPUBLIC_SHEET else None
         place = {"region": REGION[sn], "district": district, "name": name, "stir": stir or None}
 
@@ -165,7 +172,7 @@ for sn in REGION:
             "pay": float(pay) if isinstance(pay, (int, float)) else None,
             "sub": s(w.cell(r, C_SUB).value) or None,
             "note": " · ".join(keep) or None,
-            "_raw": group, "_sheet": sn,
+            "_raw": raw_group, "_sheet": sn,
             **({"awaitBilling": True} if xat else {}),
         })
         expected_status.append(status)
@@ -239,7 +246,7 @@ ignore |= set(ov.get("retiredStir", []))
 # A removed row's STIR shared with a kept row stays countable.
 known = {o["stir"] for o in out if o["stir"]}
 ignore -= known
-missing = (REMOVE | set(EXCLUDE) | set(RENAME)) - seen
+missing = (REMOVE | set(EXCLUDE) | set(RENAME) | set(GURUH)) - seen
 for k in sorted(missing):
     print("diqqat: overrides'dagi satr Excel'da yo'q (allaqachon olib tashlangan bo'lishi mumkin):", k)
 

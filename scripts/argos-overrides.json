@@ -257,6 +257,90 @@
    "206793183",
    "Narkologiya ostida ulangan",
    "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Quvasoy shahar yuqumli kasalliklar shifoxonasi",
+   "",
+   "Tugatilgan (likvidatsiya)",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Quvasoy shahar Lashkar oilaviy shifokorlik punkti",
+   "311843535",
+   "«Quvasoy shahar Pastki Muyan oilaviy shifokorlik punkti» tarkibida (STIR 311843535)",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Chimboy oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 14-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Kiyali oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 17-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Kum oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 12-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Gʻalcha oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 16-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Sobirtepa oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 17-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Tasharik oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani koʻp tarmoqli markaziy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Shoberdi oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani koʻp tarmoqli markaziy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Korayantok oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 12-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Jarboshi oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani koʻp tarmoqli markaziy poliklinikasi» tarkibida",
+   "28.10.2026"
+  ],
+  [
+   "Fargʻona",
+   "Beshariq tumani Dehqon toʻda oilaviy shifokorlik punkti",
+   "",
+   "«Beshariq tumani 13-sonli oilaviy poliklinikasi» tarkibida",
+   "28.10.2026"
   ]
  ],
  "exclude": [
@@ -1911,6 +1995,12 @@
    "Xoʻjaobod tumani Madiyarov oilaviy shifokorlik punkti",
    "",
    "311914525"
+  ],
+  [
+   "Qashqadaryo",
+   "Chiroqchi tumani 60-sonli oilaviy poliklinikasi",
+   "344865018",
+   "311865018"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
@@ -2362,5 +2452,80 @@
    "Xoʻjaobod tumani Sanoatchi oilaviy shifokorlik punkti"
   ]
  ],
- "_izoh_28_10": "28.10.2026 (foydalanuvchi): Andijon — Izboskan 26/27/28/30-sonli OP va Xoʻjaobod A.Nabiyev→Koʻprikboshi, Ibn Sino→Etmishmergam, Madiyarov→Sanoatchi OSHP oʻz STIRini oldi; 05.10 da ARGOS nomi bilan qoʻshilgan ruscha dubl qatorlar chiqarildi. Jizzax — 6 ta qator roʻyxatdan chiqarildi (bolalar stomatologiyasi respublikaga tegishli, sil shifoxonasi narkologiya ostida ulangan)."
+ "_izoh_28_10": "28.10.2026 (foydalanuvchi): Andijon — Izboskan 26/27/28/30-sonli OP va Xoʻjaobod A.Nabiyev→Koʻprikboshi, Ibn Sino→Etmishmergam, Madiyarov→Sanoatchi OSHP oʻz STIRini oldi; 05.10 da ARGOS nomi bilan qoʻshilgan ruscha dubl qatorlar chiqarildi. Jizzax — 6 ta qator roʻyxatdan chiqarildi (bolalar stomatologiyasi respublikaga tegishli, sil shifoxonasi narkologiya ostida ulangan).",
+ "guruh": [
+  [
+   "Fargʻona",
+   "Beshariq tuman \"Ona va bola\" sanatoriyasi",
+   "203530948",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Viloyat bolalar ftiziatriya sixatgohi vodil",
+   "201198293",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyati kattalar ftiziatriya sixatgoxi “Oʻqchi”",
+   "200189075",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat bolalar ftiziatriya sixatgoxi “Qoʻqon”",
+   "200131464",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat bolalar ftiziatriya sixatgoxi “Fayzobod”",
+   "200174561",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Viloyat maxsus tibbiy taʼminot bazasi",
+   "200147182",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat patalogonatomiya byurosi",
+   "203222974",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat qon quyish stansiyasi",
+   "202594949",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat bolalar stomotologiya poliklinikasi",
+   "205745923",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyat 2-sonli yuqumli kasalliklar shifoxonasi",
+   "207320098",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona Jamoat salomatligi tibbiyot instituti",
+   "202600504",
+   "Viloyat darajasidagi muassasalar"
+  ],
+  [
+   "Fargʻona",
+   "Fargʻona viloyati Sogʻliqni Saqlash boshqarmasi tasarrufidagi Surunkali kasalliklari va nogironligi mavjud bolalar uchun hududiy tibbiy reabilitatsiya markazi",
+   "205257184",
+   "Viloyat darajasidagi muassasalar"
+  ]
+ ],
+ "_izoh_28_10_b": "28.10.2026 (foydalanuvchi): Chiroqchi 60-sonli OP STIR xatosi (344865018 → ARGOS’dagi 311865018); Fargʻona — Quvasoy yuqumli kasalliklar shifoxonasi (tugatilgan) va Lashkar OSHP (Pastki Muyan tarkibida), Beshariq 10 ta OSHP (OP/KTMP tarkibida — xodimlar izohi bo‘yicha) chiqarildi; Beshariq guruhidagi 12 ta viloyat muassasasi «Viloyat darajasidagi muassasalar»ga o‘tdi."
 }

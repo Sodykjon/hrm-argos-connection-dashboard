@@ -46,7 +46,7 @@ test("reproduces the 05.10 workbook row by row", () => {
   assert.deepEqual(diff, []);
 });
 
-test("national totals: workbook v6 + 16.10 additions − 22.10 removals and addition − 23.10 removal − 28.10 changes (3 886 / 3 498 / 295 / 93)", () => {
+test("national totals: workbook v6 + 16.10 additions − 22.10 removals and addition − 23.10 removal − 28.10 changes (3 874 / 3 498 / 283 / 93)", () => {
   // FINAL 3 874 / 3 718 / 55 / 101 − 6 rows removed on 29.09 (5 ulanmagan, 1 ochirilgan) − 3
   // mountain-village hospitals without internet = 3 718 / 50 / 97; v2 (05.10 ARGOS tree): 110 rows
   // got their own STIR → 3 726 / 39 / 100; v3 (user's review): 7 more STIRs (Xiva 1–2 OP read
@@ -68,11 +68,13 @@ test("national totals: workbook v6 + 16.10 additions − 22.10 removals and addi
   // children's rheumatology hospital (ochirilgan) removed → 3 899 / 3 506 / 298 / 95. 28.10 (user):
   // seven Andijon units take their own STIR from their Russian-named doubles (ulangan), which are
   // removed — the STIRs are not in the workbook's tree, so the seven count ulanmagan here; six Jizzax
-  // rows removed (one ulangan, three ulanmagan, two ochirilgan) → 3 886 / 3 498 / 295 / 93.
+  // rows removed (one ulangan, three ulanmagan, two ochirilgan) → 3 886 / 3 498 / 295 / 93; 28.10 (b):
+  // twelve Farg'ona rows removed (Quvasoy 2, Beshariq 10 — all ulanmagan), Chiroqchi 60-sonli OP's STIR
+  // corrected (not in the workbook's tree) → 3 874 / 3 498 / 283 / 93.
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3886, 3498, 295, 93],
+    [3874, 3498, 283, 93],
   );
 });
 
@@ -116,7 +118,7 @@ test("removed and excluded rows count nowhere, not even as «in ARGOS, not in th
   // + the old village-post STIRs that Guliston district's and Oqoltin's units left for their own (13.10)
   const retired = ["204308152", "204308169", "204308176", "204308184", "204308191", "204308224", "204308231", "204308248", "204308263", "204591516", "204591524", "204591555"];
   assert.deepEqual(base.ignoreStir, [...gone, ...retired].sort());
-  assert.equal(base.removed?.length, 27);
+  assert.equal(base.removed?.length, 39);
   assert.deepEqual(
     (base.excluded ?? []).map((e) => [e.name, e.reason]),
     [
@@ -144,10 +146,10 @@ test("region and district sums reconcile with the national total", () => {
   }
 });
 
-test("same-STIR groups: 145 / 667 less the rows given their own STIR (05.10, 09.10) and the association groups cleared (09.10) → 67 / 158, village-post STIRs retired and Xovos Sharqobod OShP off the SES's STIR (13.10) → 64 / 150, none mixed, no association left in one", () => {
+test("same-STIR groups: 145 / 667 less the rows given their own STIR (05.10, 09.10) and the association groups cleared (09.10) → 67 / 158, village-post STIRs retired and Xovos Sharqobod OShP off the SES's STIR (13.10) → 64 / 150, Quvasoy Lashkar OShP removed (28.10) → 63 / 148, none mixed, no association left in one", () => {
   const { stirGroups } = compute(base.orgs, excelTree, base.ignoreStir);
-  assert.equal(stirGroups.length, 64);
-  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 150);
+  assert.equal(stirGroups.length, 63);
+  assert.equal(stirGroups.reduce((s, g) => s + g.names.length, 0), 148);
   // a district association never shares its STIR with a unit any more (Yakkasaroy: two association
   // rows of one org, left as is)
   const assoc = (n: string) => /tibbiyot birlashmasi/i.test(n);
@@ -169,7 +171,7 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 140 wait for their own (3 886 / 3 453 / 290 / 143)", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 129 wait for their own (3 874 / 3 453 / 278 / 143)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
@@ -186,17 +188,19 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 1
   // department added, not in this tree → 3 900 / 3 454 / 300 / 146; 23.10: «Бешкапа» children's
   // rheumatology hospital (ochirilgan) removed → 3 899 / 3 454 / 300 / 145; 28.10: seven Andijon
   // units take their doubles' STIR (status unchanged overall), six Jizzax rows removed
-  // → 3 886 / 3 453 / 290 / 143.
+  // → 3 886 / 3 453 / 290 / 143; 28.10 (b): twelve Farg'ona rows removed (all ulanmagan)
+  // → 3 874 / 3 453 / 278 / 143.
   const r = compute(base.orgs, { at: "2026-10-09T05:28:51Z", rows: tree1009 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3886, 3453, 290, 143]);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3874, 3453, 278, 143]);
   // every registry row is a named organisation; rows without a STIR are the 252 association units
   // and the 3 whose STIR was another unit's, all «ulanmagan» with the reason in the note — less the 39
   // units that turned up in ARGOS under their own STIR (13.10: Boyovut 21, Xorazm 32; not in this tree)
   // and the 46 given one by their association's letter (13.10, Sirdaryo), and 7 more found in ARGOS (16.10);
-  // 28.10: 7 Andijon units take their own STIR, 2 Jizzax rows without one removed
+  // 28.10: 7 Andijon units take their own STIR, 2 Jizzax rows without one removed, 11 Farg'ona rows
+  // without one removed
   assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
   const cleared = base.orgs.filter((o) => !o.stir);
-  assert.equal(cleared.length, 140);
+  assert.equal(cleared.length, 129);
   assert.deepEqual(
     cleared
       .filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi|STIR boshqa muassasaniki edi/.test(o.note ?? ""))
