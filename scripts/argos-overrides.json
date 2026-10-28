@@ -166,6 +166,97 @@
    "200056201",
    "Tugatilgan (yopilgan)",
    "23.10.2026"
+  ],
+  [
+   "Andijon",
+   "Майгирская семейная поликлиника Избосканского района",
+   "311860135",
+   "Dubl — «Izboskan tumani 26-sonli oilaviy poliklinikasi» (311860135)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Избосканский районный семейный медицинский центр «Туячи»",
+   "311862021",
+   "Dubl — «Izboskan tumani 27-sonli oilaviy poliklinikasi» (311862021)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Урганчинская семейная поликлиника Избосканского района",
+   "311860602",
+   "Dubl — «Izboskan tumani 28-sonli oilaviy poliklinikasi» (311860602)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Избосканская районная семейная поликлиника «Дустлик»",
+   "311866300",
+   "Dubl — «Izboskan tumani 30-sonli oilaviy poliklinikasi» (311866300)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Семейный врачебный пункт «Койокбоши» Ходжаабадского района",
+   "206818134",
+   "Dubl — «Xoʻjaobod tumani Koʻprikboshi oilaviy shifokorlik punkti» (206818134)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Семейный врачебный пункт «Етимширган» Ходжаабадского района",
+   "206817981",
+   "Dubl — «Xoʻjaobod tumani Etmishmergam oilaviy shifokorlik punkti» (206817981)",
+   "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Семейный врачебный пункт «Саноатчи» Ходжаабадского района",
+   "311914525",
+   "Dubl — «Xoʻjaobod tumani Sanoatchi oilaviy shifokorlik punkti» (311914525)",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "Jizzax shahar koʻp tarmoqli markaziy poliklinikasi",
+   "",
+   "Roʻyxatdan chiqarilgan (HRISD koʻrsatmasi)",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "Zomin tuman shifoxonasi",
+   "",
+   "Roʻyxatdan chiqarilgan (HRISD koʻrsatmasi)",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "\"Jizzax shifokori\" gazeta taxririyati",
+   "205179851",
+   "Roʻyxatdan chiqarilgan (HRISD koʻrsatmasi)",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "Viloyat ixtisoslashtirilgan bolalar stomatologiya poliklinikasi",
+   "206967654",
+   "Respublikaga tegishli",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "Jizzax viloyati reabilitasiya qilish shifoxonasi",
+   "202978699",
+   "Roʻyxatdan chiqarilgan (HRISD koʻrsatmasi)",
+   "28.10.2026"
+  ],
+  [
+   "Jizzax",
+   "Jizzax viloyat sil kasalliklar shifoxonasi",
+   "206793183",
+   "Narkologiya ostida ulangan",
+   "28.10.2026"
   ]
  ],
  "exclude": [
@@ -1778,6 +1869,48 @@
    "Tuproqqala tumani Tuproqqala oilaviy shifokorlik punkti",
    "",
    "311867473"
+  ],
+  [
+   "Andijon",
+   "Izboskan tumani 26-sonli oilaviy poliklinikasi",
+   "",
+   "311860135"
+  ],
+  [
+   "Andijon",
+   "Izboskan tumani 27-sonli oilaviy poliklinikasi",
+   "",
+   "311862021"
+  ],
+  [
+   "Andijon",
+   "Izboskan tumani 28-sonli oilaviy poliklinikasi",
+   "",
+   "311860602"
+  ],
+  [
+   "Andijon",
+   "Izboskan tumani 30-sonli oilaviy poliklinikasi",
+   "",
+   "311866300"
+  ],
+  [
+   "Andijon",
+   "Xoʻjaobod tumani A.Nabiyev oilaviy shifokorlik punkti",
+   "",
+   "206818134"
+  ],
+  [
+   "Andijon",
+   "Xoʻjaobod tumani Ibn Sino oilaviy shifokorlik punkti",
+   "",
+   "206817981"
+  ],
+  [
+   "Andijon",
+   "Xoʻjaobod tumani Madiyarov oilaviy shifokorlik punkti",
+   "",
+   "311914525"
   ]
  ],
  "_izoh_stirFix_05_10": "05.10.2026: 110 ta STIR hrm.argos.uz daraxti (argos_tree_2026-10-05.json) bo'yicha avtomatik tuzatildi — scripts/compare-argos-tree.py «auto» toifasi (hudud+tuman+tur+raqam/joy nomi, yagona nomzod; 109 tasini Excel izohi ham tasdiqlaydi). Ko'rib chiqish: Documents/HRM_ARGOS_daraxt_vs_reestr_05.10.2026.xlsx",
@@ -2208,5 +2341,26 @@
  ],
  "_izoh_add": "add: Excel’da yo‘q, ARGOS’da bor bo‘linmalar — nomlarini HRISD aytgan (16.10.2026); o‘lat markazi filiali nomi ARGOS’dan.",
  "_izoh_remove_22_10": "22.10.2026 (foydalanuvchi): Namangan shahar «Markazlashgan taʼmirlash foydalanish xizmati» — yopilgan; «Наманганская городская 5 семейная поликлиника» — «Namangan shahar 5-sonli oilaviy poliklinikasi» (309333608) dubli; Samarqand, Urgut «Ургутская районная больница № 1» (203161576) — HRISD koʻrsatmasi",
- "_izoh_remove_23_10": "23.10.2026 (foydalanuvchi): Namangan viloyat «Детская ревматологическая больница «Бешкапа» Наманганской области» (200056201) — yopilgan"
+ "_izoh_remove_23_10": "23.10.2026 (foydalanuvchi): Namangan viloyat «Детская ревматологическая больница «Бешкапа» Наманганской области» (200056201) — yopilgan",
+ "rename": [
+  [
+   "Andijon",
+   "Xoʻjaobod tumani A.Nabiyev oilaviy shifokorlik punkti",
+   "",
+   "Xoʻjaobod tumani Koʻprikboshi oilaviy shifokorlik punkti"
+  ],
+  [
+   "Andijon",
+   "Xoʻjaobod tumani Ibn Sino oilaviy shifokorlik punkti",
+   "",
+   "Xoʻjaobod tumani Etmishmergam oilaviy shifokorlik punkti"
+  ],
+  [
+   "Andijon",
+   "Xoʻjaobod tumani Madiyarov oilaviy shifokorlik punkti",
+   "",
+   "Xoʻjaobod tumani Sanoatchi oilaviy shifokorlik punkti"
+  ]
+ ],
+ "_izoh_28_10": "28.10.2026 (foydalanuvchi): Andijon — Izboskan 26/27/28/30-sonli OP va Xoʻjaobod A.Nabiyev→Koʻprikboshi, Ibn Sino→Etmishmergam, Madiyarov→Sanoatchi OSHP oʻz STIRini oldi; 05.10 da ARGOS nomi bilan qoʻshilgan ruscha dubl qatorlar chiqarildi. Jizzax — 6 ta qator roʻyxatdan chiqarildi (bolalar stomatologiyasi respublikaga tegishli, sil shifoxonasi narkologiya ostida ulangan)."
 }

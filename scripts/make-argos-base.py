@@ -9,6 +9,7 @@ Kirish:
     remove  — reestrdan chiqarilgan: [varaq, nom, STIR, sabab?, sana?]; bazaga tushmaydi, STIR «ignoreStir»ga
     exclude — statistikaga kiritilmaydi (masalan, internet yo'q): «excluded»ga + «ignoreStir»ga
     stirFix — xato STIR: [varaq, nom, eski, yangi]; Excel'da eskisi tursa almashtiriladi
+    rename  — yangi nom: [varaq, nom, STIR, yangi nom] (nom + STIR — Excel'dagi); eski nomi izohda qoladi
     retiredStir — stirFix almashtirgan eski (SVP) STIR’lar: daraxtda qoladi, lekin «reestrda yo‘q» emas
     xatStir — TTB xatidagi INN: [varaq, nom, eski, yangi, xat]; satr «awaitBilling» oladi — faqat billing
               faol bo'lsa ulangan
@@ -80,6 +81,7 @@ REMOVE = {(k[1], k[2]) for k in ov.get("remove", [])}
 REMOVE_INFO = {(k[1], k[2]): {"reason": k[3], "date": k[4]} for k in ov.get("remove", []) if len(k) > 4}
 EXCLUDE = {(k[1], k[2]): k[3] for k in ov.get("exclude", [])}
 STIRFIX = {(k[1], k[2]): k[3] for k in ov.get("stirFix", [])}
+RENAME = {(k[1], k[2]): k[3] for k in ov.get("rename", [])}
 # STIRs from the district associations' letters to UZINFOCOM: [varaq, nom, eski, yangi, xat]
 XATSTIR = {(k[1], k[2]): (k[3], k[4]) for k in ov.get("xatStir", [])}
 
@@ -152,6 +154,10 @@ for sn in REGION:
                 keep.append(f"INN {xat} bo'yicha (eski: {fixed_from or 'yo‘q'}) — billing yoqilganda ulangan hisoblanadi")
             elif fixed_from != stir:
                 keep.append(f"STIR ARGOS daraxti bo'yicha tuzatildi (eski: {fixed_from or 'yo‘q'})")
+        if k in RENAME:
+            seen.add(k)
+            keep.append(f"Eski nomi: {name}")
+            name = RENAME[k]
         out.append({
             "region": REGION[sn], "district": district, "hudud": hudud,
             "name": name, "stir": stir or None, "reestr": reestr, "override": o,
@@ -233,7 +239,7 @@ ignore |= set(ov.get("retiredStir", []))
 # A removed row's STIR shared with a kept row stays countable.
 known = {o["stir"] for o in out if o["stir"]}
 ignore -= known
-missing = (REMOVE | set(EXCLUDE)) - seen
+missing = (REMOVE | set(EXCLUDE) | set(RENAME)) - seen
 for k in sorted(missing):
     print("diqqat: overrides'dagi satr Excel'da yo'q (allaqachon olib tashlangan bo'lishi mumkin):", k)
 
