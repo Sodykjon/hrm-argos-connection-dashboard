@@ -86,6 +86,8 @@ EXCLUDE = {(k[1], k[2]): k[3] for k in ov.get("exclude", [])}
 STIRFIX = {(k[1], k[2]): k[3] for k in ov.get("stirFix", [])}
 RENAME = {(k[1], k[2]): k[3] for k in ov.get("rename", [])}
 GURUH = {(k[1], k[2]): k[3] for k in ov.get("guruh", [])}
+# optional [.., varaq, hudud] — the group sits on another sheet (e.g. the republic one)
+GURUH_TO = {(k[1], k[2]): (k[4], k[5]) for k in ov.get("guruh", []) if len(k) > 5}
 SUB = {(k[1], k[2]): k[3] for k in ov.get("boysunuvi", [])}
 # STIRs from the district associations' letters to UZINFOCOM: [varaq, nom, eski, yangi, xat]
 XATSTIR = {(k[1], k[2]): (k[3], k[4]) for k in ov.get("xatStir", [])}
@@ -128,6 +130,10 @@ for sn in REGION:
             raw_group = GURUH[k]
         district = amap.get(raw_group, raw_group)
         hudud = grp if sn == REPUBLIC_SHEET else None
+        row_sheet = sn
+        if k in GURUH_TO:
+            row_sheet, hudud = GURUH_TO[k]
+            district = aliases.get(row_sheet, {}).get(raw_group, raw_group)
         place = {"region": REGION[sn], "district": district, "name": name, "stir": stir or None}
 
         if k in REMOVE or k in removed_info:
@@ -170,13 +176,13 @@ for sn in REGION:
             keep.append(f"Eski nomi: {name}")
             name = RENAME[k]
         out.append({
-            "region": REGION[sn], "district": district, "hudud": hudud,
+            "region": REGION[row_sheet], "district": district, "hudud": hudud,
             "name": name, "stir": stir or None, "reestr": reestr, "override": o,
             "contract": s(w.cell(r, C_CON).value) or None,
             "pay": float(pay) if isinstance(pay, (int, float)) else None,
             "sub": SUB[k] if k in SUB else s(w.cell(r, C_SUB).value) or None,
             "note": " · ".join(keep) or None,
-            "_raw": raw_group, "_sheet": sn,
+            "_raw": raw_group, "_sheet": row_sheet,
             **({"awaitBilling": True} if xat else {}),
         })
         expected_status.append(status)

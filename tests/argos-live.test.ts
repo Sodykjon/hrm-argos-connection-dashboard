@@ -91,7 +91,7 @@ test("workbook structure: sheet order, republican systems, merged district spell
     ],
   );
   const rep = regions[0];
-  assert.equal(rep.total, 500); // 496 + 3 republican-centre branches added 05.10 + the plague centre's railway branch 16.10
+  assert.equal(rep.total, 501); // 496 + 3 republican-centre branches added 05.10 + the plague centre's railway branch 16.10 + the TMA Urganch branch moved from Xorazm 29.10
   assert.equal(rep.districts.length, 20);
   assert.equal(rep.districts[0].name, "Sanitariya-epidemiologiya qoʻmitasi tizimi");
   assert.equal(rep.districts.at(-1)?.name, "Vazirlikka bevosita boʻysunuvchilar");
