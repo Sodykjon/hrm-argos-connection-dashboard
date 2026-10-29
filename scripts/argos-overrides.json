@@ -341,6 +341,13 @@
    "",
    "«Beshariq tumani 13-sonli oilaviy poliklinikasi» tarkibida",
    "28.10.2026"
+  ],
+  [
+   "Andijon",
+   "Asaka tuman sogʻliqni saqlash boʻlimi",
+   "312239880",
+   "Dubl — «Asaka tuman sogʻliqni saqlash boʻlimi» (200283276)",
+   "29.10.2026"
   ]
  ],
  "exclude": [
@@ -2450,6 +2457,12 @@
    "Xoʻjaobod tumani Madiyarov oilaviy shifokorlik punkti",
    "",
    "Xoʻjaobod tumani Sanoatchi oilaviy shifokorlik punkti"
+  ],
+  [
+   "Andijon",
+   "Асакинский районный отдел здравоохранения",
+   "200283276",
+   "Asaka tuman sogʻliqni saqlash boʻlimi"
   ]
  ],
  "_izoh_28_10": "28.10.2026 (foydalanuvchi): Andijon — Izboskan 26/27/28/30-sonli OP va Xoʻjaobod A.Nabiyev→Koʻprikboshi, Ibn Sino→Etmishmergam, Madiyarov→Sanoatchi OSHP oʻz STIRini oldi; 05.10 da ARGOS nomi bilan qoʻshilgan ruscha dubl qatorlar chiqarildi. Jizzax — 6 ta qator roʻyxatdan chiqarildi (bolalar stomatologiyasi respublikaga tegishli, sil shifoxonasi narkologiya ostida ulangan).",
@@ -2536,5 +2549,6 @@
    "Viloyat SSB"
   ]
  ],
- "_izoh_28_10_c": "28.10.2026 (foydalanuvchi): Beshariq «Ona va bola» sanatoriyasi bo‘ysunuvi «Viloyat SSB» (TTB tarkibiga kirmaydi)."
+ "_izoh_28_10_c": "28.10.2026 (foydalanuvchi): Beshariq «Ona va bola» sanatoriyasi bo‘ysunuvi «Viloyat SSB» (TTB tarkibiga kirmaydi).",
+ "_izoh_29_10": "29.10.2026 (foydalanuvchi): Asaka tuman SSB — ARGOS’dagi ruscha qator (200283276) «Asaka tuman sogʻliqni saqlash boʻlimi» deb nomlandi, eski qator (312239880) chiqarildi."
 }
