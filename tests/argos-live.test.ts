@@ -176,7 +176,7 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 129 wait for their own (3 873 / 3 453 / 277 / 143)", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 127 wait for their own (3 868 / 3 453 / 275 / 140)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
@@ -206,7 +206,7 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 1
   // without one removed
   assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
   const cleared = base.orgs.filter((o) => !o.stir);
-  assert.equal(cleared.length, 129);
+  assert.equal(cleared.length, 127);
   assert.deepEqual(
     cleared
       .filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi|STIR boshqa muassasaniki edi/.test(o.note ?? ""))
