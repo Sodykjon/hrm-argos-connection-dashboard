@@ -75,7 +75,7 @@ test("national totals: workbook v6 + 16.10 additions − 22.10 removals and addi
   const { totals } = compute(base.orgs, excelTree, base.ignoreStir);
   assert.deepEqual(
     [totals.total, totals.ulangan, totals.ulanmagan, totals.ochirilgan],
-    [3868, 3498, 280, 90],
+    [3864, 3498, 276, 90],
   );
 });
 
@@ -123,7 +123,7 @@ test("removed and excluded rows count nowhere, not even as «in ARGOS, not in th
   // + the old village-post STIRs that Guliston district's and Oqoltin's units left for their own (13.10)
   const retired = ["204308152", "204308169", "204308176", "204308184", "204308191", "204308224", "204308231", "204308248", "204308263", "204591516", "204591524", "204591555"];
   assert.deepEqual(base.ignoreStir, [...gone, ...retired].sort());
-  assert.equal(base.removed?.length, 45);
+  assert.equal(base.removed?.length, 49);
   assert.deepEqual(
     (base.excluded ?? []).map((e) => [e.name, e.reason]),
     [
@@ -176,7 +176,7 @@ const readTree = (f: string): TreeRow[] => readFileSync(new URL(f, import.meta.u
 const tree1005 = readTree("./fixtures/argos-tree-2026-10-05.txt");
 const tree1009 = readTree("./fixtures/argos-tree-2026-10-09.txt");
 
-test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 127 wait for their own (3 868 / 3 453 / 275 / 140)", () => {
+test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 123 wait for their own (3 864 / 3 453 / 271 / 140)", () => {
   // 05.10: the 05.10 tree gave exactly the workbook's 3 757 / 39 / 101 (before those fixes 3 718 / 50 / 97).
   // 09.10: 72 polyclinics/OShPs of Karakalpakstan and Guliston city, filed under their association's STIR,
   // are active in ARGOS under their own. The same 09.10 tree on the old registry gave 3 714 / 38 / 145 —
@@ -197,7 +197,7 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 1
   // → 3 874 / 3 453 / 278 / 143; 29.10: Asaka health department's old row (ulanmagan) removed
   // → 3 873 / 3 453 / 277 / 143.
   const r = compute(base.orgs, { at: "2026-10-09T05:28:51Z", rows: tree1009 }, base.ignoreStir);
-  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3868, 3453, 275, 140]);
+  assert.deepEqual([r.totals.total, r.totals.ulangan, r.totals.ulanmagan, r.totals.ochirilgan], [3864, 3453, 271, 140]);
   // every registry row is a named organisation; rows without a STIR are the 252 association units
   // and the 3 whose STIR was another unit's, all «ulanmagan» with the reason in the note — less the 39
   // units that turned up in ARGOS under their own STIR (13.10: Boyovut 21, Xorazm 32; not in this tree)
@@ -206,7 +206,7 @@ test("09.10 ARGOS tree: 72 units carry their own STIR, shifted STIRs put back, 1
   // without one removed
   assert.deepEqual(base.orgs.filter((o) => !o.name.trim()).map((o) => o.region), []);
   const cleared = base.orgs.filter((o) => !o.stir);
-  assert.equal(cleared.length, 127);
+  assert.equal(cleared.length, 123);
   assert.deepEqual(
     cleared
       .filter((o) => o.reestr !== "ulanmagan" || !/STIR TTB bilan bir xil edi|STIR boshqa muassasaniki edi/.test(o.note ?? ""))
