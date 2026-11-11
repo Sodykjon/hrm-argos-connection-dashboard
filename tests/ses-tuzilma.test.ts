@@ -12,7 +12,8 @@ const result = compute(base.orgs, tree, base.ignoreStir);
 
 test("«SES tuzilmasi»: every SES row of the registry placed once, the republican centre + 14 regions", () => {
   const names = ses.blocks.flatMap((b) => b.rows.map((r) => r.name));
-  const inGroup = base.orgs.filter((o) => o.district === ses.group).map((o) => o.name);
+  // the structure lists the workbook's names; rows renamed after ARGOS keep theirs in excelName
+  const inGroup = base.orgs.filter((o) => o.district === ses.group).map((o) => o.excelName ?? o.name);
   assert.equal(new Set(names).size, names.length, "a row twice");
   assert.deepEqual([...names].sort(), [...inGroup].sort());
   assert.equal(ses.blocks.length, 15);
@@ -38,9 +39,10 @@ test("the tree shows the SES group in blocks without changing a count", () => {
   assert.equal(g.blocks!.reduce((s, b) => s + b.total, 0), g.total);
   assert.equal(g.blocks!.reduce((s, b) => s + b.ulangan, 0), g.ulangan);
   // rows follow the structure, numbered in that order
+  const shown = new Map(base.orgs.filter((o) => o.district === ses.group).map((o) => [o.excelName ?? o.name, o.name]));
   assert.deepEqual(
     g.orgs.map((o) => o.name),
-    ses.blocks.flatMap((b) => b.rows.map((r) => r.name)),
+    ses.blocks.flatMap((b) => b.rows.map((r) => shown.get(r.name))),
   );
   assert.ok(g.orgs.every((o) => o.role));
   // other groups untouched

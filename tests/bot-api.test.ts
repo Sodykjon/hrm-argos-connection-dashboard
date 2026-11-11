@@ -46,9 +46,9 @@ test("fold: case, apostrophes and Cyrillic do not matter", () => {
 test("search: every word must match, region filter, limit", () => {
   const s = search(r, "oltinkol 42");
   assert.equal(s.jami, 1);
-  assert.equal(s.natijalar[0].nomi, "Oltinkoʻl tumani 42-sonli oilaviy poliklinikasi");
+  assert.equal(s.natijalar[0].nomi, "Oltinkoʻl tuman 42-sonli oilaviy poliklinika");
   assert.equal(s.natijalar[0].hududSlug, "andijon");
-  assert.equal(search(r, "Олтинкўл 42").natijalar[0]?.nomi, "Oltinkoʻl tumani 42-sonli oilaviy poliklinikasi");
+  assert.equal(search(r, "Олтинкўл 42").natijalar[0]?.nomi, "Oltinkoʻl tuman 42-sonli oilaviy poliklinika");
   assert.equal(search(r, "oltinkol", { slug: "xorazm" }).jami, 0);
   // word starts only: «42» is not «142»
   assert.ok(search(r, "42").natijalar.every((o) => /(^|[^0-9])42/.test(o.nomi)));
@@ -65,7 +65,7 @@ test("byStir returns every row sharing the STIR", () => {
   assert.deepEqual(l.map((o) => o.nomi), shared.names);
   assert.deepEqual(l.map((o) => o.holat), shared.statuses);
   const one = byStir(r, "200254651");
-  assert.deepEqual(one.map((o) => o.nomi), ["Oltinkoʻl tumani tibbiyot birlashmasi"]);
+  assert.deepEqual(one.map((o) => o.nomi), ["Oltinkoʻl tuman tibbiyot birlashmasi"]);
   assert.equal(one[0].holatMatn, "Уланган");
   assert.equal(one[0].billing, 1);
   assert.deepEqual(byStir(r, "999999999"), []);

@@ -16,7 +16,8 @@ export interface BaseOrg {
   region: string; // canonical Uzbek-Cyrillic region name (lib/regions.ts) — the workbook sheet
   district: string | null; // the sheet's group (Latin): a district/city, or a republican system
   hudud?: string | null; // republican sheet only: where the branch sits («Respublika (bosh muassasa)», a region)
-  name: string;
+  name: string; // as ARGOS has it in Uzbek (Latin) where the STIR is the row's own, else the workbook's
+  excelName?: string; // the workbook's name when ARGOS's replaced it (scripts/argos-nomlar-uz.json)
   stir: string | null;
   reestr: LiveStatus; // status in the 17.09 registry
   override: LiveStatus | null; // manual decision that wins over the tree

@@ -95,8 +95,10 @@ export function buildTree(
     let n = 0;
     const gs: TreeGroup[] = [...groups].map(([gname, list]) => {
       // The SES group follows its structure; rows the structure does not know keep their place after it.
+      // The structure lists the workbook's names; a row renamed after ARGOS is found by its old one.
       const place = ses && gname === ses.group ? sesPlaces(ses) : null;
-      const orgs = place ? [...list].sort((a, b) => (place.get(a.name)?.i ?? 1e9) - (place.get(b.name)?.i ?? 1e9)) : list;
+      const sesName = (o: LiveOrg) => o.excelName ?? o.name;
+      const orgs = place ? [...list].sort((a, b) => (place.get(sesName(a))?.i ?? 1e9) - (place.get(sesName(b))?.i ?? 1e9)) : list;
       const rows: TreeOrg[] = orgs.map((o) => ({
         n: ++n,
         key: orgKey(o),
@@ -113,18 +115,18 @@ export function buildTree(
         hudud: o.hudud ?? null,
         note: o.note ?? null,
         dup: o.stir ? (dup.get(o.stir) ?? 1) : 1,
-        ...(place?.get(o.name) ? { role: place.get(o.name)!.role } : {}),
+        ...(place?.get(sesName(o)) ? { role: place.get(sesName(o))!.role } : {}),
       }));
       const g: TreeGroup = { name: gname, ...counts(rows), orgs: rows };
       if (place) {
-        const byName = new Map(rows.map((r) => [r.name, r]));
+        const byName = new Map(rows.map((r, i) => [sesName(orgs[i]), r]));
         g.blocks = ses!.blocks
           .map((b) => {
             const bo = b.rows.map((x) => byName.get(x.name)).filter((x): x is TreeOrg => !!x);
             return { name: b.name, ...counts(bo), orgs: bo };
           })
           .filter((b) => b.orgs.length > 0);
-        const rest = rows.filter((r) => !place.has(r.name));
+        const rest = rows.filter((_, i) => !place.has(sesName(orgs[i])));
         if (rest.length) g.blocks.push({ name: "—", ...counts(rest), orgs: rest });
       }
       return g;

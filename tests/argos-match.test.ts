@@ -12,7 +12,9 @@ const ov: { stirFix: string[][]; xatStir: string[][]; retiredStir: string[] } = 
 const undo = new Map([...ov.stirFix.slice(191), ...ov.xatStir].map(([, name, old, now]) => [`${name}|${now}`, old || null]));
 const base: BaseFile = {
   ...current,
-  orgs: current.orgs.map((o) => {
+  // names as the workbook had them (ARGOS's Uzbek names came on 11.11)
+  orgs: current.orgs.map(({ excelName, ...cur }) => {
+    const o = excelName ? { ...cur, name: excelName } : cur;
     const old = undo.get(`${o.name}|${o.stir}`);
     if (old === undefined) return o;
     const { awaitBilling: _, ...rest } = o;

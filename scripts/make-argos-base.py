@@ -72,6 +72,7 @@ ap.add_argument("--overrides", default="scripts/argos-overrides.json")
 ap.add_argument("--aliases", default="scripts/argos-district-aliases.json")
 ap.add_argument("--out", default="data/argos-live-base.json")
 ap.add_argument("--expected")
+ap.add_argument("--uz-names", default="scripts/argos-nomlar-uz.json")
 a = ap.parse_args()
 
 ov = json.load(open(a.overrides, encoding="utf-8"))
@@ -182,7 +183,7 @@ for sn in REGION:
             "pay": float(pay) if isinstance(pay, (int, float)) else None,
             "sub": SUB[k] if k in SUB else s(w.cell(r, C_SUB).value) or None,
             "note": " · ".join(keep) or None,
-            "_raw": raw_group, "_sheet": row_sheet,
+            "_raw": raw_group, "_sheet": row_sheet, "_renamed": k in RENAME,
             **({"awaitBilling": True} if xat else {}),
         })
         expected_status.append(status)
@@ -251,6 +252,23 @@ out = ordered
 for o in out:
     del o["_raw"], o["_sheet"]
 
+# Names as ARGOS has them in Uzbek (Latin) — scripts/make-argos-uz-names.py. Only where the STIR is the
+# row's own (one registry row per STIR) and no explicit «rename» decided otherwise; the workbook's
+# name stays in «excelName» (the SES structure and old notes are filed under it).
+uz_names = json.load(open(a.uz_names, encoding="utf-8"))["names"] if os.path.exists(a.uz_names) else {}
+per_stir = defaultdict(int)
+for o in out:
+    if o["stir"]:
+        per_stir[o["stir"]] += 1
+renamed_uz = 0
+for o in out:
+    renamed = o.pop("_renamed", False)
+    new = uz_names.get(o["stir"]) if o["stir"] and per_stir[o["stir"]] == 1 and not renamed else None
+    if new and new != o["name"]:
+        o["excelName"] = o["name"]
+        o["name"] = new
+        renamed_uz += 1
+
 # Old village-post STIRs a stirFix replaced: still in the ARGOS tree, but no registry org of their own.
 ignore |= set(ov.get("retiredStir", []))
 # A removed row's STIR shared with a kept row stays countable.
@@ -264,7 +282,7 @@ json.dump({"source": os.path.splitext(os.path.basename(a.excel))[0], "orgs": out
            "removed": removed, "ignoreStir": sorted(ignore)},
           open(a.out, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("orgs", len(out), "overrides", sum(1 for x in out if x["override"]),
-      "excluded", len(excluded), "removed", len(removed), "ignoreStir", len(ignore))
+      "excluded", len(excluded), "removed", len(removed), "ignoreStir", len(ignore), "ARGOS nomi", renamed_uz)
 if a.expected:
     json.dump({"status": expected_status, "tree": sorted([t, b] for t, b in tree_billing.items())},
               open(a.expected, "w", encoding="utf-8"), separators=(",", ":"))
