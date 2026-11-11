@@ -32,11 +32,12 @@ export const REASON_TEXT: Record<Reason, string> = {
 export const STATUSES: readonly LiveStatus[] = ["ulangan", "ulanmagan", "ochirilgan"];
 
 /**
- * A row's id: 12 hex of sha1(region|group|name). Stable while the registry keeps the row's region,
- * group and name; a renamed row gets a new id.
+ * A row's id: 12 hex of sha1(region|group|name), the name being the workbook's — a row that took its
+ * name from ARGOS (11.11.2026, excelName) keeps the id the bot already knows. Stable while the
+ * registry keeps the row's region, group and workbook name.
  */
-export function orgId(o: Pick<BaseOrg, "region" | "district" | "name">): string {
-  return createHash("sha1").update(orgKey(o)).digest("hex").slice(0, 12);
+export function orgId(o: Pick<BaseOrg, "region" | "district" | "name" | "excelName">): string {
+  return createHash("sha1").update(orgKey({ ...o, name: o.excelName ?? o.name })).digest("hex").slice(0, 12);
 }
 
 /** Notes by orgKey, as LiveData.izoh holds them. */

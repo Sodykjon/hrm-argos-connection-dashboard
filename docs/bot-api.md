@@ -68,8 +68,9 @@ daraxtda bor, billing hali yoqilmagan — ulanmagan), `override` (qo'lda belgila
 }
 ```
 
-- `id` — doimiy identifikator (hudud + guruh + nom asosida). Tashkilot nomi reestrda tuzatilsa,
-  `id` o'zgaradi.
+- `id` — doimiy identifikator (hudud + guruh + reestr Excel faylidagi nom asosida). `nomi` ARGOS'dagi
+  oʻzbekcha nomga almashtirilganda `id` oʻzgarmaydi; Excel faylida nom tuzatilsa yoki tashkilot
+  boshqa guruhga oʻtkazilsa — oʻzgaradi.
 - `stir` — `null` bo'lishi mumkin. Bitta STIR ostida bir nechta tashkilot bo'lishi mumkin.
 - `boysunuvi` — reestrdagi «Boʻysunuvi» ustuni: tashkilot kimga bo'ysunadi (masalan «Tuman tibbiyot
   birlashmasi», «Hududiy SSB va tuman hokimligi», «Viloyat SSB»). Qiymat bo'lmasa `null`.

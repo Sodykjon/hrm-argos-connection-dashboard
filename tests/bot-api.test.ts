@@ -36,6 +36,13 @@ test("every registry row gets its own 12-hex id", () => {
   assert.equal(new Set(ids).size, ids.length);
 });
 
+test("a row renamed after ARGOS keeps the id it had under the workbook's name", () => {
+  const o = base.orgs.find((x) => x.stir === "202013094")!;
+  assert.ok(o.excelName && o.excelName !== o.name);
+  assert.equal(orgId(o), orgId({ region: o.region, district: o.district, name: o.excelName }));
+  assert.equal(orgId(o), "56567aea4fa5");
+});
+
 test("fold: case, apostrophes and Cyrillic do not matter", () => {
   assert.equal(fold("Oltinkoʻl"), "oltinkol");
   assert.equal(fold("OLTINKO'L"), "oltinkol");
